@@ -1,5 +1,4 @@
-﻿using DRMA.API.Core;
-using DRMA.API.Repository.Core;
+﻿using DRMA.API.Repository.Core;
 using DRMA.Shared.Models.Support;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;

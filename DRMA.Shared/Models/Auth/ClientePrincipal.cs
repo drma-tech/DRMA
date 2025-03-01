@@ -1,5 +1,4 @@
-﻿using DRMA.Shared.Core.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DRMA.Shared.Models.Auth
 {

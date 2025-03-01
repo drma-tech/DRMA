@@ -1,5 +1,4 @@
 ﻿using DRMA.Shared.Models.Support;
-using DRMA.WEB.Core.Api;
 
 namespace DRMA.WEB.Modules.Administrator.Core
 {

@@ -1,6 +1,4 @@
-using DRMA.API.Core;
 using DRMA.API.Core.Middleware;
-using DRMA.API.Repository;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

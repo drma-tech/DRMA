@@ -1,5 +1,4 @@
 ﻿using DRMA.Shared.Models.Auth;
-using DRMA.WEB.Core.Api;
 
 namespace DRMA.WEB.Modules.Auth.Core
 {

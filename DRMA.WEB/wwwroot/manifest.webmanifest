@@ -16,12 +16,12 @@
     "window-controls-overlay"
   ],
   "iarc_rating_id": "2673f916-2fd7-4be8-8523-88d7588cc444",
-  "prefer_related_applications": true, 
+  "prefer_related_applications": true,
   "categories": [
     "entertainment",
     "lifestyle",
     "social"
-  ], 
+  ],
   "launch_handler": {
     "client_mode": [
       "navigate-existing",

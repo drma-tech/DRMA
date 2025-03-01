@@ -1,5 +1,4 @@
-﻿using DRMA.Shared.Core;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace DRMA.Shared.Models.Support
 {

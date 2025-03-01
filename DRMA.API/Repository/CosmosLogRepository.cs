@@ -1,5 +1,4 @@
-﻿using DRMA.API.Core;
-using DRMA.API.Repository.Core;
+﻿using DRMA.API.Repository.Core;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json.Serialization;

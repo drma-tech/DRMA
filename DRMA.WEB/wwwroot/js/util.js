@@ -53,7 +53,6 @@ async function getUserInfo() {
         else {
             return null;
         }
-
     } catch (error) {
         return null;
     }

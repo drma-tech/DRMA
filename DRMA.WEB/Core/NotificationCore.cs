@@ -1,5 +1,4 @@
 ﻿using Blazorise;
-using DRMA.Shared.Core;
 
 namespace DRMA.WEB.Core
 {

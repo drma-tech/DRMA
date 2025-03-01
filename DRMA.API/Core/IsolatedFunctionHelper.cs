@@ -1,8 +1,4 @@
-﻿using DRMA.API.Core;
-using DRMA.Shared.Core;
-using DRMA.Shared.Core.Models;
-using DRMA.Shared.Enums;
-using Microsoft.Azure.Functions.Worker;
+﻿using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
@@ -48,7 +44,7 @@ namespace DRMA.API.Core
             return model;
         }
 
-        public static async Task<HttpResponseData> CreateResponse<T>(this HttpRequestData req, T? doc, ttlCache maxAge,  CancellationToken cancellationToken) where T : class
+        public static async Task<HttpResponseData> CreateResponse<T>(this HttpRequestData req, T? doc, ttlCache maxAge, CancellationToken cancellationToken) where T : class
         {
             if (doc != null)
             {

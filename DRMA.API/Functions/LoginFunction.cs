@@ -1,6 +1,3 @@
-using DRMA.API.Core;
-using DRMA.API.Repository;
-using DRMA.Shared.Core.Models;
 using DRMA.Shared.Models.Auth;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;

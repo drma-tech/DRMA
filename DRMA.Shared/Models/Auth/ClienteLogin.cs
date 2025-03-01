@@ -1,6 +1,4 @@
-﻿using DRMA.Shared.Core.Models;
-
-namespace DRMA.Shared.Models.Auth
+﻿namespace DRMA.Shared.Models.Auth
 {
     public class ClienteLogin : PrivateMainDocument
     {
