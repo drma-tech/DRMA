@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DRMA.WEB", "DRMA.WEB\DRMA.WEB.csproj", "{C8FBA6DB-79BE-4145-A205-D1A729F0CDDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DRMA.API", "DRMA.API\DRMA.API.csproj", "{2C3114F5-E96C-4505-8C52-1209A677E64C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DRMA.Shared", "DRMA.Shared\DRMA.Shared.csproj", "{0F4D17CD-8C7D-4CEB-8D51-F799C6BBB804}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8FBA6DB-79BE-4145-A205-D1A729F0CDDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8FBA6DB-79BE-4145-A205-D1A729F0CDDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8FBA6DB-79BE-4145-A205-D1A729F0CDDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8FBA6DB-79BE-4145-A205-D1A729F0CDDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C3114F5-E96C-4505-8C52-1209A677E64C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C3114F5-E96C-4505-8C52-1209A677E64C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C3114F5-E96C-4505-8C52-1209A677E64C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C3114F5-E96C-4505-8C52-1209A677E64C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F4D17CD-8C7D-4CEB-8D51-F799C6BBB804}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F4D17CD-8C7D-4CEB-8D51-F799C6BBB804}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F4D17CD-8C7D-4CEB-8D51-F799C6BBB804}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F4D17CD-8C7D-4CEB-8D51-F799C6BBB804}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A76EB3E-94EA-433C-B1F1-3990446CCDFD}
+	EndGlobalSection
+EndGlobal

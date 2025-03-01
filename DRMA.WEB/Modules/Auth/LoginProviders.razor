@@ -1,0 +1,40 @@
+﻿@page "/login-providers"
+@using DRMA.WEB.Core
+@inherits PageCore<LoginProviders>
+<SeoHeader Title="Login / Register" Url="/login-providers" ShowH1="false"></SeoHeader>
+
+<h1 class="mb-3">Login / Register</h1>
+
+<Row HorizontalGutter="4" VerticalGutter="4" Margin="Margin.Is3.OnY">
+    <Column ColumnSize="ColumnSize.IsAuto.OnMobile.Is1.OnDesktop.Is2.OnFullHD"></Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is10.OnDesktop.Is8.OnFullHD">
+        @foreach (var provider in providers)
+        {
+            var link = provider.Key;
+            if (link == "microsoft") link = "aad";
+            <Button Block="true" Class="@("btn-social btn-" + @provider.Key)" Size="Size.Large" Margin="Margin.Is3.FromBottom" Type="ButtonType.Link" To="@("/.auth/login/" + @link + "?post_login_redirect_uri=" + Navigation.BaseUri + "login-success")">
+                <span class="fa-brands fa-@provider.Key"></span> Login with @provider.Value
+            </Button>
+        }
+    </Column>
+</Row>
+<Row HorizontalGutter="4" VerticalGutter="4">
+    <Column ColumnSize="ColumnSize.IsAuto.OnMobile.Is1.OnDesktop.Is2.OnFullHD"></Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is10.OnDesktop.Is8.OnFullHD">
+        <Alert Visible="true" Color="Color.Warning" Class="mb-3">
+            <Span>By logging in, you confirm that you have read and agree to the </Span>
+            <Blazorise.Link To="support/terms/en" Target="Target.Blank">Terms of Use</Blazorise.Link>
+        </Alert>
+    </Column>
+</Row>
+
+@code {
+    private readonly Dictionary<string, string> providers = new Dictionary<string, string>
+    {
+        // { "apple", "Apple" },
+        // { "facebook", "Facebook" },
+        // { "github", "Github" },
+        { "google", "Google" },
+        { "microsoft", "Microsoft"}
+    };
+}

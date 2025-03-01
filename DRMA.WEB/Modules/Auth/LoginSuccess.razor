@@ -1,0 +1,48 @@
+﻿@page "/login-success"
+@using System.Security.Claims
+@using DRMA.Shared.Models.Auth
+@using DRMA.WEB.Core
+@using DRMA.WEB.Modules.Auth.Core
+@inherits PageCore<LoginProviders>
+
+@inject LoginApi LoginApi
+@inject IJSRuntime JsRuntime
+
+<div class="alert alert-warning" role="alert">
+    <div class="spinner-border spinner-border-sm" role="status">
+        <span class="sr-only">Authentication in progress...</span>
+    </div>
+    Authentication in progress...
+</div>
+
+@code {
+    private ClientePrincipal? principal { get; set; } = new();
+
+    protected override async Task LoadDataRender()
+    {
+        if (IsAuthenticated)
+        {
+            principal = await PrincipalApi.Get(IsAuthenticated);
+
+            if (principal == null && User != null)
+            {
+                principal = new();
+
+                principal.UserId = UserId;
+                principal.IdentityProvider = User.Identity?.AuthenticationType;
+                principal.UserDetails = User.Identity?.Name;
+                principal.UserRoles = User.Claims.Where(w => w.Type == ClaimTypes.Role)?.Select(s => s.Value).ToArray() ?? Array.Empty<string>();
+
+                principal.Email = principal.UserDetails;
+
+                principal = await PrincipalApi.Add(principal);
+            }
+
+            var platform = await JsRuntime.InvokeAsync<string>("GetLocalStorage", "platform");
+
+            await LoginApi.Add(platform);
+
+            Navigation.NavigateTo("/");
+        }
+    }
+}

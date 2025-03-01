@@ -1,0 +1,24 @@
+﻿@page "/administrator"
+@using DRMA.WEB.Core
+@using DRMA.WEB.Modules.Administrator.Core
+@using DRMA.WEB.Modules.Administrator.Components
+@using DRMA.WEB.Modules.Auth.Core
+@inherits PageCore<Index>
+@attribute [Authorize(Roles = "administrator")]
+
+@inject AdministratorApi AdministratorApi
+
+<Tabs RenderMode="TabsRenderMode.LazyLoad" @bind-SelectedTab="@Tab" Pills="true" FullWidth="true">
+    <Items>
+        <Tab Name="Emails">Emails</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name="Emails" Padding="Padding.Is3.FromTop">
+            <EmailComponent></EmailComponent>
+        </TabPanel>
+    </Content>
+</Tabs>
+
+@code {
+    public string? Tab { get; set; } = "Emails";
+}

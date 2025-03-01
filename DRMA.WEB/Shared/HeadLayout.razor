@@ -1,0 +1,36 @@
+﻿@using DRMA.WEB.Core
+@inherits ComponentCore<HeadLayout>
+
+<Bar Mode="BarMode.Horizontal" Background="Background.Secondary" ThemeContrast="ThemeContrast.Dark" Padding="Padding.Is2">
+    <Container Fluid="true" Padding="Padding.Is0.OnX">
+        <BarToggler Bar="@AppStateStatic.Sidebar" Background="Background.Dark" Display="Display.None.Block.OnWidescreen"
+                    Margin="Margin.Is2.FromEnd" Padding="Padding.Is0" Style="height: 31px; width: 31px;" />
+        <BarMenu Style="flex-basis: unset !important;">
+            <AuthorizeView>
+                <Authorized>
+                    <Button Color="Color.Danger" Clicked="Logout" title="Logout" Float="Float.End" Size="Size.Small">
+                        <Blazorise.Icon Name="FontAwesomeIcons.SignOutAlt" /> Logout
+                    </Button>
+                </Authorized>
+                <NotAuthorized>
+                    <Button Color="Color.Primary" Type="ButtonType.Link" To="/login-providers" title="Login" Float="Float.End" Size="Size.Small">
+                        <Blazorise.Icon Name="FontAwesomeIcons.SignInAlt" /> Login
+                    </Button>
+                </NotAuthorized>
+            </AuthorizeView>           
+            @if (DevEnv)
+            {
+                <Badge Color="Color.Warning"><Blazorise.Icon Name="FontAwesomeIcons.Bug"></Blazorise.Icon> Development Environment</Badge>
+            }
+        </BarMenu>
+    </Container>
+</Bar>
+
+@code {
+    [Parameter] public bool DevEnv { get; set; }
+
+    private void Logout()
+    {
+        Navigation.NavigateTo("/.auth/logout", forceLoad: true);
+    }
+}

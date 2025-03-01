@@ -1,0 +1,13 @@
+﻿::deep table {
+    width: 100%;
+}
+
+/* Subtle stripe effect */
+::deep tr:nth-child(even) {
+    background: lightgray;
+}
+
+/* Don't collapse rows even if they are empty */
+::deep tbody tr {
+    height: 1.8rem;
+}

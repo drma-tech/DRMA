@@ -1,0 +1,116 @@
+{
+  "id": "streamingdiscovery",
+  "name": "Streaming Discovery",
+  "short_name": "Streaming Discovery",
+  "description": "Manage your streaming platforms, what you watched, are watching and want to watch. All in one place.",
+  "background_color": "#ffffff",
+  "theme_color": "#03173d",
+  "start_url": "/",
+  "dir": "ltr",
+  "scope": "/",
+  "lang": "en-US",
+  "orientation": "any",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "window-controls-overlay"
+  ],
+  "iarc_rating_id": "2673f916-2fd7-4be8-8523-88d7588cc444",
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.streamingdiscovery.www.twa",
+      "id": "com.streamingdiscovery.www.twa"
+    },
+    {
+      "platform": "windows",
+      "url": "https://apps.microsoft.com/detail/9PB1PKRDD8L0?hl=en-us&gl=US",
+      "id": "9PB1PKRDD8L0"
+    },
+    {
+      "platform": "webapp",
+      "url": "https://www.streamingdiscovery.com/"
+    }
+  ],
+  "categories": [
+    "entertainment",
+    "lifestyle",
+    "social"
+  ],
+  "icons": [
+    {
+      "src": "icon/icon-114.png",
+      "type": "image/png",
+      "sizes": "114x114"
+    },
+    {
+      "src": "icon/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon/icon-300.png",
+      "type": "image/png",
+      "sizes": "300x300"
+    },
+    {
+      "src": "icon/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/en/index_desktop.png",
+      "type": "image/jpg",
+      "sizes": "1280x800",
+      "form_factor": "wide",
+      "label": "Index"
+    },
+    {
+      "src": "/screenshots/en/index_mobile.png",
+      "type": "image/jpg",
+      "sizes": "750x1334",
+      "form_factor": "narrow",
+      "label": "Index"
+    },
+    {
+      "src": "/screenshots/en/profile_desktop.png",
+      "type": "image/jpg",
+      "sizes": "1280x800",
+      "form_factor": "wide",
+      "label": "Profile"
+    },
+    {
+      "src": "/screenshots/en/profile_mobile.png",
+      "type": "image/jpg",
+      "sizes": "750x1334",
+      "form_factor": "narrow",
+      "label": "Profile"
+    },
+    {
+      "src": "/screenshots/en/suggestions_desktop.png",
+      "type": "image/jpg",
+      "sizes": "1280x800",
+      "form_factor": "wide",
+      "label": "Suggestions"
+    },
+    {
+      "src": "/screenshots/en/suggestions_mobile.png",
+      "type": "image/jpg",
+      "sizes": "750x1334",
+      "form_factor": "narrow",
+      "label": "Suggestions"
+    }
+  ],
+  "launch_handler": {
+    "client_mode": [
+      "navigate-existing",
+      "auto"
+    ]
+  },
+  "scope_extensions": [
+    { "origin": "*.streamingdiscovery.com" }
+  ]
+}

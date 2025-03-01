@@ -1,0 +1,91 @@
+﻿@using DRMA.Shared.Core.Helper
+@using DRMA.Shared.Models.Support
+@using DRMA.WEB.Core
+@using DRMA.WEB.Modules.Administrator.Core
+@using DRMA.WEB.Modules.Auth.Core
+@inherits ComponentCore<EmailPopup>
+
+@inject AdministratorApi AdministratorApi
+
+<ModalHeader>
+    <ModalTitle Size="HeadingSize.Is5">
+        @EmailDocument?.Subject
+    </ModalTitle>
+    <CloseButton />
+</ModalHeader>
+<ModalBody MaxHeight="70">
+    @if (EmailDocument!.Html.NotEmpty())
+    {
+        @((MarkupString)EmailDocument!.Html!)
+    }
+    else
+    {
+        <MemoEdit @bind-Text="@EmailDocument!.Text" Rows="10" ReadOnly="OnlyRead"></MemoEdit>
+    }    
+</ModalBody>
+<ModalFooter>
+    @if (!OnlyRead)
+    {
+        <Button Color="Color.Primary" Clicked="@SendHandle" Size="Size.Small">
+            Send
+        </Button>
+    }
+    else
+    {
+        <Button Color="Color.Primary" Clicked="@ReplyHandle" Size="Size.Small">
+            Reply
+        </Button>
+    }
+    <Button Color="Color.Secondary" Clicked="@ModalService.Hide" Size="Size.Small">
+        Close
+    </Button>
+</ModalFooter>
+
+@code {
+    [Parameter] public EmailDocument? EmailDocument { get; set; } = new();
+    [Parameter] public bool OnlyRead { get; set; } = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            EmailDocument!.Read = true;
+            await AdministratorApi.EmailUpdate(EmailDocument);
+        }
+    }
+
+    public void ReplyHandle()
+    {
+        OnlyRead = false;
+        if (EmailDocument != null) EmailDocument.Text = "\r\n\r\n" + EmailDocument.Text;
+    }
+
+    public async Task SendHandle()
+    {
+        try
+        {
+            var inbound = new SendEmail()
+                {
+                    Subject = $"Re: {EmailDocument?.Subject}",
+                    Text = EmailDocument?.Text,
+                    FromName = EmailDocument?.To.FirstOrDefault()?.Name,
+                    FromEmail = EmailDocument?.To.FirstOrDefault()?.Email,
+                    ToName = EmailDocument?.From?.Name,
+                    ToEmail = EmailDocument?.From?.Email
+                };
+
+            await AdministratorApi.SendEmail(inbound);
+
+            EmailDocument!.Replied = true;
+            await AdministratorApi.EmailUpdate(EmailDocument);
+
+            await ModalService.Hide();
+        }
+        catch (Exception ex)
+        {
+            ex.ProcessException(Toast, Logger);
+        }
+    }
+}

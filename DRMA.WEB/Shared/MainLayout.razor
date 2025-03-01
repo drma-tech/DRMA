@@ -1,0 +1,148 @@
+﻿@using System.Security.Claims
+@using DRMA.Shared.Core.Helper
+@using DRMA.WEB.Core
+@using DRMA.Shared.Models.Auth
+@using DRMA.Shared.Models.Support;
+@using Toolbelt.Blazor.PWA.Updater
+
+@inherits LayoutComponentBase
+
+@inject NavigationManager Navigation
+@inject ILogger<MainLayout> Logger
+@inject INotificationService Toast
+@inject IJSRuntime JsRuntime
+
+<MediaQueryList>
+    <Div Position="Position.Relative">
+        <Layout Sider="true" Style="height: var(--app-height);">
+            <LayoutSider>
+                <LayoutSiderContent>
+                    <NavMenu />
+                </LayoutSiderContent>
+            </LayoutSider>
+            <Layout>
+                <LayoutHeader Fixed="true">
+                    <HeadLayout DevEnv="DevEnv"></HeadLayout>
+                </LayoutHeader>
+                <LayoutContent Style="overflow-y: auto; overflow-x: hidden;">
+                    <Container Fluid="true" Padding="Padding.Is2">
+                        <ErrorBoundary @ref="boundary">
+                            <ChildContent>
+                                @Body
+                            </ChildContent>
+                            <ErrorContent Context="ex">
+                                <Alert Color="Color.Danger" Visible="true">
+                                    <AlertDescription>
+                                        <Blazorise.Icon Name="FontAwesomeIcons.Bug"></Blazorise.Icon> This operation could not be processed.
+                                    </AlertDescription>
+                                </Alert>
+                            </ErrorContent>
+                        </ErrorBoundary>
+                    </Container>
+                </LayoutContent>
+                <LayoutFooter Fixed="true" Display="Display.Block.None.OnWidescreen">
+                    <Bar Mode="BarMode.Horizontal" Breakpoint="Breakpoint.Mobile" CollapseMode="BarCollapseMode.Small" Background="Background.Secondary" ThemeContrast="ThemeContrast.Dark"
+                         Padding="Padding.Is0.FromBottom.Is0.FromTop" Style="text-align: center; display: block;">
+                        <BarBrand Class="me-0">
+                            <Button Color="GetColor(TypeButton.Home)" To="/" Type="ButtonType.Link" title="Home" Size="Size.Small" Style="line-height: 1.3;">
+                                <Blazorise.Icon Name="FontAwesomeIcons.Home" />
+                                <span style="display: block; font-size: 0.60rem;">Home</span>
+                            </Button>
+                            <AuthorizeView Roles="administrator">
+                                <Authorized>
+                                    <Button Color="GetColor(TypeButton.Administrator)" To="/administrator" Type="ButtonType.Link" title="Administrator" Size="Size.Small" Style="line-height: 1.3;">
+                                        <BarIcon IconName="FontAwesomeIcons.UserTie" />
+                                        <span style="display: block; font-size: 0.60rem;">Administrator</span>
+                                    </Button>
+                                </Authorized>
+                            </AuthorizeView>
+                        </BarBrand>
+                    </Bar>
+                </LayoutFooter>
+            </Layout>
+        </Layout>
+    </Div>
+</MediaQueryList>
+
+<NotificationProvider Location="NotificationLocation.End" DefaultInterval="10000" />
+<PWAUpdater />
+
+@code {
+    [CascadingParameter] protected Task<AuthenticationState> authenticationState { get; set; } = default!;
+
+    public string? Tab { get; set; } = "Home";
+    public string GetMargin => "me-4 mb-lg-4 mb-6";
+
+    private enum TypeButton
+    {
+        Home, Profile, Providers, Suggestions, Support, Administrator
+    }
+
+    private TypeButton CurrentButton;
+
+    protected override void OnInitialized()
+    {
+        Navigation.LocationChanged += OnLocationChanged;
+        AppStateStatic.ShowError = async (msg) => { await Toast.Error(msg); };
+
+        ChangeCurrentButton(Navigation.Uri);
+
+        StateHasChanged();
+    }
+
+    protected bool IsAuthenticated { get; set; } = false;
+    protected string? UserId { get; set; }
+    public ClaimsPrincipal? User { get; set; }
+
+    public bool DevEnv { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (User == null && authenticationState is not null)
+        {
+            var authState = await authenticationState;
+
+            User = authState?.User;
+            IsAuthenticated = User?.Identity is not null && User.Identity.IsAuthenticated;
+            UserId = User?.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        }
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs args)
+    {
+        ChangeCurrentButton(args.Location);
+
+        StateHasChanged();
+    }
+
+    private void ChangeCurrentButton(string location)
+    {
+        if (location.Contains("/profile")) CurrentButton = TypeButton.Profile;
+        else if (location.Contains("/providers")) CurrentButton = TypeButton.Providers;
+        else if (location.Contains("/suggestions")) CurrentButton = TypeButton.Suggestions;
+        else if (location.Contains("/support")) CurrentButton = TypeButton.Support;
+        else if (location.Contains("/administrator")) CurrentButton = TypeButton.Administrator;
+        else CurrentButton = TypeButton.Home;
+    }
+
+    private Color GetColor(TypeButton type)
+    {
+        if (CurrentButton == type)
+            return Color.Dark;
+        else
+            return Color.Secondary;
+    }
+
+    ErrorBoundary? boundary;
+
+    protected override void OnParametersSet()
+    {
+        boundary?.Recover();
+    }
+
+    [JSInvokable]
+    public static void ShowError(string error)
+    {
+        AppStateStatic.ShowError?.Invoke(error);
+    }
+}

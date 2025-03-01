@@ -1,0 +1,44 @@
+﻿@using Blazorise.DataGrid
+@using DRMA.Shared.Models.Support
+@using DRMA.WEB.Core
+@using DRMA.WEB.Modules.Administrator.Core
+@using DRMA.WEB.Modules.Auth.Core
+@inherits ComponentCore<EmailComponent>
+@attribute [Authorize(Roles = "administrator")]
+
+@inject AdministratorApi AdministratorApi
+
+<DataGrid TItem="EmailDocument" Data="@Emails" @bind-SelectedRow="@Email" Responsive="true" ShowPager="true">
+    <DataGridColumns>
+        <DataGridColumn Field="@nameof(EmailDocument.FromEmail)" Caption="From" />
+        <DataGridColumn Field="@nameof(EmailDocument.ToEmail)" Caption="To" />
+        <DataGridColumn Field="@nameof(EmailDocument.Subject)" Caption="Subject" />
+        <DataGridDateColumn Field="@nameof(EmailDocument.Date)" Caption="Date" />
+        <DataGridCheckColumn Field="@nameof(EmailDocument.Read)" Caption="Read" />
+        <DataGridCheckColumn Field="@nameof(EmailDocument.Replied)" Caption="Replied" />
+    </DataGridColumns>
+    <ButtonRowTemplate>
+        <Button Color="Color.Success" Clicked="@(async()=>await NewClick())">New</Button>
+        <Button Color="Color.Primary" Disabled="(Email is null)" Clicked="@(async()=>await ReadClick(context))">Read</Button>
+    </ButtonRowTemplate>
+</DataGrid>
+
+@code {
+    HashSet<EmailDocument>? Emails;
+    EmailDocument? Email;
+
+    protected override async Task LoadDataRender()
+    {
+        Emails = await AdministratorApi.GetEmails();
+    }
+
+    private async Task NewClick()
+    {
+        await ModalService.OpenPopup<EmailPopup>(x => { x.Add(x => x.OnlyRead, false); }, ModalSize.Large);
+    }
+
+    private async Task ReadClick(ButtonRowContext<EmailDocument> row)
+    {
+        await ModalService.OpenPopup<EmailPopup>(x => { x.Add(x => x.EmailDocument, row.EditCommand.Item); }, ModalSize.Large);
+    }
+}

@@ -1,0 +1,31 @@
+﻿@using DRMA.WEB.Core
+@inherits ComponentCore<NavMenu>
+
+<Bar @ref="AppStateStatic.Sidebar" Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Hide" Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet"
+     Display="Display.None.Block.OnDesktop" Background="Background.Dark" ThemeContrast="ThemeContrast.Dark">
+    <BarBrand>
+        <BarItem>
+            <BarLink To="/" Title="Streaming Discovery">
+                <Image Source="images/logo_small.png" Margin="Margin.Is1.FromEnd" alt="Streaming Discovery" Width="Width.Is100" Height="Height.Is100"></Image>
+            </BarLink>
+        </BarItem>
+    </BarBrand>
+    <BarMenu>
+        <BarStart>
+            <BarItem>
+                <BarLink To="/" Match="Match.All" Title="Home">
+                    <BarIcon IconName="FontAwesomeIcons.Home" /> Home
+                </BarLink>
+            </BarItem>           
+            <AuthorizeView Roles="administrator">
+                <Authorized>
+                    <BarItem>
+                        <BarLink To="/administrator" Match="Match.Prefix" Title="Administrator">
+                            <BarIcon IconName="FontAwesomeIcons.UserTie" /> Administrator
+                        </BarLink>
+                    </BarItem>
+                </Authorized>
+            </AuthorizeView>
+        </BarStart>
+    </BarMenu>   
+</Bar>

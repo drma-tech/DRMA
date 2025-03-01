@@ -1,0 +1,134 @@
+﻿/*BARRA DE ROLAGEM*/
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+/*BLAZORIZE*/
+
+.b-layout-sider-content {
+    z-index: 4 !important;
+}
+
+.b-layout-header-fixed {
+    z-index: 3 !important;
+}
+
+.b-layout-footer {
+    z-index: 3 !important;
+}
+
+.figure {
+    text-align: center;
+}
+
+.figure-img {
+    max-height: 100% !important;
+}
+
+.card-header {
+    padding: 0.5rem !important;
+}
+
+.card-body {
+    padding: 0.5rem !important;
+}
+
+.card-footer {
+    padding: 0.5rem !important;
+}
+
+.modal-header {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    padding-left: 0.5rem !important;
+}
+
+.modal-body {
+    padding: 0.5rem !important;
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.modal-footer {
+    padding: 0.5rem !important;
+}
+
+.alert {
+    padding: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.alert-warning {
+    border-color: #efe696;
+}
+
+body .pwa-updater[b-pwa-updater] {
+    --pwa-updater-bar-backcolor: forestgreen;
+}
+
+dl, ol, ul {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+p {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+canvas {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+}
+
+.m-6 {
+    margin: 4rem !important;
+}
+
+.mt-6,
+.my-6 {
+    margin-top: 4rem !important;
+}
+
+.me-6,
+.mx-6 {
+    margin-right: 4rem !important;
+}
+
+.mb-6,
+.my-6 {
+    margin-bottom: 4rem !important;
+}
+
+.ms-6,
+.mx-6 {
+    margin-left: 4rem !important;
+}
+
+.google-ads {
+    display: inline-block;
+    min-width: 350px;
+    max-width: 970px;
+    width: 100% !important;
+    height: 90px !important;
+    margin-bottom: 0.6rem;
+}
