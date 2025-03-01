@@ -1,7 +1,4 @@
-﻿using DRMA.API.Repository;
-using DRMA.Shared.Core;
-using DRMA.Shared.Enums;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 
 namespace DRMA.API.Core
