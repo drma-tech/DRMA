@@ -1,8 +1,8 @@
 {
   "id": "streamingdiscovery",
-  "name": "Streaming Discovery",
+  "name": "Streaming Discovery: Manage, Track, Discover",
   "short_name": "Streaming Discovery",
-  "description": "Manage your streaming platforms, what you watched, are watching and want to watch. All in one place.",
+  "description": "Your personal streaming assistant! Organize your platforms, track your progress, and find new content to watch — all in one app.",
   "background_color": "#ffffff",
   "theme_color": "#03173d",
   "start_url": "/",

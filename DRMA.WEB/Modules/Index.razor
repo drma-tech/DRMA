@@ -1,0 +1,39 @@
+﻿@page "/"
+@page "/index"
+<SeoHeader Title="Home" Description="..." Url="/"></SeoHeader>
+@inherits PageCore<Index>
+
+@inject IJSRuntime JsRuntime
+
+@* <Div TextAlignment="TextAlignment.Center">
+    @if (Navigation.BaseUri.Contains("localhost") || Navigation.BaseUri.Contains("dev"))
+    {
+        <div class="adsbygoogle google-ads" style="background-color: black;"></div>
+    }
+    else
+    {
+        <ins class="adsbygoogle google-ads" data-ad-client="ca-pub-3885428939386350" data-ad-slot="3165413564"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    }
+</Div> *@
+
+@code {
+    [Parameter][SupplyParameterFromQuery(Name = "language")] public string? language { get; set; }
+    [Parameter][SupplyParameterFromQuery(Name = "platform")] public string? platform { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (platform.NotEmpty())
+        {
+            await JsRuntime.InvokeAsync<string>("SetLocalStorage", "platform", platform);
+        }
+        else
+        {
+            await JsRuntime.InvokeAsync<string>("TryDetectPlatform");
+        }
+    }
+}

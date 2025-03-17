@@ -6,7 +6,7 @@ namespace DRMA.WEB.Core.Api
     {
         public Action<T?>? DataChanged { get; set; }
 
-        private string baseEndpoint => _http.BaseAddress?.ToString().Contains("localhost") ?? true ? "http://localhost:7071/api/" : $"{_http.BaseAddress}api/";
+        private string baseEndpoint => _http.BaseAddress?.ToString().Contains("localhost") ?? true ? "http://localhost:7253/api/" : $"{_http.BaseAddress}api/";
 
         protected async Task<string?> GetValueAsync(string endpoint, RenderControlCore<string?>? core)
         {

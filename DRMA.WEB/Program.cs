@@ -2,7 +2,6 @@ using AzureStaticWebApps.Blazor.Authentication;
 using Blazorise;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
-using BlazorPro.BlazorSize;
 using DRMA.WEB;
 using DRMA.WEB.Modules.Administrator.Core;
 using DRMA.WEB.Modules.Auth.Core;
@@ -39,7 +38,6 @@ static void ConfigureServices(IServiceCollection collection, string baseAddress)
         .AddFontAwesomeIcons();
 
     collection.AddPWAUpdater();
-    collection.AddMediaQueryService();
 
     collection.AddHttpClient("RetryHttpClient", c => { c.BaseAddress = new Uri(baseAddress); })
         .AddPolicyHandler(request => request.Method == HttpMethod.Get ? GetRetryPolicy() : Policy.NoOpAsync().AsAsyncPolicy<HttpResponseMessage>());
@@ -52,8 +50,6 @@ static void ConfigureServices(IServiceCollection collection, string baseAddress)
     collection.AddScoped<AdministratorApi>();
     collection.AddScoped<PrincipalApi>();
     collection.AddScoped<LoginApi>();
-
-    collection.AddResizeListener();
 
     collection.AddLogging(logging =>
     {
