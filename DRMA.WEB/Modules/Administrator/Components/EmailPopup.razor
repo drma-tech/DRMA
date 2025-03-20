@@ -42,6 +42,7 @@
 </ModalFooter>
 
 @code {
+    [Parameter] public string? product { get; set; }
     [Parameter] public EmailDocument? EmailDocument { get; set; } = new();
     [Parameter] public bool OnlyRead { get; set; } = true;
 
@@ -52,7 +53,7 @@
         if (firstRender)
         {
             EmailDocument!.Read = true;
-            await AdministratorApi.EmailUpdate(EmailDocument);
+            await AdministratorApi.EmailUpdate(EmailDocument, product);
         }
     }
 
@@ -76,10 +77,10 @@
                     ToEmail = EmailDocument?.From?.Email
                 };
 
-            await AdministratorApi.SendEmail(inbound);
+            await AdministratorApi.SendEmail(inbound, product);
 
             EmailDocument!.Replied = true;
-            await AdministratorApi.EmailUpdate(EmailDocument);
+            await AdministratorApi.EmailUpdate(EmailDocument, product);
 
             await ModalService.Hide();
         }

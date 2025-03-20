@@ -6,11 +6,10 @@ namespace DRMA.API.Core
     {
         public static HttpClient HttpClient { get; } = new(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.GZip });
         public static HttpClient HttpClientPaddle { get; } = new();
-        public static CosmosClient CosmosClient { get; private set; } = default!;
 
-        public static void Startup(string conn)
+        public static CosmosClient CosmosClient(string? conn)
         {
-            CosmosClient = new(conn, new CosmosClientOptions()
+            return new CosmosClient(conn, new CosmosClientOptions()
             {
                 SerializerOptions = new CosmosSerializationOptions()
                 {

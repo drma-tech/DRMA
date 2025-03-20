@@ -17,9 +17,21 @@
                 </BarItem>
                 <AuthorizeView Roles="administrator">
                     <Authorized>
-                        <BarLink To="/administrator" Match="Match.All" Title="Administrator">
-                            <BarIcon IconName="FontAwesomeIcons.UserTie" /> Administrator
-                        </BarLink>
+                        <BarItem Margin="Margin.Is2.FromEnd">
+                            <BarLink Clicked="@(()=>Navigation.NavigateTo("/administrator/drma", forceLoad: true))" Match="Match.All" Title="DRMA">
+                                DRMA
+                            </BarLink>
+                        </BarItem>
+                        <BarItem Margin="Margin.Is2.FromEnd">
+                            <BarLink Clicked="@(()=>Navigation.NavigateTo("/administrator/sd", forceLoad: true))" Match="Match.All" Title="SD">
+                                SD
+                            </BarLink>
+                        </BarItem>
+                        <BarItem Margin="Margin.Is2.FromEnd">
+                            <BarLink Clicked="@(()=>Navigation.NavigateTo("/administrator/mm", forceLoad: true))" Match="Match.All" Title="MM">
+                                MM
+                            </BarLink>
+                        </BarItem>
                     </Authorized>
                 </AuthorizeView>
             </BarStart>

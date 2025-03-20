@@ -6,24 +6,26 @@ namespace DRMA.WEB.Modules.Administrator.Core
     {
         private struct Endpoint
         {
-            public const string GetEmails = "adm/emails";
-            public const string EmailUpdate = "adm/emails/update";
-            public const string SendEmail = "adm/send-email";
+            public static string GetEmails(string? product) => $"adm/emails/{product}";
+
+            public static string EmailUpdate(string? product) => $"adm/emails/update/{product}";
+
+            public static string SendEmail(string? product) => $"adm/send-email/{product}";
         }
 
-        public async Task<HashSet<EmailDocument>> GetEmails()
+        public async Task<HashSet<EmailDocument>> GetEmails(string? product)
         {
-            return await GetListAsync(Endpoint.GetEmails, null);
+            return await GetListAsync(Endpoint.GetEmails(product), null);
         }
 
-        public async Task SendEmail(SendEmail inbound)
+        public async Task SendEmail(SendEmail inbound, string? product)
         {
-            await PostAsync(Endpoint.SendEmail, null, inbound);
+            await PostAsync(Endpoint.SendEmail(product), null, inbound);
         }
 
-        public async Task EmailUpdate(EmailDocument email)
+        public async Task EmailUpdate(EmailDocument email, string? product)
         {
-            await PostAsync(Endpoint.EmailUpdate, null, email);
+            await PostAsync(Endpoint.EmailUpdate(product), null, email);
         }
     }
 }

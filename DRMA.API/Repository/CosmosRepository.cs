@@ -16,9 +16,10 @@ namespace DRMA.API.Repository
         {
             _logger = logger;
 
-            var databaseId = config.GetValue<string>("CosmosDB:DatabaseId");
+            var conn = config.GetValue<string>("Product:DRMA:CosmosDB:ConnectionString");
+            var databaseId = config.GetValue<string>("Product:DRMA:CosmosDB:DatabaseId");
 
-            Container = ApiStartup.CosmosClient.GetContainer(databaseId, "main");
+            Container = ApiStartup.CosmosClient(conn).GetContainer(databaseId, "main");
         }
 
         public async Task<T?> Get<T>(DocumentType type, string? id, CancellationToken cancellationToken) where T : CosmosDocument

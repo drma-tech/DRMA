@@ -38,6 +38,9 @@ namespace DRMA.Shared.Models.Support
         [JsonIgnore]
         public string? ToEmail => To.FirstOrDefault()?.Email;
 
+        [JsonIgnore]
+        public string? ShortSubject => Subject?.Length > 50 ? Subject.Substring(0, 50) : Subject;
+
         public override bool Equals(object? obj)
         {
             return obj is EmailDocument q && q.Id == Id;

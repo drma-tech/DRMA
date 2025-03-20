@@ -29,9 +29,10 @@ namespace DRMA.API.Repository
 
         public CosmosLogRepository(IConfiguration config)
         {
-            var databaseId = config.GetValue<string>("CosmosDB:DatabaseId");
+            var conn = config.GetValue<string>("Product:DRMA:CosmosDB:ConnectionString");
+            var databaseId = config.GetValue<string>("Product:DRMA:CosmosDB:DatabaseId");
 
-            Container = ApiStartup.CosmosClient.GetContainer(databaseId, "logs");
+            Container = ApiStartup.CosmosClient(conn).GetContainer(databaseId, "logs");
         }
 
         public async Task Add(LogModel log)

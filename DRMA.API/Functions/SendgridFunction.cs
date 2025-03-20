@@ -12,11 +12,11 @@ namespace DRMA.API.Functions
     {
         [Function("GetEmails")]
         public async Task<List<EmailDocument>?> GetEmails(
-            [HttpTrigger(AuthorizationLevel.Anonymous, Method.GET, Route = "adm/emails")] HttpRequestData req, CancellationToken cancellationToken)
+            [HttpTrigger(AuthorizationLevel.Anonymous, Method.GET, Route = "adm/emails/{product}")] HttpRequestData req, string product, CancellationToken cancellationToken)
         {
             try
             {
-                return await repo.Query(null, cancellationToken);
+                return await repo.Query(product, null, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -27,13 +27,13 @@ namespace DRMA.API.Functions
 
         [Function("EmailUpdate")]
         public async Task EmailUpdate(
-           [HttpTrigger(AuthorizationLevel.Anonymous, Method.POST, Route = "adm/emails/update")] HttpRequestData req, CancellationToken cancellationToken)
+           [HttpTrigger(AuthorizationLevel.Anonymous, Method.POST, Route = "adm/emails/update/{product}")] HttpRequestData req, string product, CancellationToken cancellationToken)
         {
             try
             {
                 var Email = await req.GetPublicBody<EmailDocument>(cancellationToken);
 
-                await repo.UpsertItemAsync(Email, cancellationToken);
+                await repo.UpsertItemAsync(product, Email, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -44,7 +44,7 @@ namespace DRMA.API.Functions
 
         [Function("SendgridInbound")]
         public async Task SendgridInbound(
-            [HttpTrigger(AuthorizationLevel.Anonymous, Method.POST, Route = "public/sendgrid/inbound")] HttpRequestData req, CancellationToken cancellationToken)
+            [HttpTrigger(AuthorizationLevel.Anonymous, Method.POST, Route = "public/sendgrid/inbound/{product}")] HttpRequestData req, string product, CancellationToken cancellationToken)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace DRMA.API.Functions
                     SpamReport = inboundMail.SpamReport
                 };
 
-                await repo.UpsertItemAsync(model, cancellationToken);
+                await repo.UpsertItemAsync(product, model, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace DRMA.API.Functions
 
         [Function("SendgridSendEmail")]
         public async Task SendgridSendEmail(
-            [HttpTrigger(AuthorizationLevel.Anonymous, Method.POST, Route = "adm/send-email")] HttpRequestData req, CancellationToken cancellationToken)
+            [HttpTrigger(AuthorizationLevel.Anonymous, Method.POST, Route = "adm/send-email/{product}")] HttpRequestData req, string product, CancellationToken cancellationToken)
         {
             try
             {

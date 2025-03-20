@@ -1,4 +1,4 @@
-﻿@page "/administrator"
+﻿@page "/administrator/{product}"
 @using DRMA.WEB.Core
 @using DRMA.WEB.Modules.Administrator.Core
 @using DRMA.WEB.Modules.Administrator.Components
@@ -14,11 +14,13 @@
     </Items>
     <Content>
         <TabPanel Name="Emails" Padding="Padding.Is3.FromTop">
-            <EmailComponent></EmailComponent>
+            <EmailComponent product="@product"></EmailComponent>
         </TabPanel>
     </Content>
 </Tabs>
 
 @code {
+    [SupplyParameterFromQuery][Parameter] public string? product { get; set; }
+
     public string? Tab { get; set; } = "Emails";
 }

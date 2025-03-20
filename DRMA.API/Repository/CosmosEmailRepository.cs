@@ -7,22 +7,19 @@ using System.Linq.Expressions;
 
 namespace DRMA.API.Repository
 {
-    public class CosmosEmailRepository
+    public class CosmosEmailRepository(IConfiguration config)
     {
-        public Container Container { get; private set; }
+        private IConfiguration Config { get; set; } = config;
 
-        public CosmosEmailRepository(IConfiguration config)
-        {
-            var databaseId = config.GetValue<string>("CosmosDB:DatabaseId");
-
-            Container = ApiStartup.CosmosClient.GetContainer(databaseId, "mail");
-        }
-
-        public async Task<EmailDocument?> Get(string id, CancellationToken cancellationToken)
+        public async Task<EmailDocument?> Get(string product, string id, CancellationToken cancellationToken)
         {
             try
             {
-                var response = await Container.ReadItemAsync<EmailDocument?>(id, new PartitionKey(id), CosmosRepositoryExtensions.GetItemRequestOptions(), cancellationToken);
+                var conn = Config.GetValue<string>($"Product:{product}:CosmosDB:ConnectionString");
+                var databaseId = Config.GetValue<string>($"Product:{product}:CosmosDB:DatabaseId");
+                var container = ApiStartup.CosmosClient(conn).GetContainer(databaseId, "mail");
+
+                var response = await container.ReadItemAsync<EmailDocument?>(id, new PartitionKey(id), CosmosRepositoryExtensions.GetItemRequestOptions(), cancellationToken);
 
                 return response.Resource;
             }
@@ -36,17 +33,21 @@ namespace DRMA.API.Repository
             }
         }
 
-        public async Task<List<EmailDocument>> Query(Expression<Func<EmailDocument, bool>>? predicate, CancellationToken cancellationToken)
+        public async Task<List<EmailDocument>> Query(string product, Expression<Func<EmailDocument, bool>>? predicate, CancellationToken cancellationToken)
         {
+            var conn = Config.GetValue<string>($"Product:{product}:CosmosDB:ConnectionString");
+            var databaseId = Config.GetValue<string>($"Product:{product}:CosmosDB:DatabaseId");
+            var container = ApiStartup.CosmosClient(conn).GetContainer(databaseId, "mail");
+
             IQueryable<EmailDocument> query;
 
             if (predicate is null)
             {
-                query = Container.GetItemLinqQueryable<EmailDocument>();
+                query = container.GetItemLinqQueryable<EmailDocument>();
             }
             else
             {
-                query = Container.GetItemLinqQueryable<EmailDocument>().Where(predicate);
+                query = container.GetItemLinqQueryable<EmailDocument>().Where(predicate);
             }
 
             using var iterator = query.ToFeedIterator();
@@ -65,9 +66,13 @@ namespace DRMA.API.Repository
             return results;
         }
 
-        public async Task<EmailDocument?> UpsertItemAsync(EmailDocument email, CancellationToken cancellationToken)
+        public async Task<EmailDocument?> UpsertItemAsync(string product, EmailDocument email, CancellationToken cancellationToken)
         {
-            var response = await Container.UpsertItemAsync(email, new PartitionKey(email.Id), CosmosRepositoryExtensions.GetItemRequestOptions(), cancellationToken);
+            var conn = Config.GetValue<string>($"Product:{product}:CosmosDB:ConnectionString");
+            var databaseId = Config.GetValue<string>($"Product:{product}:CosmosDB:DatabaseId");
+            var container = ApiStartup.CosmosClient(conn).GetContainer(databaseId, "mail");
+
+            var response = await container.UpsertItemAsync(email, new PartitionKey(email.Id), CosmosRepositoryExtensions.GetItemRequestOptions(), cancellationToken);
 
             return response.Resource;
         }

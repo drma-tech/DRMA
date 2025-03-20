@@ -7,15 +7,9 @@
       ]
     },
     {
-      "route": "/api/adm/*",
-      "allowedRoles": [
-        "administrator"
-      ]
-    },
-    {
       "route": "/api/*",
       "allowedRoles": [
-        "authenticated"
+        "administrator"
       ]
     }
   ],

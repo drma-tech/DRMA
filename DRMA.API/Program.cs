@@ -17,8 +17,6 @@ var app = new HostBuilder()
             config.AddJsonFile("local.settings.json");
             config.AddUserSecrets<Program>();
         }
-
-        ApiStartup.Startup(config.Build().GetValue<string>("CosmosDB:ConnectionString"));
     })
     .ConfigureServices(ConfigureServices)
     .ConfigureLogging(ConfigureLogging)
