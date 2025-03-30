@@ -35,8 +35,10 @@ namespace DRMA.WEB.Core.Api
                 return await _http.GetValueAsync(uri);
         }
 
-        protected async Task<T?> GetAsync<T>(string uri)
+        protected async Task<T?> GetAsync<T>(string uri, bool setNewVersion = false)
         {
+            if (setNewVersion) SetNewVersion(key);
+
             if (key.NotEmpty())
                 return await _http.GetJsonFromApi<T>(uri.ConfigureParameters(GetVersion()));
             else

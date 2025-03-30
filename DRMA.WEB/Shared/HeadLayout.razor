@@ -35,26 +35,22 @@
                     </Authorized>
                 </AuthorizeView>
             </BarStart>
-            <Buttons Role="ButtonsRole.Toolbar" Float="Float.End">
-                <Buttons Margin="Margin.Is1.FromEnd" Display="Display.None">
-                    <Button Color="Color.Dark" Clicked="ChangeTheme" Size="Size.Small">
-                        <Blazorise.Icon Name="@(Theme == "light" ? FontAwesomeIcons.Moon : FontAwesomeIcons.Sun)" />
-                    </Button>
-                </Buttons>
-                <Buttons>
-                    <AuthorizeView>
-                        <Authorized>
-                            <Button Color="Color.Danger" Clicked="Logout" title="Logout" Size="Size.Small">
-                                Logout
-                            </Button>
-                        </Authorized>
-                        <NotAuthorized>
-                            <Button Color="Color.Primary" Type="ButtonType.Link" To="/login-providers" title="Login" Size="Size.Small">
-                                Login
-                            </Button>
-                        </NotAuthorized>
-                    </AuthorizeView>
-                </Buttons>
+            <Buttons Role="ButtonsRole.Toolbar" Float="Float.End" Size="Size.Small">
+                <Button Color="Color.Dark" Clicked="ChangeTheme" Margin="Margin.Is1.FromEnd" Display="Display.None">
+                    <Blazorise.Icon Name="@(Theme == "light" ? FontAwesomeIcons.Moon : FontAwesomeIcons.Sun)" />
+                </Button>
+                <AuthorizeView>
+                    <Authorized>
+                        <Button Color="Color.Danger" Clicked="Logout" title="Logout">
+                            Logout
+                        </Button>
+                    </Authorized>
+                    <NotAuthorized>
+                        <Button Color="Color.Primary" Type="ButtonType.Link" To="/login-providers" title="Login">
+                            Login
+                        </Button>
+                    </NotAuthorized>
+                </AuthorizeView>
             </Buttons>
         </BarMenu>
     </Container>

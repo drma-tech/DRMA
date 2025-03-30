@@ -52,8 +52,8 @@ namespace DRMA.API.Repository
             try
             {
                 var query = Container
-               .GetItemLinqQueryable<T>(requestOptions: CosmosRepositoryExtensions.GetQueryRequestOptions())
-               .Where(item => item.Type == Type);
+                    .GetItemLinqQueryable<T>(requestOptions: CosmosRepositoryExtensions.GetQueryRequestOptions())
+                    .Where(item => item.Type == Type);
 
                 using var iterator = query.ToFeedIterator();
                 var results = new List<T>();
@@ -84,8 +84,8 @@ namespace DRMA.API.Repository
             try
             {
                 var query = Container
-                .GetItemLinqQueryable<T>(requestOptions: CosmosRepositoryExtensions.GetQueryRequestOptions())
-                .Where(predicate.Compose(item => item.Type == Type, Expression.AndAlso));
+                    .GetItemLinqQueryable<T>(requestOptions: CosmosRepositoryExtensions.GetQueryRequestOptions())
+                    .Where(predicate.Compose(item => item.Type == Type, Expression.AndAlso));
 
                 using var iterator = query.ToFeedIterator();
                 var results = new List<T>();

@@ -25,7 +25,7 @@ namespace DRMA.WEB.Core.Api
             }
         }
 
-        protected async Task<T?> GetAsync(string endpoint, RenderControlCore<T?>? core)
+        protected async Task<T?> GetAsync(string endpoint, RenderControlCore<T?>? core, bool setNewVersion = false)
         {
             core?.LoadingStarted?.Invoke();
 
@@ -33,7 +33,7 @@ namespace DRMA.WEB.Core.Api
 
             try
             {
-                obj = await GetAsync<T>($"{baseEndpoint}{endpoint}");
+                obj = await GetAsync<T>($"{baseEndpoint}{endpoint}", setNewVersion);
                 return obj;
             }
             finally

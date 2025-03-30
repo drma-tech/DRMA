@@ -49,5 +49,11 @@ namespace DRMA.WEB.Core
             }
             return Combine().GetAwaiter();
         }
+
+        public static HashSet<T> ToHashSet<T>(this T? item) where T : struct
+        {
+            if (item == null) return [];
+            return [item.Value];
+        }
     }
 }
