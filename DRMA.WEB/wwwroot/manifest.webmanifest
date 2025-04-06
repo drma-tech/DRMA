@@ -1,8 +1,8 @@
 {
-  "id": "streamingdiscovery",
-  "name": "Streaming Discovery: Manage, Track, Discover",
-  "short_name": "Streaming Discovery",
-  "description": "Your personal streaming assistant! Organize your platforms, track your progress, and find new content to watch — all in one app.",
+  "id": "drmatech",
+  "name": "DRMA Tech",
+  "short_name": "DRMA Tech",
+  "description": "Delivering Reliable Modern Apps",
   "background_color": "#ffffff",
   "theme_color": "#03173d",
   "start_url": "/",

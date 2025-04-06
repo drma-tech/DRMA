@@ -15,7 +15,7 @@ namespace DRMA.API.Core
 
     public static class StaticWebAppsAuth
     {
-        public static string? GetUserId(this HttpRequestData req)
+        public static string GetUserId(this HttpRequestData req)
         {
             if (req.Url.Host.Contains("localhost"))
             {
@@ -27,7 +27,7 @@ namespace DRMA.API.Core
             {
                 var principal = req.Parse();
 
-                return principal?.Claims.FirstOrDefault(w => w.Type == ClaimTypes.NameIdentifier)?.Value;
+                return principal?.Claims.FirstOrDefault(w => w.Type == ClaimTypes.NameIdentifier)?.Value ?? throw new NotificationException("user id not available");
             }
         }
 

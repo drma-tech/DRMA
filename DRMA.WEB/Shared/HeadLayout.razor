@@ -15,25 +15,6 @@
                         <BarIcon IconName="FontAwesomeIcons.Home" /> Home
                     </BarLink>
                 </BarItem>
-                <AuthorizeView Roles="administrator">
-                    <Authorized>
-                        <BarItem Margin="Margin.Is2.FromEnd">
-                            <BarLink Clicked="@(()=>Navigation.NavigateTo("/administrator/drma", forceLoad: true))" Match="Match.All" Title="DRMA">
-                                DRMA
-                            </BarLink>
-                        </BarItem>
-                        <BarItem Margin="Margin.Is2.FromEnd">
-                            <BarLink Clicked="@(()=>Navigation.NavigateTo("/administrator/sd", forceLoad: true))" Match="Match.All" Title="SD">
-                                SD
-                            </BarLink>
-                        </BarItem>
-                        <BarItem Margin="Margin.Is2.FromEnd">
-                            <BarLink Clicked="@(()=>Navigation.NavigateTo("/administrator/mm", forceLoad: true))" Match="Match.All" Title="MM">
-                                MM
-                            </BarLink>
-                        </BarItem>
-                    </Authorized>
-                </AuthorizeView>
             </BarStart>
             <Buttons Role="ButtonsRole.Toolbar" Float="Float.End" Size="Size.Small">
                 <Button Color="Color.Dark" Clicked="ChangeTheme" Margin="Margin.Is1.FromEnd" Display="Display.None">

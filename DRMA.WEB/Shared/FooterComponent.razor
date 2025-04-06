@@ -1,0 +1,54 @@
+﻿<Container Fluid="true" Display="@(Support ? Display.Block.None.OnWidescreen : Display.None.Block.OnWidescreen)">
+    <Row Margin="Margin.Is4.OnY" Padding="Padding.Is4.FromTop" Border="Border.Secondary.OnTop">
+        <Column ColumnSize="ColumnSize.Is12.Is4.OnTablet" Display="Display.Flex.Column" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom.Is0.OnTablet">
+            <Span TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
+                <Image Source="icon/icon-71.png" Height="Height.Px(27)"></Image> DRMA Tech
+            </Span>
+            <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" TextAlignment="TextAlignment.Justified">
+                Delivering Reliable Modern Apps
+            </Paragraph>
+        </Column>
+       @*  <Column ColumnSize="ColumnSize.Is12.Is2.OnTablet" Display="Display.Flex.Column" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom.Is0.OnTablet">
+            <Span TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
+                COMPANY
+            </Span>
+            <Blazorise.Link To="https://www.drma-tech.com/" Target="Target.Blank" TextColor="TextColor.Muted" TextDecoration="TextDecoration.None">
+                Website
+            </Blazorise.Link>
+        </Column> *@
+        <Column ColumnSize="ColumnSize.Is12.Is2.OnTablet" Display="Display.Flex.Column" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom.Is0.OnTablet">
+            <Span TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
+                PRODUCTS
+            </Span>
+            <Blazorise.Link To="https://www.streamingdiscovery.com/" Target="Target.Blank" TextColor="TextColor.Muted" TextDecoration="TextDecoration.None">
+                Streaming Discovery
+            </Blazorise.Link>
+            <Blazorise.Link To="https://modern-matchmaker.com/" Target="Target.Blank" TextColor="TextColor.Muted" TextDecoration="TextDecoration.None">
+                Modern Matchmaker
+            </Blazorise.Link>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is2.OnTablet" Display="Display.Flex.Column" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom.Is0.OnTablet">
+            <Span TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
+                SUPPORT
+            </Span>
+            <Blazorise.Link To="mailto:contact@drma-tech.com" TextColor="TextColor.Muted" TextDecoration="TextDecoration.None">
+                Contact
+            </Blazorise.Link>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is2.OnTablet" Display="Display.Flex.Column" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom.Is0.OnTablet">
+            <Span TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
+                LEGAL
+            </Span>
+            <Blazorise.Link To="@("support/terms/en")" TextColor="TextColor.Muted" TextDecoration="TextDecoration.None">
+                Terms of Use
+            </Blazorise.Link>
+            <Blazorise.Link To="@("support/privacy/en")" TextColor="TextColor.Muted" TextDecoration="TextDecoration.None">
+                Privacy
+            </Blazorise.Link>
+        </Column>
+    </Row>
+</Container>
+
+@code {
+    [Parameter] public bool Support { get; set; } = false;
+}

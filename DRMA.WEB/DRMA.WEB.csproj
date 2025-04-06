@@ -11,9 +11,7 @@
 		<PackageReference Include="Blazorise.Components" Version="1.7.5" />
 		<PackageReference Include="Blazorise.DataGrid" Version="1.7.5" />
 		<PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.7.5" />
-		<PackageReference Include="Blazorise.QRCode" Version="1.7.5" />
 		<PackageReference Include="BlazorWasmPreRendering.Build" Version="5.0.1" />
-		<PackageReference Include="HtmlAgilityPack" Version="1.12.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.3">
 			<TreatAsUsed>true</TreatAsUsed>
 		</PackageReference>

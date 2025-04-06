@@ -16,7 +16,6 @@
 		<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.3.0" />
 		<PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.3" />
-		<PackageReference Include="StrongGrid" Version="0.111.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\DRMA.Shared\DRMA.Shared.csproj" />

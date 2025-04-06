@@ -27,7 +27,6 @@ await app.RunAsync();
 static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
 {
     services.AddSingleton<CosmosRepository>();
-    services.AddSingleton<CosmosEmailRepository>();
     services.AddApplicationInsightsTelemetryWorkerService();
     services.ConfigureFunctionsApplicationInsights();
 }
