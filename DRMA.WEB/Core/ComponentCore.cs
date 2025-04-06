@@ -1,5 +1,4 @@
 ﻿using Blazorise;
-using DRMA.WEB.Modules.Auth.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
@@ -16,7 +15,6 @@ namespace DRMA.WEB.Core
         [Inject] protected INotificationService Toast { get; set; } = default!;
         [Inject] protected IModalService ModalService { get; set; } = default!;
         [Inject] protected NavigationManager Navigation { get; set; } = default!;
-        [Inject] protected PrincipalApi PrincipalApi { get; set; } = default!;
 
         protected virtual Task LoadDataRender()
         {

@@ -20,18 +20,6 @@
                 <Button Color="Color.Dark" Clicked="ChangeTheme" Margin="Margin.Is1.FromEnd" Display="Display.None">
                     <Blazorise.Icon Name="@(Theme == "light" ? FontAwesomeIcons.Moon : FontAwesomeIcons.Sun)" />
                 </Button>
-                <AuthorizeView>
-                    <Authorized>
-                        <Button Color="Color.Danger" Clicked="Logout" title="Logout">
-                            Logout
-                        </Button>
-                    </Authorized>
-                    <NotAuthorized>
-                        <Button Color="Color.Primary" Type="ButtonType.Link" To="/login-providers" title="Login">
-                            Login
-                        </Button>
-                    </NotAuthorized>
-                </AuthorizeView>
             </Buttons>
         </BarMenu>
     </Container>

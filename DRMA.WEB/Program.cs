@@ -3,7 +3,6 @@ using Blazorise;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using DRMA.WEB;
-using DRMA.WEB.Modules.Auth.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -45,9 +44,6 @@ static void ConfigureServices(IServiceCollection collection, string baseAddress)
     collection.AddCascadingAuthenticationState();
     collection.AddOptions();
     collection.AddAuthorizationCore();
-
-    collection.AddScoped<PrincipalApi>();
-    collection.AddScoped<LoginApi>();
 
     collection.AddLogging(logging =>
     {
