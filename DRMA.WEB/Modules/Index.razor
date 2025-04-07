@@ -1,6 +1,6 @@
 ﻿@page "/"
 @page "/index"
-<SeoHeader Title="Home" Description="..." Url="/"></SeoHeader>
+<SeoHeader Title="Home" Description="We create digital solutions that help people manage and optimize different aspects of their lives. Our focus is on building tools that simplify everyday decisions, enhance personal growth, and support long-term goals." Url="/"></SeoHeader>
 @inherits PageCore<Index>
 
 @inject IJSRuntime JsRuntime
@@ -26,7 +26,7 @@
         </div>
         <div class="col-lg-6">
             <h1 class="display-6 fw-bold text-body-emphasis lh-1 mb-4">DRMA Tech</h1>
-            <p class="lead text-justify mb-4">Delivering Reliable Modern Apps</p>
+            <p class="lead text-justify mb-4">We create digital solutions that help people manage and optimize different aspects of their lives. Our focus is on building tools that simplify everyday decisions, enhance personal growth, and support long-term goals.</p>
         </div>
     </div>
 </div>
@@ -37,10 +37,10 @@
     <div class="row align-items-md-center g-5 py-5">
         <div class="col-12 col-lg-5 d-flex flex-column align-items-start gap-2">
             <h2 class="fw-bold text-body-emphasis text-center">
-                Delivering Reliable Modern Apps
+                Take Charge of Every Aspect of Your Life
             </h2>
             <p class="text-body-secondary text-justify">
-                Delivering Reliable Modern Apps
+                At DRMA Tech, we create innovative solutions that help you manage all the key areas of your life. From tracking your entertainment choices and managing relationships to organizing travel plans and handling finances, our tools are designed to simplify your day-to-day activities. We believe in making life more organized, efficient, and connected, so you can focus on what truly matters.
             </p>
         </div>
 
@@ -52,11 +52,16 @@
                         <Image Source="logos/sd.png" Height="Height.Is100"></Image>
                     </Div>
                     <h4 class="fw-semibold mb-0 text-body-emphasis">Streaming Discovery</h4>
+                    <Alert Color="Color.Info" Visible="true">
+                        <AlertMessage>
+                            In operation since 2021
+                        </AlertMessage>
+                    </Alert>
                     <Blazorise.Link To="https://www.streamingdiscovery.com/" Target="Target.Blank">
                         www.streamingdiscovery.com
                     </Blazorise.Link>
                     <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" TextAlignment="TextAlignment.Justified">
-                        Your personal streaming assistant! Organize your platforms, track your progress, and find new content to watch — all in one app.
+                        Manage all your streaming content in one place. Track your watch progress, organize platforms, and explore curated lists with award-winning films, critic favorites, and hidden gems.
                     </Paragraph>
                 </div>
                 <div class="col d-flex flex-column gap-2">
@@ -65,12 +70,39 @@
                         <Image Source="logos/mm.png" Height="Height.Is100"></Image>
                     </Div>
                     <h4 class="fw-semibold mb-0 text-body-emphasis">Modern Matchmaker</h4>
+                    <Alert Color="Color.Info" Visible="true">
+                        <AlertMessage>
+                            Not officially released yet
+                        </AlertMessage>
+                    </Alert>
                     <Blazorise.Link To="https://www.modern-matchmaker.com/" Target="Target.Blank">
                         www.modern-matchmaker.com
                     </Blazorise.Link>
                     <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" TextAlignment="TextAlignment.Justified">
-                        The future of finding love is here. Smarter, faster, and more affordable than traditional matchmaking. Our AI-powered system finds your perfect match with precision. Stop searching - let technology do the work.
+                        Redefining how people connect. Our advanced compatibility system helps you find someone truly aligned with your values, faster and more affordably than traditional matchmaking.
                     </Paragraph>
+                </div>
+                <div class="col d-flex flex-column gap-2">
+                    <Div Width="Width.Rem(3)" Height="Height.Rem(3)" Border="Border.Rounded.Is1" Flex="Flex.AlignItems.Center.JustifyContent.Center">
+                        <Blazorise.Icon Name="FontAwesomeIcons.Plane" />
+                    </Div>
+                    <h4 class="fw-semibold mb-0 text-body-emphasis">Travels</h4>
+                    <Alert Color="Color.Info" Visible="true">
+                        <AlertMessage>
+                            Comming soon
+                        </AlertMessage>
+                    </Alert>
+                </div>
+                <div class="col d-flex flex-column gap-2">
+                    <Div Width="Width.Rem(3)" Height="Height.Rem(3)" Border="Border.Rounded.Is1" Flex="Flex.AlignItems.Center.JustifyContent.Center">
+                        <Blazorise.Icon Name="FontAwesomeIcons.Coins"></Blazorise.Icon>
+                    </Div>
+                    <h4 class="fw-semibold mb-0 text-body-emphasis">Finances</h4>
+                    <Alert Color="Color.Info" Visible="true">
+                        <AlertMessage>
+                            Comming soon
+                        </AlertMessage>
+                    </Alert>
                 </div>
             </div>
         </div>
