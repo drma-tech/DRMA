@@ -25,6 +25,24 @@
 
     <script src="js/util.js"></script>
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-41Q6D56912"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        getUserInfo().then(userId => {
+            if (userId) {
+                gtag('config', 'G-41Q6D56912', {
+                    'user_id': userId
+                });
+            }
+            else {
+                gtag('config', 'G-41Q6D56912');
+            }
+        });
+    </script>
     <script>
         const meta = document.createElement('meta');
         meta.name = 'robots';
