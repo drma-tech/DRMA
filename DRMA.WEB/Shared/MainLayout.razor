@@ -131,17 +131,4 @@
     {
         AppStateStatic.ShowError?.Invoke(error);
     }
-
-    //https://swharden.com/blog/2020-12-29-blazor-build-info/
-    public static string BuildDateString()
-    {
-        try
-        {
-            return Properties.Resources.BuildDate.ReplaceLineEndings("");
-        }
-        catch (Exception)
-        {
-            return "Version Error";
-        }
-    }
 }
