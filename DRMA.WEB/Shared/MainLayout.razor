@@ -26,7 +26,7 @@
                         <Alert Color="Color.Danger" Visible="true">
                             <AlertMessage>
                                 <Blazorise.Icon Name="FontAwesomeIcons.Bug"></Blazorise.Icon>
-                                This operation could not be processed. Please send an email to our <Blazorise.Link To="mail:support@streamingdiscovery.com" style="cursor: pointer;">support</Blazorise.Link> with the following details:
+                                This operation could not be processed. Please send an email to our <Blazorise.Link To="mailto:contact@drma-tech.com" style="cursor: pointer;">support</Blazorise.Link> with the following details:
                             </AlertMessage>
                             <AlertDescription>
                                 @ex.StackTrace
@@ -130,5 +130,18 @@
     public static void ShowError(string error)
     {
         AppStateStatic.ShowError?.Invoke(error);
+    }
+
+    //https://swharden.com/blog/2020-12-29-blazor-build-info/
+    public static string BuildDateString()
+    {
+        try
+        {
+            return Properties.Resources.BuildDate.ReplaceLineEndings("");
+        }
+        catch (Exception)
+        {
+            return "Version Error";
+        }
     }
 }
