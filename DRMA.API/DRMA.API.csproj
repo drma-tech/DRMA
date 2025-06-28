@@ -10,12 +10,12 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.23.0" />
-		<PackageReference Include="Microsoft.Azure.Cosmos" Version="3.48.0" />
+		<PackageReference Include="Microsoft.Azure.Cosmos" Version="3.52.0" />
 		<PackageReference Include="Microsoft.Azure.Functions.Worker" Version="2.0.0" />
 		<PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" Version="2.0.0" />
 		<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.3.0" />
-		<PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.6" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\DRMA.Shared\DRMA.Shared.csproj" />
@@ -31,8 +31,5 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Functions\" />
 	</ItemGroup>
 </Project>

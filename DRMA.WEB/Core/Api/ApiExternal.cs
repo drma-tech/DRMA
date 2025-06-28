@@ -1,6 +1,5 @@
-﻿namespace DRMA.WEB.Core.Api
+﻿namespace DRMA.WEB.Core.Api;
+
+public abstract class ApiExternal(IHttpClientFactory factory) : ApiCore(factory, null)
 {
-    public abstract class ApiExternal(IHttpClientFactory factory) : ApiCore(factory, null)
-    {
-    }
 }

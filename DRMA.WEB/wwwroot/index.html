@@ -33,6 +33,15 @@
                 t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
                 y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
             })(window, document, "clarity", "script", "r5ie3u2oos");
+
+            // Check if Clarity is loaded and call the consent function
+            var clarityCheckInterval = setInterval(function () {
+                if (window.clarity) {
+                    window.clarity('consent');
+                    clearInterval(clarityCheckInterval);
+                    console.log('Clarity consent function called');
+                }
+            }, 500);
         }
     </script>
 

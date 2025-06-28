@@ -49,20 +49,20 @@ else //ShowContent
 @code {
     [CascadingParameter] protected Task<AuthenticationState>? authenticationState { get; set; }
 
-    [Parameter][EditorRequired] public RenderFragment ChildContent { get; set; } = default!;
-    [Parameter][EditorRequired] public RenderControlCore<TModel> Core { get; set; } = default!;
-    [Parameter][EditorRequired] public TModel Model { get; set; } = default!;
-    [Parameter][EditorRequired] public Func<TModel, bool> ExpressionEmpty { get; set; } = default!;
+    [Parameter] [EditorRequired] public RenderFragment ChildContent { get; set; } = default!;
+    [Parameter] [EditorRequired] public RenderControlCore<TModel> Core { get; set; } = default!;
+    [Parameter] [EditorRequired] public TModel Model { get; set; } = default!;
+    [Parameter] [EditorRequired] public Func<TModel, bool> ExpressionEmpty { get; set; } = default!;
 
-    [Parameter] public bool PrivateContent { get; set; } = false;
-    [Parameter] public string? CustomMessageError { get; set; } = null;
-    [Parameter] public string? CustomMessageWarning { get; set; } = null;
-    [Parameter] public bool PartialComponent { get; set; } = false;
+    [Parameter] public bool PrivateContent { get; set; }
+    [Parameter] public string? CustomMessageError { get; set; }
+    [Parameter] public string? CustomMessageWarning { get; set; }
+    [Parameter] public bool PartialComponent { get; set; }
 
     public LoadingStatus Status { get; set; } = LoadingStatus.Loading;
     private string? MessageLoading { get; set; } = "Loading...";
-    private string? MessageError { get; set; } = null;
-    private string? MessageWarning { get; set; } = null;
+    private string? MessageError { get; set; }
+    private string? MessageWarning { get; set; }
 
     protected override void OnInitialized()
     {
@@ -70,17 +70,17 @@ else //ShowContent
         ArgumentNullException.ThrowIfNull(Core);
         ArgumentNullException.ThrowIfNull(ExpressionEmpty);
 
-        if (Model != null && (ExpressionEmpty != null && !ExpressionEmpty(Model)))
+        if (Model != null && ExpressionEmpty != null && !ExpressionEmpty(Model))
             Status = LoadingStatus.ShowContent;
 
         Core.LoadingStarted += () => ShowLoading();
         Core.ProcessingStarted += () => ShowLoading("Processing...");
 
-        Core.LoadingFinished += (TModel? model) => ShowContent(model);
-        Core.ProcessingFinished += (TModel? model) => ShowContent(model);
+        Core.LoadingFinished += model => ShowContent(model);
+        Core.ProcessingFinished += model => ShowContent(model);
 
-        Core.WarningAction += (string? msg) => ShowWarning(msg);
-        Core.ErrorAction += (string? msg) => ShowError(msg);
+        Core.WarningAction += msg => ShowWarning(msg);
+        Core.ErrorAction += msg => ShowError(msg);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -144,7 +144,6 @@ else //ShowContent
     }
 
     /// <summary>
-    ///
     /// </summary>
     /// <param name="msg">Default: no data</param>
     private void ShowWarning(string? msg)
@@ -160,7 +159,6 @@ else //ShowContent
     }
 
     /// <summary>
-    ///
     /// </summary>
     /// <param name="msg">Default: invalid operation</param>
     private void ShowError(string? msg)
@@ -172,4 +170,5 @@ else //ShowContent
 
         StateHasChanged();
     }
+
 }

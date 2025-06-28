@@ -1,3 +1,4 @@
+using System.Globalization;
 using AzureStaticWebApps.Blazor.Authentication;
 using Blazorise;
 using Blazorise.Bootstrap5;
@@ -9,7 +10,6 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
 using Polly;
 using Polly.Extensions.Http;
-using System.Globalization;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -38,17 +38,17 @@ static void ConfigureServices(IServiceCollection collection, string baseAddress)
     collection.AddPWAUpdater();
 
     collection.AddHttpClient("RetryHttpClient", c => { c.BaseAddress = new Uri(baseAddress); })
-        .AddPolicyHandler(request => request.Method == HttpMethod.Get ? GetRetryPolicy() : Policy.NoOpAsync().AsAsyncPolicy<HttpResponseMessage>());
+        .AddPolicyHandler(request =>
+            request.Method == HttpMethod.Get
+                ? GetRetryPolicy()
+                : Policy.NoOpAsync().AsAsyncPolicy<HttpResponseMessage>());
 
     collection.AddStaticWebAppsAuthentication();
     collection.AddCascadingAuthenticationState();
     collection.AddOptions();
     collection.AddAuthorizationCore();
 
-    collection.AddLogging(logging =>
-    {
-        logging.AddProvider(new CosmosLoggerProvider());
-    });
+    collection.AddLogging(logging => { logging.AddProvider(new CosmosLoggerProvider()); });
 }
 
 static async Task ConfigureCulture(WebAssemblyHost? app)

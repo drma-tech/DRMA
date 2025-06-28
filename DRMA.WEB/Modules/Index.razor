@@ -88,7 +88,7 @@
                 </div>
                 <div class="col d-flex flex-column gap-2">
                     <Div Width="Width.Rem(3)" Height="Height.Rem(3)" Border="Border.Rounded.Is1" Flex="Flex.AlignItems.Center.JustifyContent.Center">
-                        <Blazorise.Icon Name="FontAwesomeIcons.Plane" />
+                        <Blazorise.Icon Name="FontAwesomeIcons.Plane"/>
                     </Div>
                     <h4 class="fw-semibold mb-0 text-body-emphasis">Travels</h4>
                     <Alert Color="Color.Info" Visible="true">
@@ -114,8 +114,14 @@
 </div>
 
 @code {
-    [Parameter][SupplyParameterFromQuery(Name = "language")] public string? language { get; set; }
-    [Parameter][SupplyParameterFromQuery(Name = "platform")] public string? platform { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "language")]
+    public string? language { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "platform")]
+    public string? platform { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -130,4 +136,5 @@
             await JsRuntime.InvokeAsync<string>("TryDetectPlatform");
         }
     }
+
 }

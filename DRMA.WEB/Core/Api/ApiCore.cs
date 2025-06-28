@@ -2,133 +2,103 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace DRMA.WEB.Core.Api
+namespace DRMA.WEB.Core.Api;
+
+public abstract class ApiCore(IHttpClientFactory factory, string? key)
 {
-    public abstract class ApiCore(IHttpClientFactory factory, string? key)
+    protected HttpClient _http => factory.CreateClient("RetryHttpClient");
+    protected static Dictionary<string, int> CacheVersion { get; set; } = [];
+
+    public static void SetNewVersion(string? key)
     {
-        protected HttpClient _http => factory.CreateClient("RetryHttpClient");
-        protected static Dictionary<string, int> CacheVersion { get; set; } = [];
+        if (key.NotEmpty()) CacheVersion[key!] = new Random().Next(1, 999999);
+    }
 
-        public static void SetNewVersion(string? key)
+    private Dictionary<string, string> GetVersion()
+    {
+        if (!CacheVersion.TryGetValue(key!, out _)) CacheVersion[key!] = new Random().Next(1, 999999);
+
+        return new Dictionary<string, string> { { "v", CacheVersion[key!].ToString() } };
+    }
+
+    protected async Task<string?> GetValueAsync(string uri)
+    {
+        if (key.NotEmpty())
+            return await _http.GetValueAsync(uri.ConfigureParameters(GetVersion()));
+        return await _http.GetValueAsync(uri);
+    }
+
+    protected async Task<T?> GetAsync<T>(string uri, bool setNewVersion = false)
+    {
+        if (setNewVersion) SetNewVersion(key);
+
+        if (key.NotEmpty())
+            return await _http.GetJsonFromApi<T>(uri.ConfigureParameters(GetVersion()));
+        return await _http.GetJsonFromApi<T>(uri);
+    }
+
+    protected async Task<HashSet<T>> GetListAsync<T>(string uri)
+    {
+        if (key.NotEmpty())
         {
-            if (key.NotEmpty())
-            {
-                CacheVersion[key!] = new Random().Next(1, 999999);
-            }
+            var result = await _http.GetJsonFromApi<HashSet<T>>(uri.ConfigureParameters(GetVersion()));
+            return result ?? [];
         }
-
-        private Dictionary<string, string> GetVersion()
+        else
         {
-            if (!CacheVersion.TryGetValue(key!, out _))
-            {
-                CacheVersion[key!] = new Random().Next(1, 999999);
-            }
-
-            return new Dictionary<string, string> { { "v", CacheVersion[key!].ToString() } };
+            var result = await _http.GetJsonFromApi<HashSet<T>>(uri);
+            return result ?? [];
         }
+    }
 
-        protected async Task<string?> GetValueAsync(string uri)
-        {
-            if (key.NotEmpty())
-                return await _http.GetValueAsync(uri.ConfigureParameters(GetVersion()));
-            else
-                return await _http.GetValueAsync(uri);
-        }
+    protected async Task<T?> GetByRequest<T>(string uri)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Get, uri);
 
-        protected async Task<T?> GetAsync<T>(string uri, bool setNewVersion = false)
-        {
-            if (setNewVersion) SetNewVersion(key);
+        request.Headers.TryAddWithoutValidation("content-type", "application/json;charset=utf-8");
 
-            if (key.NotEmpty())
-                return await _http.GetJsonFromApi<T>(uri.ConfigureParameters(GetVersion()));
-            else
-                return await _http.GetJsonFromApi<T>(uri);
-        }
+        return await _http.GetJsonFromApi<T>(request);
+    }
 
-        protected async Task<HashSet<T>> GetListAsync<T>(string uri)
-        {
-            if (key.NotEmpty())
-            {
-                var result = await _http.GetJsonFromApi<HashSet<T>>(uri.ConfigureParameters(GetVersion()));
-                return result ?? [];
-            }
-            else
-            {
-                var result = await _http.GetJsonFromApi<HashSet<T>>(uri);
-                return result ?? [];
-            }
-        }
+    protected async Task<O?> PostAsync<I, O>(string uri, I? obj)
+    {
+        SetNewVersion(key);
 
-        protected async Task<T?> GetByRequest<T>(string uri)
-        {
-            using var request = new HttpRequestMessage(HttpMethod.Get, uri);
+        var response = await _http.PostAsJsonAsync(uri, obj, new JsonSerializerOptions());
 
-            request.Headers.TryAddWithoutValidation("content-type", "application/json;charset=utf-8");
+        if (response.StatusCode == HttpStatusCode.NoContent) return default;
 
-            return await _http.GetJsonFromApi<T>(request);
-        }
+        if (response.IsSuccessStatusCode) return await response.Content.ReadFromJsonAsync<O>();
 
-        protected async Task<O?> PostAsync<I, O>(string uri, I? obj)
-        {
-            SetNewVersion(key);
+        var content = await response.Content.ReadAsStringAsync();
+        throw new NotificationException(content);
+    }
 
-            var response = await _http.PostAsJsonAsync(uri, obj, new JsonSerializerOptions());
+    protected async Task<O?> PutAsync<I, O>(string uri, I? obj)
+    {
+        SetNewVersion(key);
 
-            if (response.StatusCode == HttpStatusCode.NoContent)
-            {
-                return default;
-            }
-            else if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<O>();
-            }
-            else
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                throw new NotificationException(content);
-            }
-        }
+        var response = await _http.PutAsJsonAsync(uri, obj, new JsonSerializerOptions());
 
-        protected async Task<O?> PutAsync<I, O>(string uri, I? obj)
-        {
-            SetNewVersion(key);
+        if (response.StatusCode == HttpStatusCode.NoContent) return default;
 
-            var response = await _http.PutAsJsonAsync(uri, obj, new JsonSerializerOptions());
+        if (response.IsSuccessStatusCode) return await response.Content.ReadFromJsonAsync<O>();
 
-            if (response.StatusCode == HttpStatusCode.NoContent)
-            {
-                return default;
-            }
-            else if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<O>();
-            }
-            else
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                throw new NotificationException(content);
-            }
-        }
+        var content = await response.Content.ReadAsStringAsync();
+        throw new NotificationException(content);
+    }
 
-        protected async Task<T?> DeleteAsync<T>(string uri)
-        {
-            SetNewVersion(key);
+    protected async Task<T?> DeleteAsync<T>(string uri)
+    {
+        SetNewVersion(key);
 
-            var response = await _http.DeleteAsync(uri);
+        var response = await _http.DeleteAsync(uri);
 
-            if (response.StatusCode == HttpStatusCode.NoContent)
-            {
-                return default;
-            }
-            else if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<T>();
-            }
-            else
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                throw new NotificationException(content);
-            }
-        }
+        if (response.StatusCode == HttpStatusCode.NoContent) return default;
+
+        if (response.IsSuccessStatusCode) return await response.Content.ReadFromJsonAsync<T>();
+
+        var content = await response.Content.ReadAsStringAsync();
+        throw new NotificationException(content);
     }
 }

@@ -6,10 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 var app = new HostBuilder()
-     .ConfigureFunctionsWorkerDefaults(worker =>
-     {
-         worker.UseMiddleware<ExceptionHandlingMiddleware>();
-     })
+    .ConfigureFunctionsWorkerDefaults(worker => { worker.UseMiddleware<ExceptionHandlingMiddleware>(); })
     .ConfigureAppConfiguration((hostContext, config) =>
     {
         if (hostContext.HostingEnvironment.IsDevelopment())

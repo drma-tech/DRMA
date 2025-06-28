@@ -1,50 +1,49 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
+using Microsoft.Extensions.Logging;
 
-namespace DRMA.API.Core
+namespace DRMA.API.Core;
+
+public sealed class CosmosLoggerProvider(CosmosLogRepository repo) : ILoggerProvider
 {
-    public sealed class CosmosLoggerProvider(CosmosLogRepository repo) : ILoggerProvider
+    private readonly ConcurrentDictionary<string, CosmosLogger> _loggers = new();
+
+    public ILogger CreateLogger(string categoryName)
     {
-        private readonly CosmosLogRepository _repo = repo;
-        private readonly ConcurrentDictionary<string, CosmosLogger> _loggers = new();
-
-        public ILogger CreateLogger(string categoryName) => _loggers.GetOrAdd(categoryName, name => new CosmosLogger(name, _repo));
-
-        public void Dispose() => _loggers.Clear();
+        return _loggers.GetOrAdd(categoryName, name => new CosmosLogger(name, repo));
     }
 
-    public class CosmosLogger(string name, CosmosLogRepository repo) : ILogger
+    public void Dispose()
     {
-        private readonly string _name = name;
-        private readonly CosmosLogRepository _repo = repo;
+        _loggers.Clear();
+    }
+}
 
-        public IDisposable? BeginScope<TState>(TState state) where TState : notnull
+public class CosmosLogger(string name, CosmosLogRepository repo) : ILogger
+{
+    public IDisposable? BeginScope<TState>(TState state) where TState : notnull
+    {
+        return null;
+    }
+
+    public bool IsEnabled(LogLevel logLevel)
+    {
+        return logLevel >= LogLevel.Warning;
+    }
+
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
+        Func<TState, Exception?, string> formatter)
+    {
+        if (!IsEnabled(logLevel)) return;
+
+        if (exception is NotificationException) return;
+
+        _ = repo.Add(new LogModel
         {
-            return default;
-        }
-
-        public bool IsEnabled(LogLevel logLevel) => logLevel >= LogLevel.Warning;
-
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
-        {
-            if (!IsEnabled(logLevel))
-            {
-                return;
-            }
-
-            if (exception is NotificationException)
-            {
-                return;
-            }
-
-            _ = _repo.Add(new LogModel()
-            {
-                Name = _name,
-                State = formatter(state, exception),
-                Message = exception?.Message,
-                StackTrace = exception?.StackTrace,
-                Ttl = (int)ttlCache.three_months
-            });
-        }
+            Name = name,
+            State = formatter(state, exception),
+            Message = exception?.Message,
+            StackTrace = exception?.StackTrace,
+            Ttl = (int)ttlCache.three_months
+        });
     }
 }

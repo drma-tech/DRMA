@@ -1,5 +1,4 @@
-﻿@using DRMA.WEB.Core
-@inherits ComponentCore<HeadLayout>
+﻿@inherits ComponentCore<HeadLayout>
 
 @inject IJSRuntime JsRuntime
 
@@ -14,13 +13,13 @@
             <BarStart Style="flex-flow: row;" Display="Display.None.Flex.Row.OnWidescreen">
                 <BarItem Margin="Margin.Is2.FromEnd">
                     <BarLink To="/" Match="Match.All" Title="Home">
-                        <BarIcon IconName="FontAwesomeIcons.Home" /> Home
+                        <BarIcon IconName="FontAwesomeIcons.Home"/> Home
                     </BarLink>
                 </BarItem>
             </BarStart>
             <Buttons Role="ButtonsRole.Toolbar" Float="Float.End" Size="Size.Small">
                 <Button Color="Color.Dark" Clicked="ChangeTheme" Margin="Margin.Is1.FromEnd" Display="Display.None">
-                    <Blazorise.Icon Name="@(Theme == "light" ? FontAwesomeIcons.Moon : FontAwesomeIcons.Sun)" />
+                    <Blazorise.Icon Name="@(Theme == "light" ? FontAwesomeIcons.Moon : FontAwesomeIcons.Sun)"/>
                 </Button>
             </Buttons>
         </BarMenu>
@@ -28,8 +27,8 @@
 </Bar>
 
 @code {
-    [SupplyParameterFromQuery][Parameter] public string? _ptxn { get; set; }
-    [Parameter] public bool IsAuthenticated { get; set; } = false;
+    [SupplyParameterFromQuery] [Parameter] public string? _ptxn { get; set; }
+    [Parameter] public bool IsAuthenticated { get; set; }
 
     public string? Theme { get; set; }
 
@@ -49,7 +48,7 @@
 
     private void Logout()
     {
-        Navigation.NavigateTo("/.auth/logout", forceLoad: true);
+        Navigation.NavigateTo("/.auth/logout", true);
     }
 
     private async Task ChangeTheme()
@@ -57,4 +56,5 @@
         await JsRuntime.InvokeVoidAsync("changeDarkMode");
         Theme = await JsRuntime.InvokeAsync<string>("GetLocalStorage", "theme");
     }
+
 }

@@ -1,9 +1,8 @@
-﻿namespace DRMA.Shared.Core.Models
+﻿namespace DRMA.Shared.Core.Models;
+
+public abstract class LogDocument : CosmosDocument
 {
-    public abstract class LogDocument : CosmosDocument
+    protected LogDocument(string id) : base(id)
     {
-        protected LogDocument(string id) : base(id)
-        {
-        }
     }
 }

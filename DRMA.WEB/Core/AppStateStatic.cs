@@ -1,11 +1,8 @@
-﻿using Blazorise;
+﻿namespace DRMA.WEB.Core;
 
-namespace DRMA.WEB.Core
+public static class AppStateStatic
 {
-    public static class AppStateStatic
-    {
-        public static List<LogContainer> Logs { get; private set; } = [];
+    public static List<LogContainer> Logs { get; private set; } = [];
 
-        public static Action<string>? ShowError { get; set; }
-    }
+    public static Action<string>? ShowError { get; set; }
 }
