@@ -1,12 +1,13 @@
 ﻿namespace DRMA.Shared.Enums;
 
-public enum ttlCache
+public enum TtlCache
 {
-    one_hour = 60 * 60 * 1,
-    half_day = 60 * 60 * 12,
-    one_day = 60 * 60 * 24,
-    one_week = 60 * 60 * 24 * 7,
-    one_month = 60 * 60 * 24 * 30,
-    three_months = 60 * 60 * 24 * 30 * 3,
-    six_months = 60 * 60 * 24 * 30 * 6
+    OneHour = 60 * 60 * 1,
+    SixHours = 60 * 60 * 6,
+    HalfDay = 60 * 60 * 12,
+    OneDay = 60 * 60 * 24,
+    OneWeek = 60 * 60 * 24 * 7,
+    OneMonth = 60 * 60 * 24 * 30,
+    ThreeMonths = 60 * 60 * 24 * 30 * 3,
+    SixMonths = 60 * 60 * 24 * 30 * 6
 }

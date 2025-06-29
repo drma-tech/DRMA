@@ -1,0 +1,27 @@
+﻿@inherits ComponentCore<SettingsPopup>
+
+@inject IJSRuntime JsRuntime
+
+<MudDialog Style="width: 100%">
+    <DialogContent>
+        <MudToggleIconButton Toggled="@AppStateStatic.DarkMode" ToggledChanged="DarkModeChanged"
+                             Icon="@Icons.Material.Filled.DarkMode" ToggledIcon="@Icons.Material.Filled.LightMode" />
+        <span>@(AppStateStatic.DarkMode ? "Light" : "Dark") Mode</span>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@(() => { MudDialog?.Close(); })">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter] private IMudDialogInstance? MudDialog { get; set; }
+
+    protected async Task DarkModeChanged(bool value)
+    {
+        await JsRuntime.InvokeAsync<string>("SetLocalStorage", "dark-mode", value.ToString());
+
+        AppStateStatic.ChangeDarkMode(value);
+    }
+
+}

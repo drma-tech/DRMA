@@ -1,10 +1,9 @@
-﻿using System.Linq.Expressions;
-using System.Net;
-using DRMA.API.Repository.Core;
+﻿using DRMA.API.Repository.Core;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Linq.Expressions;
+using System.Net;
 
 namespace DRMA.API.Repository;
 
@@ -12,14 +11,13 @@ public class CosmosRepository
 {
     private readonly ILogger<CosmosRepository> _logger;
 
-    public CosmosRepository(IConfiguration config, ILogger<CosmosRepository> logger)
+    public CosmosRepository(ILogger<CosmosRepository> logger)
     {
         _logger = logger;
 
-        var conn = config.GetValue<string>("Product:DRMA:CosmosDB:ConnectionString");
-        var databaseId = config.GetValue<string>("Product:DRMA:CosmosDB:DatabaseId");
+        var databaseId = ApiStartup.Configurations.CosmosDB?.DatabaseId;
 
-        Container = ApiStartup.CosmosClient(conn).GetContainer(databaseId, "main");
+        Container = ApiStartup.CosmosClient.GetContainer(databaseId, "main");
     }
 
     public Container Container { get; }
@@ -35,7 +33,7 @@ public class CosmosRepository
                 CosmosRepositoryExtensions.GetItemRequestOptions(), cancellationToken);
 
             if (response.RequestCharge > 1.7)
-                _logger.LogWarning("Get - ID {0}, RequestCharge {1}", id, response.RequestCharge);
+                _logger.LogWarning("Get - ID {Id}, RequestCharge {Charges}", id, response.RequestCharge);
 
             return response.Resource;
         }
@@ -99,7 +97,7 @@ public class CosmosRepository
                 results.AddRange(response.Resource);
             }
 
-            if (charges > 7)
+            if (charges > 15)
                 _logger.LogWarning("Query - Type {Type}, RequestCharge {Charges}", type.ToString(), charges);
 
             return results;
@@ -128,6 +126,9 @@ public class CosmosRepository
         }
     }
 
+    /// <summary>
+    ///     to update arrays, there is no performance gain
+    /// </summary>
     public async Task<T> PatchItem<T>(DocumentType type, string? id, List<PatchOperation> operations,
         CancellationToken cancellationToken) where T : CosmosDocument, new()
     {

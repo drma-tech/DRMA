@@ -2,12 +2,8 @@
 
 namespace DRMA.Shared.Models.Auth;
 
-public class ClientePrincipal : PrivateMainDocument
+public class ClientePrincipal() : PrivateMainDocument(DocumentType.Principal)
 {
-    public ClientePrincipal() : base(DocumentType.Principal)
-    {
-    }
-
     public string? UserId { get; set; }
     public string? IdentityProvider { get; set; }
     public string? UserDetails { get; set; }

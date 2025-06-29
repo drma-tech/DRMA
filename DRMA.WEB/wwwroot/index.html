@@ -1,83 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-    <meta name="theme-color" content="#343a40" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
 
     <base href="/" />
     <link rel="manifest" href="manifest.webmanifest" />
 
     <link rel="stylesheet" href="css/app.min.css" />
-    <link rel="stylesheet" href="css/custom_app.min.css" />
+    <link rel="stylesheet" href="css/custom-app.min.css" />
     <link rel="stylesheet" href="DRMA.WEB.styles.css" />
-    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
-    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon/icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon/icon-192.png" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-    <link rel="stylesheet" href="_content/Blazorise/blazorise.min.css" />
-    <link rel="stylesheet" href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.min.css" />
-    <link rel="stylesheet" href="_content/Blazorise.Snackbar/blazorise.snackbar.min.css" />
-    <link rel="stylesheet" href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
 
-    <script src="js/util.js"></script>
-
-    <!-- Microsoft Clarity -->
-    <script type="text/javascript">
-        if (!window.location.host.includes('localhost')) {
-            (function (c, l, a, r, i, t, y) {
-                c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-                t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-                y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-            })(window, document, "clarity", "script", "r5ie3u2oos");
-
-            // Check if Clarity is loaded and call the consent function
-            var clarityCheckInterval = setInterval(function () {
-                if (window.clarity) {
-                    window.clarity('consent');
-                    clearInterval(clarityCheckInterval);
-                    console.log('Clarity consent function called');
-                }
-            }, 500);
-        }
-    </script>
-
-    <!-- Google Analytics -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5145928155833172" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41Q6D56912"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
 
-        getUserInfo().then(userId => {
-            if (userId) {
-                gtag('config', 'G-41Q6D56912', {
-                    'user_id': userId
-                });
-            }
-            else {
-                gtag('config', 'G-41Q6D56912');
-            }
-        });
-    </script>
-    <script>
-        const meta = document.createElement('meta');
-        meta.name = 'robots';
-        meta.content = window.location.hostname.includes('dev') ? 'noindex, nofollow' : "index";
-        document.head.appendChild(meta);
+    <script src="js/functions.min.js"></script>
+    <script src="js/events.min.js"></script>
+    <script src="js/services.min.js"></script>
+
+    <script type="text/javascript">
+        window.setRobotsMeta();
+        window.initGoogleAnalytics("G-41Q6D56912");
+        window.initClarity("r5ie3u2oos");
     </script>
 </head>
 
-<body style="overflow: hidden;">
+<body>
     <div id="app">
         <svg class="loading-progress">
             <circle r="40%" cx="50%" cy="50%" />
             <circle r="40%" cx="50%" cy="50%" />
         </svg>
         <div class="loading-progress-text"></div>
+        <div class="loading-message" aria-live="polite"></div>
     </div>
 
     <div id="blazor-error-ui">
@@ -86,25 +50,40 @@
         <span class="dismiss">🗙</span>
     </div>
 
-    <script src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
-    <script src="_framework/blazor.webassembly.js"></script>
+    <div id="error-container" class="error-container"></div>
 
-    <script>
+    <script src="https://unpkg.com/wasm-feature-detect/dist/umd/index.js"></script>
+    <script type="text/javascript">
         //avoid google (and others) search console execute this
         if (!/google|baidu|bingbot|duckduckbot|teoma|slurp|yandex/i.test(window.navigator.userAgent) &&
             window.navigator.serviceWorker && window.navigator.serviceWorker.register) {
             navigator.serviceWorker.register('service-worker.js');
         }
+
+        //capture height of the app
+        const appHeight = () => document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+        window.addEventListener('resize', appHeight);
+        appHeight();
+
+        // check is browser is compatible with blazor
+        detectBrowserFeatures()
+            .then((ok) => {
+                if (!ok) {
+                    showBrowserWarning();
+                }
+            })
+            .catch((error) => {
+                showError(`Browser not supported: ${error.message}`);
+            });
     </script>
 
-    <script async src="_content/Toolbelt.Blazor.PWA.Updater.Service/script.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script async src="js/swiper.js"></script>
+    <script rel="preload" src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
+    <script rel="preload" src="_framework/blazor.webassembly.js"></script>
 
-    <script>
-        const appHeight = () => document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`)
-        window.addEventListener('resize', appHeight)
-        appHeight()
-    </script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+
+    <script defer src="_content/Toolbelt.Blazor.PWA.Updater.Service/script.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script defer src="js/swiper.min.js"></script>
 </body>
 </html>

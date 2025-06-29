@@ -22,7 +22,7 @@ public static class StaticWebAppsAuth
     {
         if (req.Url.Host.Contains("localhost"))
         {
-            const string localId = "b9a10c8be2f244c0a625b78f05e30812";
+            const string localId = "8ed6f45c90ac43248353b90a846a8519";
 
             return localId;
         }
@@ -30,7 +30,7 @@ public static class StaticWebAppsAuth
         var principal = req.Parse();
 
         return principal?.Claims.FirstOrDefault(w => w.Type == ClaimTypes.NameIdentifier)?.Value ??
-               throw new NotificationException("user id not available");
+               throw new UnhandledException("user id not available");
     }
 
     private static ClaimsPrincipal? Parse(this HttpRequestData req)
@@ -45,20 +45,17 @@ public static class StaticWebAppsAuth
             principal = JsonSerializer.Deserialize<ClientPrincipal>(json, Options);
         }
 
-        if (principal != null)
-        {
-            principal.UserRoles = principal.UserRoles.Except(Roles, StringComparer.CurrentCultureIgnoreCase) ?? [];
+        if (principal == null) return null;
+        principal.UserRoles = principal.UserRoles.Except(Roles, StringComparer.CurrentCultureIgnoreCase);
 
-            if (!principal.UserRoles.Any()) return new ClaimsPrincipal();
+        var principalUserRoles = principal.UserRoles.ToList();
+        if (!principalUserRoles.Any()) return new ClaimsPrincipal();
 
-            var identity = new ClaimsIdentity(principal.IdentityProvider);
-            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, principal.UserId ?? ""));
-            identity.AddClaim(new Claim(ClaimTypes.Name, principal.UserDetails ?? ""));
-            identity.AddClaims(principal.UserRoles.Select(r => new Claim(ClaimTypes.Role, r)) ?? []);
+        var identity = new ClaimsIdentity(principal.IdentityProvider);
+        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, principal.UserId ?? ""));
+        identity.AddClaim(new Claim(ClaimTypes.Name, principal.UserDetails ?? ""));
+        identity.AddClaims(principalUserRoles.Select(r => new Claim(ClaimTypes.Role, r)));
 
-            return new ClaimsPrincipal(identity);
-        }
-
-        return null;
+        return new ClaimsPrincipal(identity);
     }
 }

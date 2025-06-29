@@ -1,0 +1,57 @@
+﻿@inherits ComponentCore<HeadLayout>
+
+@inject IJSRuntime JsRuntime
+
+@if (Breakpoint <= Breakpoint.Sm)
+{
+    <MudIconButton Icon="@Icons.Material.Filled.Home" Color="@GetColor("/")" Class="me-2" Href="/" Variant="@GetVariant("/")">
+        Home
+    </MudIconButton>
+    <MudSpacer />
+    <MudMenu Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit">
+        <MudMenuItem Icon="@Icons.Material.Outlined.Settings" Label="Settings" OnClick="@OpenConfigurations" />
+    </MudMenu>
+}
+else
+{
+    <MudButton StartIcon="@Icons.Material.Filled.Home" Color="@GetColor("/")" Class="me-2" Href="/" Variant="@GetVariant("/")">
+        Home
+    </MudButton>
+    <MudSpacer />
+    <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@Icons.Material.Outlined.Settings" Class="me-2" OnClick="@OpenConfigurations"></MudIconButton>
+}
+
+@code {
+    [SupplyParameterFromQuery][Parameter] public string? _ptxn { get; set; }
+    [Parameter] public bool IsAuthenticated { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Navigation.LocationChanged += delegate { StateHasChanged(); };
+    }
+
+    private void Logout()
+    {
+        Navigation.NavigateTo("/.auth/logout?post_logout_redirect_uri=" + Navigation.BaseUri, true);
+    }
+
+    private async Task OpenConfigurations()
+    {
+        await DialogService.SettingsPopup();
+    }
+
+    private Color GetColor(string endpoint)
+    {
+        var uri = new Uri(Navigation.Uri);
+
+        return string.Equals(uri.AbsolutePath, endpoint, StringComparison.OrdinalIgnoreCase) ? Color.Primary : Color.Inherit;
+    }
+
+    private Variant GetVariant(string endpoint)
+    {
+        var uri = new Uri(Navigation.Uri);
+
+        return string.Equals(uri.AbsolutePath, endpoint, StringComparison.OrdinalIgnoreCase) ? Variant.Filled : Variant.Text;
+    }
+
+}

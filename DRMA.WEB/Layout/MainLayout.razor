@@ -1,0 +1,85 @@
+﻿@using System.Security.Claims
+@using Toolbelt.Blazor.PWA.Updater
+@inherits LayoutComponentBase
+
+@inject IJSRuntime JsRuntime
+@inject ISnackbar Snackbar
+
+<MudThemeProvider @ref="_mudThemeProvider" IsDarkMode="@AppStateStatic.DarkMode" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudMessageBox />
+<MudSnackbarProvider />
+
+<PWAUpdater />
+
+<MudLayout>
+    <MudAppBar Fixed="true" Elevation="1" Color="Color.Dark">
+        <HeadLayout IsAuthenticated="IsAuthenticated"></HeadLayout>
+    </MudAppBar>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="my-3">
+            @Body
+        </MudContainer>
+
+        <FooterComponent></FooterComponent>
+        <MudDivider Class="my-3 mt-10"></MudDivider>
+        <MudText Align="Align.Center" Class="mb-3">
+            © 2025-@DateTime.Now.Year - DRMA Tech. All rights reserved.
+        </MudText>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    [CascadingParameter] protected Task<AuthenticationState> AuthenticationState { get; set; } = null!;
+
+    private MudThemeProvider? _mudThemeProvider;
+
+    protected override void OnInitialized()
+    {
+        AppStateStatic.ShowError = msg => { Snackbar.Add(msg, Severity.Error); };
+    }
+
+    protected bool IsAuthenticated { get; set; }
+    protected string? UserId { get; set; }
+    public ClaimsPrincipal? User { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (User == null)
+        {
+            var authState = await AuthenticationState;
+
+            User = authState.User;
+            IsAuthenticated = User?.Identity is not null && User.Identity.IsAuthenticated;
+            UserId = User?.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        }
+
+        AppStateStatic.DarkModeChanged += StateHasChanged;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            //DARK MODE
+            var darkMode = await JsRuntime.InvokeAsync<string>("GetLocalStorage", "dark-mode");
+
+            if (darkMode.Empty())
+            {
+                darkMode = (await _mudThemeProvider!.GetSystemDarkModeAsync()).ToString();
+
+                await JsRuntime.InvokeAsync<string>("SetLocalStorage", "dark-mode", darkMode);
+            }
+
+            AppStateStatic.ChangeDarkMode(bool.Parse(darkMode));
+        }
+    }
+
+    [JSInvokable]
+    public static void ShowError(string error)
+    {
+        AppStateStatic.ShowError?.Invoke(error);
+    }
+
+}

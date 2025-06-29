@@ -7,25 +7,25 @@ public static class EnumHelper
         return Enum.GetValues<TEnum>();
     }
 
-    public static EnumObject[] GetObjArray<TEnum>(bool translate = true) where TEnum : struct, Enum
+    public static EnumObject<TEnum>[] GetObjArray<TEnum>(bool translate = true) where TEnum : struct, Enum
     {
         return GetList<TEnum>(translate).ToArray();
     }
 
-    public static IEnumerable<EnumObject> GetList<TEnum>(bool translate = true) where TEnum : struct, Enum
+    public static IEnumerable<EnumObject<TEnum>> GetList<TEnum>(bool translate = true) where TEnum : struct, Enum
     {
         foreach (var val in GetArray<TEnum>())
         {
             var attr = val.GetCustomAttribute(translate);
 
-            yield return new EnumObject(val, attr?.Name, attr?.Description, attr?.Group);
+            yield return new EnumObject<TEnum>(val, attr?.Name, attr?.Description, attr?.Group);
         }
     }
 }
 
-public class EnumObject(Enum value, string? name, string? description, string? group)
+public class EnumObject<TEnum>(TEnum value, string? name, string? description, string? group) where TEnum : struct, Enum
 {
-    public Enum Value { get; set; } = value;
+    public TEnum Value { get; set; } = value;
     public string? Name { get; set; } = name;
     public string? Description { get; set; } = description;
     public string? Group { get; set; } = group;

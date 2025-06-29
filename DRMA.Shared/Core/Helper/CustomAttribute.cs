@@ -18,18 +18,16 @@ public class CustomAttribute : Attribute
 
 public static class CustomAttributeHelper
 {
-    public static CustomAttribute GetCustomAttribute(this Enum value, bool translate = true)
+    public static CustomAttribute? GetCustomAttribute(this Enum value, bool translate = true)
     {
         var fieldInfo = value.GetType().GetField(value.ToString());
 
-        return fieldInfo != null
-            ? fieldInfo.GetCustomAttribute(translate)
-            : throw new NotificationException($"{value} fieldInfo is null");
+        return fieldInfo?.GetCustomAttribute(translate);
     }
 
     public static CustomAttribute GetCustomAttribute<T>(this Expression<Func<T>>? expression, bool translate = true)
     {
-        if (expression == null) throw new NotificationException($"{expression} expression is null");
+        if (expression == null) throw new UnhandledException($"{expression} expression is null");
 
         if (expression.Body is MemberExpression body) return body.Member.GetCustomAttribute(translate);
 
@@ -60,14 +58,14 @@ public static class CustomAttributeHelper
         return attr;
     }
 
-    public static string GetName(this Enum value, bool translate = true)
+    public static string? GetName(this Enum value, bool translate = true)
     {
-        return value.GetCustomAttribute(translate).Name ?? throw new NotificationException($"{value} Name is null");
+        return value.GetCustomAttribute(translate)?.Name;
     }
 
     public static string GetDescription(this Enum value, bool translate = true)
     {
-        return value.GetCustomAttribute(translate).Description ??
-               throw new NotificationException($"{value} Description is null");
+        return value.GetCustomAttribute(translate)?.Description ??
+               throw new UnhandledException($"{value} Description is null");
     }
 }

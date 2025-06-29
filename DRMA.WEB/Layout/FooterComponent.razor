@@ -1,0 +1,43 @@
+﻿@inherits ComponentCore<FooterComponent>
+
+@if ((Support && Breakpoint <= Breakpoint.Sm) || (!Support && Breakpoint > Breakpoint.Sm))
+{
+    <MudDivider Class="mb-3 mt-10"></MudDivider>
+    <MudGrid Justify="Justify.Center" Style="overflow: auto;" Spacing="4">
+        <MudItem xs="12" sm="12" md="4">
+            <MudList T="string" Color="Color.Surface">
+                <MudListSubheader>
+                    <MudText Typo="Typo.button" Color="Color.Primary">
+                        DRMA Tech
+                    </MudText>
+                </MudListSubheader>
+                <MudListItem Text="We create smart tools that use matching systems to connect people with what fits them best — making decisions easier, more aligned, and built around who they truly are." Dense="true" Style="text-align: justify" />
+            </MudList>
+        </MudItem>
+        <MudItem xs="12" sm="3" md="2">
+            <MudList T="string">
+                <MudListSubheader>
+                    <MudText Typo="Typo.button" Color="Color.Secondary">
+                        PRODUCTS
+                    </MudText>
+                </MudListSubheader>
+                <MudListItem Text="Streaming Discovery" Href="https://www.streamingdiscovery.com/" Dense="true" Target="_blank" />
+                <MudListItem Text="Modern Matchmaker" Href="https://modern-matchmaker.com/" Dense="true" Target="_blank" />
+            </MudList>
+        </MudItem>
+        <MudItem xs="12" sm="3" md="2">
+            <MudList T="string">
+                <MudListSubheader>
+                    <MudText Typo="Typo.button" Color="Color.Secondary">
+                        SUPPORT
+                    </MudText>
+                </MudListSubheader>
+                <MudListItem Text="Contact" Href="mailto:contact@drma-tech.com" Dense="true" />
+            </MudList>
+        </MudItem>       
+    </MudGrid>
+}
+
+@code {
+    [Parameter] public bool Support { get; set; }    
+}

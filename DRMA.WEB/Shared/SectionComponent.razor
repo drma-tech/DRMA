@@ -1,0 +1,33 @@
+﻿<MudPaper Class="@(FullPage ? "" : "mb-3 pa-2")" Outlined="!FullPage" Elevation="0">
+    @if (ShowHead)
+    {
+        <MudToolBar WrapContent="true" Dense="true" Gutters="false" Class="mb-2" Style="min-height: auto;">
+            @if (!string.IsNullOrEmpty(IconName))
+            {
+                <MudIcon Icon="@IconName" Size="Size.Large" Class="me-2"></MudIcon>
+            }
+            else if (!string.IsNullOrEmpty(IconImage))
+            {
+                <MudImage Src="@IconImage" Class="me-2" Style="height: 36px; vertical-align: sub;" Alt="@IconName"></MudImage>
+            }
+            <MudText Typo="Typo.h6">@Title</MudText>
+            <MudSpacer></MudSpacer>
+            @if (ActionFragment != null)
+            {
+                @ActionFragment
+            }
+        </MudToolBar>
+    }
+    @BodyFragment
+</MudPaper>
+
+@code {
+    [Parameter] public string? IconName { get; set; }
+    [Parameter] public string? IconImage { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public bool ShowHead { get; set; } = true;
+    [Parameter] public bool FullPage { get; set; } = false;
+
+    [Parameter] public RenderFragment? ActionFragment { get; set; }
+    [Parameter][EditorRequired] public RenderFragment? BodyFragment { get; set; }
+}

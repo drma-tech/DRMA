@@ -4,42 +4,24 @@
 {
     if (PartialComponent)
     {
-        <Blazorise.Text TextColor="TextColor.Secondary">
-            <Blazorise.Icon Class="spinner-border spinner-border-sm"></Blazorise.Icon> @MessageLoading
-        </Blazorise.Text>
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="40px" Animation="Animation.Wave" />
     }
     else
     {
-        <Alert Color="Color.Warning" Visible="true">
-            <AlertMessage>
-                <Blazorise.Icon Class="spinner-border spinner-border-sm"></Blazorise.Icon> @MessageLoading
-            </AlertMessage>
-        </Alert>
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="100px" Animation="Animation.Wave" />
     }
-}
-else if (Status == LoadingStatus.Locked && !PartialComponent)
-{
-    <Alert Color="Color.Primary" Visible="true">
-        <AlertMessage>
-            <Blazorise.Icon Name="FontAwesomeIcons.UserLock"></Blazorise.Icon> Unauthenticated User
-        </AlertMessage>
-    </Alert>
 }
 else if (Status == LoadingStatus.Error && !PartialComponent)
 {
-    <Alert Color="Color.Danger" Visible="true">
-        <AlertMessage>
-            <Blazorise.Icon Name="FontAwesomeIcons.Bug"></Blazorise.Icon> @(MessageError ?? "Invalid operation. Please try again.")
-        </AlertMessage>
-    </Alert>
+    <MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Dense="true" Icon="@Icons.Material.Filled.Error" Style="text-align: justify;">
+        @(MessageError ?? "Invalid operation. Please try again.")
+    </MudAlert>
 }
 else if (Status == LoadingStatus.Warning && !PartialComponent)
 {
-    <Alert Color="Color.Primary" Visible="true">
-        <AlertMessage>
-            <Blazorise.Icon Name="FontAwesomeIcons.ExclamationTriangle"></Blazorise.Icon> @(MessageWarning ?? "There is no data to show")
-        </AlertMessage>
-    </Alert>
+    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="true" Icon="@Icons.Material.Filled.Warning" Style="text-align: justify;">
+        @(MessageWarning ?? "There is no data to show")
+    </MudAlert>
 }
 else //ShowContent
 {
@@ -47,12 +29,10 @@ else //ShowContent
 }
 
 @code {
-    [CascadingParameter] protected Task<AuthenticationState>? authenticationState { get; set; }
-
-    [Parameter] [EditorRequired] public RenderFragment ChildContent { get; set; } = default!;
-    [Parameter] [EditorRequired] public RenderControlCore<TModel> Core { get; set; } = default!;
-    [Parameter] [EditorRequired] public TModel Model { get; set; } = default!;
-    [Parameter] [EditorRequired] public Func<TModel, bool> ExpressionEmpty { get; set; } = default!;
+    [Parameter][EditorRequired] public RenderFragment ChildContent { get; set; } = null!;
+    [Parameter][EditorRequired] public RenderControlCore<TModel> Core { get; set; } = null!;
+    [Parameter][EditorRequired] public TModel Model { get; set; } = null!;
+    [Parameter][EditorRequired] public Func<TModel, bool> ExpressionEmpty { get; set; } = null!;
 
     [Parameter] public bool PrivateContent { get; set; }
     [Parameter] public string? CustomMessageError { get; set; }
@@ -70,17 +50,17 @@ else //ShowContent
         ArgumentNullException.ThrowIfNull(Core);
         ArgumentNullException.ThrowIfNull(ExpressionEmpty);
 
-        if (Model != null && ExpressionEmpty != null && !ExpressionEmpty(Model))
+        if (!ExpressionEmpty(Model))
             Status = LoadingStatus.ShowContent;
 
         Core.LoadingStarted += () => ShowLoading();
         Core.ProcessingStarted += () => ShowLoading("Processing...");
 
-        Core.LoadingFinished += model => ShowContent(model);
-        Core.ProcessingFinished += model => ShowContent(model);
+        Core.LoadingFinished += ShowContent;
+        Core.ProcessingFinished += ShowContent;
 
-        Core.WarningAction += msg => ShowWarning(msg);
-        Core.ErrorAction += msg => ShowError(msg);
+        Core.WarningAction += ShowWarning;
+        Core.ErrorAction += ShowError;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -88,18 +68,6 @@ else //ShowContent
         ArgumentNullException.ThrowIfNull(Core);
 
         await base.OnAfterRenderAsync(firstRender);
-
-        if (firstRender && PrivateContent && authenticationState is not null)
-        {
-            var authState = await authenticationState;
-            var user = authState?.User;
-            var isAuthenticated = user?.Identity is not null && user.Identity.IsAuthenticated;
-
-            if (!isAuthenticated)
-            {
-                Status = LoadingStatus.Locked;
-            }
-        }
     }
 
     private void Reset()
@@ -114,7 +82,7 @@ else //ShowContent
     {
         Reset();
 
-        if (Status == LoadingStatus.Error || Status == LoadingStatus.Locked) return;
+        if (Status is LoadingStatus.Error) return;
 
         Status = LoadingStatus.Loading;
         MessageLoading = msg ?? "Loading...";
@@ -133,12 +101,16 @@ else //ShowContent
             return;
         }
 
-        if (Status == LoadingStatus.Error || Status == LoadingStatus.Locked) return;
+        if (Status is LoadingStatus.Error) return;
 
-        if (model == null || (ExpressionEmpty != null && ExpressionEmpty(model)))
-            Status = LoadingStatus.Warning;
+        if (model == null || (ExpressionEmpty(model)))
+        {
+            ShowWarning("There is no data to show");
+        }
         else
+        {
             Status = LoadingStatus.ShowContent;
+        }
 
         StateHasChanged();
     }
@@ -150,7 +122,7 @@ else //ShowContent
     {
         Reset();
 
-        if (Status == LoadingStatus.Error || Status == LoadingStatus.Locked) return;
+        if (Status is LoadingStatus.Error) return;
 
         Status = LoadingStatus.Warning;
         MessageWarning = CustomMessageWarning ?? msg;

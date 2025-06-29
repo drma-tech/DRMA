@@ -19,99 +19,102 @@
     }
 </Div> *@
 
-<div class="container col-xxl-8 px-4 py-4">
-    <div class="row flex-lg-row-reverse align-items-center justify-content-center g-5">
-        <div class="col-12 col-sm-8 col-sm-2 col-lg-6 bg-dark" style="border-radius: 5px;">
-            <img src="icon/icon-full.png" class="d-block mx-lg-auto img-fluid" alt="DRMA Tech" width="700" height="500" loading="lazy">
-        </div>
-        <div class="col-lg-6">
-            <h1 class="display-6 fw-bold text-body-emphasis lh-1 mb-4">DRMA Tech</h1>
-            <p class="lead text-justify mb-4">We create smart tools that use matching systems to connect people with what fits them best — making decisions easier, more aligned, and built around who they truly are.</p>
-        </div>
-    </div>
-</div>
+<MudContainer>
+    <MudGrid Spacing="4" Class="mb-20" Style="align-items: center;">
+        <MudItem xs="12" sm="6" Style="text-align: center;">
+            <MudPaper Elevation="2" Class="ma-8 pa-8">
+                <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-2">
+                    DRMA Tech
+                </MudText>
+                <MudText Typo="Typo.body1" Align="Align.Justify">
+                    We create smart tools that use matching systems to connect people with what fits them best — making decisions easier, more aligned, and built around who they truly are.
+                </MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" Style="text-align: center;">
+            <MudImage Src="icon/icon-full.png" Alt="DRMA Tech" Style="width: 50%;" />
+        </MudItem>
+    </MudGrid>
 
-<div class="container px-4 py-4">
-    <h2 class="pb-2 border-bottom">Our Products</h2>
-
-    <div class="row align-items-md-center g-5 py-5">
-        <div class="col-12 col-lg-5 d-flex flex-column align-items-start gap-2">
-            <h2 class="fw-bold text-body-emphasis text-center">
+    <MudText Typo="Typo.h5" Color="Color.Primary">
+        Our Products
+    </MudText>
+    <MudDivider Class="mb-10"></MudDivider>
+    <MudGrid Spacing="10" Class="mb-20" Style="align-items: center;">
+        <MudItem xs="12" sm="4">
+            <MudText Typo="Typo.h6" Color="Color.Secondary" Align="Align.Center" Class="mb-2">
                 Take Charge of Every Aspect of Your Life
-            </h2>
-            <p class="text-body-secondary text-justify">
-                At DRMA Tech, we build apps that help you make smarter choices through meaningful matches. Whether it’s a person, a place, or a job, our tools use your profile to find what truly fits you.
-
-                Each app is designed to match your preferences with what matters most — values, lifestyle, goals — reducing guesswork and bringing more clarity to your decisions.
-
-                It’s a simpler, smarter way to navigate life.
-            </p>
-        </div>
-
-        <div class="col-12 col-lg-7">
-            <div class="row row-cols-1 row-cols-sm-2 g-4">
-                <div class="col d-flex flex-column gap-2">
-                    <Div Width="Width.Rem(3)" Height="Height.Rem(3)" Border="Border.Rounded.Is1" TextColor="TextColor.White"
-                         Flex="Flex.AlignItems.Center.JustifyContent.Center">
-                        <Image Source="logos/sd.png" Height="Height.Is100"></Image>
-                    </Div>
-                    <h4 class="fw-semibold mb-0 text-body-emphasis">Streaming Discovery</h4>
-                    <Alert Color="Color.Info" Visible="true">
-                        <AlertMessage>
-                            In operation since 2021
-                        </AlertMessage>
-                    </Alert>
-                    <Blazorise.Link To="https://www.streamingdiscovery.com/" Target="Target.Blank">
+            </MudText>
+            <MudText Typo="Typo.body1" Align="Align.Justify" Style="line-height: 1.6;">
+                At DRMA Tech, we build apps that help you make smarter choices by matching you with what truly fits — whether it's a person, place, or job. Our tools reduce guesswork and bring clarity by aligning with your values, lifestyle, and goals.
+            </MudText>
+        </MudItem>
+        <MudItem xs="12" sm="4">
+            <MudPaper Elevation="2" Class="mb-10 pa-4">
+                <div class="d-flex mb-2">
+                    <MudImage Src="logos/sd.png" Height="50" Class="me-2"></MudImage>
+                    <MudText Typo="Typo.h6" Color="Color.Secondary" Style="align-content: center;">
+                        Streaming Discovery
+                    </MudText>
+                </div>
+                <div>
+                    <MudLink Href="https://www.streamingdiscovery.com/" Target="_blank" Underline="Underline.Always">
                         www.streamingdiscovery.com
-                    </Blazorise.Link>
-                    <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" TextAlignment="TextAlignment.Justified">
-                        Manage all your streaming content in one place. Track your watch progress, organize platforms, and explore curated lists with award-winning films, critic favorites, and hidden gems.
-                    </Paragraph>
+                    </MudLink>
                 </div>
-                <div class="col d-flex flex-column gap-2">
-                    <Div Width="Width.Rem(3)" Height="Height.Rem(3)" Border="Border.Rounded.Is1" TextColor="TextColor.White"
-                         Flex="Flex.AlignItems.Center.JustifyContent.Center">
-                        <Image Source="logos/mm.png" Height="Height.Is100"></Image>
-                    </Div>
-                    <h4 class="fw-semibold mb-0 text-body-emphasis">Modern Matchmaker</h4>
-                    <Alert Color="Color.Info" Visible="true">
-                        <AlertMessage>
-                            Not officially released yet
-                        </AlertMessage>
-                    </Alert>
-                    <Blazorise.Link To="https://www.modern-matchmaker.com/" Target="Target.Blank">
+                <MudText Typo="Typo.body2" Align="Align.Justify" Style="line-height: 1.6;">
+                    Manage all your streaming content in one place. Track your watch progress, organize platforms, and explore curated lists with award-winning films, critic favorites, and hidden gems.
+                </MudText>
+                <MudAlert Variant="Variant.Outlined" Severity="Severity.Info" Dense="true" Class="mt-3">
+                    In operation since 2021
+                </MudAlert>
+            </MudPaper>
+            <MudPaper Elevation="2" Class="mb-10 pa-4">
+                <div class="d-flex mb-2">
+                    <MudIcon Icon="@Icons.Material.Filled.AirplaneTicket" Color="Color.Secondary" Class="me-2" Style="height: 50px; width: 50px;"></MudIcon>
+                    <MudText Typo="Typo.h6" Color="Color.Secondary" Style="align-content: center;">
+                        Travels
+                    </MudText>
+                </div>
+                <MudAlert Variant="Variant.Outlined" Severity="Severity.Normal" Dense="true" Class="mt-3">
+                    Coming soon
+                </MudAlert>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="4">
+            <MudPaper Elevation="2" Class="mb-10 pa-4">
+                <div class="d-flex mb-2">
+                    <MudImage Src="logos/mm.png" Height="50" Class="me-2"></MudImage>
+                    <MudText Typo="Typo.h6" Color="Color.Secondary" Style="align-content: center;">
+                        Modern Matchmaker
+                    </MudText>
+                </div>
+                <div>
+                    <MudLink Href="https://www.modern-matchmaker.com/" Target="_blank" Underline="Underline.Always">
                         www.modern-matchmaker.com
-                    </Blazorise.Link>
-                    <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" TextAlignment="TextAlignment.Justified">
-                        Redefining how people connect. Our advanced compatibility system helps you find someone truly aligned with your values, faster and more affordably than traditional matchmaking.
-                    </Paragraph>
+                    </MudLink>
                 </div>
-                <div class="col d-flex flex-column gap-2">
-                    <Div Width="Width.Rem(3)" Height="Height.Rem(3)" Border="Border.Rounded.Is1" Flex="Flex.AlignItems.Center.JustifyContent.Center">
-                        <Blazorise.Icon Name="FontAwesomeIcons.Plane"/>
-                    </Div>
-                    <h4 class="fw-semibold mb-0 text-body-emphasis">Travels</h4>
-                    <Alert Color="Color.Info" Visible="true">
-                        <AlertMessage>
-                            Comming soon
-                        </AlertMessage>
-                    </Alert>
+                <MudText Typo="Typo.body2" Align="Align.Justify" Style="line-height: 1.6;">
+                    Redefining how people connect. Our advanced compatibility system helps you find someone truly aligned with your values, faster and more affordably than traditional matchmaking.
+                </MudText>
+                <MudAlert Variant="Variant.Outlined" Severity="Severity.Warning" Dense="true" Class="mt-3">
+                    Not officially released yet
+                </MudAlert>
+            </MudPaper>
+            <MudPaper Elevation="2" Class="mb-10 pa-4">
+                <div class="d-flex mb-2">
+                    <MudIcon Icon="@Icons.Material.Filled.Work" Color="Color.Secondary" Class="me-2" Style="height: 50px; width: 50px;"></MudIcon>
+                    <MudText Typo="Typo.h6" Color="Color.Secondary" Style="align-content: center;">
+                        Jobs
+                    </MudText>
                 </div>
-                <div class="col d-flex flex-column gap-2">
-                    <Div Width="Width.Rem(3)" Height="Height.Rem(3)" Border="Border.Rounded.Is1" Flex="Flex.AlignItems.Center.JustifyContent.Center">
-                        <Blazorise.Icon Name="FontAwesomeIcons.UserTie"></Blazorise.Icon>
-                    </Div>
-                    <h4 class="fw-semibold mb-0 text-body-emphasis">Jobs</h4>
-                    <Alert Color="Color.Info" Visible="true">
-                        <AlertMessage>
-                            Comming soon
-                        </AlertMessage>
-                    </Alert>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                <MudAlert Variant="Variant.Outlined" Severity="Severity.Normal" Dense="true" Class="mt-3">
+                    Coming soon
+                </MudAlert>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
 
 @code {
 

@@ -6,7 +6,7 @@ namespace DRMA.WEB.Core.Api;
 
 public abstract class ApiCore(IHttpClientFactory factory, string? key)
 {
-    protected HttpClient _http => factory.CreateClient("RetryHttpClient");
+    protected HttpClient Http => factory.CreateClient("RetryHttpClient");
     protected static Dictionary<string, int> CacheVersion { get; set; } = [];
 
     public static void SetNewVersion(string? key)
@@ -24,8 +24,8 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key)
     protected async Task<string?> GetValueAsync(string uri)
     {
         if (key.NotEmpty())
-            return await _http.GetValueAsync(uri.ConfigureParameters(GetVersion()));
-        return await _http.GetValueAsync(uri);
+            return await Http.GetValueAsync(uri.ConfigureParameters(GetVersion()));
+        return await Http.GetValueAsync(uri);
     }
 
     protected async Task<T?> GetAsync<T>(string uri, bool setNewVersion = false)
@@ -33,20 +33,20 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key)
         if (setNewVersion) SetNewVersion(key);
 
         if (key.NotEmpty())
-            return await _http.GetJsonFromApi<T>(uri.ConfigureParameters(GetVersion()));
-        return await _http.GetJsonFromApi<T>(uri);
+            return await Http.GetJsonFromApi<T>(uri.ConfigureParameters(GetVersion()));
+        return await Http.GetJsonFromApi<T>(uri);
     }
 
     protected async Task<HashSet<T>> GetListAsync<T>(string uri)
     {
         if (key.NotEmpty())
         {
-            var result = await _http.GetJsonFromApi<HashSet<T>>(uri.ConfigureParameters(GetVersion()));
+            var result = await Http.GetJsonFromApi<HashSet<T>>(uri.ConfigureParameters(GetVersion()));
             return result ?? [];
         }
         else
         {
-            var result = await _http.GetJsonFromApi<HashSet<T>>(uri);
+            var result = await Http.GetJsonFromApi<HashSet<T>>(uri);
             return result ?? [];
         }
     }
@@ -57,14 +57,14 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key)
 
         request.Headers.TryAddWithoutValidation("content-type", "application/json;charset=utf-8");
 
-        return await _http.GetJsonFromApi<T>(request);
+        return await Http.GetJsonFromApi<T>(request);
     }
 
     protected async Task<O?> PostAsync<I, O>(string uri, I? obj)
     {
         SetNewVersion(key);
 
-        var response = await _http.PostAsJsonAsync(uri, obj, new JsonSerializerOptions());
+        var response = await Http.PostAsJsonAsync(uri, obj, new JsonSerializerOptions());
 
         if (response.StatusCode == HttpStatusCode.NoContent) return default;
 
@@ -78,7 +78,7 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key)
     {
         SetNewVersion(key);
 
-        var response = await _http.PutAsJsonAsync(uri, obj, new JsonSerializerOptions());
+        var response = await Http.PutAsJsonAsync(uri, obj, new JsonSerializerOptions());
 
         if (response.StatusCode == HttpStatusCode.NoContent) return default;
 
@@ -92,7 +92,7 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key)
     {
         SetNewVersion(key);
 
-        var response = await _http.DeleteAsync(uri);
+        var response = await Http.DeleteAsync(uri);
 
         if (response.StatusCode == HttpStatusCode.NoContent) return default;
 

@@ -1,26 +1,24 @@
-using System.Globalization;
 using AzureStaticWebApps.Blazor.Authentication;
-using Blazorise;
-using Blazorise.Bootstrap5;
-using Blazorise.Icons.FontAwesome;
 using DRMA.WEB;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
+using MudBlazor.Services;
 using Polly;
 using Polly.Extensions.Http;
+using System.Globalization;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
-
-ConfigureServices(builder.Services, builder.HostEnvironment.BaseAddress);
 
 if (builder.RootComponents.Empty())
 {
     builder.RootComponents.Add<App>("#app");
     builder.RootComponents.Add<HeadOutlet>("head::after");
 }
+
+ConfigureServices(builder.Services, builder.HostEnvironment.BaseAddress);
 
 var app = builder.Build();
 
@@ -30,10 +28,7 @@ await app.RunAsync();
 
 static void ConfigureServices(IServiceCollection collection, string baseAddress)
 {
-    collection
-        .AddBlazorise(options => options.Immediate = true)
-        .AddBootstrap5Providers()
-        .AddFontAwesomeIcons();
+    collection.AddMudServices();
 
     collection.AddPWAUpdater();
 
@@ -60,8 +55,8 @@ static async Task ConfigureCulture(WebAssemblyHost? app)
 
         if (language.Empty())
         {
-            var JsRuntime = app.Services.GetRequiredService<IJSRuntime>();
-            language = await JsRuntime.InvokeAsync<string>("GetLocalStorage", "language");
+            var jsRuntime = app.Services.GetRequiredService<IJSRuntime>();
+            language = await jsRuntime.InvokeAsync<string>("GetLocalStorage", "language");
         }
 
         if (language.NotEmpty())

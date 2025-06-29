@@ -41,23 +41,27 @@ public static class IsolatedFunctionHelper
         return model;
     }
 
-    public static async Task<HttpResponseData> CreateResponse<T>(this HttpRequestData req, T? doc, ttlCache maxAge,
+    public static async Task<HttpResponseData> CreateResponse<T>(this HttpRequestData req, T? doc, TtlCache maxAge,
         CancellationToken cancellationToken) where T : class
     {
+        HttpResponseData? response;
+
         if (doc != null)
         {
-            var response = req.CreateResponse();
-
-            response.Headers.Add("Cache-Control", $"public, max-age={(int)maxAge}"); // expiration time cache
-            //response.Headers.Add("ETag", eTag); // unique identification to verify data changes
-            //response.Headers.Add("Access-Control-Expose-Headers", "ETag"); //dont using anymore
+            response = req.CreateResponse();
 
             await response.WriteAsJsonAsync(doc, cancellationToken);
-
-            return response;
+        }
+        else
+        {
+            response = req.CreateResponse(HttpStatusCode.NoContent);
         }
 
-        return req.CreateResponse(HttpStatusCode.NoContent);
+        response.Headers.Add("Cache-Control", $"public, max-age={(int)maxAge}");
+        //response.Headers.Add("ETag", eTag); // unique identification to verify data changes
+        //response.Headers.Add("Access-Control-Expose-Headers", "ETag"); //don't using anymore
+
+        return response;
     }
 
     public static StringDictionary GetQueryParameters(this HttpRequestData req)
@@ -75,7 +79,19 @@ public static class IsolatedFunctionHelper
     public static void ProcessException(this HttpRequestData req, Exception ex)
     {
         var logger = req.FunctionContext.GetLogger(req.FunctionContext.FunctionDefinition.Name);
-        logger?.LogError(ex, req.BuildState(), req.BuildParams());
+
+        const string messageTemplate = "ProcessException. State: {State}, Params: {Params}";
+
+        logger.LogError(ex, messageTemplate, req.BuildState(), req.BuildParams());
+    }
+
+    public static void LogWarning(this HttpRequestData req, string? message)
+    {
+        var logger = req.FunctionContext.GetLogger(req.FunctionContext.FunctionDefinition.Name);
+
+        const string messageTemplate = "LogWarning. Message: {message} State: {State}, Params: {Params}";
+
+        logger.LogWarning(messageTemplate, message, req.BuildState(), req.BuildParams());
     }
 
     private static string BuildState(this HttpRequestData req)

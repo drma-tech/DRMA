@@ -1,10 +1,10 @@
-﻿using Blazorise;
+﻿using MudBlazor;
 
 namespace DRMA.WEB.Core;
 
 public static class NotificationCore
 {
-    public static async Task ProcessResponse(this HttpResponseMessage response, INotificationService? toast = null,
+    public static async Task ProcessResponse(this HttpResponseMessage response, ISnackbar? snackbar = null,
         string? msgSuccess = null, string? msgInfo = null)
     {
         var msg = await response.Content.ReadAsStringAsync();
@@ -15,8 +15,8 @@ public static class NotificationCore
         }
         else if ((short)response.StatusCode is >= 200 and <= 299) //Successful
         {
-            if (!string.IsNullOrEmpty(msgSuccess)) toast?.Success(msgSuccess);
-            if (!string.IsNullOrEmpty(msgInfo)) toast?.Info(msgInfo);
+            if (!string.IsNullOrEmpty(msgSuccess)) snackbar?.Add(msgSuccess, Severity.Success);
+            if (!string.IsNullOrEmpty(msgInfo)) snackbar?.Add(msgInfo, Severity.Info);
         }
         else if ((short)response.StatusCode is >= 300 and <= 399) //Redirected
         {
@@ -32,17 +32,17 @@ public static class NotificationCore
         }
     }
 
-    public static void ProcessException(this Exception ex, INotificationService toast, ILogger logger)
+    public static void ProcessException(this Exception ex, ISnackbar snackbar, ILogger logger)
     {
         if (ex is NotificationException exc)
         {
             logger.LogWarning(exc, null);
-            toast.Warning(exc.Message);
+            snackbar.Add(exc.Message, Severity.Warning);
         }
         else
         {
             logger.LogError(ex, null);
-            toast.Error(ex.Message);
+            snackbar.Add(ex.Message, Severity.Error);
         }
     }
 }

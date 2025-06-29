@@ -3,7 +3,6 @@
 public enum LoadingStatus
 {
     Loading,
-    Locked,
     Error,
     Warning,
     ShowContent

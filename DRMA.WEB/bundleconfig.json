@@ -6,9 +6,33 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/css/custom_app.min.css",
+    "outputFileName": "wwwroot/css/custom-app.min.css",
     "inputFiles": [
-      "wwwroot/css/custom_app.css"
+      "wwwroot/css/custom-app.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/functions.min.js",
+    "inputFiles": [
+      "wwwroot/js/functions.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/events.min.js",
+    "inputFiles": [
+      "wwwroot/js/events.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/services.min.js",
+    "inputFiles": [
+      "wwwroot/js/services.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/swiper.min.js",
+    "inputFiles": [
+      "wwwroot/js/swiper.js"
     ]
   }
 ]

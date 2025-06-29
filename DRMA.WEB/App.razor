@@ -1,33 +1,44 @@
-﻿<CascadingAuthenticationState>
-    <Router AppAssembly="@typeof(App).Assembly">
-        <Found Context="routeData">
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-                <NotAuthorized>
-                    <div class="alert alert-danger" role="alert">
-                        You are not authorized to access this resource.
-                    </div>
-                </NotAuthorized>
-                <Authorizing>
-                    <div class="alert alert-warning" role="alert">
-                        <div class="spinner-border spinner-border-sm" role="status">
-                            <span class="sr-only">Authentication in progress...</span>
-                        </div>
-                        Authentication in progress...
-                    </div>
-                </Authorizing>
-            </AuthorizeRouteView>
-            <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
-        </Found>
-        <NotFound>
-            <PageTitle>Not found</PageTitle>
-            <LayoutView Layout="@typeof(MainLayout)">
-                <div class="alert alert-danger" role="alert">
-                    Sorry, there's nothing at this address.
-                </div>
-            </LayoutView>
-        </NotFound>
-    </Router>
+﻿@using DRMA.WEB.Layout
 
-    <ModalProvider></ModalProvider>
-    <MessageProvider/>
-</CascadingAuthenticationState>
+<ErrorBoundary @ref="_boundary">
+    <ChildContent>
+        <CascadingAuthenticationState>
+            <Router AppAssembly="@typeof(App).Assembly">
+                <Found Context="routeData">
+                    <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                        <NotAuthorized>
+                            <MudAlert Severity="Severity.Error" Variant="Variant.Filled" Dense="true">
+                                You are not authorized to access this resource.
+                            </MudAlert>
+                        </NotAuthorized>
+                    </AuthorizeRouteView>
+                    <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+                </Found>
+                <NotFound>
+                    <PageTitle>Not found</PageTitle>
+                    <LayoutView Layout="@typeof(MainLayout)">
+                        <MudAlert Severity="Severity.Error" Variant="Variant.Filled" Dense="true">
+                            Sorry, there's nothing at this address.
+                        </MudAlert>
+                    </LayoutView>
+                </NotFound>
+            </Router>
+        </CascadingAuthenticationState>
+    </ChildContent>
+    <ErrorContent Context="ex">
+        <MudAlert Severity="Severity.Error" Variant="Variant.Filled" Dense="true">
+            This operation could not be processed. Please email our <MudLink Href="mailto:contact@drma-tech.com" style="cursor: pointer;">support</MudLink> with the following details:
+            @ex.StackTrace
+        </MudAlert>
+    </ErrorContent>
+</ErrorBoundary>
+
+@code {
+    ErrorBoundary? _boundary;
+
+    protected override void OnParametersSet()
+    {
+        _boundary?.Recover();
+    }
+
+}

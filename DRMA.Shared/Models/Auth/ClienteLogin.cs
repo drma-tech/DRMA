@@ -1,11 +1,7 @@
 ﻿namespace DRMA.Shared.Models.Auth;
 
-public class ClienteLogin : PrivateMainDocument
+public class ClienteLogin() : PrivateMainDocument(DocumentType.Login)
 {
-    public ClienteLogin() : base(DocumentType.Login)
-    {
-    }
-
     public string? UserId { get; set; }
 
     public Access[] Accesses { get; set; } = [];

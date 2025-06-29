@@ -1,20 +1,27 @@
 ﻿using System.Text;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace DRMA.Shared.Core.Helper;
 
 public static class ParameterHelper
 {
-    public static string ConvertToString<T>(this T obj) where T : class
+    public static string ConvertFromStringToBase64(this string str)
     {
-        return Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(obj)));
+        return Convert.ToBase64String(Encoding.UTF8.GetBytes(str));
     }
 
-    public static T? ConvertToObject<T>(this string text) where T : class
+    public static string ConvertFromObjectToBase64<T>(this T obj) where T : class
     {
-        if (string.IsNullOrEmpty(text)) return null;
+        return ConvertFromStringToBase64(JsonSerializer.Serialize(obj));
+    }
 
-        var result = Encoding.UTF8.GetString(Convert.FromBase64String(text));
-        return JsonConvert.DeserializeObject<T>(result);
+    public static string ConvertFromBase64ToString(this string base64)
+    {
+        return Encoding.UTF8.GetString(Convert.FromBase64String(base64));
+    }
+
+    public static T? ConvertFromBase64ToObject<T>(this string base64) where T : class
+    {
+        return JsonSerializer.Deserialize<T>(ConvertFromBase64ToString(base64));
     }
 }

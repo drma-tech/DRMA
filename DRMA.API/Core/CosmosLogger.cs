@@ -43,7 +43,7 @@ public class CosmosLogger(string name, CosmosLogRepository repo) : ILogger
             State = formatter(state, exception),
             Message = exception?.Message,
             StackTrace = exception?.StackTrace,
-            Ttl = (int)ttlCache.three_months
+            Ttl = (int)TtlCache.ThreeMonths
         });
     }
 }

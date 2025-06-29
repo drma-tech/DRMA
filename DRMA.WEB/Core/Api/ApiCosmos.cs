@@ -6,9 +6,9 @@ public abstract class ApiCosmos<T>(IHttpClientFactory factory, string? key) : Ap
 {
     public Action<T?>? DataChanged { get; set; }
 
-    private string baseEndpoint => _http.BaseAddress?.ToString().Contains("localhost") ?? true
+    private string BaseEndpoint => Http.BaseAddress?.ToString().Contains("localhost") ?? true
         ? "http://localhost:7253/api/"
-        : $"{_http.BaseAddress}api/";
+        : $"{Http.BaseAddress}api/";
 
     protected async Task<string?> GetValueAsync(string endpoint, RenderControlCore<string?>? core)
     {
@@ -18,7 +18,7 @@ public abstract class ApiCosmos<T>(IHttpClientFactory factory, string? key) : Ap
 
         try
         {
-            result = await GetValueAsync($"{baseEndpoint}{endpoint}");
+            result = await GetValueAsync($"{BaseEndpoint}{endpoint}");
             return result;
         }
         finally
@@ -35,7 +35,7 @@ public abstract class ApiCosmos<T>(IHttpClientFactory factory, string? key) : Ap
 
         try
         {
-            obj = await GetAsync<T>($"{baseEndpoint}{endpoint}", setNewVersion);
+            obj = await GetAsync<T>($"{BaseEndpoint}{endpoint}", setNewVersion);
             return obj;
         }
         finally
@@ -52,7 +52,7 @@ public abstract class ApiCosmos<T>(IHttpClientFactory factory, string? key) : Ap
 
         try
         {
-            list = await GetListAsync<T>($"{baseEndpoint}{endpoint}");
+            list = await GetListAsync<T>($"{BaseEndpoint}{endpoint}");
             return list;
         }
         finally
@@ -68,13 +68,13 @@ public abstract class ApiCosmos<T>(IHttpClientFactory factory, string? key) : Ap
 
     protected async Task<T?> PostAsync<I>(string endpoint, RenderControlCore<T?>? core, I? obj) where I : class
     {
-        T? result = default;
+        T? result = null;
 
         try
         {
             core?.ProcessingStarted?.Invoke();
 
-            result = await PostAsync<I, T>($"{baseEndpoint}{endpoint}", obj);
+            result = await PostAsync<I, T>($"{BaseEndpoint}{endpoint}", obj);
 
             DataChanged?.Invoke(result);
 
@@ -88,13 +88,13 @@ public abstract class ApiCosmos<T>(IHttpClientFactory factory, string? key) : Ap
 
     protected async Task<T?> PutAsync<I>(string endpoint, RenderControlCore<T?>? core, I? obj) where I : class
     {
-        T? result = default;
+        T? result = null;
 
         try
         {
             core?.ProcessingStarted?.Invoke();
 
-            result = await PutAsync<I, T>($"{baseEndpoint}{endpoint}", obj);
+            result = await PutAsync<I, T>($"{BaseEndpoint}{endpoint}", obj);
 
             DataChanged?.Invoke(result);
 
@@ -108,13 +108,13 @@ public abstract class ApiCosmos<T>(IHttpClientFactory factory, string? key) : Ap
 
     protected async Task<T?> DeleteAsync(string endpoint, RenderControlCore<T?>? core)
     {
-        T? result = default;
+        T? result = null;
 
         try
         {
             core?.ProcessingStarted?.Invoke();
 
-            result = await DeleteAsync<T>($"{baseEndpoint}{endpoint}");
+            result = await DeleteAsync<T>($"{BaseEndpoint}{endpoint}");
 
             DataChanged?.Invoke(result);
 

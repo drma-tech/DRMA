@@ -18,14 +18,17 @@ internal sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddl
         {
             await next(context);
         }
-        catch (CosmosOperationCanceledException)
+        catch (CosmosOperationCanceledException ex)
         {
+            _logger.LogError(ex, "CosmosOperationCanceledException");
             await context.SetHttpResponseStatusCode(HttpStatusCode.RequestTimeout, "Request Timeout!");
         }
-        catch (CosmosException)
+        catch (CosmosException ex)
         {
             //var result = JsonSerializer.Deserialize<CosmosExceptionStructure>("{" + cex.ResponseBody.Replace("Errors", "\"Errors\"") + "}", options: null);
             //return result?.Message?.Errors.FirstOrDefault();
+
+            _logger.LogError(ex, "CosmosException");
             await context.SetHttpResponseStatusCode(HttpStatusCode.InternalServerError, "Invocation failed!");
         }
         catch (NotificationException ex)
@@ -34,8 +37,7 @@ internal sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddl
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "ExceptionHandlingMiddleware");
-
+            _logger.LogError(ex, "Exception");
             await context.SetHttpResponseStatusCode(HttpStatusCode.InternalServerError, "Invocation failed!");
         }
     }

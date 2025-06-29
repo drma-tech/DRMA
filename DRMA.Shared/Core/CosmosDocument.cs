@@ -4,18 +4,18 @@ namespace DRMA.Shared.Core;
 
 public abstract class CosmosDocument
 {
-    private readonly bool FixedId;
+    private readonly bool _fixedId;
 
     protected CosmosDocument()
     {
-        FixedId = false;
+        _fixedId = false;
     }
 
     protected CosmosDocument(string id)
     {
         Id = id;
 
-        FixedId = true;
+        _fixedId = true;
     }
 
     [JsonProperty(PropertyName = "id")] public string Id { get; set; } = string.Empty;
@@ -28,7 +28,7 @@ public abstract class CosmosDocument
 
     public void SetIds(string id)
     {
-        if (FixedId) throw new InvalidOperationException();
+        if (_fixedId) throw new InvalidOperationException();
 
         Id = id;
     }

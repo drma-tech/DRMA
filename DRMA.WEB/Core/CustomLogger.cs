@@ -21,7 +21,7 @@ public class CustomLogger(string name) : ILogger
 {
     public IDisposable? BeginScope<TState>(TState state) where TState : notnull
     {
-        return default;
+        return null;
     }
 
     public bool IsEnabled(LogLevel logLevel)

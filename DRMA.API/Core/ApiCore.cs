@@ -9,7 +9,7 @@ public static class ApiCore
     {
         var response = await http.GetAsync(requestUri, cancellationToken);
 
-        if (!response.IsSuccessStatusCode) throw new NotificationException(response.ReasonPhrase);
+        if (!response.IsSuccessStatusCode) throw new UnhandledException(response.ReasonPhrase);
 
         return await response.Content.ReadFromJsonAsync<T>(cancellationToken);
     }

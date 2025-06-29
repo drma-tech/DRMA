@@ -1,18 +1,22 @@
-﻿using System.Net;
+﻿using DRMA.Shared.Models;
 using Microsoft.Azure.Cosmos;
+using System.Net;
 
 namespace DRMA.API.Core;
 
 public static class ApiStartup
 {
-    public static HttpClient HttpClient { get; } = new(new HttpClientHandler
-        { AutomaticDecompression = DecompressionMethods.GZip });
+    public static HttpClient HttpClient { get; } = new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip });
 
     public static HttpClient HttpClientPaddle { get; } = new();
+    public static CosmosClient CosmosClient { get; private set; } = null!;
+    public static Configurations Configurations { get; set; } = null!;
 
-    public static CosmosClient CosmosClient(string? conn)
+    public static void Startup(string? conn)
     {
-        return new CosmosClient(conn, new CosmosClientOptions
+        ArgumentNullException.ThrowIfNull(conn);
+
+        CosmosClient = new CosmosClient(conn, new CosmosClientOptions
         {
             SerializerOptions = new CosmosSerializationOptions
             {

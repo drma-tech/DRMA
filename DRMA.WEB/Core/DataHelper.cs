@@ -6,9 +6,7 @@ public static class DataHelper
     {
         if (string.IsNullOrEmpty(text)) return "";
 
-        if (text.Length > count) return string.Concat(text.AsSpan(0, count), "...");
-
-        return text;
+        return text.Length > count ? string.Concat(text.AsSpan(0, count), "...") : text;
     }
 
     public static string GetElapsedTime(this DateTime date)
@@ -27,34 +25,39 @@ public static class DataHelper
         var ts = new TimeSpan(DateTime.UtcNow.ToLocalTime().Ticks - date.ToLocalTime().Ticks);
         var delta = Math.Abs(ts.TotalSeconds);
 
-        if (delta < 1 * MINUTE)
-            return ts.Seconds <= 1 ? "Now" : ts.Seconds + " seconds ago";
-
-        if (delta < 2 * MINUTE)
-            return "a minute ago";
-
-        if (delta < 45 * MINUTE)
-            return ts.Minutes + " minutes ago";
-
-        if (delta < 90 * MINUTE)
-            return "One hour ago";
-
-        if (delta < 24 * HOUR)
-            return ts.Hours + " hours ago";
-
-        if (delta < 48 * HOUR)
-            return "yesterday";
-
-        if (delta < 30 * DAY)
-            return ts.Days + " days ago";
-
-        if (delta < 12 * MONTH)
+        switch (delta)
         {
-            var months = Convert.ToInt32(Math.Floor((double)ts.Days / 30));
-            return months <= 1 ? "A month ago" : months + " months ago";
-        }
+            case < 1 * MINUTE:
+                return ts.Seconds <= 1 ? "Now" : ts.Seconds + " seconds ago";
 
-        var years = Convert.ToInt32(Math.Floor((double)ts.Days / 365));
-        return years <= 1 ? "One year ago" : years + " years ago";
+            case < 2 * MINUTE:
+                return "a minute ago";
+
+            case < 45 * MINUTE:
+                return ts.Minutes + " minutes ago";
+
+            case < 90 * MINUTE:
+                return "One hour ago";
+
+            case < 24 * HOUR:
+                return ts.Hours + " hours ago";
+
+            case < 48 * HOUR:
+                return "yesterday";
+
+            case < 30 * DAY:
+                return ts.Days + " days ago";
+
+            case < 12 * MONTH:
+            {
+                var months = Convert.ToInt32(Math.Floor((double)ts.Days / 30));
+                return months <= 1 ? "A month ago" : months + " months ago";
+            }
+            default:
+            {
+                var years = Convert.ToInt32(Math.Floor((double)ts.Days / 365));
+                return years <= 1 ? "One year ago" : years + " years ago";
+            }
+        }
     }
 }
