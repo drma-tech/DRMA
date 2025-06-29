@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		.github\workflows\azure-static-web-apps-victorious-plant-0a7e9a91e.yml = .github\workflows\azure-static-web-apps-victorious-plant-0a7e9a91e.yml
+		.github\workflows\azure-static-web-apps-calm-bay-067e1e01e.yml = .github\workflows\azure-static-web-apps-calm-bay-067e1e01e.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DRMA.WEB.ADM", "DRMA.WEB.ADM\DRMA.WEB.ADM.csproj", "{EB778F98-BD42-4746-8A4B-D4E7DA08E4B3}"
