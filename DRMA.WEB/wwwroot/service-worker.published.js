@@ -18,7 +18,9 @@ self.addEventListener("fetch", event => {
     event.respondWith(onFetch(event));
 });
 self.addEventListener("message", event => {
-    if (event.data?.type === "SKIP_WAITING") self.skipWaiting();
+    if (event.data?.type === "SKIP_WAITING") {
+        self.skipWaiting();
+    }
 });
 
 const cacheNamePrefix = "offline-cache-";

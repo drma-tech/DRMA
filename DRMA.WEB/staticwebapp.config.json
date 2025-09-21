@@ -1,34 +1,4 @@
 {
-  "routes": [
-    {
-      "route": "/api/public/*",
-      "allowedRoles": [ "anonymous" ]
-    },
-    {
-      "route": "/api/principal/remove",
-      "allowedRoles": [ "anonymous" ]
-    },
-    {
-      "route": "/api/adm/*",
-      "allowedRoles": [ "administrator" ]
-    },
-    {
-      "route": "/api/*",
-      "allowedRoles": [ "authenticated" ]
-    },
-    {
-      "route": "/ads.txt",
-      "rewrite": "/ads.txt"
-    },
-    {
-      "route": "/robots.txt",
-      "rewrite": "/robots.txt"
-    },
-    {
-      "route": "/sitemap.xml",
-      "rewrite": "/sitemap.xml"
-    }
-  ],
   "navigationFallback": {
     "rewrite": "/index.html",
     "exclude": [
@@ -36,6 +6,6 @@
     ]
   },
   "globalHeaders": {
-    "content-security-policy": "default-src 'self'; frame-src 'self' https://www.google.com https://ep2.adtrafficquality.google https://sandbox-buy.paddle.com https://buy.paddle.com https://googleads.g.doubleclick.net; script-src 'self' https://cdn.paddle.com https://public.profitwell.com https://www.googletagmanager.com https://cdn.jsdelivr.net https://unpkg.com https://www.clarity.ms https://pagead2.googlesyndication.com https://ep2.adtrafficquality.google https://fundingchoicesmessages.google.com 'unsafe-inline' 'unsafe-eval'; connect-src *; style-src * 'unsafe-inline'; img-src * data:; font-src * data:;"
+    "content-security-policy": "default-src 'self'; frame-src 'self' *.google.com *.adtrafficquality.google *.paddle.com *.doubleclick.net *.ideas.userback.io *.googlesyndication.com; frame-ancestors 'self' google.com *.google.com *.doubleclick.net; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.paddle.com *.profitwell.com *.googletagmanager.com cdn.jsdelivr.net unpkg.com *.clarity.ms *.googlesyndication.com *.adtrafficquality.google *.google.com *.userback.io *.ampproject.org; connect-src *; style-src * 'unsafe-inline'; img-src * data: blob:; font-src * data:;"
   }
 }

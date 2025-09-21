@@ -1,34 +1,67 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
-using System.Security.Claims;
+using MudBlazor.Services;
 
 namespace DRMA.WEB.Core;
 
-/// <summary>
-///     if you implement the OnAfterRenderAsync method, call 'await base.OnAfterRenderAsync(firstRender);'
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public abstract class ComponentCore<T> : ComponentBase, IBrowserViewportObserver, IAsyncDisposable where T : class
+public abstract class ComponentCore<T> : ComponentBase where T : class
 {
     [Inject] protected ILogger<T> Logger { get; set; } = null!;
     [Inject] protected ISnackbar Snackbar { get; set; } = null!;
     [Inject] protected IDialogService DialogService { get; set; } = null!;
     [Inject] protected NavigationManager Navigation { get; set; } = null!;
 
-    [Inject] private IBrowserViewportService BrowserViewportService { get; set; } = null!;
-    public Breakpoint Breakpoint { get; set; }
+    protected static Breakpoint Breakpoint => AppStateStatic.Breakpoint;
+    protected static BrowserWindowSize? BrowserWindowSize => AppStateStatic.BrowserWindowSize;
 
-    protected virtual Task LoadDataRender()
+    /// <summary>
+    /// Mandatory data to fill out the page/component without delay (essential for bots, SEO, etc.)
+    /// </summary>
+    /// <returns></returns>
+    protected virtual Task LoadEssentialDataAsync()
     {
         return Task.CompletedTask;
     }
 
     /// <summary>
-    ///     if you implement the OnAfterRenderAsync method, call 'await base.OnAfterRenderAsync(firstRender);'
+    /// Non-critical data that may be delayed (popups, javascript handling, authenticated user data, etc.)
+    ///
+    /// NOTE: This method cannot depend on previously loaded variables, as events can be executed in parallel.
     /// </summary>
-    /// <param name="firstRender"></param>
     /// <returns></returns>
+    protected virtual Task LoadNonEssentialDataAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        AppStateStatic.BreakpointChanged += client => StateHasChanged();
+        AppStateStatic.BrowserWindowSizeChanged += client => StateHasChanged();
+        await LoadEssentialDataAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (firstRender)
+            {
+                await LoadNonEssentialDataAsync();
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.ProcessException(Snackbar, Logger);
+        }
+    }
+}
+
+public abstract class PageCore<T> : ComponentCore<T>, IBrowserViewportObserver, IAsyncDisposable where T : class
+{
+    [Inject] private IBrowserViewportService BrowserViewportService { get; set; } = null!;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         try
@@ -36,10 +69,6 @@ public abstract class ComponentCore<T> : ComponentBase, IBrowserViewportObserver
             if (firstRender)
             {
                 await BrowserViewportService.SubscribeAsync(this, fireImmediately: true);
-
-                await LoadDataRender();
-
-                StateHasChanged();
             }
 
             await base.OnAfterRenderAsync(firstRender);
@@ -56,37 +85,20 @@ public abstract class ComponentCore<T> : ComponentBase, IBrowserViewportObserver
 
     Task IBrowserViewportObserver.NotifyBrowserViewportChangeAsync(BrowserViewportEventArgs browserViewportEventArgs)
     {
-        Breakpoint = browserViewportEventArgs.Breakpoint;
+        AppStateStatic.Breakpoint = browserViewportEventArgs.Breakpoint;
+        AppStateStatic.BreakpointChanged?.Invoke(browserViewportEventArgs.Breakpoint);
+
+        AppStateStatic.BrowserWindowSize = browserViewportEventArgs.BrowserWindowSize;
+        AppStateStatic.BrowserWindowSizeChanged?.Invoke(browserViewportEventArgs.BrowserWindowSize);
 
         return InvokeAsync(StateHasChanged);
     }
 
-    public async ValueTask DisposeAsync() => await BrowserViewportService.UnsubscribeAsync(this);
+    public async ValueTask DisposeAsync()
+    {
+        await BrowserViewportService.UnsubscribeAsync(this);
+        GC.SuppressFinalize(this);
+    }
 
     #endregion BrowserViewportObserver
-}
-
-/// <summary>
-///     if you implement the OnAfterRenderAsync method, call 'await base.OnAfterRenderAsync(firstRender);'
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public abstract class PageCore<T> : ComponentCore<T> where T : class
-{
-    [CascadingParameter] protected Task<AuthenticationState>? AuthenticationState { get; set; }
-
-    protected bool IsAuthenticated { get; set; }
-    protected ClaimsPrincipal? User { get; set; }
-    protected string? UserId { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        if (AuthenticationState is not null)
-        {
-            var authState = await AuthenticationState;
-
-            User = authState.User;
-            IsAuthenticated = User?.Identity is not null && User.Identity.IsAuthenticated;
-            UserId = User?.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-        }
-    }
 }

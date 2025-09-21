@@ -1,23 +1,10 @@
 ﻿@page "/"
 @page "/index"
-<SeoHeader Title="Home" Description="We create digital solutions that help people manage and optimize different aspects of their lives. Our focus is on building tools that simplify everyday decisions, enhance personal growth, and support long-term goals." Url="/"></SeoHeader>
+<SeoHeader Title="Home" Url="/" Keywords="@([])"
+           Description="We create digital solutions that help people manage and optimize different aspects of their lives. Our focus is on building tools that simplify everyday decisions, enhance personal growth, and support long-term goals."></SeoHeader>
 @inherits PageCore<Index>
 
 @inject IJSRuntime JsRuntime
-
-@* <Div TextAlignment="TextAlignment.Center">
-    @if (Navigation.BaseUri.Contains("localhost") || Navigation.BaseUri.Contains("dev"))
-    {
-        <div class="adsbygoogle google-ads" style="background-color: black;"></div>
-    }
-    else
-    {
-        <ins class="adsbygoogle google-ads" data-ad-client="ca-pub-3885428939386350" data-ad-slot="3165413564"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    }
-</Div> *@
 
 <MudContainer>
     <MudGrid Spacing="4" Class="mb-20" Style="align-items: center;">
@@ -98,7 +85,7 @@
                     Redefining how people connect. Our advanced compatibility system helps you find someone truly aligned with your values, faster and more affordably than traditional matchmaking.
                 </MudText>
                 <MudAlert Variant="Variant.Outlined" Severity="Severity.Warning" Dense="true" Class="mt-3">
-                    Not officially released yet
+                    App launched in September 2025
                 </MudAlert>
             </MudPaper>
             <MudPaper Elevation="2" Class="mb-10 pa-4">
@@ -136,7 +123,7 @@
         }
         else
         {
-            await JsRuntime.InvokeAsync<string>("TryDetectPlatform");
+            await JsRuntime.InvokeAsync<string>("LoadAppVariables");
         }
     }
 

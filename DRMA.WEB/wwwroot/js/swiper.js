@@ -75,7 +75,7 @@ window.initCalendar = (id) => {
 window.initGrid = (id) => {
     const el = document.getElementById(id);
     if (!el) return;
-    const posterSize = 160;
+    const posterSize = 150;
     const margin = 4;
 
     if (el.swiper && typeof el.swiper.destroy === "function") {

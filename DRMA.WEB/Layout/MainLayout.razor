@@ -4,8 +4,11 @@
 
 @inject IJSRuntime JsRuntime
 @inject ISnackbar Snackbar
+@inject ILogger<MainLayout> Logger
 
-<MudThemeProvider @ref="_mudThemeProvider" IsDarkMode="@AppStateStatic.DarkMode" />
+@inject NavigationManager Navigation
+
+<MudThemeProvider @ref="_mudThemeProvider" IsDarkMode="@_darkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudMessageBox />
@@ -14,65 +17,73 @@
 <PWAUpdater />
 
 <MudLayout>
-    <MudAppBar Fixed="true" Elevation="1" Color="Color.Dark">
-        <HeadLayout IsAuthenticated="IsAuthenticated"></HeadLayout>
-    </MudAppBar>
+    <HeadLayout></HeadLayout>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="my-3">
-            @Body
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="my-3" Style="min-height: calc(100vh - 64px - 32px);">
+            @if (IsLoading)
+            {
+                <div style="position:fixed; top:0; left:0; width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.5);">
+                    <MudProgressCircular Color="Color.Secondary" Indeterminate="true" Size="Size.Large" />
+                </div>
+            }
+            else
+            {
+                @Body
+            }
         </MudContainer>
-
         <FooterComponent></FooterComponent>
         <MudDivider Class="my-3 mt-10"></MudDivider>
         <MudText Align="Align.Center" Class="mb-3">
-            © 2025-@DateTime.Now.Year - DRMA Tech. All rights reserved.
+            © 2025-@DateTime.Now.Year - DRMA Tech.
         </MudText>
     </MudMainContent>
 </MudLayout>
 
 @code {
-    [CascadingParameter] protected Task<AuthenticationState> AuthenticationState { get; set; } = null!;
-
+    private bool IsLoading = true;
     private MudThemeProvider? _mudThemeProvider;
+    private bool _darkMode = false;
 
     protected override void OnInitialized()
     {
-        AppStateStatic.ShowError = msg => { Snackbar.Add(msg, Severity.Error); };
-    }
-
-    protected bool IsAuthenticated { get; set; }
-    protected string? UserId { get; set; }
-    public ClaimsPrincipal? User { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        if (User == null)
+        try
         {
-            var authState = await AuthenticationState;
+            // *************************************
+            // attention: avoid using asynchronous calls here, as it may affect static html generation (especially for anonymous users)
+            // *************************************
 
-            User = authState.User;
-            IsAuthenticated = User?.Identity is not null && User.Identity.IsAuthenticated;
-            UserId = User?.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            IsLoading = true; StateHasChanged();
+
+            AppStateStatic.DarkModeChanged += dark => { _darkMode = dark; StateHasChanged(); };
+            AppStateStatic.ShowError = msg => { Snackbar.Add(msg, Severity.Error); };
+
+            IsLoading = false; StateHasChanged();
         }
-
-        AppStateStatic.DarkModeChanged += StateHasChanged;
+        catch (Exception ex)
+        {
+            ex.ProcessException(Snackbar, Logger);
+            IsLoading = false; StateHasChanged();
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await base.OnAfterRenderAsync(firstRender);
+
         if (firstRender)
         {
             //DARK MODE
-            var darkMode = await JsRuntime.InvokeAsync<string>("GetLocalStorage", "dark-mode");
+            var darkMode = await AppStateStatic.GetDarkMode(JsRuntime);
 
-            if (darkMode.Empty())
+            if (darkMode == null && _mudThemeProvider != null)
             {
-                darkMode = (await _mudThemeProvider!.GetSystemDarkModeAsync()).ToString();
+                var system = await _mudThemeProvider.GetSystemDarkModeAsync();
+                darkMode = system;
 
-                await JsRuntime.InvokeAsync<string>("SetLocalStorage", "dark-mode", darkMode);
+                await JsRuntime.InvokeAsync<string>("SetLocalStorage", "dark-mode", darkMode.ToString()?.ToLower());
             }
 
-            AppStateStatic.ChangeDarkMode(bool.Parse(darkMode));
+            AppStateStatic.ChangeDarkMode(darkMode ?? false);
         }
     }
 
@@ -81,5 +92,5 @@
     {
         AppStateStatic.ShowError?.Invoke(error);
     }
-
+    
 }

@@ -1,33 +1,79 @@
-﻿<MudPaper Class="@(FullPage ? "" : "mb-3 pa-2")" Outlined="!FullPage" Elevation="0">
-    @if (ShowHead)
-    {
-        <MudToolBar WrapContent="true" Dense="true" Gutters="false" Class="mb-2" Style="min-height: auto;">
-            @if (!string.IsNullOrEmpty(IconName))
+﻿@using System.Text
+
+@if (Visible)
+{
+    <MudPaper Class="@GetCssClass()" Style="background-color: transparent;" Outlined="!FullPage" Elevation="0">
+        @if (ShowHead)
+        {
+            <MudToolBar WrapContent="true" Dense="true" Gutters="false" Class="mb-2" Style="min-height: auto;">
+                @if (!string.IsNullOrEmpty(IconName))
+                {
+                    <MudIcon Icon="@IconName" Size="Size.Large" Class="me-2" Color="Color"></MudIcon>
+                }
+                else if (!string.IsNullOrEmpty(IconImage))
+                {
+                    <MudImage Src="@IconImage" Class="me-2" Style="height: 36px; vertical-align: sub;" Alt="@IconImage"></MudImage>
+                }
+                <MudText Typo="@(FullPage && !MainPage ? Typo.h1 : Typo.h2)" Color="Color" Class="custom-h1">
+                    @if (Link.Empty())
+                    {
+                        @Title
+                    }
+                    else
+                    {
+                        <a href="@Link" target="_blank" rel="nofollow" class="mud-primary-text">@Title</a>
+                    }
+                </MudText>
+                @if (ActionFragment != null)
+                {
+                    <MudSpacer></MudSpacer>
+                    @ActionFragment
+                }
+            </MudToolBar>
+            @if (Description.NotEmpty())
             {
-                <MudIcon Icon="@IconName" Size="Size.Large" Class="me-2"></MudIcon>
+                <div class="mb-2">
+                    <MudText Typo="Typo.body1" Align="Align.Justify">@Description</MudText>
+                </div>
             }
-            else if (!string.IsNullOrEmpty(IconImage))
-            {
-                <MudImage Src="@IconImage" Class="me-2" Style="height: 36px; vertical-align: sub;" Alt="@IconName"></MudImage>
-            }
-            <MudText Typo="Typo.h6">@Title</MudText>
-            <MudSpacer></MudSpacer>
-            @if (ActionFragment != null)
-            {
-                @ActionFragment
-            }
-        </MudToolBar>
-    }
-    @BodyFragment
-</MudPaper>
+        }
+        @BodyFragment
+    </MudPaper>
+}
 
 @code {
+    [Parameter] public string? CssClass { get; set; }
+    [Parameter] public Color Color { get; set; } = MudBlazor.Color.Primary;
     [Parameter] public string? IconName { get; set; }
     [Parameter] public string? IconImage { get; set; }
     [Parameter] public string? Title { get; set; }
+    [Parameter] public string? Link { get; set; }
+    [Parameter] public string? Description { get; set; }
     [Parameter] public bool ShowHead { get; set; } = true;
     [Parameter] public bool FullPage { get; set; } = false;
+    [Parameter] public bool MainPage { get; set; } = false;
+    [Parameter] public bool Visible { get; set; } = true;
+    [Parameter] public bool IncludeMB { get; set; } = true;
 
     [Parameter] public RenderFragment? ActionFragment { get; set; }
-    [Parameter][EditorRequired] public RenderFragment? BodyFragment { get; set; }
+    [Parameter] public RenderFragment? BodyFragment { get; set; }
+
+    private string GetCssClass()
+    {
+        var sb = new StringBuilder();
+
+        sb.Append(CssClass);
+
+        if (FullPage)
+        {
+            return "";
+        }
+        else
+        {
+            sb.Append(" pa-2 ");
+            if (IncludeMB) sb.Append(" mb-3 ");
+        }
+
+        return sb.ToString();
+    }
 }

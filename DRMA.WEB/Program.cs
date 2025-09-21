@@ -1,13 +1,10 @@
-using AzureStaticWebApps.Blazor.Authentication;
 using DRMA.WEB;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
 using MudBlazor.Services;
 using Polly;
 using Polly.Extensions.Http;
-using System.Globalization;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -22,7 +19,10 @@ ConfigureServices(builder.Services, builder.HostEnvironment.BaseAddress);
 
 var app = builder.Build();
 
-await ConfigureCulture(app);
+var js = app.Services.GetRequiredService<IJSRuntime>();
+
+//var version = DRMA.WEB.Layout.MainLayout.GetAppVersion();
+//await js.InvokeVoidAsync("initGoogleAnalytics", "G-4BSYH92X9W", version);
 
 await app.RunAsync();
 
@@ -32,50 +32,13 @@ static void ConfigureServices(IServiceCollection collection, string baseAddress)
 
     collection.AddPWAUpdater();
 
-    collection.AddHttpClient("RetryHttpClient", c => { c.BaseAddress = new Uri(baseAddress); })
-        .AddPolicyHandler(request =>
-            request.Method == HttpMethod.Get
-                ? GetRetryPolicy()
-                : Policy.NoOpAsync().AsAsyncPolicy<HttpResponseMessage>());
+    collection.AddHttpClient("LocalHttpClient", c => { c.BaseAddress = new Uri(baseAddress); });
 
-    collection.AddStaticWebAppsAuthentication();
-    collection.AddCascadingAuthenticationState();
+    collection.AddHttpClient("ExternalHttpClient")
+        .AddPolicyHandler(request => request.Method == HttpMethod.Get ? GetRetryPolicy() : Policy.NoOpAsync().AsAsyncPolicy<HttpResponseMessage>());
+
     collection.AddOptions();
     collection.AddAuthorizationCore();
-
-    collection.AddLogging(logging => { logging.AddProvider(new CosmosLoggerProvider()); });
-}
-
-static async Task ConfigureCulture(WebAssemblyHost? app)
-{
-    if (app != null)
-    {
-        var nav = app.Services.GetService<NavigationManager>();
-        var language = nav?.QueryString("language");
-
-        if (language.Empty())
-        {
-            var jsRuntime = app.Services.GetRequiredService<IJSRuntime>();
-            language = await jsRuntime.InvokeAsync<string>("GetLocalStorage", "language");
-        }
-
-        if (language.NotEmpty())
-        {
-            CultureInfo cultureInfo;
-
-            try
-            {
-                cultureInfo = new CultureInfo(language!);
-            }
-            catch (Exception)
-            {
-                cultureInfo = CultureInfo.CurrentCulture;
-            }
-
-            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-        }
-    }
 }
 
 //https://github.com/App-vNext/Polly/wiki/Polly-and-HttpClientFactory

@@ -1,27 +1,36 @@
-﻿.google-ads {
-    display: inline-block;
-    min-width: 350px;
-    max-width: 970px;
-    width: 100% !important;
-    height: 90px !important;
-    margin-bottom: 0.6rem;
+﻿html, body * {
+    scrollbar-color: var(--mud-palette-primary) transparent !important;
+    scrollbar-width: auto !important;
 }
 
 body .pwa-updater[b-pwa-updater] {
-    --pwa-updater-bar-backcolor: forestgreen;
+    --pwa-updater-bar-backcolor: var(--mud-palette-primary);
     --pwa-updater-bar-z-index: 2000;
+    height: 64px;
+}
+
+.pwa-updater-close-button {
+    display: none;
 }
 
 .poster-chip {
-    padding: 0.2rem !important;
+    padding-block: 0.2rem !important;
+    padding-inline: 0.3rem !important;
     position: absolute !important;
     white-space: normal !important;
     height: auto !important;
+    align-items: normal !important;
 }
 
     .poster-chip svg {
         height: 16px;
         width: 16px;
+    }
+
+    .poster-chip > span.mud-icon-root {
+        height: 16px;
+        width: 16px;
+        margin-left: 0 !important;
     }
 
 .poster-icon {
@@ -201,8 +210,46 @@ body .pwa-updater[b-pwa-updater] {
 
 /* MUD BLAZOR */
 
+.custom-h1 {
+    font-size: 23px !important;
+    line-height: 1.6 !important;
+}
+
+.custom-h1-menu {
+    font-size: 14px !important;
+    text-transform: uppercase !important;
+    line-height: 1.75 !important;
+    letter-spacing: var(--mud-typography-button-letterspacing) !important;
+}
+
+.custom-h2 {
+    font-size: 23px !important;
+    line-height: 1.6 !important;
+}
+
+.custom-h3 {
+    font-size: 1.25rem !important;
+    line-height: 1.6 !important;
+}
+
+.custom-h3-list {
+    font-size: 0.73rem !important;
+}
+
 .chip-no-text svg {
     margin-inline: -4px !important;
+}
+
+.chip-no-text > span.mud-icon-root {
+    margin-inline: -4px !important;
+}
+
+.chip-no-text-lg svg {
+    margin-inline: 0px !important;
+}
+
+.chip-no-text-lg > span.mud-icon-root {
+    margin-inline: 0px !important;
 }
 
 .carousel-caption {
@@ -223,4 +270,49 @@ body .pwa-updater[b-pwa-updater] {
 
 .tooltip-image.mud-tooltip-root.mud-tooltip-inline {
     width: 100%;
+}
+
+.mud-alert-icon {
+    align-self: center;
+}
+
+.mud-list-item-icon {
+    min-width: 40px !important;
+}
+
+.mud-swipearea {
+    touch-action: pan-y !important;
+}
+
+/* FONT AWESOME */
+
+.fa-sm, .fa-md, .fa-lg {
+    display: inline-block;
+}
+
+    .fa-sm::before, .fa-md::before, .fa-lg::before {
+        display: inline-block;
+        transform: scale(0.85);
+    }
+
+/* ADSENSE */
+
+.adsbygoogle.custom-ad {
+    display: block;
+    min-width: 300px;
+    margin-bottom: 12px;
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: var(--mud-palette-lines-inputs);
+}
+
+.adsbygoogle.custom-ad-mobile {
+    height: 180px !important;
+    align-content: center;
+    display: block;
+    min-width: 300px;
+    margin-bottom: 12px;
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: var(--mud-palette-lines-inputs);
 }

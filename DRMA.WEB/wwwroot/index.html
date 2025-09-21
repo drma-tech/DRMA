@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#ffffff" />
 
     <base href="/" />
@@ -17,10 +17,13 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5145928155833172" crossorigin="anonymous"></script>
+    <link href="/fa/css/fontawesome.min.css" rel="stylesheet" />
+    <link href="/fa/css/brands.min.css" rel="stylesheet" />
+    <link href="/fa/css/solid.min.css" rel="stylesheet" />
+
+    <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5145928155833172" crossorigin="anonymous"></script>-->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41Q6D56912"></script>
 
     <script src="js/functions.min.js"></script>
@@ -28,6 +31,7 @@
     <script src="js/services.min.js"></script>
 
     <script type="text/javascript">
+        LoadAppVariables();
         window.setRobotsMeta();
         window.initGoogleAnalytics("G-41Q6D56912");
         window.initClarity("r5ie3u2oos");
@@ -50,40 +54,42 @@
         <span class="dismiss">🗙</span>
     </div>
 
+    <noscript>
+        <div style="background: #fff3cd; color: #856404; padding: 1em; border: 1px solid #ffeeba; text-align: center;">
+            This site requires JavaScript to function properly. Please enable JavaScript in your browser.
+        </div>
+    </noscript>
+
     <div id="error-container" class="error-container"></div>
 
-    <script src="https://unpkg.com/wasm-feature-detect/dist/umd/index.js"></script>
+    <script src="https://unpkg.com/wasm-feature-detect@1.8.0/dist/umd/index.js" integrity="sha384-WHs/UcbXblETJuoOp/1/SabA6yOoteU6urWZ9Yh+f/Ln4aoXkYtaqEW4X2yRXyB8" crossorigin="anonymous"></script>
     <script type="text/javascript">
         //avoid google (and others) search console execute this
-        if (!/google|baidu|bingbot|duckduckbot|teoma|slurp|yandex/i.test(window.navigator.userAgent) &&
-            window.navigator.serviceWorker && window.navigator.serviceWorker.register) {
-            navigator.serviceWorker.register('service-worker.js');
+        if (!/google|baidu|bingbot|duckduckbot|teoma|slurp|yandex/i.test(window.navigator.userAgent) && window.navigator.serviceWorker?.register) {
+            navigator.serviceWorker.register('service-worker.js')
+                .catch(err => {
+                    showError("Failed to register the service worker, which may affect platform functionality. This can occur if your browser blocks certain features or if there's a network issue.");
+                });
         }
-
-        //capture height of the app
-        const appHeight = () => document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
-        window.addEventListener('resize', appHeight);
-        appHeight();
 
         // check is browser is compatible with blazor
         detectBrowserFeatures()
             .then((ok) => {
-                if (!ok) {
-                    showBrowserWarning();
-                }
+                if (!ok) { showBrowserWarning(); }
             })
             .catch((error) => {
                 showError(`Browser not supported: ${error.message}`);
             });
+
+        window.initUserBack();
     </script>
 
-    <script rel="preload" src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
     <script rel="preload" src="_framework/blazor.webassembly.js"></script>
 
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 
     <script defer src="_content/Toolbelt.Blazor.PWA.Updater.Service/script.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" integrity="sha384-2UI1PfnXFjVMQ7/ZDEF70CR943oH3v6uZrFQGGqJYlvhh4g6z6uVktxYbOlAczav" crossorigin="anonymous"></script>
     <script defer src="js/swiper.min.js"></script>
 </body>
 </html>

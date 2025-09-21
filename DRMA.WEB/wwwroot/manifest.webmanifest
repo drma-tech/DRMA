@@ -29,24 +29,9 @@
       "sizes": "71x71"
     },
     {
-      "src": "icon/icon-114.png",
-      "type": "image/png",
-      "sizes": "114x114"
-    },
-    {
-      "src": "icon/icon-150.png",
-      "type": "image/png",
-      "sizes": "150x150"
-    },
-    {
       "src": "icon/icon-192.png",
       "type": "image/png",
       "sizes": "192x192"
-    },
-    {
-      "src": "icon/icon-300.png",
-      "type": "image/png",
-      "sizes": "300x300"
     },
     {
       "src": "icon/icon-512.png",
@@ -59,8 +44,5 @@
       "navigate-existing",
       "auto"
     ]
-  },
-  "scope_extensions": [
-    { "origin": "*.drma-tech.com" }
-  ]
+  }
 }

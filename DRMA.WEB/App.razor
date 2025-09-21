@@ -1,35 +1,56 @@
 ﻿@using DRMA.WEB.Layout
+@using Toolbelt.Blazor.PWA.Updater.Service
+
+@inject NavigationManager Navigation
+@inject IPWAUpdaterService PWAUpdaterService
 
 <ErrorBoundary @ref="_boundary">
     <ChildContent>
-        <CascadingAuthenticationState>
-            <Router AppAssembly="@typeof(App).Assembly">
-                <Found Context="routeData">
-                    <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-                        <NotAuthorized>
-                            <MudAlert Severity="Severity.Error" Variant="Variant.Filled" Dense="true">
-                                You are not authorized to access this resource.
-                            </MudAlert>
-                        </NotAuthorized>
-                    </AuthorizeRouteView>
-                    <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-                </Found>
-                <NotFound>
-                    <PageTitle>Not found</PageTitle>
-                    <LayoutView Layout="@typeof(MainLayout)">
-                        <MudAlert Severity="Severity.Error" Variant="Variant.Filled" Dense="true">
-                            Sorry, there's nothing at this address.
-                        </MudAlert>
-                    </LayoutView>
-                </NotFound>
-            </Router>
-        </CascadingAuthenticationState>
+        <Router AppAssembly="@typeof(App).Assembly">
+            <Found Context="routeData">
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+                <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            </Found>
+            <NotFound>
+                <PageTitle>Not found</PageTitle>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <MudAlert Severity="Severity.Error" Variant="Variant.Filled" Dense="true">
+                        Sorry, there's nothing at this address.
+                    </MudAlert>
+                </LayoutView>
+            </NotFound>
+        </Router>
     </ChildContent>
     <ErrorContent Context="ex">
-        <MudAlert Severity="Severity.Error" Variant="Variant.Filled" Dense="true">
-            This operation could not be processed. Please email our <MudLink Href="mailto:contact@drma-tech.com" style="cursor: pointer;">support</MudLink> with the following details:
-            @ex.StackTrace
-        </MudAlert>
+        <div style="border: 1px solid #dc3545; background-color: #f8d7da; color: #721c24; padding: 16px; border-radius: 8px; max-width: 800px; margin: 40px auto;">
+            <h3 style="margin-top: 0;">⚠️ Something went wrong</h3>
+
+            <p style="margin: 8px 0;">
+                An unexpected error occurred:
+            </p>
+            <p style="background:#fff; border:1px solid #ccc; padding:8px; border-radius:4px; max-height:200px; overflow:auto; font-size: 0.85rem; ">
+                @ex.Message
+            </p>
+
+            <p style="margin-top: 12px;">
+                You can try one of the following:
+            </p>
+
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+                <button style="padding:8px 16px; background:#007bff; border:none; border-radius:4px; color:#fff; cursor:pointer;" @onclick="ReloadPage">
+                    🔄 Refresh
+                </button>
+
+                <button style="padding:8px 16px; background:#6c757d; border:none; border-radius:4px; color:#fff; cursor:pointer;" @onclick="UpdateNowAsync">
+                    ⬆️ Force Update
+                </button>
+
+                <a href="mailto:support@streamingdiscovery.com?subject=Error Report&body=@Uri.EscapeDataString(ex.ToString())"
+                   style="padding:8px 16px; background:#28a745; border-radius:4px; color:#fff; text-decoration:none;">
+                    📧 Send Error Report
+                </a>
+            </div>
+        </div>
     </ErrorContent>
 </ErrorBoundary>
 
@@ -39,6 +60,16 @@
     protected override void OnParametersSet()
     {
         _boundary?.Recover();
+    }
+
+    private void ReloadPage()
+    {
+        Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+    }
+
+    private async Task UpdateNowAsync()
+    {
+        await this.PWAUpdaterService.SkipWaitingAsync();
     }
 
 }

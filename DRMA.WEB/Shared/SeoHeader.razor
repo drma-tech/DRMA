@@ -2,50 +2,53 @@
     @GetTitle()
 </PageTitle>
 <HeadContent>
-    <meta property="og:url" content="@GetCanonicalUrl()"/>
-    <meta property="og:site_name" content="@ProjectName"/>
-    <meta property="og:title" content="@GetTitle()"/>
-    <meta property="og:image" content="@Icon"/>
-    <meta property="twitter:title" content="@GetTitle()"/>
-    <meta property="twitter:site" content="@ProjectName"/>
-    <meta property="twitter:image" content="@Icon"/>
+    @if (Index)
+    {
+        <meta name="robots" content="index" />
+    }
+    else
+    {
+        <meta name="robots" content="noindex, nofollow" />
+    }
+    <meta property="og:url" content="@GetCanonicalUrl()" />
+    <meta property="og:site_name" content="@LongProjectName" />
+    <meta property="og:title" content="@GetTitle()" />
+    <meta property="og:image" content="@Icon" />
+    <meta property="twitter:title" content="@GetTitle()" />
+    <meta property="twitter:site" content="@LongProjectName" />
+    <meta property="twitter:image" content="@Icon" />
     @if (!string.IsNullOrEmpty(Description))
     {
-        <meta name="description" content="@GetDescription()"/>
-        <meta property="og:description" content="@GetDescription()"/>
-        <meta property="twitter:description" content="@GetDescription()"/>
+        <meta name="description" content="@GetDescription()" />
+        <meta property="og:description" content="@GetDescription()" />
+        <meta property="twitter:description" content="@GetDescription()" />
     }
-    <meta name="keywords" Content="@GetKeywords()"/>
+    <meta name="keywords" Content="@GetKeywords()" />
 
-    <link rel="canonical" href="@GetCanonicalUrl()"/>
-    <link rel="icon" type="image/png" href="@Icon"/>
+    <link rel="canonical" href="@GetCanonicalUrl()" />
+    <link rel="icon" type="image/png" href="favicon.ico" />
 </HeadContent>
 
-@if (ShowH1)
-{
-    <MudText Typo="Typo.h1" Style="display: none;">@Title</MudText>
-}
-
 @code {
-    private const string ProjectName = "DRMA Tech: Delivering Reliable Modern Apps";
-    private const string ProjectUrl = "https://www.drma-tech.com";
+    private const string ShortProjectName = "WS";
+    private const string LongProjectName = "WebStandards";
+    private const string ProjectUrl = "https://www.web-standards.com";
 
-    [Parameter] public string? Title { get; set; }
-    [Parameter] public string? Description { get; set; }
-    [Parameter] public string? Url { get; set; }
-    [Parameter] public string? Icon { get; set; } = "favicon.ico";
-    [Parameter] public IEnumerable<string> Keywords { get; set; } = new List<string>();
-    [Parameter] public bool ShowH1 { get; set; } = true;
+    [Parameter][EditorRequired] public string Title { get; set; }
+    [Parameter][EditorRequired] public string Description { get; set; }
+    [Parameter][EditorRequired] public string Url { get; set; }
+    [Parameter][EditorRequired] public IEnumerable<string> Keywords { get; set; } = [];
+    [Parameter] public string? Icon { get; set; } = $"{ProjectUrl}/icon/icon-192.png";
+    [Parameter] public bool Index { get; set; } = true;
+    [Parameter] public bool TitleShort { get; set; } = false;
 
     string GetTitle()
     {
-        return Title is null ? ProjectName : $"{ProjectName} | {Title}";
+        return $"{(TitleShort ? ShortProjectName : LongProjectName)} | {Title}";
     }
 
     string GetDescription()
     {
-        if (string.IsNullOrEmpty(Description))
-            return "";
         return Description.TrimEnd('.') + ".";
     }
 
@@ -55,7 +58,7 @@
 
         keywords.AddRange(Keywords);
 
-        keywords.Add(ProjectName);
+        keywords.Add(LongProjectName);
 
         return string.Join(", ", keywords);
     }

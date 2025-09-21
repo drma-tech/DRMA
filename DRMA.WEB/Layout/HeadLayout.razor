@@ -2,37 +2,74 @@
 
 @inject IJSRuntime JsRuntime
 
-@if (Breakpoint <= Breakpoint.Sm)
+@if (_processing)
 {
-    <MudIconButton Icon="@Icons.Material.Filled.Home" Color="@GetColor("/")" Class="me-2" Href="/" Variant="@GetVariant("/")">
-        Home
-    </MudIconButton>
-    <MudSpacer />
-    <MudMenu Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit">
-        <MudMenuItem Icon="@Icons.Material.Outlined.Settings" Label="Settings" OnClick="@OpenConfigurations" />
-    </MudMenu>
+    <MudProgressLinear Color="Color.Secondary" Indeterminate="true" Style="position: fixed; z-index: 1400;" />
 }
-else
+<MudAppBar Fixed="true" Elevation="1" Color="Color.Dark">
+    @if (Breakpoint <= Breakpoint.Xs) //mobile view
+    {
+        <MudIconButton Icon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor("/")" Href="/" Variant="@GetVariant("/")" Style="padding: 8px;" />
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(() => { _open = true; })" />
+    }
+    else if (Breakpoint == Breakpoint.Sm) //tablet view
+    {
+        <MudIconButton Icon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor("/")" Href="/" Variant="@GetVariant("/")" Style="padding: 8px;" />
+        <MudIconButton Icon="@IconsFA.Solid.Icon("headset").Font" Color="@GetColor("/support")" Href="/support" Variant="@GetVariant("/support")" Style="padding: 8px;" />
+        <MudSpacer />
+        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@IconsFA.Solid.Icon("cog").Font" Class="me-2" OnClick="@OpenConfigurations" />
+    }
+    else //desktop view
+    {
+        <MudButton StartIcon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor("/")" Href="/" Variant="@GetVariant("/")" Class="px-3">
+            <span>Home</span>
+        </MudButton>
+        <MudSpacer />
+        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@IconsFA.Solid.Icon("cog").Font" Class="me-2" OnClick="@OpenConfigurations" />
+    }
+</MudAppBar>
+
+@if (Breakpoint <= Breakpoint.Xs) //mobile menu
 {
-    <MudButton StartIcon="@Icons.Material.Filled.Home" Color="@GetColor("/")" Class="me-2" Href="/" Variant="@GetVariant("/")">
-        Home
-    </MudButton>
-    <MudSpacer />
-    <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@Icons.Material.Outlined.Settings" Class="me-2" OnClick="@OpenConfigurations"></MudIconButton>
+    <MudDrawer @bind-Open="@_open" Anchor="Anchor.Right" Elevation="1" OverlayAutoClose="true">
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h6">Home</MudText>
+        </MudDrawerHeader>
+        <MudNavMenu>
+            <MudNavLink Icon="@IconsFA.Solid.Icon("cog").Font" OnClick="@OpenConfigurations">Settings</MudNavLink>
+            <MudNavLink Icon="@IconsFA.Solid.Icon("headset").Font" Href="/support">Support</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
 }
 
 @code {
-    [SupplyParameterFromQuery][Parameter] public string? _ptxn { get; set; }
-    [Parameter] public bool IsAuthenticated { get; set; }
+    private bool _open = false;
+
+    private int _processingCount = 0;
+    private bool _processing => _processingCount > 0;
 
     protected override void OnInitialized()
     {
         Navigation.LocationChanged += delegate { StateHasChanged(); };
-    }
 
-    private void Logout()
-    {
-        Navigation.NavigateTo("/.auth/logout?post_logout_redirect_uri=" + Navigation.BaseUri, true);
+        AppStateStatic.ProcessingStarted += () =>
+        {
+            Interlocked.Increment(ref _processingCount);
+            InvokeAsync(StateHasChanged);
+        };
+
+        AppStateStatic.ProcessingFinished += async () =>
+        {
+            Interlocked.Decrement(ref _processingCount);
+
+            await Task.Delay(200);
+
+            if (_processingCount == 0)
+            {
+                await InvokeAsync(StateHasChanged);
+            }
+        };
     }
 
     private async Task OpenConfigurations()
@@ -42,16 +79,19 @@ else
 
     private Color GetColor(string endpoint)
     {
-        var uri = new Uri(Navigation.Uri);
-
-        return string.Equals(uri.AbsolutePath, endpoint, StringComparison.OrdinalIgnoreCase) ? Color.Primary : Color.Inherit;
+        return Focused(endpoint) ? Color.Primary : Color.Inherit;
     }
 
     private Variant GetVariant(string endpoint)
     {
+        return Focused(endpoint) ? Variant.Filled : Variant.Text;
+    }
+
+    private bool Focused(string endpoint)
+    {
         var uri = new Uri(Navigation.Uri);
 
-        return string.Equals(uri.AbsolutePath, endpoint, StringComparison.OrdinalIgnoreCase) ? Variant.Filled : Variant.Text;
+        return string.Equals(uri.AbsolutePath, endpoint, StringComparison.OrdinalIgnoreCase);
     }
 
 }

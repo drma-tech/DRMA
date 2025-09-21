@@ -32,26 +32,89 @@ window.addEventListener("load", function () {
     }
 });
 
-window.addEventListener("error", function (e) {
-    if (e.filename?.includes("blazor.webassembly.js")) {
+//setTimeout(() => { throw new Error('error test call'); }, 100);
+
+window.addEventListener("error", function (event) {
+    if (event.filename?.includes("blazor.webassembly.js")) {
         showBrowserWarning();
     }
     else {
-        showError(e.message);
-        //todo: send log to server
+        showError(event.message);
+
+        //const errorInfo = {
+        //    message: event.message,
+        //    filename: event.filename,
+        //    errorMessage: event.error.message,
+        //    errorStack: event.error.stack,
+        //    env: `${getOperatingSystem()} | ${getBrowserName()} | ${getBrowserVersion()}`,
+        //    app: `${GetLocalStorage("platform")} | ${GetLocalStorage("app-version")}`,
+        //    userAgent: navigator.userAgent,
+        //    url: window.location.href
+        //};
+
+        //sendLog(`error: ${JSON.stringify(errorInfo)}`);
     }
 });
 
-window.addEventListener("unhandledrejection", function (e) {
-    showError(e.reason.message);
-    //todo: send log to server
+//Promise.reject(new Error('unhandledrejection test call'));
+
+window.addEventListener("unhandledrejection", function (event) {
+    const reasonMessage = event.reason?.message || 'Unknown error';
+    //const reasonStack = event.reason?.stack || 'No stack trace';
+
+    if (reasonMessage.includes('Failed to fetch')) {
+        showError("Connection problem detected. Check your internet connection and try reloading.");
+        return;
+    }
+
+    showError(reasonMessage);
+
+    //if (!/google|baidu|bingbot|duckduckbot|teoma|slurp|yandex/i.test(window.navigator.userAgent) && window.navigator.serviceWorker?.register) {
+    //    //just ignore, just a bot
+    //    return;
+    //}
+
+    //const obj = {
+    //    reasonMessage: reasonMessage,
+    //    reasonStack: reasonStack,
+    //    env: `${getOperatingSystem()} | ${getBrowserName()} | ${getBrowserVersion()}`,
+    //    app: `${GetLocalStorage("platform")} | ${GetLocalStorage("app-version")}`,
+    //    userAgent: navigator.userAgent,
+    //    url: window.location.href
+    //};
+
+    //sendLog(`unhandledrejection: ${JSON.stringify(obj)}`);
 });
 
+window.addEventListener("securitypolicyviolation", (event) => {
+    showError(`securitypolicyviolation: violatedDirective: ${event.violatedDirective}, blockedURI: ${event.blockedURI}, sourceFile: ${event.sourceFile}`);
+
+    //const obj = {
+    //    violatedDirective: event.violatedDirective,
+    //    blockedURI: event.blockedURI,
+    //    sourceFile: event.sourceFile,
+    //    lineNumber: event.lineNumber,
+    //    env: `${getOperatingSystem()} | ${getBrowserName()} | ${getBrowserVersion()}`,
+    //    app: `${GetLocalStorage("platform")} | ${GetLocalStorage("app-version")}`,
+    //    url: window.location.href
+    //};
+
+    //sendLog(`securitypolicyviolation: ${JSON.stringify(obj)}`);
+});
+
+let resizeTimeout;
 window.addEventListener("resize", function () {
-    const divs = document.querySelectorAll('[id^="swiper-trailer-"]');
-    divs.forEach(function (el) {
-        if (window.initGrid) {
-            window.initGrid(el.id);
-        }
-    });
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function () {
+        const divs = document.querySelectorAll('[id^="swiper-trailer-"]');
+        divs.forEach(function (el) {
+            if (window.initGrid) {
+                window.initGrid(el.id);
+            }
+        });
+    }, 250);
+});
+
+window.addEventListener('offline', () => {
+    showError("It looks like you're offline. Please check your connection.");
 });
