@@ -30,7 +30,6 @@
 </HeadContent>
 
 @code {
-    private const string ShortProjectName = "WS";
     private const string LongProjectName = "DRMA Tech";
     private const string ProjectUrl = "https://www.drma-tech.com";
 
@@ -40,11 +39,10 @@
     [Parameter][EditorRequired] public IEnumerable<string> Keywords { get; set; } = [];
     [Parameter] public string? Icon { get; set; } = $"{ProjectUrl}/icon/icon-192.png";
     [Parameter] public bool Index { get; set; } = true;
-    [Parameter] public bool TitleShort { get; set; } = false;
 
     string GetTitle()
     {
-        return $"{(TitleShort ? ShortProjectName : LongProjectName)} | {Title}";
+        return $"{LongProjectName} | {Title}";
     }
 
     string GetDescription()

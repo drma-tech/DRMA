@@ -28,7 +28,7 @@
         public IconSize Size { get; set; } = size;
         public IconAnimation Animation { get; set; } = animation;
 
-        public Icon WithSise(IconSize size)
+        public Icon WithSize(IconSize size)
         {
             Size = size;
             return this;
@@ -76,12 +76,12 @@
     {
         public static class Solid
         {
-            public static Icon Icon(string name) => new("fa-solid", name);
+            public static Icon Icon(string name) => new("fa-solid", name, AppStateStatic.Size == MudBlazor.Size.Small ? IconSize.sm : IconSize.md);
         }
 
         public static class Brands
         {
-            public static Icon Icon(string name) => new("fa-brands", name);
+            public static Icon Icon(string name) => new("fa-brands", name, AppStateStatic.Size == MudBlazor.Size.Small ? IconSize.sm : IconSize.md);
         }
     }
 }

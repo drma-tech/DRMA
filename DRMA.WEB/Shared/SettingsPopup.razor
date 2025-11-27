@@ -1,7 +1,5 @@
 ﻿@inherits ComponentCore<SettingsPopup>
 
-@inject IJSRuntime JsRuntime
-
 <MudDialog Style="width: 100%">
     <DialogContent>
         <MudToggleGroup Value="DarkMode" ValueChanged="(bool vl) => DarkModeChanged(vl)" SelectionMode="SelectionMode.SingleSelection" Vertical="false" Color="Color.Primary">
@@ -35,7 +33,7 @@
     {
         DarkMode = value;
 
-        await JsRuntime.InvokeAsync<string>("SetLocalStorage", "dark-mode", value.ToString()?.ToLower());
+        await SetLocalStorage("dark-mode", value.ToString()!.ToLower());
 
         AppStateStatic.ChangeDarkMode(value);
     }

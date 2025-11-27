@@ -1,4 +1,6 @@
-﻿using Microsoft.JSInterop;
+﻿using DRMA.WEB.Core.Enums;
+using DRMA.WEB.Modules.Subscription.Core;
+using Microsoft.JSInterop;
 using MudBlazor;
 using MudBlazor.Services;
 
@@ -6,18 +8,21 @@ namespace DRMA.WEB.Core;
 
 public static class AppStateStatic
 {
-    public static Breakpoint Breakpoint { get; set; }
+    public static Breakpoint Breakpoint { get; set; } = Breakpoint.Xs;
     public static Action<Breakpoint>? BreakpointChanged { get; set; }
+    public static Size Size { get; set; } = Size.Small;
 
     public static BrowserWindowSize? BrowserWindowSize { get; set; }
     public static Action<BrowserWindowSize>? BrowserWindowSizeChanged { get; set; }
+
+    public static string? Version { get; set; }
 
     #region Platform
 
     private static Platform? _platform;
     private static readonly SemaphoreSlim _platformSemaphore = new(1, 1);
 
-    public static async Task<Platform> GetPlatform(IJSRuntime? js = null)
+    public static async Task<Platform> GetPlatform(IJSRuntime js)
     {
         await _platformSemaphore.WaitAsync();
         try
@@ -27,12 +32,12 @@ public static class AppStateStatic
                 return _platform.Value;
             }
 
-            var cache = js != null ? await js.InvokeAsync<string>("GetLocalStorage", "platform") : null;
+            var cache = await js.GetLocalStorage("platform");
 
             if (cache.Empty() && js != null) //shouldn't happen (because it's called in index.html)
             {
                 await js.InvokeVoidAsync("LoadAppVariables");
-                cache = await js.InvokeAsync<string>("GetLocalStorage", "platform");
+                cache = await js.GetLocalStorage("platform");
             }
 
             if (cache.NotEmpty())
@@ -44,7 +49,7 @@ public static class AppStateStatic
                 else
                 {
                     _platform = Platform.webapp;
-                    if (js != null) await js.InvokeVoidAsync("SetLocalStorage", "platform", _platform.ToString());
+                    if (js != null) await js.SetLocalStorage("platform", _platform!.ToString()!);
                 }
             }
             else
@@ -69,7 +74,7 @@ public static class AppStateStatic
     private static bool? _darkMode;
     private static readonly SemaphoreSlim _darkModeSemaphore = new(1, 1);
 
-    public static async Task<bool?> GetDarkMode(IJSRuntime? js = null)
+    public static async Task<bool?> GetDarkMode(IJSRuntime js)
     {
         await _darkModeSemaphore.WaitAsync();
         try
@@ -79,7 +84,7 @@ public static class AppStateStatic
                 return _darkMode.Value;
             }
 
-            var cache = js != null ? await js.InvokeAsync<string>("GetLocalStorage", "dark-mode") : null;
+            var cache = await js.GetLocalStorage("dark-mode");
 
             if (cache.NotEmpty())
             {
@@ -90,7 +95,7 @@ public static class AppStateStatic
                 else
                 {
                     _darkMode = false;
-                    if (js != null) await js.InvokeVoidAsync("SetLocalStorage", "dark-mode", _darkMode.ToString()?.ToLower());
+                    if (js != null) await js.SetLocalStorage("dark-mode", _darkMode!.ToString()!.ToLower());
                 }
             }
 
@@ -109,6 +114,45 @@ public static class AppStateStatic
     }
 
     #endregion DarkMode
+
+    #region Region Country
+
+    private static string? _country;
+    private static readonly SemaphoreSlim _countrySemaphore = new(1, 1);
+
+    public static async Task<string> GetCountry(IpInfoApi api, IJSRuntime js)
+    {
+        await _countrySemaphore.WaitAsync();
+        try
+        {
+            if (_country.NotEmpty())
+            {
+                return _country;
+            }
+
+            var cache = await js.GetLocalStorage("country");
+
+            if (cache.NotEmpty())
+            {
+                _country = cache.Trim();
+            }
+            else
+            {
+                _country = (await api.GetCountry())?.Trim();
+                if (_country.NotEmpty()) await js.SetLocalStorage("country", _country.ToLower());
+            }
+
+            _country ??= "US";
+
+            return _country;
+        }
+        finally
+        {
+            _countrySemaphore.Release();
+        }
+    }
+
+    #endregion Region Country
 
     public static Action<string>? ShowError { get; set; }
     public static Action? ProcessingStarted { get; set; }

@@ -1,4 +1,6 @@
-﻿@typeparam TModel where TModel : class
+﻿@inherits ComponentCore<RenderControl<TModel>>
+
+@typeparam TModel where TModel : class
 
 @if (Status == LoadingStatus.Loading)
 {
@@ -13,25 +15,28 @@
 }
 else if (Status == LoadingStatus.Error && !PartialComponent)
 {
-    <MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Dense="true" Icon="@Icons.Material.Filled.Error" Style="text-align: justify;">
+    <MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Dense="true" Icon="@IconsFA.Solid.Icon("bug").Font" Style="text-align: justify;">
         @(MessageError ?? "Invalid operation. Please try again.")
     </MudAlert>
 }
 else if (Status == LoadingStatus.Warning && !PartialComponent)
 {
-    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="true" Icon="@Icons.Material.Filled.Warning" Style="text-align: justify;">
+    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="true" Icon="@IconsFA.Solid.Icon("circle-exclamation").Font" Style="text-align: justify;">
         @(MessageWarning ?? "There is no data to show")
     </MudAlert>
 }
 else //ShowContent
 {
-    @ChildContent
+    @if (Model != null)
+    {
+        @ChildContent(Model)
+    }
 }
 
 @code {
-    [Parameter][EditorRequired] public RenderFragment ChildContent { get; set; } = null!;
+    [Parameter][EditorRequired] public RenderFragment<TModel> ChildContent { get; set; } = null!;
     [Parameter][EditorRequired] public RenderControlCore<TModel> Core { get; set; } = null!;
-    [Parameter][EditorRequired] public TModel Model { get; set; } = null!;
+    [Parameter][EditorRequired] public TModel Model { get; set; }
     [Parameter][EditorRequired] public Func<TModel, bool> ExpressionEmpty { get; set; } = null!;
 
     [Parameter] public bool PrivateContent { get; set; }
@@ -50,9 +55,6 @@ else //ShowContent
         ArgumentNullException.ThrowIfNull(Core);
         ArgumentNullException.ThrowIfNull(ExpressionEmpty);
 
-        if (!ExpressionEmpty(Model))
-            Status = LoadingStatus.ShowContent;
-
         Core.LoadingStarted += () => ShowLoading();
         Core.ProcessingStarted += () => ShowLoading("Processing...");
 
@@ -63,11 +65,10 @@ else //ShowContent
         Core.ErrorAction += ShowError;
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnParametersSet()
     {
-        ArgumentNullException.ThrowIfNull(Core);
-
-        await base.OnAfterRenderAsync(firstRender);
+        if (!ExpressionEmpty(Model))
+            Status = LoadingStatus.ShowContent;
     }
 
     private void ShowLoading(string? msg = null)
@@ -106,7 +107,7 @@ else //ShowContent
     /// <summary>
     /// </summary>
     /// <param name="msg">Default: no data</param>
-    private void ShowWarning(string? msg)
+    private new void ShowWarning(string? msg)
     {
         if (Status is LoadingStatus.Error) return;
 
@@ -119,7 +120,7 @@ else //ShowContent
     /// <summary>
     /// </summary>
     /// <param name="msg">Default: invalid operation</param>
-    private void ShowError(string? msg)
+    private new void ShowError(string? msg)
     {
         Status = LoadingStatus.Error;
         MessageError = CustomMessageError ?? msg;

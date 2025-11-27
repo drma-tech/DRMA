@@ -4,8 +4,7 @@ namespace DRMA.WEB.Core;
 
 public static class NotificationCore
 {
-    public static async Task ProcessResponse(this HttpResponseMessage response, ISnackbar? snackbar = null,
-        string? msgSuccess = null, string? msgInfo = null)
+    public static async Task ProcessResponse(this HttpResponseMessage response, ISnackbar? snackbar = null, string? msgSuccess = null, string? msgInfo = null)
     {
         var msg = await response.Content.ReadAsStringAsync();
 
@@ -36,12 +35,12 @@ public static class NotificationCore
     {
         if (ex is NotificationException exc)
         {
-            logger.LogWarning(exc, null);
+            logger.LogWarning(exc.Message);
             snackbar.Add(exc.Message, Severity.Warning);
         }
         else
         {
-            logger.LogError(ex, null);
+            logger.LogError(ex, ex.Message);
             snackbar.Add(ex.Message, Severity.Error);
         }
     }

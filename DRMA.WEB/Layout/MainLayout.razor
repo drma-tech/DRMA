@@ -55,7 +55,8 @@
             IsLoading = true; StateHasChanged();
 
             AppStateStatic.DarkModeChanged += dark => { _darkMode = dark; StateHasChanged(); };
-            AppStateStatic.ShowError = msg => { Snackbar.Add(msg, Severity.Error); };
+            AppStateStatic.ShowError += msg => { Snackbar.Add(msg, Severity.Error); };
+            AppStateStatic.Version += GetAppVersion();
 
             IsLoading = false; StateHasChanged();
         }
@@ -66,31 +67,132 @@
         }
     }
 
+    /// <summary>
+    /// Do not process anything here related to authenticated users. (use UserStateChanged instead)
+    /// </summary>
+    /// <param name="firstRender"></param>
+    /// <returns></returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
 
         if (firstRender)
         {
-            //DARK MODE
-            var darkMode = await AppStateStatic.GetDarkMode(JsRuntime);
-
-            if (darkMode == null && _mudThemeProvider != null)
-            {
-                var system = await _mudThemeProvider.GetSystemDarkModeAsync();
-                darkMode = system;
-
-                await JsRuntime.InvokeAsync<string>("SetLocalStorage", "dark-mode", darkMode.ToString()?.ToLower());
-            }
-
-            AppStateStatic.ChangeDarkMode(darkMode ?? false);
+            await ApplyDarkMode();
+            // await ShowCustomerSatisfactionPopup();
+            // await AskUSerForReview();
+            // await ShowOnBoardingPopup();
         }
     }
+
+    private async Task ApplyDarkMode()
+    {
+        var darkMode = await AppStateStatic.GetDarkMode(JsRuntime);
+
+        if (darkMode == null && _mudThemeProvider != null)
+        {
+            var system = await _mudThemeProvider.GetSystemDarkModeAsync();
+            darkMode = system;
+
+            await JsRuntime.SetLocalStorage("dark-mode", darkMode.ToString()?.ToLower() ?? "false");
+        }
+
+        AppStateStatic.ChangeDarkMode(darkMode ?? false);
+    }
+
+    // private async Task ShowCustomerSatisfactionPopup()
+    // {
+    //     var accesses = await JsRuntime.GetLocalStorage<HashSet<DateTime>>("session-accesses") ?? new HashSet<DateTime>();
+    //     var hasPreviousAccess = accesses.Count > 0;
+    //     var lastAccess = hasPreviousAccess ? accesses.Max() : (DateTime?)null;
+    //     bool isTooSoon = false;
+
+    //     if (lastAccess != null)
+    //     {
+    //         var hoursSinceLast = (DateTime.UtcNow - lastAccess.Value).TotalHours;
+    //         isTooSoon = hoursSinceLast < 6;
+    //     }
+
+    //     if (hasPreviousAccess && !isTooSoon) //starting with the second access (avoid the first 5 minutes)
+    //     {
+    //         var rating1 = await JsRuntime.GetLocalStorage<int?>("survey-rating");
+    //         if (rating1 == null)
+    //         {
+    //             _ = Task.Run(async () =>
+    //             {
+    //                 await Task.Delay(5000); //survey starts after 5 seconds
+    //                 await JsRuntime.InvokeVoidAsync("Userback.openSurvey", "mjj9Ta");
+    //             });
+    //         }
+    //     }
+
+    //     accesses.Add(DateTime.UtcNow);
+
+    //     if (accesses.Count > 10) //keep only the last 10 records
+    //     {
+    //         accesses = accesses.OrderByDescending(x => x).Take(10).ToHashSet();
+    //     }
+
+    //     await JsRuntime.SetLocalStorage("session-accesses", accesses);
+    // }
+
+    // private async Task AskUSerForReview()
+    // {
+    //     var accesses = await JsRuntime.GetLocalStorage<HashSet<DateTime>>("session-accesses") ?? new HashSet<DateTime>();
+    //     var hasPreviousAccess = accesses.Count > 0;
+    //     var lastAccess = hasPreviousAccess ? accesses.Max() : (DateTime?)null;
+    //     bool isTooSoon = false;
+
+    //     if (lastAccess != null)
+    //     {
+    //         var hoursSinceLast = (DateTime.UtcNow - lastAccess.Value).TotalHours;
+    //         isTooSoon = hoursSinceLast < 6;
+    //     }
+
+    //     var rating = await JsRuntime.GetLocalStorage<int?>("survey-rating");
+    //     var reviewed = await JsRuntime.GetLocalStorage("store-reviewed");
+
+    //     //ask for app store review if ratings are 4 or 5 stars
+    //     if (rating != null && rating > 3 && reviewed.Empty() && !isTooSoon)
+    //     {
+    //         _ = Task.Run(async () =>
+    //         {
+    //             await Task.Delay(5000); //delay of 5 seconds
+    //             await DialogService.AskReviewPopup();
+    //         });
+    //     }
+    // }
+
+    // private async Task ShowOnBoardingPopup()
+    // {
+    //     var onboarding = await JsRuntime.GetLocalStorage("onboarding-popup");
+
+    //     //show only once
+    //     if (onboarding.Empty())
+    //     {
+    //         await DialogService.OnboardingPopup();
+    //         await JsRuntime.SetLocalStorage("onboarding-popup", true.ToString().ToLower());
+    //     }
+    // }
 
     [JSInvokable]
     public static void ShowError(string error)
     {
         AppStateStatic.ShowError?.Invoke(error);
     }
-    
+
+    [JSInvokable]
+    public static string GetAppVersion()
+    {
+        try
+        {
+            //https://swharden.com/blog/2020-12-29-blazor-build-info/
+            return Properties.Resources.BuildDate.ReplaceLineEndings("").Trim();
+        }
+        catch (Exception)
+        {
+            return "version-error";
+        }
+    }
+
 }

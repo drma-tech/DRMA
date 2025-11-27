@@ -1,23 +1,28 @@
-﻿//lists
+//lists
 window.initSwiper = (id, size) => {
+    if (typeof Swiper === "undefined") {
+        setTimeout(() => window.initSwiper(id, size), 200);
+        return;
+    }
+
+    let mobile = window.innerHeight < 600 || window.innerWidth < 600;
+
     const el = document.getElementById(id);
     if (!el) return;
-    const posterSize = size ?? 128;
+    const posterSize = size ?? (mobile ? 98 : 128);
     const margin = 8;
 
     var swiper = new Swiper(el, {
         slidesPerView: "auto",
-        spaceBetween: (size <= 100 ? 4 : 8),
+        spaceBetween: mobile ? 4 : 8,
         breakpointsBase: "container",
-        navigation:
-        {
+        navigation: {
             nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev"
+            prevEl: ".swiper-button-prev",
         },
-        pagination:
-        {
+        pagination: {
             el: ".swiper-pagination",
-            clickable: true
+            clickable: true,
         },
         breakpoints: {
             [250 - margin]: { slidesPerView: Math.floor(250 / posterSize) },
@@ -33,12 +38,17 @@ window.initSwiper = (id, size) => {
             [1400 - margin]: { slidesPerView: Math.floor(1400 / posterSize) },
             [1600 - margin]: { slidesPerView: Math.floor(1600 / posterSize) },
             [2000 - margin]: { slidesPerView: Math.floor(2000 / posterSize) },
-        }
+        },
     });
 };
 
 //news
 window.initCalendar = (id) => {
+    if (typeof Swiper === "undefined") {
+        setTimeout(() => window.initCalendar(id), 200);
+        return;
+    }
+
     const el = document.getElementById(id);
     if (!el) return;
 
@@ -52,13 +62,11 @@ window.initCalendar = (id) => {
             delay: 2500,
             disableOnInteraction: false,
         },
-        navigation:
-        {
+        navigation: {
             nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev"
+            prevEl: ".swiper-button-prev",
         },
-        pagination:
-        {
+        pagination: {
             el: ".swiper-pagination",
             clickable: true,
         },
@@ -66,17 +74,24 @@ window.initCalendar = (id) => {
             autoplayTimeLeft(s, time, progress) {
                 progressCircle.style.setProperty("--progress", 1 - progress);
                 progressContent.textContent = `${Math.ceil(time / 1000)}s`;
-            }
-        }
+            },
+        },
     });
 };
 
 //trailers
 window.initGrid = (id) => {
+    if (typeof Swiper === "undefined") {
+        setTimeout(() => window.initGrid(id), 200);
+        return;
+    }
+
+    let mobile = window.innerHeight < 600 || window.innerWidth < 600;
+
     const el = document.getElementById(id);
     if (!el) return;
     const posterSize = 150;
-    const margin = 4;
+    const margin = mobile ? 4 : 8;
 
     if (el.swiper && typeof el.swiper.destroy === "function") {
         el.swiper.destroy(true, true);
@@ -87,17 +102,15 @@ window.initGrid = (id) => {
         spaceBetween: 4,
         breakpointsBase: "container",
         grid: {
-            rows: 2
+            rows: 2,
         },
-        navigation:
-        {
+        navigation: {
             nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev"
+            prevEl: ".swiper-button-prev",
         },
-        pagination:
-        {
+        pagination: {
             el: ".swiper-pagination",
-            clickable: true
+            clickable: true,
         },
         breakpoints: {
             [250 - margin]: { slidesPerView: Math.floor(250 / posterSize) },
@@ -121,12 +134,12 @@ window.initGrid = (id) => {
                     const slides = el.querySelectorAll(".swiper-slide");
                     if (slides.length > 0) {
                         let maxHeight = 0;
-                        slides.forEach(slide => {
+                        slides.forEach((slide) => {
                             slide.style.height = "auto";
                             const h = slide.offsetHeight;
                             if (h > maxHeight) maxHeight = h;
                         });
-                        el.style.height = ((maxHeight * 2) + 8) + "px";
+                        el.style.height = maxHeight * 2 + 8 + "px";
                     }
                 }
 
@@ -136,7 +149,7 @@ window.initGrid = (id) => {
                 if (images.length === 0) {
                     setGridHeight();
                 } else {
-                    images.forEach(img => {
+                    images.forEach((img) => {
                         if (img.complete) {
                             loaded++;
                         } else {
@@ -152,7 +165,7 @@ window.initGrid = (id) => {
                     });
                     if (loaded === images.length) setGridHeight();
                 }
-            }
-        }
+            },
+        },
     });
 };

@@ -8,7 +8,7 @@ self.addEventListener("fetch", event => {
     const requestUrl = new URL(event.request.url);
 
     const isApiCall = requestUrl.pathname.startsWith("/api/");
-    const isAuthCall = requestUrl.pathname.startsWith("/.auth/");
+    const isAuthCall = requestUrl.pathname.startsWith("/authentication/");
     const isExternalResource = !requestUrl.href.startsWith(self.origin);
 
     if (isApiCall || isAuthCall || isExternalResource) {
