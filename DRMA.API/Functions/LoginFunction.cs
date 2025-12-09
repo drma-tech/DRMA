@@ -1,5 +1,6 @@
 using DRMA.API.Core.Auth;
 using DRMA.Shared.Core.Helper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using System.Net;
@@ -17,17 +18,25 @@ public class LoginFunction(IHttpClientFactory factory)
     }
 
     [Function("Logger")]
-    public static async Task Logger([HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "public/logger")] HttpRequestData req, CancellationToken cancellationToken)
+    public static async Task<IActionResult> Logger([HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "public/logger")] HttpRequestData req, CancellationToken cancellationToken)
     {
         try
         {
+            if (req.Method == "OPTIONS")
+            {
+                return new OkResult();
+            }
+
             var log = await req.GetPublicBody<LogModel>(cancellationToken);
 
             req.LogError(null, null, log);
+
+            return new OkResult();
         }
         catch (Exception)
         {
             req.LogError(null, null, null);
+            return new OkResult();
         }
     }
 
