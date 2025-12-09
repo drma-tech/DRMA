@@ -3,6 +3,7 @@
 
 @inject NavigationManager Navigation
 @inject IPWAUpdaterService PWAUpdaterService
+@inject IJSRuntime JsRuntime
 
 <ErrorBoundary @ref="_boundary">
     <ChildContent>
@@ -26,29 +27,32 @@
             <h3 style="margin-top: 0;">⚠️ Something went wrong</h3>
 
             <p style="margin: 8px 0;">
-                An unexpected error occurred:
+                Something unexpected happened and the app could not continue. We already received this error.
             </p>
             <p style="background:#fff; border:1px solid #ccc; padding:8px; border-radius:4px; max-height:200px; overflow:auto; font-size: 0.85rem; ">
                 @ex.Message
             </p>
 
-            <p style="margin-top: 12px;">
-                You can try one of the following:
+            <p style="margin-top: 40px;">
+                In the meantime, you can try one of the following:
             </p>
 
             <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
                 <button style="padding:8px 16px; background:#007bff; border:none; border-radius:4px; color:#fff; cursor:pointer;" @onclick="ReloadPage">
                     🔄 Refresh
                 </button>
-
-                <button style="padding:8px 16px; background:#6c757d; border:none; border-radius:4px; color:#fff; cursor:pointer;" @onclick="UpdateNowAsync">
-                    ⬆️ Force Update
-                </button>
-
-                <a href="mailto:support@streamingdiscovery.com?subject=Error Report&body=@Uri.EscapeDataString(ex.ToString())"
-                   style="padding:8px 16px; background:#28a745; border-radius:4px; color:#fff; text-decoration:none;">
-                    📧 Send Error Report
-                </a>
+                @if (_isUpdateAvailable)
+                {
+                    <button style="padding:8px 16px; background:#007bff; border:none; border-radius:4px; color:#fff; cursor:pointer;" @onclick="UpdateNowAsync">
+                        ⬆️ Force Update
+                    </button>
+                }
+                else
+                {
+                    <button style="padding:8px 16px; background:#6c757d; border:none; border-radius:4px; color:#fff; cursor:unset">
+                        New version not yet available.
+                    </button>
+                }
             </div>
         </div>
     </ErrorContent>
@@ -56,19 +60,50 @@
 
 @code {
     ErrorBoundary? _boundary;
+    bool _isUpdateAvailable = false;
+    System.Threading.Timer? _updateCheckTimer;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isUpdateAvailable = await JsRuntime.InvokeAsync<bool>("checkUpdateReady");
+
+            _updateCheckTimer = new System.Threading.Timer(async _ =>
+            {
+                try
+                {
+                    var available = await JsRuntime.InvokeAsync<bool>("checkUpdateReady");
+                    if (available && !_isUpdateAvailable)
+                    {
+                        _isUpdateAvailable = true;
+                        await InvokeAsync(StateHasChanged);
+
+                        await _updateCheckTimer!.DisposeAsync();
+                    }
+                }
+                catch
+                {
+                    // Ignore errors
+                }
+            }, null, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
+        }
+    }
 
     protected override void OnParametersSet()
     {
         _boundary?.Recover();
     }
 
-    private void ReloadPage()
+    private async Task ReloadPage()
     {
+        await JsRuntime.Utils().ClearLocalStorage();
         Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
     }
 
     private async Task UpdateNowAsync()
     {
+        await JsRuntime.Utils().ClearLocalStorage();
         await this.PWAUpdaterService.SkipWaitingAsync();
     }
 

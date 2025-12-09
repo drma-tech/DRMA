@@ -293,6 +293,11 @@ body .pwa-updater[b-pwa-updater] {
     }
 }
 
+.custom-h3 {
+    font-size: 1.25rem !important;
+    line-height: 1.6 !important;
+}
+
 .chip-no-text svg {
     margin-inline: -4px !important;
 }

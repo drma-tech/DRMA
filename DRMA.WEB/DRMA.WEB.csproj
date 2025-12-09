@@ -16,6 +16,9 @@
 		<PackageReference Include="Toolbelt.Blazor.PWA.Updater" Version="3.1.0" />
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\DRMA.Shared\DRMA.Shared.csproj" />
+	</ItemGroup>
+	<ItemGroup>
 		<ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
 	</ItemGroup>
 	<PropertyGroup>

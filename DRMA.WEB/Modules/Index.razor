@@ -61,8 +61,8 @@
                         Travels
                     </MudText>
                 </div>
-                <MudAlert Variant="Variant.Outlined" Severity="Severity.Normal" Dense="true" Class="mt-3">
-                    Coming soon
+                <MudAlert Variant="Variant.Outlined" Severity="Severity.Warning" Dense="true" Class="mt-3">
+                    Under development
                 </MudAlert>
             </MudPaper>
         </MudItem>
@@ -82,7 +82,7 @@
                 <MudText Typo="Typo.body2" Align="Align.Justify" Style="line-height: 1.6;">
                     Redefining how people connect. Our advanced compatibility system helps you find someone truly aligned with your values, faster and more affordably than traditional matchmaking.
                 </MudText>
-                <MudAlert Variant="Variant.Outlined" Severity="Severity.Warning" Dense="true" Class="mt-3">
+                <MudAlert Variant="Variant.Outlined" Severity="Severity.Success" Dense="true" Class="mt-3">
                     App launched in September 2025
                 </MudAlert>
             </MudPaper>
@@ -100,29 +100,3 @@
         </MudItem>
     </MudGrid>
 </MudContainer>
-
-@code {
-
-    [Parameter]
-    [SupplyParameterFromQuery(Name = "language")]
-    public string? language { get; set; }
-
-    [Parameter]
-    [SupplyParameterFromQuery(Name = "platform")]
-    public string? platform { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        if (platform.NotEmpty())
-        {
-            await JsRuntime.InvokeAsync<string>("SetLocalStorage", "platform", platform);
-        }
-        else
-        {
-            await JsRuntime.InvokeAsync<string>("LoadAppVariables");
-        }
-    }
-
-}

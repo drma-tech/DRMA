@@ -66,75 +66,46 @@ public abstract class ComponentCore<T> : ComponentBase where T : class
         }
     }
 
-    #region javascript functions
-
-    protected async Task<string?> GetLocalStorage(string key)
-    {
-        return await JsRuntime.GetLocalStorage(key);
-    }
-
-    protected async Task<TValue?> JavascriptAsync<TValue>(string method, params object?[]? args)
-    {
-        return await JsRuntime.JavascriptAsync<TValue>(method, args);
-    }
-
-    protected async Task SetLocalStorage(string key, string value)
-    {
-        await JsRuntime.SetLocalStorage(key, value);
-    }
-
-    protected async Task SetLocalStorage(string key, object value)
-    {
-        await JsRuntime.SetLocalStorage(key, value);
-    }
-
-    protected async Task JavascriptVoidAsync(string method, params object?[]? args)
-    {
-        await JsRuntime.JavascriptVoidAsync(method, args);
-    }
-
-    #endregion javascript functions
-
-    #region notifications functions
+    #region notification module
 
     protected async Task ShowInfo(string message)
     {
         Snackbar.Add(message, Severity.Info);
 
-        await JavascriptVoidAsync("alertEffects.playBeep", 600, 120, "sine");
-        await JavascriptVoidAsync("alertEffects.vibrate", [50]);
+        await JsRuntime.Utils().PlayBeep(600, 120, "sine");
+        await JsRuntime.Utils().Vibrate([50]);
     }
 
     protected async Task ShowInfo(RenderFragment message)
     {
         Snackbar.Add(message, Severity.Info);
 
-        await JavascriptVoidAsync("alertEffects.playBeep", 600, 120, "sine");
-        await JavascriptVoidAsync("alertEffects.vibrate", [50]);
+        await JsRuntime.Utils().PlayBeep(600, 120, "sine");
+        await JsRuntime.Utils().Vibrate([50]);
     }
 
     protected async Task ShowSuccess(string message)
     {
         Snackbar.Add(message, Severity.Success);
 
-        await JavascriptVoidAsync("alertEffects.playBeep", 880, 100, "sine");
-        await JavascriptVoidAsync("alertEffects.vibrate", [40]);
+        await JsRuntime.Utils().PlayBeep(880, 100, "sine");
+        await JsRuntime.Utils().Vibrate([40]);
     }
 
     protected async Task ShowWarning(string message)
     {
         Snackbar.Add(message, Severity.Warning);
 
-        await JavascriptVoidAsync("alertEffects.playBeep", 440, 200, "triangle");
-        await JavascriptVoidAsync("alertEffects.vibrate", [100, 80, 100]);
+        await JsRuntime.Utils().PlayBeep(440, 200, "triangle");
+        await JsRuntime.Utils().Vibrate([100, 80, 100]);
     }
 
     protected async Task ShowError(string message)
     {
         Snackbar.Add(message, Severity.Error);
 
-        await JavascriptVoidAsync("alertEffects.playBeep", 220, 400, "square");
-        await JavascriptVoidAsync("alertEffects.vibrate", [200, 100, 200]);
+        await JsRuntime.Utils().PlayBeep(220, 400, "square");
+        await JsRuntime.Utils().Vibrate([200, 100, 200]);
     }
 
     protected async Task ProcessException(Exception ex)
@@ -151,7 +122,7 @@ public abstract class ComponentCore<T> : ComponentBase where T : class
         }
     }
 
-    #endregion notifications functions
+    #endregion notification module
 }
 
 public abstract class PageCore<T> : ComponentCore<T>, IBrowserViewportObserver, IAsyncDisposable where T : class

@@ -1,4 +1,5 @@
 using DRMA.WEB;
+using DRMA.WEB.Modules.Subscription.Core;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
@@ -16,18 +17,21 @@ if (builder.RootComponents.Empty())
     builder.RootComponents.Add<HeadOutlet>("head::after");
 }
 
-ConfigureServices(builder.Services, builder.HostEnvironment.BaseAddress);
+ConfigureServices(builder.Services, builder.HostEnvironment.BaseAddress, builder.Configuration);
+
+builder.Services.AddSingleton<ILoggerProvider, CosmosLoggerProvider>();
 
 var app = builder.Build();
 
 var js = app.Services.GetRequiredService<IJSRuntime>();
 
-//var version = DRMA.WEB.Layout.MainLayout.GetAppVersion();
-//await js.InvokeVoidAsync("initGoogleAnalytics", "G-4BSYH92X9W", version);
+var version = DRMA.WEB.Layout.MainLayout.GetAppVersion();
+await js.Utils().SetLocalStorage("app-version", version);
+await js.Services().InitGoogleAnalytics(version);
 
 await app.RunAsync();
 
-static void ConfigureServices(IServiceCollection collection, string baseAddress)
+static void ConfigureServices(IServiceCollection collection, string baseAddress, IConfiguration configuration)
 {
     collection.AddMudServices(config =>
     {
@@ -40,11 +44,17 @@ static void ConfigureServices(IServiceCollection collection, string baseAddress)
 
     collection.AddHttpClient("Local", c => { c.BaseAddress = new Uri(baseAddress); });
 
-    collection.AddHttpClient("External", (service, options) => { options.Timeout = TimeSpan.FromSeconds(180); })
+    var apiOrigin = configuration["DownstreamApi:BaseUrl"] ?? $"{baseAddress}api/";
+
+    collection.AddHttpClient("Anonymous", (service, options) => { options.BaseAddress = new Uri(apiOrigin); options.Timeout = TimeSpan.FromSeconds(60); })
+       .AddPolicyHandler(request => request.Method == HttpMethod.Get ? GetRetryPolicy() : Policy.NoOpAsync().AsAsyncPolicy<HttpResponseMessage>());
+
+    collection.AddHttpClient("External", (service, options) => { options.Timeout = TimeSpan.FromSeconds(60); })
         .AddPolicyHandler(request => request.Method == HttpMethod.Get ? GetRetryPolicy() : Policy.NoOpAsync().AsAsyncPolicy<HttpResponseMessage>());
 
-    collection.AddOptions();
     collection.AddAuthorizationCore();
+
+    collection.AddScoped<LoggerApi>();
 }
 
 //https://github.com/App-vNext/Polly/wiki/Polly-and-HttpClientFactory
@@ -52,5 +62,5 @@ static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
 {
     return HttpPolicyExtensions
         .HandleTransientHttpError() // 408,5xx
-        .WaitAndRetryAsync([TimeSpan.FromSeconds(1)]);
+        .WaitAndRetryAsync([TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(4)]);
 }

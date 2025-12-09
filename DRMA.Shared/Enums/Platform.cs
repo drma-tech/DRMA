@@ -1,4 +1,4 @@
-﻿namespace DRMA.WEB.Core.Enums
+﻿namespace DRMA.Shared.Enums
 {
     [Flags]
     public enum Platform

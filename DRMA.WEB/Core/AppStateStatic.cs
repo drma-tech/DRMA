@@ -1,5 +1,4 @@
-﻿using DRMA.WEB.Core.Enums;
-using DRMA.WEB.Modules.Subscription.Core;
+﻿using DRMA.WEB.Modules.Subscription.Core;
 using Microsoft.JSInterop;
 using MudBlazor;
 using MudBlazor.Services;
@@ -22,6 +21,11 @@ public static class AppStateStatic
     private static Platform? _platform;
     private static readonly SemaphoreSlim _platformSemaphore = new(1, 1);
 
+    public static Platform? GetSavedPlatform()
+    {
+        return _platform;
+    }
+
     public static async Task<Platform> GetPlatform(IJSRuntime js)
     {
         await _platformSemaphore.WaitAsync();
@@ -32,13 +36,7 @@ public static class AppStateStatic
                 return _platform.Value;
             }
 
-            var cache = await js.GetLocalStorage("platform");
-
-            if (cache.Empty() && js != null) //shouldn't happen (because it's called in index.html)
-            {
-                await js.InvokeVoidAsync("LoadAppVariables");
-                cache = await js.GetLocalStorage("platform");
-            }
+            var cache = await js.Utils().GetLocalStorage("platform");
 
             if (cache.NotEmpty())
             {
@@ -49,7 +47,7 @@ public static class AppStateStatic
                 else
                 {
                     _platform = Platform.webapp;
-                    if (js != null) await js.SetLocalStorage("platform", _platform!.ToString()!);
+                    await js.Utils().SetLocalStorage("platform", _platform!.ToString()!);
                 }
             }
             else
@@ -84,22 +82,13 @@ public static class AppStateStatic
                 return _darkMode.Value;
             }
 
-            var cache = await js.GetLocalStorage("dark-mode");
-
-            if (cache.NotEmpty())
-            {
-                if (bool.TryParse(cache, out var value))
-                {
-                    _darkMode = value;
-                }
-                else
-                {
-                    _darkMode = false;
-                    if (js != null) await js.SetLocalStorage("dark-mode", _darkMode!.ToString()!.ToLower());
-                }
-            }
+            _darkMode = await js.Utils().GetLocalStorage<bool?>("dark-mode");
 
             return _darkMode;
+        }
+        catch
+        {
+            return null;
         }
         finally
         {
@@ -130,7 +119,7 @@ public static class AppStateStatic
                 return _country;
             }
 
-            var cache = await js.GetLocalStorage("country");
+            var cache = await js.Utils().GetLocalStorage("country");
 
             if (cache.NotEmpty())
             {
@@ -139,7 +128,7 @@ public static class AppStateStatic
             else
             {
                 _country = (await api.GetCountry())?.Trim();
-                if (_country.NotEmpty()) await js.SetLocalStorage("country", _country.ToLower());
+                if (_country.NotEmpty()) await js.Utils().SetLocalStorage("country", _country.ToLower());
             }
 
             _country ??= "US";

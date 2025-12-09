@@ -8,17 +8,20 @@ namespace DRMA.WEB.Core.Api;
 public enum ApiType
 {
     Local,
+    Anonymous,
     External
 }
 
 public abstract class ApiCore(IHttpClientFactory factory, string? key, ApiType type)
 {
     protected HttpClient LocalHttp => factory.CreateClient("Local");
+    protected HttpClient AnonymousHttp => factory.CreateClient("Anonymous");
     protected HttpClient ExternalHttp => factory.CreateClient("External");
 
     private HttpClient GetHttp(ApiType type) => type switch
     {
         ApiType.Local => LocalHttp,
+        ApiType.Anonymous => AnonymousHttp,
         ApiType.External => ExternalHttp,
         _ => throw new NotImplementedException()
     };

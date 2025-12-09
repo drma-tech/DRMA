@@ -25,26 +25,26 @@
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41Q6D56912"></script>
 
-    <script>
-        const isBot = /google|baidu|bingbot|duckduckbot|teoma|slurp|yandex|toutiao|bytespider|applebot/i.test(window.navigator.userAgent);
-        const isLocalhost = window.location.host.includes("localhost");
-        const isDev = window.location.hostname.includes("dev.");
-        const isWebview = /webtonative/i.test(window.navigator.userAgent);
-    </script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/events.js"></script>
+    <script type="module" src="js/services.js"></script>
 
-    <script src="js/functions.js"></script>
-    <script src="js/events.js"></script>
-    <script src="js/services.js"></script>
+    <script type="module">
+        import { isDev } from "./js/main.js";
+        import { notification } from "./js/utils.js";
 
-    <script type="text/javascript">
-        if (!isBot) {
-            LoadAppVariables();
-            window.initClarity("r5ie3u2oos");
+        // Disable robots for dev environment
+        if (isDev) {
+            const meta = document.createElement("meta");
+            meta.name = "robots";
+            meta.content = "noindex, nofollow";
+            document.head.appendChild(meta);
         }
 
         // temporary: remove in the first quarter of 2026
         if (typeof Promise.withResolvers !== "function") {
-            showError("Your system’s web engine is outdated and may not support all features. Please update your device or browser to ensure the best experience.");
+            notification.showError("Your system’s web engine is outdated and may not support all features. Please update your device or browser to ensure the best experience.");
             Promise.withResolvers = function () {
                 let resolve, reject;
                 const promise = new Promise((res, rej) => {
@@ -81,27 +81,23 @@
 
     <div id="toast-stack"></div>
 
-    <script src="https://unpkg.com/wasm-feature-detect@1.8.0/dist/umd/index.js" integrity="sha384-WHs/UcbXblETJuoOp/1/SabA6yOoteU6urWZ9Yh+f/Ln4aoXkYtaqEW4X2yRXyB8" crossorigin="anonymous"></script>
-    <script type="text/javascript">
+    <script type="module">
+        import { isBot } from "./js/main.js";
+        import { notification } from "./js/utils.js";
+
         //avoid google (and others) search console execute this
         if (!isBot) {
-            if (window.navigator.serviceWorker?.register) {
-                navigator.serviceWorker.register('service-worker.js')
-                    .catch(err => {
-                        showError(`Failed to register the service worker, which may affect platform functionality. Details: ${err.message}`);
-                    });
+            if (navigator.serviceWorker?.register) {
+                navigator.serviceWorker.register('service-worker.js').catch(err => {
+                    notification.showError(`Failed to register the service worker, which may affect platform functionality. Details: ${err.message}`);
+                    notification.sendLog(err);
+                });
             }
-
-            window.checkBrowserFeatures();
-            window.initUserBack();
         }
     </script>
 
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
-
     <script src="_content/Toolbelt.Blazor.PWA.Updater.Service/script.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js" crossorigin="anonymous"></script>
-    <script src="js/swiper.js"></script>
 
     <script rel="preload" src="_framework/blazor.webassembly.js"></script>
 </body>

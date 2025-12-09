@@ -2,7 +2,7 @@
 
 <MudDialog Style="width: 100%">
     <DialogContent>
-        <MudToggleGroup Value="DarkMode" ValueChanged="(bool vl) => DarkModeChanged(vl)" SelectionMode="SelectionMode.SingleSelection" Vertical="false" Color="Color.Primary">
+        <MudToggleGroup Value="DarkMode" ValueChanged="(bool vl) => DarkModeChanged(vl)" SelectionMode="SelectionMode.SingleSelection" Vertical="false" Color="Color.Primary" Size="AppStateStatic.Size">
             <MudToggleItem Value="false">
                 <MudIcon Icon="@IconsFA.Solid.Icon("sun").Font" Title="Light Mode" Class="me-1"></MudIcon>
                 Light Mode
@@ -14,7 +14,9 @@
         </MudToggleGroup>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="@(() => { MudDialog?.Close(); })">Close</MudButton>
+        <MudButton OnClick="@(() => { MudDialog?.Close(); })" Size="AppStateStatic.Size">
+            Close
+        </MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -33,7 +35,7 @@
     {
         DarkMode = value;
 
-        await SetLocalStorage("dark-mode", value.ToString()!.ToLower());
+        await JsRuntime.Utils().SetLocalStorage("dark-mode", value.ToString()!.ToLower());
 
         AppStateStatic.ChangeDarkMode(value);
     }

@@ -1,5 +1,3 @@
-using DRMA.WEB.Core.Api;
-
 namespace DRMA.WEB.Modules.Subscription.Core
 {
     public class IpInfoApi(IHttpClientFactory factory) : ApiExternal(factory)
@@ -14,6 +12,14 @@ namespace DRMA.WEB.Modules.Subscription.Core
             {
                 return null;
             }
+        }
+    }
+
+    public class LoggerApi(IHttpClientFactory factory) : ApiCore(factory, null, ApiType.Anonymous)
+    {
+        public async Task SaveLog(LogModel log)
+        {
+            await PostAsync<LogModel, LogModel>("public/logger", log);
         }
     }
 }

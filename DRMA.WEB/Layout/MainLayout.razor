@@ -4,7 +4,9 @@
 
 @inject IJSRuntime JsRuntime
 @inject ISnackbar Snackbar
+@inject IDialogService DialogService
 @inject ILogger<MainLayout> Logger
+@inject IJSRuntime JsRuntime
 
 @inject NavigationManager Navigation
 
@@ -80,8 +82,6 @@
         {
             await ApplyDarkMode();
             // await ShowCustomerSatisfactionPopup();
-            // await AskUSerForReview();
-            // await ShowOnBoardingPopup();
         }
     }
 
@@ -94,86 +94,49 @@
             var system = await _mudThemeProvider.GetSystemDarkModeAsync();
             darkMode = system;
 
-            await JsRuntime.SetLocalStorage("dark-mode", darkMode.ToString()?.ToLower() ?? "false");
+            await JsRuntime.Utils().SetLocalStorage("dark-mode", darkMode.ToString()?.ToLower() ?? "false");
         }
 
         AppStateStatic.ChangeDarkMode(darkMode ?? false);
     }
 
-    // private async Task ShowCustomerSatisfactionPopup()
-    // {
-    //     var accesses = await JsRuntime.GetLocalStorage<HashSet<DateTime>>("session-accesses") ?? new HashSet<DateTime>();
-    //     var hasPreviousAccess = accesses.Count > 0;
-    //     var lastAccess = hasPreviousAccess ? accesses.Max() : (DateTime?)null;
-    //     bool isTooSoon = false;
+    private async Task ShowCustomerSatisfactionPopup()
+    {
+        if (Navigation.BaseUri.Contains("localhost")) return;
 
-    //     if (lastAccess != null)
-    //     {
-    //         var hoursSinceLast = (DateTime.UtcNow - lastAccess.Value).TotalHours;
-    //         isTooSoon = hoursSinceLast < 6;
-    //     }
+        var accesses = await JsRuntime.Utils().GetLocalStorage<HashSet<DateTime>>("session-accesses") ?? new HashSet<DateTime>();
+        var hasPreviousAccess = accesses.Count > 0;
+        var lastAccess = hasPreviousAccess ? accesses.Max() : (DateTime?)null;
+        bool isTooSoon = false;
 
-    //     if (hasPreviousAccess && !isTooSoon) //starting with the second access (avoid the first 5 minutes)
-    //     {
-    //         var rating1 = await JsRuntime.GetLocalStorage<int?>("survey-rating");
-    //         if (rating1 == null)
-    //         {
-    //             _ = Task.Run(async () =>
-    //             {
-    //                 await Task.Delay(5000); //survey starts after 5 seconds
-    //                 await JsRuntime.InvokeVoidAsync("Userback.openSurvey", "mjj9Ta");
-    //             });
-    //         }
-    //     }
+        if (lastAccess != null)
+        {
+            var hoursSinceLast = (DateTime.UtcNow - lastAccess.Value).TotalHours;
+            isTooSoon = hoursSinceLast < 12;
+        }
 
-    //     accesses.Add(DateTime.UtcNow);
+        if (hasPreviousAccess && !isTooSoon) //starting with the second access (avoid the first 5 minutes)
+        {
+            var rating1 = await JsRuntime.Utils().GetLocalStorage<int?>("survey-rating");
+            if (rating1 == null)
+            {
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(5000); //survey starts after 5 seconds
+                    await JsRuntime.InvokeVoidAsync("Userback.openSurvey", "mjj9Ta");
+                });
+            }
+        }
 
-    //     if (accesses.Count > 10) //keep only the last 10 records
-    //     {
-    //         accesses = accesses.OrderByDescending(x => x).Take(10).ToHashSet();
-    //     }
+        accesses.Add(DateTime.UtcNow);
 
-    //     await JsRuntime.SetLocalStorage("session-accesses", accesses);
-    // }
+        if (accesses.Count > 10) //keep only the last 10 records
+        {
+            accesses = accesses.OrderByDescending(x => x).Take(10).ToHashSet();
+        }
 
-    // private async Task AskUSerForReview()
-    // {
-    //     var accesses = await JsRuntime.GetLocalStorage<HashSet<DateTime>>("session-accesses") ?? new HashSet<DateTime>();
-    //     var hasPreviousAccess = accesses.Count > 0;
-    //     var lastAccess = hasPreviousAccess ? accesses.Max() : (DateTime?)null;
-    //     bool isTooSoon = false;
-
-    //     if (lastAccess != null)
-    //     {
-    //         var hoursSinceLast = (DateTime.UtcNow - lastAccess.Value).TotalHours;
-    //         isTooSoon = hoursSinceLast < 6;
-    //     }
-
-    //     var rating = await JsRuntime.GetLocalStorage<int?>("survey-rating");
-    //     var reviewed = await JsRuntime.GetLocalStorage("store-reviewed");
-
-    //     //ask for app store review if ratings are 4 or 5 stars
-    //     if (rating != null && rating > 3 && reviewed.Empty() && !isTooSoon)
-    //     {
-    //         _ = Task.Run(async () =>
-    //         {
-    //             await Task.Delay(5000); //delay of 5 seconds
-    //             await DialogService.AskReviewPopup();
-    //         });
-    //     }
-    // }
-
-    // private async Task ShowOnBoardingPopup()
-    // {
-    //     var onboarding = await JsRuntime.GetLocalStorage("onboarding-popup");
-
-    //     //show only once
-    //     if (onboarding.Empty())
-    //     {
-    //         await DialogService.OnboardingPopup();
-    //         await JsRuntime.SetLocalStorage("onboarding-popup", true.ToString().ToLower());
-    //     }
-    // }
+        await JsRuntime.Utils().SetLocalStorage("session-accesses", accesses);
+    }
 
     [JSInvokable]
     public static void ShowError(string error)

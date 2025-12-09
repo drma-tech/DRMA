@@ -1,67 +1,107 @@
 ﻿using Microsoft.JSInterop;
 using System.Text.Json;
+using DRMA.WEB.Shared;
 
 namespace DRMA.WEB.Core.Helper
 {
-    public static class JavascriptHelper
+    public static class JsModuleLoader
     {
-        public static async Task<string?> GetLocalStorage(this IJSRuntime js, string key)
+        private static readonly Dictionary<string, IJSObjectReference> cache = [];
+
+        public static async Task<IJSObjectReference> Load(IJSRuntime js, string path)
         {
-            return await js.JavascriptAsync<string?>("GetLocalStorage", key);
+            if (!cache.TryGetValue(path, out var module))
+            {
+                module = await js.InvokeAsync<IJSObjectReference>("import", path);
+                cache[path] = module;
+            }
+
+            return module;
+        }
+    }
+
+    public abstract class JsModuleBase(IJSRuntime js, string path)
+    {
+        protected async Task InvokeVoid(string method, params object?[] args)
+        {
+            var module = await JsModuleLoader.Load(js, path);
+            await module.InvokeVoidAsync(method, args);
         }
 
-        public static async Task<TValue?> GetLocalStorage<TValue>(this IJSRuntime js, string key)
+        protected async Task<T> Invoke<T>(string method, params object?[] args)
         {
-            var value = await js.JavascriptAsync<string?>("GetLocalStorage", key);
+            var module = await JsModuleLoader.Load(js, path);
+            return await module.InvokeAsync<T>(method, args);
+        }
+    }
+
+    public static class JsModules
+    {
+        public static WindowJs Window(this IJSRuntime js) => new(js);
+
+        public static UtilsJs Utils(this IJSRuntime js) => new(js);
+
+        public static ServicesJs Services(this IJSRuntime js) => new(js);
+    }
+
+    public class WindowJs(IJSRuntime js)
+    {
+        public async Task HistoryBack() => await js.InvokeVoidAsync("history.back");
+
+        public async Task InvokeVoidAsync(string identifier, params object?[]? args) => await js.InvokeVoidAsync(identifier, args);
+    }
+
+    public class UtilsJs(IJSRuntime js) : JsModuleBase(js, "./js/utils.js")
+    {
+        #region STORAGE
+
+        public Task<string?> GetLocalStorage(string key) => Invoke<string?>("storage.getLocalStorage", key);
+
+        public async Task<TValue?> GetLocalStorage<TValue>(string key)
+        {
+            var value = await Invoke<string?>("storage.getLocalStorage", key);
             return value != null ? JsonSerializer.Deserialize<TValue>(value) : default;
         }
 
-        public static async Task<string?> GetSessionStorage(this IJSRuntime js, string key)
-        {
-            return await js.JavascriptAsync<string?>("GetSessionStorage", key);
-        }
+        public Task SetLocalStorage(string key, string value) => InvokeVoid("storage.setLocalStorage", key, value);
 
-        public static async Task<TValue?> GetSessionStorage<TValue>(this IJSRuntime js, string key)
+        public Task SetLocalStorage(string key, object value) => InvokeVoid("storage.setLocalStorage", key, JsonSerializer.Serialize(value));
+
+        public Task<string?> GetSessionStorage(string key) => Invoke<string?>("storage.getSessionStorage", key);
+
+        public async Task<TValue?> GetSessionStorage<TValue>(string key)
         {
-            var value = await js.JavascriptAsync<string?>("GetSessionStorage", key);
+            var value = await Invoke<string?>("storage.getSessionStorage", key);
             return value != null ? JsonSerializer.Deserialize<TValue>(value) : default;
         }
 
-        public static async Task<TValue?> JavascriptAsync<TValue>(this IJSRuntime js, string method, params object?[]? args)
-        {
-            try
-            {
-                return await js.InvokeAsync<TValue>(method, args);
-            }
-            catch (Exception)
-            {
-                return default;
-            }
-        }
+        public Task SetSessionStorage(string key, string value) => InvokeVoid("storage.setSessionStorage", key, value);
 
-        public static async Task SetLocalStorage(this IJSRuntime js, string key, string value)
-        {
-            await js.JavascriptVoidAsync("SetLocalStorage", key, value);
-        }
+        public Task SetSessionStorage(string key, object value) => InvokeVoid("storage.setSessionStorage", key, JsonSerializer.Serialize(value));
 
-        public static async Task SetLocalStorage(this IJSRuntime js, string key, object value)
-        {
-            await js.JavascriptVoidAsync("SetLocalStorage", key, JsonSerializer.Serialize(value));
-        }
+        public Task ShowCache() => InvokeVoid("storage.showCache");
 
-        public static async Task SetSessionStorage(this IJSRuntime js, string key, string value)
-        {
-            await js.JavascriptVoidAsync("SetSessionStorage", key, value);
-        }
+        public Task ClearLocalStorage() => InvokeVoid("storage.clearLocalStorage");
 
-        public static async Task SetSessionStorage(this IJSRuntime js, string key, object value)
-        {
-            await js.JavascriptVoidAsync("SetSessionStorage", key, JsonSerializer.Serialize(value));
-        }
+        #endregion STORAGE
 
-        public static async Task JavascriptVoidAsync(this IJSRuntime js, string method, params object?[]? args)
-        {
-            await js.InvokeVoidAsync(method, args);
-        }
+        #region NOTIFICATION
+
+        public Task<string?> PlayBeep(int frequency, int duration, string type) => Invoke<string?>("notification.playBeep", frequency, duration, type);
+
+        public Task<string?> Vibrate(int[] pattern) => Invoke<string?>("notification.vibrate", pattern);
+
+        #endregion NOTIFICATION
+
+        #region INTEROP
+
+        public Task DownloadFile(string filename, string contentType, byte[] content) => InvokeVoid("interop.downloadFile", filename, contentType, content);
+
+        #endregion INTEROP
+    }
+
+    public class ServicesJs(IJSRuntime js) : JsModuleBase(js, "./js/services.js")
+    {
+        public Task InitGoogleAnalytics(string version) => InvokeVoid("services.initGoogleAnalytics", version);
     }
 }

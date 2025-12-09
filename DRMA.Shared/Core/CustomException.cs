@@ -1,4 +1,4 @@
-﻿namespace DRMA.WEB.Core;
+﻿namespace DRMA.Shared.Core;
 
 public class UnhandledException : Exception
 {
