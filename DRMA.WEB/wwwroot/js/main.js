@@ -14,4 +14,4 @@ export const servicesConfig = {
     UserBackSurveyKey: "",
 };
 
-export const baseApiUrl = "http://www.drma-tech.com";
+export const baseApiUrl = "https://www.drma-tech.com";
