@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Net;
 
 var app = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(worker =>
@@ -52,13 +51,7 @@ static void ConfigureServices(IServiceCollection services)
     {
         //http clients
 
-        services.AddHttpClient("tmdb", client => { client.Timeout = TimeSpan.FromSeconds(60); }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { MaxConnectionsPerServer = 20 });
-        services.AddHttpClient("paddle");
-        services.AddHttpClient("apple");
-        services.AddHttpClient("auth", client => { client.Timeout = TimeSpan.FromSeconds(60); });
-        services.AddHttpClient("rapidapi");
         services.AddHttpClient("ipinfo");
-        services.AddHttpClient("rapidapi-gzip").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip });
 
         //repositories
 

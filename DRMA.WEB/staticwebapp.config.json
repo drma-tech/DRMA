@@ -1,4 +1,12 @@
 {
+  "routes": [
+    {
+      "route": "/api/",
+      "headers": {
+        "Access-Control-Allow-Origin": "https://www.web-standards.com"
+      }
+    }
+  ],
   "navigationFallback": {
     "rewrite": "/index.html",
     "exclude": [
