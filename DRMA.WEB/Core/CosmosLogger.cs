@@ -40,7 +40,7 @@ public class CosmosLogger(LoggerApi api) : ILogger
         {
             Message = exception?.Message ?? formatter(state, exception),
             StackTrace = exception?.StackTrace,
-            Origin = "DRMA - Blazor",
+            Origin = "Blazor",
             Params = null,
             Body = null,
             OperationSystem = null,
