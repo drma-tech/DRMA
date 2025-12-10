@@ -7,7 +7,7 @@ export const storage = {
     clearLocalStorage() {
         localStorage.clear();
 
-        if (window.WTN.clearAppCache) {
+        if (window.WTN?.clearAppCache) {
             window.WTN.clearAppCache(true);
         }
     },

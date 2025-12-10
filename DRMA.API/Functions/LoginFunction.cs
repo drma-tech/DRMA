@@ -1,6 +1,5 @@
 using DRMA.API.Core.Auth;
 using DRMA.Shared.Core.Helper;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using System.Net;
