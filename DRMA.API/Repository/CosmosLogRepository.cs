@@ -47,14 +47,12 @@ public class CosmosLogRepository
         var pk = new PartitionKey(id);
 
         const int maxRetries = 10;
-        int attempt = 0;
 
-        while (attempt < maxRetries)
+        for (int attempt = 1; attempt <= maxRetries; attempt++)
         {
-            attempt++;
+            LogDbModel dbModel;
             string? etag = null;
 
-            LogDbModel? dbModel;
             try
             {
                 var response = await Container.ReadItemAsync<LogDbModel>(id, pk, CosmosRepositoryExtensions.GetItemRequestOptions());
@@ -64,20 +62,18 @@ public class CosmosLogRepository
             }
             catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
             {
-                dbModel = null;
+                dbModel = new LogDbModel
+                {
+                    Id = id,
+                    OperationSystem = log.OperationSystem,
+                    BrowserName = log.BrowserName,
+                    BrowserVersion = log.BrowserVersion,
+                    Platform = log.Platform,
+                    AppVersion = log.AppVersion,
+                    UserId = log.UserId,
+                    UserAgent = log.UserAgent
+                };
             }
-
-            dbModel ??= new LogDbModel
-            {
-                Id = id,
-                OperationSystem = log.OperationSystem,
-                BrowserName = log.BrowserName,
-                BrowserVersion = log.BrowserVersion,
-                Platform = log.Platform,
-                AppVersion = log.AppVersion,
-                UserId = log.UserId,
-                UserAgent = log.UserAgent
-            };
 
             dbModel.Events.Add(new LogDbEvent
             {
