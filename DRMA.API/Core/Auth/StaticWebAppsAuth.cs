@@ -4,7 +4,7 @@ namespace DRMA.API.Core.Auth;
 
 public static class StaticWebAppsAuth
 {
-    public static string? GetUserIP(this HttpRequestData req, bool includePort = true)
+    public static string? GetUserIP(this HttpRequestData req, bool includePort)
     {
         if (req.Headers.TryGetValues("X-Forwarded-For", out var values))
         {

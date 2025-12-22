@@ -16,6 +16,7 @@ public class LogDbModel
     public string? AppVersion { get; set; }
     public string? UserId { get; set; }
     public string? UserAgent { get; set; }
+    public bool? IsBot { get; set; }
     public List<LogDbEvent> Events { get; set; } = [];
     [JsonInclude] public int Ttl { get; init; } = (int)TtlCache.ThreeMonths;
 }
@@ -71,7 +72,8 @@ public class CosmosLogRepository
                     Platform = log.Platform,
                     AppVersion = log.AppVersion,
                     UserId = log.UserId,
-                    UserAgent = log.UserAgent
+                    UserAgent = log.UserAgent,
+                    IsBot = log.IsBot,
                 };
             }
 
