@@ -1,11 +1,12 @@
 ﻿@using DRMA.WEB.Layout
 @using Toolbelt.Blazor.PWA.Updater.Service
+@using WS.WEB.Core
 
 @inject NavigationManager Navigation
 @inject IPWAUpdaterService PWAUpdaterService
 @inject IJSRuntime JsRuntime
 
-<ErrorBoundary @ref="_boundary">
+<CustomErrorBoundary @ref="_boundary" OnErrorCallback="OnAppError">
     <ChildContent>
         <Router AppAssembly="@typeof(App).Assembly">
             <Found Context="routeData">
@@ -56,43 +57,48 @@
             </div>
         </div>
     </ErrorContent>
-</ErrorBoundary>
+</CustomErrorBoundary>
 
 @code {
     ErrorBoundary? _boundary;
     bool _isUpdateAvailable = false;
     System.Threading.Timer? _updateCheckTimer;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            _isUpdateAvailable = await JsRuntime.InvokeAsync<bool>("checkUpdateReady");
-
-            _updateCheckTimer = new System.Threading.Timer(async _ =>
-            {
-                try
-                {
-                    var available = await JsRuntime.InvokeAsync<bool>("checkUpdateReady");
-                    if (available && !_isUpdateAvailable)
-                    {
-                        _isUpdateAvailable = true;
-                        await InvokeAsync(StateHasChanged);
-
-                        await _updateCheckTimer!.DisposeAsync();
-                    }
-                }
-                catch
-                {
-                    // Ignore errors
-                }
-            }, null, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
-        }
-    }
-
     protected override void OnParametersSet()
     {
         _boundary?.Recover();
+    }
+
+    private async Task OnAppError(Exception ex)
+    {
+        _isUpdateAvailable = await JsRuntime.InvokeAsync<bool>("checkUpdateReady");
+        StateHasChanged();
+
+        StartUpdatePolling();
+    }
+
+    void StartUpdatePolling()
+    {
+        if (_updateCheckTimer != null) return;
+
+        _updateCheckTimer = new System.Threading.Timer(async _ =>
+        {
+            try
+            {
+                var available = await JsRuntime.InvokeAsync<bool>("checkUpdateReady");
+                if (available && !_isUpdateAvailable)
+                {
+                    _isUpdateAvailable = true;
+                    await InvokeAsync(StateHasChanged);
+
+                    await _updateCheckTimer!.DisposeAsync();
+                }
+            }
+            catch
+            {
+                // Ignore errors
+            }
+        }, null, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
     }
 
     private async Task ReloadPage()
