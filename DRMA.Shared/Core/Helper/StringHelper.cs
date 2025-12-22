@@ -13,7 +13,7 @@ public static partial class StringHelper
 
     public static string RemoveSpecialCharacters(this string str, char[]? customExceptions = null, char? replace = null)
     {
-        return str.AsSpan().RemoveSpecialCharacters(customExceptions, replace).ToString();
+        return RemoveSpecialCharacters(str.AsSpan(), customExceptions, replace).ToString();
     }
 
     public static ReadOnlySpan<char> RemoveSpecialCharacters(this ReadOnlySpan<char> str, char[]? customExceptions = null, char? replace = null)

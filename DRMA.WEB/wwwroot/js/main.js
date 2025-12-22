@@ -1,7 +1,15 @@
-﻿export const isBot =
+﻿window.browser = window.bowser.getParser(window.navigator.userAgent);
+
+export const isBot =
+    navigator.webdriver === true ||
     /google|baidu|bingbot|duckduckbot|teoma|slurp|yandex|toutiao|bytespider|applebot/i.test(
         navigator.userAgent
     );
+export const isOldBrowser = window.browser.satisfies({
+    chrome: "<131", //nov 2024 (avoid bots with fake browsers)
+    //edge: "<131", //nov 2024
+    //safari: "<18", //sep 2024
+});
 export const isLocalhost = location.host.includes("localhost");
 export const isDev = location.hostname.includes("dev.");
 export const isWebview = /webtonative/i.test(navigator.userAgent);

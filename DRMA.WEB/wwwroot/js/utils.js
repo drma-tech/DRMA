@@ -1,11 +1,12 @@
 "use strict";
 
-import { isBot, baseApiUrl } from "./main.js";
+import { isBot, isOldBrowser, baseApiUrl } from "./main.js";
 import { simd } from "./wasm-feature-detect.js";
 
 export const storage = {
     clearLocalStorage() {
         localStorage.clear();
+        sessionStorage.clear();
 
         if (window.WTN?.clearAppCache) {
             window.WTN.clearAppCache(true);
@@ -97,9 +98,8 @@ export const notification = {
                 Platform: storage.getLocalStorage("platform"),
                 AppVersion: storage.getLocalStorage("app-version"),
                 UserAgent: navigator.userAgent,
+                IsBot: isBot || isOldBrowser,
             };
-        } else if (typeof error === "object") {
-            log = error;
         } else if (typeof error === "string") {
             log = {
                 Message: error,
@@ -108,12 +108,12 @@ export const notification = {
                 BrowserName: environment.getBrowserName(),
                 BrowserVersion: environment.getBrowserVersion(),
                 Platform: storage.getLocalStorage("platform"),
-                AppVersion: storage.GetLocalStorage("app-version"),
+                AppVersion: storage.getLocalStorage("app-version"),
                 UserAgent: navigator.userAgent,
+                IsBot: isBot || isOldBrowser,
             };
         } else {
-            notification.showError("sendLog: invalid error type");
-            return;
+            log = error;
         }
 
         fetch(`${baseApiUrl}/api/public/logger`, {
@@ -131,7 +131,7 @@ export const notification = {
 
         document.body.innerHTML = `
         <div style="display:flex; align-items:center; justify-content:center; min-height:100vh; background:#f0f2f5; font-family:'Segoe UI', Roboto, sans-serif; padding:1rem;">
-            <div style="background:#fff; padding:1.2rem; border-radius:16px; box-shadow:0 4px 12px rgba(0,0,0,0.1); width:100%; max-width:380px; text-align:center; color:#333;">
+            <div style="background:#fff; padding:1.2rem; border-radius:16px; box-shadow:0 4px 12px rgba(0,0,0,0.1); width:100%; max-width:450px; text-align:center; color:#333;">
                 <div style="font-size:2.2rem; margin-bottom:0.5rem;">⚠️</div>
                 <h2 style="font-size:1.3rem; margin-bottom:0.75rem;">Your browser is too old</h2>
                 <p style="font-size:1rem; line-height:1.5; margin-bottom:1rem;">
@@ -196,17 +196,17 @@ export const environment = {
     detectPlatform() {
         if (!storage.getLocalStorage("platform")) {
             const isWindows = document.referrer === "app-info://platform/microsoft-store";
+            const isHuawei = /huawei|honor/i.test(navigator.userAgent); //not working. returns play
+            const isXiaomi = /xiaomi/i.test(navigator.userAgent); //not working. returns play
             const isAndroid = /(android)/i.test(navigator.userAgent);
             const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
             const isMac = /macintosh|mac os x/i.test(navigator.userAgent);
-            const isHuawei = /huawei|honor/i.test(navigator.userAgent); //not working. returns play
-            const isXiaomi = /xiaomi/i.test(navigator.userAgent); //not working. returns play
 
             if (isWindows) storage.setLocalStorage("platform", "windows");
-            else if (isAndroid) storage.setLocalStorage("platform", "play");
-            else if (isIOS || isMac) storage.setLocalStorage("platform", "ios");
             else if (isHuawei) storage.setLocalStorage("platform", "huawei");
             else if (isXiaomi) storage.setLocalStorage("platform", "xiaomi");
+            else if (isAndroid) storage.setLocalStorage("platform", "play");
+            else if (isIOS || isMac) storage.setLocalStorage("platform", "ios");
             else storage.setLocalStorage("platform", "webapp");
         }
     },
@@ -214,8 +214,8 @@ export const environment = {
         const wasmSupported = typeof WebAssembly === "object";
         const simdSupported = await simd();
 
-        if (!wasmSupported || !simdSupported) {
-            if (!wasmSupported) {
+        if (!wasmSupported || !simdSupported || isOldBrowser) {
+            if (!wasmSupported || isOldBrowser) {
                 notification.showBrowserWarning();
                 return;
             }
@@ -229,30 +229,13 @@ export const environment = {
         }
     },
     getBrowserName() {
-        const ua = navigator.userAgent;
-        if (ua.includes("Firefox/")) return "Firefox";
-        if (ua.includes("Edg/")) return "Edge";
-        if (ua.includes("Chrome/")) return "Chrome";
-        if (ua.includes("Safari/")) return "Safari";
-        if (ua.includes("OPR/")) return "Opera";
-        if (ua.includes("MSIE") || ua.includes("Trident/")) return "Internet Explorer";
-        return "Unknown";
+        return window.browser.getBrowserName();
     },
     getBrowserVersion() {
-        const ua = navigator.userAgent;
-        const matches = new RegExp(
-            /(Firefox|Edg|Chrome|Safari|Version)\/([0-9.]+)/
-        ).exec(ua);
-        return matches ? matches[2] : "unknown";
+        return window.browser.getBrowserVersion();
     },
     getOperatingSystem() {
-        const ua = navigator.userAgent;
-        if (ua.includes("Windows")) return "Windows";
-        if (ua.includes("Mac")) return "Mac OS";
-        if (ua.includes("Linux")) return "Linux";
-        if (ua.includes("Android")) return "Android";
-        if (ua.includes("iOS") || ua.includes("iPhone") || ua.includes("iPad")) return "iOS";
-        return "Unknown";
+        return window.browser.getOSName();
     },
 };
 

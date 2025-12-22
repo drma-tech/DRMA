@@ -1,5 +1,4 @@
-﻿using DRMA.Shared.Enums;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace DRMA.Shared.Models
 {
@@ -18,6 +17,7 @@ namespace DRMA.Shared.Models
         public string? UserId { get; set; }
         public string? Ip { get; set; }
         public string? UserAgent { get; set; }
+        public bool? IsBot { get; set; }
         public DateTimeOffset DateTime { get; set; } = DateTimeOffset.UtcNow;
         [JsonInclude] public int Ttl { get; init; } = (int)TtlCache.ThreeMonths;
     }

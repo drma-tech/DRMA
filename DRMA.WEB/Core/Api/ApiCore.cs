@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using DRMA.Shared.Core.Helper;
+using System.Net;
 using System.Net.Http.Json;
 using System.Security.Cryptography;
 using System.Text.Json;

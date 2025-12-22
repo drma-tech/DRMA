@@ -22,16 +22,7 @@
     <HeadLayout></HeadLayout>
     <MudMainContent>
         <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="my-3" Style="min-height: calc(100vh - 64px - 32px);">
-            @if (IsLoading)
-            {
-                <div style="position:fixed; top:0; left:0; width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.5);">
-                    <MudProgressCircular Color="Color.Secondary" Indeterminate="true" Size="Size.Large" />
-                </div>
-            }
-            else
-            {
-                @Body
-            }
+            @Body
         </MudContainer>
         <FooterComponent></FooterComponent>
         <MudDivider Class="my-3 mt-10"></MudDivider>
@@ -42,7 +33,6 @@
 </MudLayout>
 
 @code {
-    private bool IsLoading = true;
     private MudThemeProvider? _mudThemeProvider;
     private bool _darkMode = false;
 
@@ -54,18 +44,13 @@
             // attention: avoid using asynchronous calls here, as it may affect static html generation (especially for anonymous users)
             // *************************************
 
-            IsLoading = true; StateHasChanged();
-
             AppStateStatic.DarkModeChanged += dark => { _darkMode = dark; StateHasChanged(); };
             AppStateStatic.ShowError += msg => { Snackbar.Add(msg, Severity.Error); };
             AppStateStatic.Version += GetAppVersion();
-
-            IsLoading = false; StateHasChanged();
         }
         catch (Exception ex)
         {
             ex.ProcessException(Snackbar, Logger);
-            IsLoading = false; StateHasChanged();
         }
     }
 
@@ -80,8 +65,15 @@
 
         if (firstRender)
         {
-            await ApplyDarkMode();
-            // await ShowCustomerSatisfactionPopup();
+            try
+            {
+                await ApplyDarkMode();
+                // await ShowCustomerSatisfactionPopup();
+            }
+            catch (Exception ex)
+            {
+                ex.ProcessException(Snackbar, Logger);
+            }
         }
     }
 
