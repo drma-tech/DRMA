@@ -61,7 +61,7 @@ namespace DRMA.WEB.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2025.08.19 
+        ///   Looks up a localized string similar to 2025.12.23
         ///.
         /// </summary>
         public static string BuildDate {

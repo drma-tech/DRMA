@@ -6,7 +6,6 @@ import { storage } from "./utils.js";
 export const services = {
     initGoogleAnalytics(version) {
         if (isBot) return;
-
         if (isLocalhost) return;
 
         const PLATFORM = storage.getLocalStorage("platform");

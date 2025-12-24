@@ -1,6 +1,6 @@
 "use strict";
 
-import { isDev, isBot, isOldBrowser } from "./main.js";
+import { isDev, isBot, isOldBrowser, appVersion } from "./main.js";
 import { storage, notification, environment } from "./utils.js";
 
 window.addEventListener("load", function () {
@@ -63,7 +63,7 @@ window.addEventListener("error", function (event) {
         BrowserName: environment.getBrowserName(),
         BrowserVersion: environment.getBrowserVersion(),
         Platform: storage.getLocalStorage("platform"),
-        AppVersion: storage.getLocalStorage("app-version"),
+        AppVersion: appVersion,
         UserAgent: navigator.userAgent,
         IsBot: isBot || isOldBrowser,
     };
@@ -140,7 +140,7 @@ window.addEventListener("unhandledrejection", function (event) {
         BrowserName: environment.getBrowserName(),
         BrowserVersion: environment.getBrowserVersion(),
         Platform: storage.getLocalStorage("platform"),
-        AppVersion: storage.getLocalStorage("app-version"),
+        AppVersion: appVersion,
         UserAgent: navigator.userAgent,
         IsBot: isBot || isOldBrowser,
     };

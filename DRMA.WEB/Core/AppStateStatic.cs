@@ -41,7 +41,7 @@ public static class AppStateStatic
 
             if (cache.NotEmpty())
             {
-                if (Enum.TryParse<Platform>(cache, true, out var platform) && Enum.IsDefined(platform))
+                if (System.Enum.TryParse<Platform>(cache, true, out var platform) && System.Enum.IsDefined(platform))
                 {
                     _platform = platform;
                 }

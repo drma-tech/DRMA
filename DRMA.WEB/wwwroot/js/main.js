@@ -5,15 +5,18 @@ export const isBot =
     /google|baidu|bingbot|duckduckbot|teoma|slurp|yandex|toutiao|bytespider|applebot/i.test(
         navigator.userAgent
     );
+
+/// avoid bots with fake browsers
 export const isOldBrowser = window.browser.satisfies({
-    chrome: "<131", //nov 2024 (avoid bots with fake browsers)
-    //edge: "<131", //nov 2024
-    //safari: "<18", //sep 2024
+    chrome: "<131", //nov 2024
+    edge: "<131", //nov 2024
+    safari: "<18", //sep 2024
 });
 export const isLocalhost = location.host.includes("localhost");
 export const isDev = location.hostname.includes("dev.");
 export const isWebview = /webtonative/i.test(navigator.userAgent);
 export const isPrintScreen = location.href.includes("printscreen");
+export const appVersion = (await fetch("/build-date.txt").then(r => r.text())).trim();
 
 export const servicesConfig = {
     AnalyticsCode: "G-41Q6D56912",

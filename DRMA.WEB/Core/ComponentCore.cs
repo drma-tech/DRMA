@@ -180,7 +180,7 @@ public abstract class PageCore<T> : ComponentCore<T>, IBrowserViewportObserver, 
         _ => Size.Medium
     };
 
-    public async virtual ValueTask DisposeAsync()
+    public virtual async ValueTask DisposeAsync()
     {
         await BrowserViewportService.UnsubscribeAsync(this);
         GC.SuppressFinalize(this);
