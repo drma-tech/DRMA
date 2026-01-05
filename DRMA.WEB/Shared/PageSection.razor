@@ -47,6 +47,12 @@
             }
         </MudPaper>
     }
+    @if (FilterFragment != null)
+    {
+         <MudPaper Class="@PaperClass" Style="background-color: transparent;" Outlined="true" Elevation="0">
+             @FilterFragment
+         </MudPaper>
+    }
     <div class="@BodyClass">
         @BodyFragment
     </div>
@@ -68,6 +74,7 @@
     [Parameter] public string? BodyClass { get; set; } = "mb-4";
 
     [Parameter] public RenderFragment? ActionFragment { get; set; }
+    [Parameter] public RenderFragment? FilterFragment { get; set; }
     [Parameter][EditorRequired] public RenderFragment? BodyFragment { get; set; }
 
     [Parameter] public bool ButtonAction { get; set; } = true;

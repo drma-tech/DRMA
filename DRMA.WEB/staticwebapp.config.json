@@ -6,6 +6,9 @@
     ]
   },
   "globalHeaders": {
-    "content-security-policy": "default-src 'self'; frame-src 'self' *.google.com *.adtrafficquality.google *.doubleclick.net *.userback.io *.googlesyndication.com; frame-ancestors 'self' google.com *.google.com *.doubleclick.net; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.googletagmanager.com *.clarity.ms *.googlesyndication.com *.adtrafficquality.google *.google.com *.userback.io *.ampproject.org *.gstatic.com; connect-src *; style-src * 'unsafe-inline'; img-src * data: blob:; font-src * data:; media-src 'self' *.gstatic.com blob: data:;"
+    //style-src 'unsafe-inline' is required by mudblazor and userback
+    //script-src 'unsafe-eval' is been using by something
+    //connect-src there is always some api calls to different domains from different sources
+    "content-security-policy": "default-src 'self'; connect-src *; frame-src 'self' *.google.com *.adtrafficquality.google *.doubleclick.net *.userback.io *.googlesyndication.com *.firebaseapp.com *.stripe.com; frame-ancestors 'self' https://google.com https://*.google.com https://*.doubleclick.net; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval' *.googletagmanager.com *.clarity.ms *.googlesyndication.com *.adtrafficquality.google *.google.com *.userback.io *.ampproject.org *.gstatic.com *.stripe.com; style-src 'self' *.userback.io *.googleapis.com 'unsafe-inline'; font-src 'self' *.userback.io *.gstatic.com; img-src * data: blob:; media-src 'self' *.gstatic.com blob: data:; base-uri 'self'; object-src 'none'; form-action 'self'; upgrade-insecure-requests;"
   }
 }

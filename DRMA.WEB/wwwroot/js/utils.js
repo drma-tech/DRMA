@@ -135,8 +135,7 @@ export const notification = {
                 <div style="font-size:2.2rem; margin-bottom:0.5rem;">⚠️</div>
                 <h2 style="font-size:1.3rem; margin-bottom:0.75rem;">Your browser is too old</h2>
                 <p style="font-size:1rem; line-height:1.5; margin-bottom:1rem;">
-                    This app can’t run on your current browser because it is out of date.
-                    Please update your device using the instructions below.
+                    This app cannot run in your current browser because it is out of date. Update your device by following the instructions below:
                 </p>
                 <div style="text-align:left; font-size:1rem; color:#444;">
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
@@ -212,20 +211,19 @@ export const environment = {
     },
     async checkBrowserFeatures() {
         const wasmSupported = typeof WebAssembly === "object";
+
+        //isOldBrowser - its probably a bot with fake user agent
+        if (!wasmSupported || isOldBrowser) {
+            notification.showBrowserWarning();
+            return;
+        }
+
         const simdSupported = await simd();
 
-        if (!wasmSupported || !simdSupported || isOldBrowser) {
-            if (!wasmSupported || isOldBrowser) {
-                notification.showBrowserWarning();
-                return;
-            }
-
-            if (!simdSupported) {
-                notification.showError(
-                    "Your browser is out of date or some security mechanism is blocking something essential for the platform to function properly, such as Edge's Enhanced Security Mode."
-                );
-                return;
-            }
+        if (!simdSupported) {
+            notification.showError(
+                "Your browser is out of date or some security mechanism is blocking something essential for the platform to function properly, such as Edge's Enhanced Security Mode."
+            );
         }
     },
     getBrowserName() {
@@ -236,6 +234,9 @@ export const environment = {
     },
     getOperatingSystem() {
         return window.browser.getOSName();
+    },
+    getAppVersion() {
+        return appVersion;
     },
 };
 

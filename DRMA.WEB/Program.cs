@@ -26,10 +26,11 @@ var app = builder.Build();
 
 var js = app.Services.GetRequiredService<IJSRuntime>();
 
-var version = DRMA.WEB.Layout.MainLayout.GetAppVersion();
-await js.Utils().SetLocalStorage("app-version", version);
+AppStateStatic.Version = await AppStateStatic.GetAppVersion(js);
+
+await js.Utils().SetLocalStorage("app-version", AppStateStatic.Version);
 await AppStateStatic.GetPlatform(js);
-await js.Services().InitGoogleAnalytics(version);
+await js.Services().InitGoogleAnalytics(AppStateStatic.Version);
 
 await app.RunAsync();
 

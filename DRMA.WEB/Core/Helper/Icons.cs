@@ -76,12 +76,12 @@
     {
         public static class Solid
         {
-            public static Icon Icon(string name) => new("fa-solid", name, AppStateStatic.Size == MudBlazor.Size.Small ? IconSize.sm : IconSize.md);
+            public static Icon Icon(string? name) => new("fa-solid", name ?? "", AppStateStatic.Size == MudBlazor.Size.Small ? IconSize.sm : IconSize.md);
         }
 
         public static class Brands
         {
-            public static Icon Icon(string name) => new("fa-brands", name, AppStateStatic.Size == MudBlazor.Size.Small ? IconSize.sm : IconSize.md);
+            public static Icon Icon(string? name) => new("fa-brands", name ?? "", AppStateStatic.Size == MudBlazor.Size.Small ? IconSize.sm : IconSize.md);
         }
     }
 }

@@ -46,7 +46,6 @@
 
             AppStateStatic.DarkModeChanged += dark => { _darkMode = dark; StateHasChanged(); };
             AppStateStatic.ShowError += msg => { Snackbar.Add(msg, Severity.Error); };
-            AppStateStatic.Version += GetAppVersion();
         }
         catch (Exception ex)
         {
@@ -95,20 +94,6 @@
     public static void ShowError(string error)
     {
         AppStateStatic.ShowError?.Invoke(error);
-    }
-
-    [JSInvokable]
-    public static string GetAppVersion()
-    {
-        try
-        {
-            //https://swharden.com/blog/2020-12-29-blazor-build-info/
-            return Properties.Resources.BuildDate.ReplaceLineEndings("").Trim();
-        }
-        catch (Exception)
-        {
-            return "version-error";
-        }
     }
 
 }

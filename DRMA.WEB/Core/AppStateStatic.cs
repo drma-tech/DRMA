@@ -17,6 +17,20 @@ public static class AppStateStatic
 
     public static string? Version { get; set; }
 
+    public static async Task<string> GetAppVersion(IJSRuntime js)
+    {
+        try
+        {
+            var vs = await js.Utils().GetAppVersion();
+
+            return vs?.ReplaceLineEndings("").Trim() ?? "version-error";
+        }
+        catch (Exception)
+        {
+            return "version-error";
+        }
+    }
+
     #region Platform
 
     private static Platform? _platform;
