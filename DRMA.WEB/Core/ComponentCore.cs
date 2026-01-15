@@ -5,6 +5,19 @@ using MudBlazor.Services;
 
 namespace DRMA.WEB.Core;
 
+public class ComponentActions<T>
+{
+    public Action<string?>? StartLoading { get; set; }
+    public Action<T?>? FinishLoading { get; set; }
+
+    public Action<string?>? StartProcessing { get; set; }
+    public Action<T?>? FinishProcessing { get; set; }
+
+    public Action<string?>? ShowWarning { get; set; }
+    public Action<string?>? ShowError { get; set; }
+    public Action? ShowCustomContent { get; set; }
+}
+
 public abstract class ComponentCore<T> : ComponentBase where T : class
 {
     [Inject] private ILogger<T> Logger { get; set; } = null!;
@@ -21,17 +34,6 @@ public abstract class ComponentCore<T> : ComponentBase where T : class
     /// </summary>
     /// <returns></returns>
     protected virtual Task LoadEssentialDataAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    /// <summary>
-    /// Data that depends on parameters (query string, route, etc.) to load
-    ///
-    /// NOTE: This method is useful when this parameter can be changed while the page/component is being displayed.
-    /// </summary>
-    /// <returns></returns>
-    protected virtual Task LoadParameterizedDataAsync()
     {
         return Task.CompletedTask;
     }
@@ -54,18 +56,6 @@ public abstract class ComponentCore<T> : ComponentBase where T : class
             AppStateStatic.BreakpointChanged += client => StateHasChanged();
             AppStateStatic.BrowserWindowSizeChanged += client => StateHasChanged();
             await LoadEssentialDataAsync();
-        }
-        catch (Exception ex)
-        {
-            ex.ProcessException(Snackbar, Logger);
-        }
-    }
-
-    protected override async Task OnParametersSetAsync()
-    {
-        try
-        {
-            await LoadParameterizedDataAsync();
         }
         catch (Exception ex)
         {
