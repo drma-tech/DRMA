@@ -53,6 +53,7 @@ public class CosmosLogger(CosmosLogRepository repo) : ILogger
             AppVersion = context?.AppVersion,
             UserId = context?.UserId,
             Ip = context?.Ip,
+            Country = context?.Country,
             UserAgent = context?.UserAgent,
             IsBot = context?.IsBot,
             Ttl = (int)TtlCache.ThreeMonths

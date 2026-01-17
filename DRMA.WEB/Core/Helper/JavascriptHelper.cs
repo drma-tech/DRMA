@@ -57,33 +57,79 @@ namespace DRMA.WEB.Core.Helper
     {
         #region STORAGE
 
-        public Task<string?> GetLocalStorage(string key) => Invoke<string?>("storage.getLocalStorage", key);
+        private static readonly JsonSerializerOptions JsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
 
-        public async Task<TValue?> GetLocalStorage<TValue>(string key)
+        public enum BrowserStorageType
         {
-            var value = await Invoke<string?>("storage.getLocalStorage", key);
-            return value != null ? JsonSerializer.Deserialize<TValue>(value) : default;
+            Local,
+            Session
         }
 
-        public Task SetLocalStorage(string key, string value) => InvokeVoid("storage.setLocalStorage", key, value);
-
-        public Task SetLocalStorage(string key, object value) => InvokeVoid("storage.setLocalStorage", key, JsonSerializer.Serialize(value));
-
-        public Task<string?> GetSessionStorage(string key) => Invoke<string?>("storage.getSessionStorage", key);
-
-        public async Task<TValue?> GetSessionStorage<TValue>(string key)
+        public async Task<T?> GetStorage<T>(string key, BrowserStorageType storage = BrowserStorageType.Local)
         {
-            var value = await Invoke<string?>("storage.getSessionStorage", key);
-            return value != null ? JsonSerializer.Deserialize<TValue>(value) : default;
+            var value = await Invoke<string?>(storage == BrowserStorageType.Local ? "storage.getLocalStorage" : "storage.getSessionStorage", key);
+            var type = typeof(T);
+            var underlyingType = Nullable.GetUnderlyingType(type) ?? type;
+
+            if (value.Empty())
+            {
+                return default;
+            }
+            else if (underlyingType == typeof(string))
+            {
+                return (T)(object)value;
+            }
+            else if (underlyingType.IsEnum)
+            {
+                var parsed = Enum.TryParse(underlyingType, value, ignoreCase: true, out var enumValue);
+                var defined = parsed && enumValue != null && Enum.IsDefined(underlyingType, enumValue);
+                return defined ? (T?)enumValue : default;
+            }
+            else
+            {
+                try
+                {
+                    return JsonSerializer.Deserialize<T>(value);
+                }
+                catch (Exception)
+                {
+                    return default;
+                }
+            }
         }
 
-        public Task SetSessionStorage(string key, string value) => InvokeVoid("storage.setSessionStorage", key, value);
+        public Task SetStorage<T>(string key, T value, BrowserStorageType storage = BrowserStorageType.Local)
+        {
+            if (value is null) return RemoveStorage(storage, key);
 
-        public Task SetSessionStorage(string key, object value) => InvokeVoid("storage.setSessionStorage", key, JsonSerializer.Serialize(value));
+            string storedValue;
+            var type = typeof(T);
+            var underlyingType = Nullable.GetUnderlyingType(type);
+
+            if (value is string s)
+            {
+                storedValue = s.ToLowerInvariant();
+            }
+            else if (type.IsEnum || (underlyingType != null && underlyingType.IsEnum))
+            {
+                storedValue = value.ToString()?.ToLowerInvariant() ?? throw new UnhandledException("invalid enum value");
+            }
+            else
+            {
+                storedValue = JsonSerializer.Serialize(value, JsonSerializerOptions);
+            }
+
+            return InvokeVoid(storage == BrowserStorageType.Local ? "storage.setLocalStorage" : "storage.setSessionStorage", key, storedValue);
+        }
+
+        public Task RemoveStorage(BrowserStorageType storage, string key)
+        {
+            return InvokeVoid(storage == BrowserStorageType.Local ? "storage.removeLocalStorage" : "storage.removeSessionStorage", key);
+        }
 
         public Task ShowCache() => InvokeVoid("storage.showCache");
 
-        public Task ClearLocalStorage() => InvokeVoid("storage.clearLocalStorage");
+        public Task ClearAllStorage() => InvokeVoid("storage.clearAllStorage");
 
         #endregion STORAGE
 

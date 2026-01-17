@@ -3,6 +3,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Net;
 using System.Text.Json;
 using System.Web;
@@ -70,6 +71,7 @@ public static class IsolatedFunctionHelper
         log.AppVersion = log.AppVersion ?? req.GetQueryParameters()["vs"];
         log.UserId = log.UserId ?? null;
         log.Ip = log.Ip ?? req.GetUserIP(false);
+        log.Country = log.Country ?? null;
 
         logger.LogError(ex, messageLog, log);
     }
@@ -120,8 +122,27 @@ public static class IsolatedFunctionHelper
 
         if (vs.Empty())
         {
-            throw new NotificationException("An outdated version has been detected. Please update to the latest version to continue using the platform. If you cannot update, try clearing your browser or app cache and reopen it.");
+            ThrowOutdated();
         }
+
+        if (!DateOnly.TryParseExact(vs, "yyyy.MM.dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var clientVersion))
+        {
+            ThrowOutdated();
+        }
+
+        var minimumSupportedVersion = new DateOnly(2026, 01, 04);
+
+        if (clientVersion < minimumSupportedVersion)
+        {
+            ThrowOutdated();
+        }
+    }
+
+    private static void ThrowOutdated()
+    {
+        throw new NotificationException(
+            "An outdated version has been detected. Please update to the latest version to continue using the platform. If you cannot update, try clearing your browser or app cache and reopen it."
+        );
     }
 }
 

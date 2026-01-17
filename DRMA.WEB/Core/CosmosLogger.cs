@@ -50,6 +50,7 @@ public class CosmosLogger(LoggerApi api) : ILogger
             AppVersion = AppStateStatic.Version,
             //UserId = AppStateStatic.UserId,
             Ip = null,
+            Country = AppStateStatic.GetSavedCountry(),
             UserAgent = null,
             IsBot = null,
             Ttl = (int)TtlCache.ThreeMonths

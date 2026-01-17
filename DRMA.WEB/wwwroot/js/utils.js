@@ -4,7 +4,7 @@ import { isBot, isOldBrowser, appVersion, baseApiUrl } from "./main.js";
 import { simd } from "./wasm-feature-detect.js";
 
 export const storage = {
-    clearLocalStorage() {
+    clearAllStorage() {
         localStorage.clear();
         sessionStorage.clear();
 
@@ -23,14 +23,20 @@ export const storage = {
             notification.showError("Key/value must be strings");
             return null;
         }
-        return localStorage.setItem(key, value);
+        localStorage.setItem(key, value);
     },
     setSessionStorage(key, value) {
         if (typeof key !== "string" || typeof value !== "string") {
             notification.showError("Key/value must be strings");
             return null;
         }
-        return sessionStorage.setItem(key, value);
+        sessionStorage.setItem(key, value);
+    },
+    removeLocalStorage(key) {
+        localStorage.removeItem(key);
+    },
+    removeSessionStorage(key) {
+        sessionStorage.removeItem(key);
     },
     showCache() {
         notification.showToast(
@@ -97,6 +103,7 @@ export const notification = {
                 BrowserVersion: environment.getBrowserVersion(),
                 Platform: storage.getLocalStorage("platform"),
                 AppVersion: appVersion,
+                Country: storage.getLocalStorage("country"),
                 UserAgent: navigator.userAgent,
                 IsBot: isBot || isOldBrowser,
             };
@@ -109,6 +116,7 @@ export const notification = {
                 BrowserVersion: environment.getBrowserVersion(),
                 Platform: storage.getLocalStorage("platform"),
                 AppVersion: appVersion,
+                Country: storage.getLocalStorage("country"),
                 UserAgent: navigator.userAgent,
                 IsBot: isBot || isOldBrowser,
             };

@@ -105,13 +105,13 @@
 
     private async Task ReloadPage()
     {
-        await JsRuntime.Utils().ClearLocalStorage();
+        await JsRuntime.Utils().ClearAllStorage();
         Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
     }
 
     private async Task UpdateNowAsync()
     {
-        await JsRuntime.Utils().ClearLocalStorage();
+        await JsRuntime.Utils().ClearAllStorage();
         await this.PWAUpdaterService.SkipWaitingAsync();
     }
 
