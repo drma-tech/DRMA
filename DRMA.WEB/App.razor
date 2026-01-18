@@ -16,12 +16,48 @@
                 <FocusOnNavigate RouteData="@routeData" Selector="h1" />
             </Found>
             <NotFound>
-                <PageTitle>Not found</PageTitle>
-                <LayoutView Layout="@typeof(MainLayout)">
-                    <MudAlert Severity="Severity.Error" Variant="Variant.Filled" Dense="true">
-                        Sorry, there's nothing at this address.
-                    </MudAlert>
-                </LayoutView>
+                <PageTitle>404 - Not found</PageTitle>
+                <HeadContent>
+                    <meta name="robots" content="noindex, nofollow" />
+                </HeadContent>
+                <style>
+                    body {
+                        margin: 0;
+                        font-family: sans-serif;
+                        background: #f8f9fa;
+                    }
+
+                    .container {
+                        height: 100vh;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        text-align: center;
+                    }
+
+                    h1 {
+                        font-size: 4rem;
+                        color: #dc3545;
+                        margin: 0;
+                    }
+
+                    p {
+                        font-size: 1.3rem;
+                    }
+
+                    a {
+                        color: #007bff;
+                        text-decoration: none;
+                        font-weight: bold;
+                    }
+                </style>
+                <div class="container">
+                    <div>
+                        <h1>404</h1>
+                        <p>Sorry, there's nothing at this address.</p>
+                        <a href="/">Return to homepage</a>
+                    </div>
+                </div>
             </NotFound>
         </Router>
     </ChildContent>
