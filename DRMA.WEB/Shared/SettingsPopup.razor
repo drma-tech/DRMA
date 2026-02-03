@@ -3,7 +3,7 @@
 <MudDialog Style="width: 100%">
     <DialogContent>
         <MudText Class="mb-1" Style="font-size: 14px;">App Theme</MudText>
-        <MudToggleGroup Value="DarkMode" ValueChanged="(bool vl) => DarkModeChanged(vl)" SelectionMode="SelectionMode.SingleSelection" Vertical="false" Color="Color.Primary" Size="AppStateStatic.Size">
+        <MudToggleGroup Value="DarkMode" ValueChanged="(bool vl) => DarkModeChanged(vl)" SelectionMode="SelectionMode.SingleSelection" Vertical="false" Color="Color.Primary">
             <MudToggleItem Value="false">
                 <MudIcon Icon="@IconsFA.Solid.Icon("sun").Font" Title="Light Mode" Class="me-1"></MudIcon>
                 Light Mode
@@ -15,7 +15,7 @@
         </MudToggleGroup>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="@(() => { MudDialog?.Close(); })" Size="AppStateStatic.Size">
+        <MudButton OnClick="@(() => { MudDialog?.Close(); })">
             Close
         </MudButton>
     </DialogActions>

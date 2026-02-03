@@ -140,33 +140,33 @@ body .pwa-updater[b-pwa-updater] {
 .grid-relative-container-platform {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
-    gap: 8px;
+    gap: 12px;
 }
 
 @media (max-width: 599.95px), (max-height: 599.95px) {
     .grid-relative-container-platform {
         grid-template-columns: repeat(auto-fill, minmax(73px, 1fr));
-        gap: 4px;
+        gap: 8px;
     }
 }
 
 .grid-relative-container-poster {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
-    gap: 8px;
+    gap: 12px;
 }
 
 @media (max-width: 599.95px), (max-height: 599.95px) {
     .grid-relative-container-poster {
         grid-template-columns: repeat(auto-fill, minmax(98px, 1fr)) !important;
-        gap: 4px;
+        gap: 8px;
     }
 }
 
 .grid-relative-container-trailer {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(256px, 1fr));
-    gap: 10px;
+    gap: 12px;
 }
 
 .grid-relative-container-news {
