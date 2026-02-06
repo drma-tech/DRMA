@@ -1,9 +1,9 @@
-﻿@inherits ComponentCore<FooterComponent>
+﻿@inject NavigationManager Navigation
 
-@if ((Support && Breakpoint <= Breakpoint.Sm) || (!Support && Breakpoint > Breakpoint.Sm))
+@if ((Support && AppStateStatic.Breakpoint <= Breakpoint.Sm) || (!Support && AppStateStatic.Breakpoint > Breakpoint.Sm))
 {
-    <MudDivider Class="mb-3 mt-10"></MudDivider>
-    <MudGrid Justify="Justify.Center" Style="overflow: auto;" Spacing="4">
+    <MudDivider Class="@Css.Build().Small("mb").Large("mt")"></MudDivider>
+    <MudGrid Justify="Justify.Center" Style="overflow: auto;" Spacing="@Css.SpaceSmall">
         <MudItem xs="12" sm="12" md="3">
             <MudList T="string" Color="Color.Surface" Dense="true" Gutters="false">
                 <MudListSubheader Gutters="false">
@@ -52,4 +52,12 @@
 
 @code {
     [Parameter] public bool Support { get; set; }
+ 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        AppStateStatic.BreakpointChanged += breakpoint => StateHasChanged();
+        AppStateStatic.BrowserWindowSizeChanged += size => StateHasChanged();
+    }
 }

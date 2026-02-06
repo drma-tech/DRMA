@@ -21,12 +21,12 @@
 <MudLayout>
     <HeadLayout></HeadLayout>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="my-3" Style="min-height: calc(100vh - 64px - 32px);">
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="@Css.Build().Medium("my")" Style="min-height: calc(100vh - 64px - 32px);">
             @Body
         </MudContainer>
         <FooterComponent></FooterComponent>
-        <MudDivider Class="my-3 mt-10"></MudDivider>
-        <MudText Align="Align.Center" Class="mb-3">
+        <MudDivider Class="@Css.Build().Small("my").Large("mt")"></MudDivider>
+        <MudText Align="Align.Center" Class="@Css.Build().Small("mb")">
             © 2025-@DateTime.Now.Year - DRMA Tech.
         </MudText>
     </MudMainContent>
@@ -46,6 +46,8 @@
 
             AppStateStatic.DarkModeChanged += dark => { _darkMode = dark; StateHasChanged(); };
             AppStateStatic.ShowError += msg => { Snackbar.Add(msg, Severity.Error); };
+            AppStateStatic.BreakpointChanged += breakpoint => StateHasChanged();
+            AppStateStatic.BrowserWindowSizeChanged += size => StateHasChanged();
         }
         catch (Exception ex)
         {
