@@ -125,6 +125,11 @@ public static class IsolatedFunctionHelper
             ThrowOutdated();
         }
 
+        if (vs == "loading")
+        {
+            return; //Ignore this, as the version may not have been defined yet.
+        }
+
         if (!DateOnly.TryParseExact(vs, "yyyy.MM.dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var clientVersion))
         {
             ThrowOutdated();

@@ -7,6 +7,7 @@ export const services = {
     initGoogleAnalytics(version) {
         if (isBot) return;
         if (isLocalhost) return;
+        if (isDev) return;
 
         const PLATFORM = storage.getLocalStorage("platform");
 
@@ -26,6 +27,7 @@ export const services = {
     initMicrosoftClarity(code) {
         if (isBot) return;
         if (isLocalhost) return;
+        if (isDev) return;
 
         (function (c, l, a, r, i, t, y) {
             c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };

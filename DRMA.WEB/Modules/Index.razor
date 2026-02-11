@@ -25,8 +25,8 @@
         Our Products
     </MudText>
     <MudDivider Class="mb-10"></MudDivider>
-    <MudGrid Spacing="@Css.SpaceLarge" Class="mb-20" Style="align-items: center;">
-        <MudItem xs="12" sm="4">
+    <MudGrid Spacing="@Css.SpaceLarge" Class="mb-20">
+        <MudItem xs="12" sm="4" Style="align-content: center;">
             <MudText Typo="Typo.h6" Color="Color.Secondary" Align="Align.Center" Class="mb-2">
                 Take Charge of Every Aspect of Your Life
             </MudText>
@@ -56,13 +56,21 @@
             </MudPaper>
             <MudPaper Elevation="2" Class="mb-10 pa-4">
                 <div class="d-flex mb-2">
-                    <MudIcon Icon="@Icons.Material.Filled.AirplaneTicket" Color="Color.Secondary" Class="me-2" Style="height: 50px; width: 50px;"></MudIcon>
+                    <MudImage Src="logos/ns.png" Height="50" Class="me-2"></MudImage>
                     <MudText Typo="Typo.h6" Color="Color.Secondary" Style="align-content: center;">
-                        Travels
+                        My Next Spot
                     </MudText>
                 </div>
-                <MudAlert Variant="Variant.Outlined" Severity="Severity.Warning" Dense="true" Class="mt-3">
-                    Under development
+                <div>
+                    <MudLink Href="https://www.my-next-spot.com/" Target="_blank" Underline="Underline.Always">
+                        www.my-next-spot.com
+                    </MudLink>
+                </div>
+                <MudText Typo="Typo.body2" Align="Align.Justify" Style="line-height: 1.6;">
+                    Explore countries and cities, learn interesting facts, and create your profile to find destinations that match your lifestyle, whether for a trip or a new home.
+                </MudText>
+                <MudAlert Variant="Variant.Outlined" Severity="Severity.Success" Dense="true" Class="mt-3">
+                    App launched in February 2026
                 </MudAlert>
             </MudPaper>
         </MudItem>
