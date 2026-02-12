@@ -1,6 +1,6 @@
 "use strict";
 
-import { isBot, isLocalhost, servicesConfig } from "./main.js";
+import { isBot, isLocalhost, isDev, servicesConfig } from "./main.js";
 import { storage } from "./utils.js";
 
 export const services = {
