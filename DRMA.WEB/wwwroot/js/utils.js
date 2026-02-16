@@ -1,6 +1,6 @@
 "use strict";
 
-import { isBot, isOldBrowser, appVersion, baseApiUrl } from "./main.js";
+import { isBot, isOldBrowser, isBotBrowser, appVersion, baseApiUrl } from "./main.js";
 import { simd } from "./wasm-feature-detect.js";
 
 export const storage = {
@@ -91,13 +91,14 @@ export const notification = {
             toast.remove();
         }, 10000);
     },
-    sendLog(error) {
+    sendLog(error, method) {
         let log;
+        if (!method) method = "no method";
         if (error instanceof Error) {
             log = {
                 Message: error.message,
                 StackTrace: error.stack,
-                Origin: `instanceof Error - name:${error.name || "unknown"}|url:${location.href}`,
+                Origin: `instanceof Error - name:${error.name || "unknown"}|url:${location.href}|method:${method}`,
                 OperationSystem: environment.getOperatingSystem(),
                 BrowserName: environment.getBrowserName(),
                 BrowserVersion: environment.getBrowserVersion(),
@@ -110,7 +111,7 @@ export const notification = {
         } else if (typeof error === "string") {
             log = {
                 Message: error,
-                Origin: `string - url:${location.href}`,
+                Origin: `string - url:${location.href}|method:${method}`,
                 OperationSystem: environment.getOperatingSystem(),
                 BrowserName: environment.getBrowserName(),
                 BrowserVersion: environment.getBrowserVersion(),
@@ -201,27 +202,42 @@ export const notification = {
 
 export const environment = {
     detectPlatform() {
-        if (!storage.getLocalStorage("platform")) {
-            const isWindows = document.referrer === "app-info://platform/microsoft-store";
-            const isHuawei = /huawei|honor/i.test(navigator.userAgent); //not working. returns play
-            const isXiaomi = /xiaomi/i.test(navigator.userAgent); //not working. returns play
-            const isAndroid = /(android)/i.test(navigator.userAgent);
-            const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-            const isMac = /macintosh|mac os x/i.test(navigator.userAgent);
+        if (storage.getLocalStorage("platform")) return;
 
-            if (isWindows) storage.setLocalStorage("platform", "windows");
-            else if (isHuawei) storage.setLocalStorage("platform", "huawei");
-            else if (isXiaomi) storage.setLocalStorage("platform", "xiaomi");
-            else if (isAndroid) storage.setLocalStorage("platform", "play");
-            else if (isIOS || isMac) storage.setLocalStorage("platform", "ios");
-            else storage.setLocalStorage("platform", "webapp");
+        const ua = navigator.userAgent.toLowerCase();
+        let platform = "webapp";
+
+        if (document.referrer === "app-info://platform/microsoft-store") {
+            // Microsoft Store PWA
+            platform = "windows";
+        } else if (/huawei|honor|hisilicon|kirin/i.test(ua)) {
+            // Huawei / Honor (model in UA after 2019)
+            platform = "huawei";
+        } else if (/xiaomi|miui|redmi|poco/i.test(ua)) {
+            // Xiaomi (MIUI Browser + standard model)
+            platform = "xiaomi";
+        } else if (/android/.test(ua)) {
+            // Generic Android (last one so as not to overwrite the ones above)
+            platform = "play";
+        } else if (/iphone|ipad|ipod|macintosh|mac os x/i.test(ua)) {
+            // iOS + macOS
+            platform = "ios";
         }
-    },
-    async checkBrowserFeatures() {
-        const wasmSupported = typeof WebAssembly === "object";
 
-        //isOldBrowser - its probably a bot with fake user agent
-        if (!wasmSupported || isOldBrowser) {
+        storage.setLocalStorage("platform", platform);
+    },
+    isScraping() {
+        const platform = localStorage.getItem("platform");
+
+        // Scrapers run browsers with older versions
+        return platform === "webapp" && isBotBrowser;
+    },
+    async validateBrowserAndPlatform() {
+        const wasmSupported = typeof WebAssembly === "object";
+        const scraping = this.isScraping();
+
+        //The browser does not support WASM, SIMD, or it's probably a scraping action.
+        if (!wasmSupported || isOldBrowser || scraping) {
             notification.showBrowserWarning();
             return;
         }
@@ -296,7 +312,7 @@ export const interop = {
 
 if (!isBot) {
     environment.detectPlatform();
-    environment.checkBrowserFeatures();
+    environment.validateBrowserAndPlatform();
 }
 
 window.checkUpdateReady = async function () {

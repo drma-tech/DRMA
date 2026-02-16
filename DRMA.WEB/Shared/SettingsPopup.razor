@@ -27,7 +27,7 @@
 
     public bool DarkMode { get; set; } = false;
 
-    protected override async Task LoadEssentialDataAsync()
+    protected override async Task ProcessInitialData()
     {
         DarkMode = await AppStateStatic.GetDarkMode(JsRuntime) ?? false;
     }

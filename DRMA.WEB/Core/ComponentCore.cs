@@ -29,18 +29,17 @@ public abstract class ComponentCore<T> : ComponentBase where T : class
     /// Mandatory data to fill out the page/component without delay (essential for bots, SEO, etc.)
     /// </summary>
     /// <returns></returns>
-    protected virtual Task LoadEssentialDataAsync()
+    protected virtual Task ProcessInitialData()
     {
         return Task.CompletedTask;
     }
 
-    /// <summary>
-    /// Non-critical data that may be delayed (popups, javascript handling, etc.)
-    ///
-    /// NOTE: This method cannot depend on previously loaded variables, as events can be executed in parallel.
-    /// </summary>
-    /// <returns></returns>
-    protected virtual Task LoadNonEssentialDataAsync()
+    protected virtual Task ProcessComponentData()
+    {
+        return Task.CompletedTask;
+    }
+
+    protected virtual Task ProcessPopupData()
     {
         return Task.CompletedTask;
     }
@@ -51,7 +50,8 @@ public abstract class ComponentCore<T> : ComponentBase where T : class
         {
             AppStateStatic.BreakpointChanged += breakpoint => StateHasChanged();
             AppStateStatic.BrowserWindowSizeChanged += size => StateHasChanged();
-            await LoadEssentialDataAsync();
+
+            await ProcessInitialData();
         }
         catch (Exception ex)
         {
@@ -65,13 +65,17 @@ public abstract class ComponentCore<T> : ComponentBase where T : class
         {
             if (firstRender)
             {
-                await LoadNonEssentialDataAsync();
+                await ProcessComponentData();
+                await ProcessPopupData();
+
                 StateHasChanged();
             }
+
+            await base.OnAfterRenderAsync(firstRender);
         }
         catch (Exception ex)
         {
-            ex.ProcessException(Snackbar, Logger);
+            await ProcessException(ex);
         }
     }
 
@@ -117,17 +121,17 @@ public abstract class ComponentCore<T> : ComponentBase where T : class
         await JsRuntime.Utils().Vibrate([200, 100, 200]);
     }
 
-    protected async Task ProcessException(Exception ex)
+    protected async Task ProcessException(Exception ex, bool showMessage = true)
     {
         if (ex is NotificationException exc)
         {
             Logger.LogWarning(exc.Message);
-            await ShowWarning(exc.Message);
+            if (showMessage) await ShowWarning(exc.Message);
         }
         else
         {
             Logger.LogError(ex, ex.Message);
-            await ShowError(ex.Message);
+            if (showMessage) await ShowError(ex.Message);
         }
     }
 
@@ -138,6 +142,15 @@ public abstract class PageCore<T> : ComponentCore<T>, IBrowserViewportObserver, 
 {
     [Inject] private IBrowserViewportService BrowserViewportService { get; set; } = null!;
 
+    /// <summary>
+    /// NOTE: This method cannot depend on previously loaded variables, as events can be executed in parallel.
+    /// </summary>
+    /// <returns></returns>
+    protected virtual Task ProcessPageData()
+    {
+        return Task.CompletedTask;
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         try
@@ -145,6 +158,10 @@ public abstract class PageCore<T> : ComponentCore<T>, IBrowserViewportObserver, 
             if (firstRender)
             {
                 await BrowserViewportService.SubscribeAsync(this, fireImmediately: true);
+
+                await ProcessPageData();
+
+                StateHasChanged();
             }
 
             await base.OnAfterRenderAsync(firstRender);

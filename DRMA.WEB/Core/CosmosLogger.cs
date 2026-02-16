@@ -39,6 +39,7 @@ public class CosmosLogger(LoggerApi api) : ILogger
         var log = new LogModel
         {
             Message = exception?.Message ?? formatter(state, exception),
+            InnerException = exception?.InnerException?.Message,
             StackTrace = exception?.StackTrace,
             Origin = "Blazor",
             Params = null,

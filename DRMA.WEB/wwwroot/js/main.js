@@ -11,6 +11,10 @@ export const isOldBrowser = window.browser.satisfies({
     edge: "<91",
     safari: "<16.4",
 });
+// validate only if it's a webapp
+export const isBotBrowser = window.browser.satisfies({
+    chrome: "<134", //feb 2025
+});
 export const isLocalhost = location.host.includes("localhost");
 export const isDev = location.hostname.includes("dev.");
 export const isWebview = /webtonative/i.test(navigator.userAgent);

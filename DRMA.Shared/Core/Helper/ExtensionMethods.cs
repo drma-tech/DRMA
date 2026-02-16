@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using System.Text.Json;
 
 namespace DRMA.Shared.Core.Helper;
 
@@ -45,5 +46,11 @@ public static class ExtensionMethods
     public static string SimpleDecrypt(this string? obfuscatedUrl)
     {
         return Encoding.UTF8.GetString(Convert.FromBase64String(obfuscatedUrl ?? ""));
+    }
+
+    public static T DeepClone<T>(this T instance) where T : class
+    {
+        var json = JsonSerializer.Serialize(instance);
+        return JsonSerializer.Deserialize<T>(json) ?? throw new InvalidOperationException("Clone failed");
     }
 }
