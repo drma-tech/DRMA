@@ -1,8 +1,10 @@
+using DRMA.Shared.Core.Helper;
 using DRMA.WEB;
 using DRMA.WEB.Modules.Subscription.Core;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
+using MudBlazor;
 using MudBlazor.Services;
 using Polly;
 using Polly.Extensions.Http;
@@ -26,7 +28,7 @@ var js = app.Services.GetRequiredService<IJSRuntime>();
 
 AppStateStatic.Version = await AppStateStatic.GetAppVersion(js);
 
-await js.Utils().SetStorage("app-version", AppStateStatic.Version, JavascriptContext.Default.String);
+await js.Utils().SetStorage("app-version", AppStateStatic.Version);
 await AppStateStatic.GetPlatform(js);
 await js.Services().InitGoogleAnalytics(AppStateStatic.Version);
 

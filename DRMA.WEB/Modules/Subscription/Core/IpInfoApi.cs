@@ -34,7 +34,7 @@ namespace DRMA.WEB.Modules.Subscription.Core
     {
         public async Task SaveLog(LogModel log)
         {
-            await PostAsync("public/logger", log, ModelContext.Default.LogModel, ModelContext.Default.LogModel);
+            await PostAsync<LogModel, LogModel>("public/logger", log);
         }
     }
 }

@@ -51,7 +51,7 @@ public static class AppStateStatic
                 return _platform.Value;
             }
 
-            var cache = await js.Utils().GetStorage("platform", JavascriptContext.Default.NullablePlatform);
+            var cache = await js.Utils().GetStorage<Platform?>("platform");
 
             if (cache.HasValue)
             {
@@ -60,7 +60,7 @@ public static class AppStateStatic
             else
             {
                 _platform = Platform.webapp;
-                await js.Utils().SetStorage("platform", _platform.Value, JavascriptContext.Default.Platform);
+                await js.Utils().SetStorage("platform", _platform);
             }
 
             return _platform.Value;
@@ -90,7 +90,7 @@ public static class AppStateStatic
                 return _darkMode.Value;
             }
 
-            _darkMode = await js.Utils().GetStorage("dark-mode", JavascriptContext.Default.NullableBoolean);
+            _darkMode = await js.Utils().GetStorage<bool?>("dark-mode");
 
             return _darkMode;
         }
@@ -132,7 +132,7 @@ public static class AppStateStatic
                 return _country;
             }
 
-            var cache = await js.Utils().GetStorage("country", JavascriptContext.Default.String);
+            var cache = await js.Utils().GetStorage<string>("country");
 
             if (cache.NotEmpty())
             {
@@ -143,7 +143,7 @@ public static class AppStateStatic
                 _country = (await api.GetCountry())?.Trim();
 
                 if (_country.NotEmpty())
-                    await js.Utils().SetStorage("country", _country, JavascriptContext.Default.String);
+                    await js.Utils().SetStorage("country", _country);
                 else
                     _country = await GetCountryFromApiServer(serverApi, js);
             }
@@ -165,7 +165,7 @@ public static class AppStateStatic
         try
         {
             var country = (await serverApi.GetCountry())?.Trim();
-            if (country.NotEmpty()) await js.Utils().SetStorage("country", country, JavascriptContext.Default.String);
+            if (country.NotEmpty()) await js.Utils().SetStorage("country", country);
 
             return country;
         }

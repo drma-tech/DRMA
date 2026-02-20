@@ -42,17 +42,11 @@
 {
     <MudDrawer @bind-Open="@_open" Anchor="Anchor.Right" Elevation="1" OverlayAutoClose="true">
         <MudDrawerHeader>
-            <MudText Typo="Typo.h6">
-                Home
-            </MudText>
+            <MudText Typo="Typo.h6">Home</MudText>
         </MudDrawerHeader>
         <MudNavMenu>
-            <MudNavLink Icon="@IconsFA.Solid.Icon("cog").Font" OnClick="@OpenConfigurations">
-                Settings
-            </MudNavLink>
-            <MudNavLink Icon="@IconsFA.Solid.Icon("headset").Font" Href="/support">
-                Support
-            </MudNavLink>
+            <MudNavLink Icon="@IconsFA.Solid.Icon("cog").Font" OnClick="@OpenConfigurations">Settings</MudNavLink>
+            <MudNavLink Icon="@IconsFA.Solid.Icon("headset").Font" Href="/support">Support</MudNavLink>
         </MudNavMenu>
     </MudDrawer>
 }

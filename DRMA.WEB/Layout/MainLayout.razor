@@ -86,7 +86,7 @@
             var system = await _mudThemeProvider.GetSystemDarkModeAsync();
             darkMode = system;
 
-            await JsRuntime.Utils().SetStorage("dark-mode", darkMode ?? false, JavascriptContext.Default.Boolean);
+            await JsRuntime.Utils().SetStorage("dark-mode", darkMode ?? false);
         }
 
         AppStateStatic.ChangeDarkMode(darkMode ?? false);
