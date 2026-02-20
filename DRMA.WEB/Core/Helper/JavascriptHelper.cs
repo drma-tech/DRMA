@@ -1,6 +1,6 @@
 ﻿using Microsoft.JSInterop;
 using System.Text.Json;
-using DRMA.WEB.Shared;
+using System.Text.Json.Serialization.Metadata;
 
 namespace DRMA.WEB.Core.Helper
 {
@@ -28,10 +28,10 @@ namespace DRMA.WEB.Core.Helper
             await module.InvokeVoidAsync(method, args);
         }
 
-        protected async Task<T> Invoke<T>(string method, params object?[] args)
+        protected async Task<string?> Invoke(string identifier, params object?[]? args)
         {
             var module = await JsModuleLoader.Load(js, path);
-            return await module.InvokeAsync<T>(method, args);
+            return await module.InvokeAsync<string?>(identifier, args);
         }
     }
 
@@ -50,14 +50,12 @@ namespace DRMA.WEB.Core.Helper
 
         public async Task InvokeVoidAsync(string identifier, params object?[]? args) => await js.InvokeVoidAsync(identifier, args);
 
-        public async Task<T> InvokeAsync<T>(string identifier, params object?[]? args) => await js.InvokeAsync<T>(identifier, args);
+        public async Task<string> InvokeAsync(string identifier, params object?[]? args) => await js.InvokeAsync<string>(identifier, args);
     }
 
     public class UtilsJs(IJSRuntime js) : JsModuleBase(js, "./js/utils.js")
     {
         #region STORAGE
-
-        private static readonly JsonSerializerOptions JsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
 
         public enum BrowserStorageType
         {
@@ -65,9 +63,9 @@ namespace DRMA.WEB.Core.Helper
             Session
         }
 
-        public async Task<T?> GetStorage<T>(string key, BrowserStorageType storage = BrowserStorageType.Local)
+        public async Task<T?> GetStorage<T>(string key, JsonTypeInfo<T?> typeInfo, BrowserStorageType storage = BrowserStorageType.Local)
         {
-            var value = await Invoke<string?>(storage == BrowserStorageType.Local ? "storage.getLocalStorage" : "storage.getSessionStorage", key);
+            var value = await Invoke(storage == BrowserStorageType.Local ? "storage.getLocalStorage" : "storage.getSessionStorage", key);
             var type = typeof(T);
             var underlyingType = Nullable.GetUnderlyingType(type) ?? type;
 
@@ -89,7 +87,7 @@ namespace DRMA.WEB.Core.Helper
             {
                 try
                 {
-                    return JsonSerializer.Deserialize<T>(value);
+                    return JsonSerializer.Deserialize(value, typeInfo);
                 }
                 catch (Exception)
                 {
@@ -98,7 +96,7 @@ namespace DRMA.WEB.Core.Helper
             }
         }
 
-        public Task SetStorage<T>(string key, T value, BrowserStorageType storage = BrowserStorageType.Local)
+        public Task SetStorage<T>(string key, T value, JsonTypeInfo<T> typeInfo, BrowserStorageType storage = BrowserStorageType.Local)
         {
             if (value is null) return RemoveStorage(storage, key);
 
@@ -116,7 +114,7 @@ namespace DRMA.WEB.Core.Helper
             }
             else
             {
-                storedValue = JsonSerializer.Serialize(value, JsonSerializerOptions);
+                storedValue = JsonSerializer.Serialize(value, typeInfo);
             }
 
             return InvokeVoid(storage == BrowserStorageType.Local ? "storage.setLocalStorage" : "storage.setSessionStorage", key, storedValue);
@@ -135,15 +133,15 @@ namespace DRMA.WEB.Core.Helper
 
         #region NOTIFICATION
 
-        public Task<string?> PlayBeep(int frequency, int duration, string type) => Invoke<string?>("notification.playBeep", frequency, duration, type);
+        public Task<string?> PlayBeep(int frequency, int duration, string type) => Invoke("notification.playBeep", frequency, duration, type);
 
-        public Task<string?> Vibrate(int[] pattern) => Invoke<string?>("notification.vibrate", pattern);
+        public Task<string?> Vibrate(int[] pattern) => Invoke("notification.vibrate", pattern);
 
         #endregion NOTIFICATION
 
         #region ENVIRONMENT
 
-        public Task<string?> GetAppVersion() => Invoke<string?>("environment.getAppVersion");
+        public Task<string?> GetAppVersion() => Invoke("environment.getAppVersion");
 
         #endregion ENVIRONMENT
 

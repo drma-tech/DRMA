@@ -1,8 +1,7 @@
-﻿using DRMA.Shared.Core.Helper;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
 using System.Security.Cryptography;
-using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 
 namespace DRMA.WEB.Core.Api;
 
@@ -108,7 +107,7 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, ApiType t
         }
     }
 
-    protected async Task<O?> PostAsync<I, O>(string uri, I? obj)
+    protected async Task<O?> PostAsync<I, O>(string uri, I? obj, JsonTypeInfo<I?> requestTypeInfo, JsonTypeInfo<O> responseTypeInfo)
     {
         try
         {
@@ -116,11 +115,11 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, ApiType t
 
             SetNewVersion(key);
 
-            var response = await GetHttp(type).PostAsJsonAsync(uri, obj, new JsonSerializerOptions());
+            var response = await GetHttp(type).PostAsJsonAsync(uri, obj, requestTypeInfo);
 
             if (response.StatusCode == HttpStatusCode.NoContent) return default;
 
-            if (response.IsSuccessStatusCode) return await response.Content.ReadFromJsonAsync<O>();
+            if (response.IsSuccessStatusCode) return await response.Content.ReadFromJsonAsync(responseTypeInfo);
 
             var content = await response.Content.ReadAsStringAsync();
             throw new NotificationException(content);
@@ -131,7 +130,7 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, ApiType t
         }
     }
 
-    protected async Task<O?> PutAsync<I, O>(string uri, I? obj)
+    protected async Task<O?> PutAsync<I, O>(string uri, I? obj, JsonTypeInfo<I?> requestTypeInfo, JsonTypeInfo<O> responseTypeInfo)
     {
         try
         {
@@ -139,11 +138,11 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, ApiType t
 
             SetNewVersion(key);
 
-            var response = await GetHttp(type).PutAsJsonAsync(uri, obj, new JsonSerializerOptions());
+            var response = await GetHttp(type).PutAsJsonAsync(uri, obj, requestTypeInfo);
 
             if (response.StatusCode == HttpStatusCode.NoContent) return default;
 
-            if (response.IsSuccessStatusCode) return await response.Content.ReadFromJsonAsync<O>();
+            if (response.IsSuccessStatusCode) return await response.Content.ReadFromJsonAsync(responseTypeInfo);
 
             var content = await response.Content.ReadAsStringAsync();
             throw new NotificationException(content);
@@ -154,7 +153,7 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, ApiType t
         }
     }
 
-    protected async Task<T?> DeleteAsync<T>(string uri)
+    protected async Task<T?> DeleteAsync<T>(string uri, JsonTypeInfo<T> typeInfo)
     {
         try
         {
@@ -166,7 +165,7 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, ApiType t
 
             if (response.StatusCode == HttpStatusCode.NoContent) return default;
 
-            if (response.IsSuccessStatusCode) return await response.Content.ReadFromJsonAsync<T>();
+            if (response.IsSuccessStatusCode) return await response.Content.ReadFromJsonAsync(typeInfo);
 
             var content = await response.Content.ReadAsStringAsync();
             throw new NotificationException(content);

@@ -36,7 +36,7 @@
     {
         DarkMode = value;
 
-        await JsRuntime.Utils().SetStorage("dark-mode", value);
+        await JsRuntime.Utils().SetStorage("dark-mode", value, JavascriptContext.Default.Boolean);
 
         AppStateStatic.ChangeDarkMode(value);
     }
