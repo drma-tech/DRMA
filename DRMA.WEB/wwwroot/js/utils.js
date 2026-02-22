@@ -202,10 +202,19 @@ export const notification = {
 
 export const environment = {
     detectPlatform() {
-        if (storage.getLocalStorage("platform")) return;
+        let platform = storage.getLocalStorage("platform");
+
+        //for some reason, sometimes platform is not getting the correct value on windows
+        if (document.referrer === "app-info://platform/microsoft-store" && platform === "webapp") {
+            platform = "windows";
+            storage.setLocalStorage("platform", platform);
+            return;
+        }
+
+        if (platform) return; //if its already detected, exit
 
         const ua = navigator.userAgent.toLowerCase();
-        let platform = "webapp";
+        platform = "webapp"; //default value
 
         if (document.referrer === "app-info://platform/microsoft-store") {
             // Microsoft Store PWA

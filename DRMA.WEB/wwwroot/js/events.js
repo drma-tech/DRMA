@@ -181,8 +181,16 @@ window.addEventListener("resize", function () {
     }, 250);
 });
 
+const OFFLINE_COOLDOWN_MS = 5 * 60 * 1000; // 5 minutes cooldown
+let lastOfflineNotifyAt = 0;
 window.addEventListener("offline", () => {
+    const now = Date.now();
+
+    if (now - lastOfflineNotifyAt < OFFLINE_COOLDOWN_MS) return;
+
     notification.showError(
         "It looks like you're offline. Please check your connection."
     );
+
+    lastOfflineNotifyAt = Date.now();
 });

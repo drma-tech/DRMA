@@ -144,6 +144,9 @@ namespace DRMA.WEB.Core.Helper
         #region ENVIRONMENT
 
         public Task<string?> GetAppVersion() => Invoke<string?>("environment.getAppVersion");
+        public Task<string?> GetBrowserName() => Invoke<string?>("environment.getBrowserName");
+        public Task<string?> GetBrowserVersion() => Invoke<string?>("environment.getBrowserVersion");
+        public Task<string?> GetOperatingSystem() => Invoke<string?>("environment.getOperatingSystem");
 
         #endregion ENVIRONMENT
 
