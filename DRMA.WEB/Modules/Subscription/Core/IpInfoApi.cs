@@ -29,12 +29,4 @@ namespace DRMA.WEB.Modules.Subscription.Core
             }
         }
     }
-
-    public class LoggerApi(IHttpClientFactory factory) : ApiCore(factory, null, ApiType.Anonymous)
-    {
-        public async Task SaveLog(LogModel log)
-        {
-            await PostAsync<LogModel, LogModel>("public/logger", log);
-        }
-    }
 }

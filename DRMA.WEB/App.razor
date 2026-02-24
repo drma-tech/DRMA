@@ -109,6 +109,8 @@
 
     private async Task OnAppError(Exception ex)
     {
+        SentrySdk.CaptureException(ex);
+
         _isUpdateAvailable = await JsRuntime.InvokeAsync<bool>("checkUpdateReady");
         StateHasChanged();
 

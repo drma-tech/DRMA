@@ -54,22 +54,6 @@ window.addEventListener("error", function (event) {
     }
 
     notification.showError(`error: ${message}`);
-
-    const log = {
-        Message: `event.message:${message}|error.message:${error?.message}`,
-        StackTrace: error?.stack,
-        Origin: `event error - filename:${filename}|url:${location.href}|lineno:${lineno}|colno:${colno}`,
-        OperationSystem: environment.getOperatingSystem(),
-        BrowserName: environment.getBrowserName(),
-        BrowserVersion: environment.getBrowserVersion(),
-        Platform: storage.getLocalStorage("platform"),
-        AppVersion: appVersion,
-        Country: storage.getLocalStorage("country"),
-        UserAgent: navigator.userAgent,
-        IsBot: isBot || isOldBrowser,
-    };
-
-    notification.sendLog(log);
 });
 
 //Promise.reject(new Error('unhandledrejection test call'));
@@ -138,22 +122,6 @@ window.addEventListener("unhandledrejection", function (event) {
     }
 
     notification.showError(`unhandledrejection: ${message}`);
-
-    const log = {
-        Message: message,
-        StackTrace: stack,
-        Origin: `event unhandledrejection - url:${location.href}`,
-        OperationSystem: environment.getOperatingSystem(),
-        BrowserName: environment.getBrowserName(),
-        BrowserVersion: environment.getBrowserVersion(),
-        Platform: storage.getLocalStorage("platform"),
-        AppVersion: appVersion,
-        Country: storage.getLocalStorage("country"),
-        UserAgent: navigator.userAgent,
-        IsBot: isBot || isOldBrowser,
-    };
-
-    notification.sendLog(log);
 });
 
 window.addEventListener("securitypolicyviolation", (event) => {
@@ -165,7 +133,7 @@ window.addEventListener("securitypolicyviolation", (event) => {
         url: location.href,
     };
 
-    notification.sendLog(`securitypolicyviolation: ${JSON.stringify(obj)}`);
+    Sentry.captureMessage(`securitypolicyviolation: ${JSON.stringify(obj)}`, "error");
 });
 
 let resizeTimeout;

@@ -91,48 +91,6 @@ export const notification = {
             toast.remove();
         }, 10000);
     },
-    sendLog(error, method) {
-        let log;
-        if (!method) method = "no method";
-        if (error instanceof Error) {
-            log = {
-                Message: error.message,
-                StackTrace: error.stack,
-                Origin: `instanceof Error - name:${error.name || "unknown"}|url:${location.href}|method:${method}`,
-                OperationSystem: environment.getOperatingSystem(),
-                BrowserName: environment.getBrowserName(),
-                BrowserVersion: environment.getBrowserVersion(),
-                Platform: storage.getLocalStorage("platform"),
-                AppVersion: appVersion,
-                Country: storage.getLocalStorage("country"),
-                UserAgent: navigator.userAgent,
-                IsBot: isBot || isOldBrowser,
-            };
-        } else if (typeof error === "string") {
-            log = {
-                Message: error,
-                Origin: `string - url:${location.href}|method:${method}`,
-                OperationSystem: environment.getOperatingSystem(),
-                BrowserName: environment.getBrowserName(),
-                BrowserVersion: environment.getBrowserVersion(),
-                Platform: storage.getLocalStorage("platform"),
-                AppVersion: appVersion,
-                Country: storage.getLocalStorage("country"),
-                UserAgent: navigator.userAgent,
-                IsBot: isBot || isOldBrowser,
-            };
-        } else {
-            log = error;
-        }
-
-        fetch(`${baseApiUrl}/api/public/logger`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(log),
-        }).catch(() => {
-            notification.showError("sendLog: failed to send log.");
-        });
-    },
     showBrowserWarning() {
         const os = environment.getOperatingSystem();
         const browser = environment.getBrowserName();
