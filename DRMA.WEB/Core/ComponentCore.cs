@@ -4,19 +4,6 @@ using MudBlazor;
 
 namespace DRMA.WEB.Core;
 
-public class ComponentActions<T>
-{
-    public Action<string?>? StartLoading { get; set; }
-    public Action<T?>? FinishLoading { get; set; }
-
-    public Action<string?>? StartProcessing { get; set; }
-    public Action<T?>? FinishProcessing { get; set; }
-
-    public Action<string?>? ShowWarning { get; set; }
-    public Action<string?>? ShowError { get; set; }
-    public Action? ShowCustomContent { get; set; }
-}
-
 public abstract class ComponentCore<T> : ComponentBase where T : class
 {
     [Inject] private ILogger<T> Logger { get; set; } = null!;
@@ -24,6 +11,8 @@ public abstract class ComponentCore<T> : ComponentBase where T : class
     [Inject] protected IDialogService DialogService { get; set; } = null!;
     [Inject] protected IJSRuntime JsRuntime { get; set; } = null!;
     [Inject] protected NavigationManager Navigation { get; set; } = null!;
+
+    protected Action<string>? OnError { get; set; }
 
     /// <summary>
     /// Mandatory data to fill out the page/component without delay (essential for bots, SEO, etc.)
@@ -55,7 +44,10 @@ public abstract class ComponentCore<T> : ComponentBase where T : class
         }
         catch (Exception ex)
         {
-            ex.ProcessException(Snackbar, Logger);
+            if (OnError != null)
+                OnError(ex.Message);
+            else
+                await ProcessException(ex, false);
         }
     }
 
@@ -75,7 +67,10 @@ public abstract class ComponentCore<T> : ComponentBase where T : class
         }
         catch (Exception ex)
         {
-            await ProcessException(ex);
+            if (OnError != null)
+                OnError(ex.Message);
+            else
+                await ProcessException(ex);
         }
     }
 

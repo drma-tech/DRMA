@@ -46,7 +46,6 @@ AppStateStatic.Version = await AppStateStatic.GetAppVersion(js);
 AppStateStatic.BrowserName = await js.Utils().GetBrowserName();
 AppStateStatic.BrowserVersion = await js.Utils().GetBrowserVersion();
 AppStateStatic.OperatingSystem = await js.Utils().GetOperatingSystem();
-AppStateStatic.UserAgent = await js.Window().InvokeAsync<string>("eval", "navigator.userAgent");
 
 await js.Utils().SetStorage("app-version", AppStateStatic.Version);
 await AppStateStatic.GetPlatform(js);
@@ -63,6 +62,7 @@ static void ConfigureServices(IServiceCollection collection, string baseAddress,
     });
 
     collection.AddPWAUpdater();
+    collection.AddScoped<AppVersionHandler>();
 
     collection.AddHttpClient("Local", c => { c.BaseAddress = new Uri(baseAddress); });
 

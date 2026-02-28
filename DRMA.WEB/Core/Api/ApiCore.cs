@@ -36,19 +36,14 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, ApiType t
 
     public static void SetNewVersion(string? key)
     {
-        if (key.NotEmpty()) CacheVersion[key!] = RandomNumberGenerator.GetInt32(1, 999999);
+        if (key.NotEmpty()) CacheVersion[key] = RandomNumberGenerator.GetInt32(1, 999999);
     }
 
     private Dictionary<string, string> GetVersion()
     {
         if (!CacheVersion.TryGetValue(key!, out _)) CacheVersion[key!] = RandomNumberGenerator.GetInt32(1, 999999);
 
-        return new Dictionary<string, string> { { "v", CacheVersion[key!].ToString() }, { "vs", AppStateStatic.Version ?? "" } };
-    }
-
-    private static Dictionary<string, string> GetSystemVersion()
-    {
-        return new Dictionary<string, string> { { "vs", AppStateStatic.Version ?? "" } };
+        return new Dictionary<string, string> { { "v", CacheVersion[key!].ToString() } };
     }
 
     protected async Task<string?> GetValueAsync(string uri, CancellationToken cancellationToken = default)
@@ -59,7 +54,7 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, ApiType t
 
             if (key.NotEmpty())
                 return await GetHttp(type).GetValueAsync(uri.ConfigureParameters(GetVersion()), cancellationToken);
-            return await GetHttp(type).GetValueAsync(uri.ConfigureParameters(GetSystemVersion()), cancellationToken);
+            return await GetHttp(type).GetValueAsync(uri, cancellationToken);
         }
         finally
         {
@@ -77,7 +72,7 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, ApiType t
 
             if (key.NotEmpty())
                 return await GetHttp(type).GetJsonFromApi<T>(uri.ConfigureParameters(GetVersion()), cancellationToken);
-            return await GetHttp(type).GetJsonFromApi<T>(uri.ConfigureParameters(GetSystemVersion()), cancellationToken);
+            return await GetHttp(type).GetJsonFromApi<T>(uri, cancellationToken);
         }
         finally
         {
@@ -98,7 +93,7 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, ApiType t
             }
             else
             {
-                var result = await GetHttp(type).GetJsonFromApi<HashSet<T>>(uri.ConfigureParameters(GetSystemVersion()), cancellationToken);
+                var result = await GetHttp(type).GetJsonFromApi<HashSet<T>>(uri, cancellationToken);
                 return result ?? [];
             }
         }

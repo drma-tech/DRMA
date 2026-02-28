@@ -44,6 +44,12 @@
                     </div>
                 }
             </MudPaper>
+            @if (ExtraFragment != null)
+            {
+                <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 0px 0px 0px 0px;" : "")}")" Outlined="true" Elevation="0">
+                    @ExtraFragment
+                </MudPaper>
+            }
             @if (ShowActions && HasActions)
             {
                 <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 0px 0px 4px 4px;" : "")}")" Outlined="true" Elevation="0">
@@ -97,6 +103,12 @@
                     }
                 </div>
             }
+            @if (ExtraFragment != null)
+            {
+                <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 0px 0px 0px 0px;" : "")}")" Outlined="true" Elevation="0">
+                    @ExtraFragment
+                </MudPaper>
+            }
             @if (ShowActions && HasActions)
             {
                 <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 4px 4px 0px 0px;" : "")}")" Outlined="true" Elevation="0">
@@ -135,6 +147,7 @@
     [Parameter] public string? CustomBodyClass { get; set; }
 
     //Fragments
+    [Parameter] public RenderFragment? ExtraFragment { get; set; }
     [Parameter] public RenderFragment? ActionsFragment { get; set; }
     [Parameter] public RenderFragment? BodyFragment { get; set; }
 
