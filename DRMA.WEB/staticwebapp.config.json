@@ -2,7 +2,6 @@
   "navigationFallback": {
     "rewrite": "/index.html",
     "exclude": [
-      "/_framework/*",
       "*.{css,scss,js,png,gif,ico,jpg,svg,ttf,woff2,webmanifest}"
     ]
   },
