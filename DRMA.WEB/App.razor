@@ -10,11 +10,14 @@
 
 <CustomErrorBoundary @ref="_boundary" OnErrorCallback="OnAppError">
     <ChildContent>
-        <Router AppAssembly="@typeof(App).Assembly" NotFoundPage="typeof(NotFoundPage)">
+        <Router AppAssembly="@typeof(App).Assembly">
             <Found Context="routeData">
                 <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
                 <FocusOnNavigate RouteData="@routeData" Selector="h1" />
             </Found>
+            <NotFound>
+                <NotFoundPage></NotFoundPage>
+            </NotFound>
         </Router>
     </ChildContent>
     <ErrorContent Context="ex">
