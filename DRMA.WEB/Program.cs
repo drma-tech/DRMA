@@ -47,7 +47,7 @@ AppStateStatic.BrowserName = await js.Utils().GetBrowserName();
 AppStateStatic.BrowserVersion = await js.Utils().GetBrowserVersion();
 AppStateStatic.OperatingSystem = await js.Utils().GetOperatingSystem();
 
-await js.Utils().SetStorage("app-version", AppStateStatic.Version, JavascriptContext.Default.String);
+await js.Utils().SetStorage("app-version", AppStateStatic.Version);
 await AppStateStatic.GetPlatform(js);
 await js.Services().InitGoogleAnalytics(AppStateStatic.Version);
 

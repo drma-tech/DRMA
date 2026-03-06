@@ -183,6 +183,9 @@ export const environment = {
         } else if (/xiaomi|miui|redmi|poco/i.test(ua)) {
             // Xiaomi (MIUI Browser + standard model)
             platform = "xiaomi";
+        } else if (/kindle|silk|kf[a-z]{2,4}/i.test(ua)) {
+            // Amazon Kindle / Fire (Silk Browser + model)
+            platform = "amazon";
         } else if (/android/.test(ua)) {
             // Generic Android (last one so as not to overwrite the ones above)
             platform = "play";

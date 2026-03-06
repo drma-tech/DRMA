@@ -8,6 +8,7 @@
         play = 4,
         ios = 8,
         huawei = 16,
-        xiaomi = 32
+        xiaomi = 32,
+        amazon = 64,
     }
 }

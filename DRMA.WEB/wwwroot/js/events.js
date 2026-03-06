@@ -48,7 +48,7 @@ window.addEventListener("load", function () {
 window.addEventListener("error", function (event) {
     const { message, filename, lineno, colno, error } = event;
 
-    if (filename?.includes("blazor.webassembly.js")) {
+    if (filename?.includes("blazor.webassembly")) {
         notification.showBrowserWarning();
         return;
     }

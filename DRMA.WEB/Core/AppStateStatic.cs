@@ -55,7 +55,7 @@ public static class AppStateStatic
                 return _platform.Value;
             }
 
-            var cache = await js.Utils().GetStorage("platform", JavascriptContext.Default.NullablePlatform);
+            var cache = await js.Utils().GetStorage<Platform?>("platform");
 
             if (cache.HasValue)
             {
@@ -64,7 +64,7 @@ public static class AppStateStatic
             else
             {
                 _platform = Platform.webapp;
-                await js.Utils().SetStorage("platform", _platform.Value, JavascriptContext.Default.Platform);
+                await js.Utils().SetStorage("platform", _platform);
             }
 
             return _platform.Value;
@@ -94,7 +94,7 @@ public static class AppStateStatic
                 return _darkMode.Value;
             }
 
-            _darkMode = await js.Utils().GetStorage("dark-mode", JavascriptContext.Default.NullableBoolean);
+            _darkMode = await js.Utils().GetStorage<bool?>("dark-mode");
 
             return _darkMode;
         }
