@@ -13,12 +13,14 @@ public static class PopupHelper
         await service.ShowAsync<SettingsPopup>("Settings", Options(MaxWidth.Small));
     }
 
-    public static DialogOptions Options(MaxWidth width)
+    public static DialogOptions Options(MaxWidth width, bool allowClose = true, bool showHeader = true)
     {
         return new DialogOptions
         {
-            CloseOnEscapeKey = true,
-            CloseButton = true,
+            CloseOnEscapeKey = allowClose,
+            CloseButton = allowClose,
+            BackdropClick = allowClose,
+            NoHeader = !showHeader,
             Position = DialogPosition.Center,
             MaxWidth = width
         };

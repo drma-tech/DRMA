@@ -19,15 +19,6 @@ export const isLocalhost = location.host.includes("localhost");
 export const isDev = location.hostname.includes("dev.");
 export const isWebview = /webtonative/i.test(navigator.userAgent);
 export const isPrintScreen = location.href.includes("printscreen");
-export let appVersion = "loading";
-
-fetch("/build-date.txt")
-    .then((r) => r.text())
-    .then((text) => {
-        appVersion = text.trim();
-    }).catch(() => {
-        appVersion = "version-error";
-    });
 
 export const servicesConfig = {
     AnalyticsCode: "G-41Q6D56912",
@@ -44,16 +35,4 @@ if (isDev) {
     meta.name = "robots";
     meta.content = "noindex, nofollow";
     document.head.appendChild(meta);
-}
-
-// temporary: remove in the end of 2026
-if (typeof Promise.withResolvers !== "function") {
-    Promise.withResolvers = function () {
-        let resolve, reject;
-        const promise = new Promise((res, rej) => {
-            resolve = res;
-            reject = rej;
-        });
-        return { promise, resolve, reject };
-    };
 }

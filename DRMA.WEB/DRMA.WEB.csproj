@@ -34,6 +34,6 @@
 		<CurrentDate>$([System.DateTime]::Now.ToString(yyyy.MM.dd))</CurrentDate>
 	</PropertyGroup>
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-		<WriteLinesToFile File="$(ProjectDir)wwwroot\build-date.txt" Lines="$(CurrentDate)" Overwrite="true" />
+		<WriteLinesToFile File="$(ProjectDir)wwwroot\js\app-version.js" Lines="export const appVersion = '$(CurrentDate)';" Overwrite="true" />
 	</Target>
 </Project>

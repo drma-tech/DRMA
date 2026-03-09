@@ -17,6 +17,8 @@ builder.UseSentry(options =>
 
     options.SetBeforeSend(evt =>
     {
+        evt.Release = $"drma-web@{AppStateStatic.Version}";
+
         evt.SetTag("custom.version", AppStateStatic.Version ?? "error");
         evt.SetTag("custom.platform", AppStateStatic.GetSavedPlatform()?.ToString() ?? "error");
 

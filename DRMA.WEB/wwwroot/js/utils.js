@@ -1,7 +1,8 @@
 "use strict";
 
-import { isBot, isOldBrowser, isBotBrowser, appVersion, baseApiUrl } from "./main.js";
+import { isBot, isOldBrowser, isBotBrowser } from "./main.js";
 import { simd } from "./wasm-feature-detect.js";
+import { appVersion } from "./app-version.js";
 
 export const storage = {
     clearAllStorage() {

@@ -1,7 +1,7 @@
 "use strict";
 
-import { isDev, isBot, isOldBrowser, appVersion } from "./main.js";
-import { storage, notification, environment } from "./utils.js";
+import { isDev } from "./main.js";
+import { notification } from "./utils.js";
 
 window.addEventListener("load", function () {
     const startTime = performance.now();
@@ -46,7 +46,7 @@ window.addEventListener("load", function () {
 //setTimeout(() => { throw new Error('error test call'); }, 100);
 
 window.addEventListener("error", function (event) {
-    const { message, filename, lineno, colno, error } = event;
+    const { message, filename } = event;
 
     if (filename?.includes("blazor.webassembly")) {
         notification.showBrowserWarning();
@@ -104,7 +104,7 @@ function normalizeReason(reason) {
 }
 
 window.addEventListener("unhandledrejection", function (event) {
-    const { message, stack } = normalizeReason(event.reason);
+    const { message } = normalizeReason(event.reason);
 
     if (message.includes("Failed to fetch")) {
         if (!isDev) {
