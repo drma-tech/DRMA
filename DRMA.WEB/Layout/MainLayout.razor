@@ -45,7 +45,7 @@
             // *************************************
 
             AppStateStatic.DarkModeChanged += dark => { _darkMode = dark; StateHasChanged(); };
-            AppStateStatic.ShowError += msg => { Snackbar.Add(msg, Severity.Error); };
+            BufferedEvent.Register(nameof(ShowError), (string msg) => { Snackbar.Add(msg, Severity.Error); return Task.CompletedTask; });
             AppStateStatic.BreakpointChanged += breakpoint => StateHasChanged();
             AppStateStatic.BrowserWindowSizeChanged += size => StateHasChanged();
         }
@@ -95,7 +95,7 @@
     [JSInvokable]
     public static void ShowError(string error)
     {
-        AppStateStatic.ShowError?.Invoke(error);
+        BufferedEvent.Invoke(nameof(ShowError), error);
     }
 
 }

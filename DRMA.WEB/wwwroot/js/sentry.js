@@ -9,10 +9,10 @@ const env = (() => {
 })();
 
 const ignoredErrors = [
-    "Failed to fetch",
-    "Failed to register a ServiceWorker for scope",
-    "Failed to start platform",
-    "This browser/engine doesn't support WASM SIMD"
+    /failed to fetch/i,
+    /failed to register/i,
+    /failed to start/i,
+    /wasm simd/i
 ];
 
 Sentry.init({
@@ -23,7 +23,7 @@ Sentry.init({
         const exception = event.exception?.values?.[0];
         const message = exception?.value;
 
-        if (message && ignoredErrors.some(err => message.includes(err))) {
+        if (message && ignoredErrors.some(err => err.test(message))) {
             return null;
         }
 

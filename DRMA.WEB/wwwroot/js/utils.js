@@ -253,31 +253,23 @@ export const interop = {
         // On older versions of Safari, it seems you need to comment this line...
         URL.revokeObjectURL(exportUrl);
     },
-    async invokeDotNetWhenReady(assembly, method, args) {
-        const maxRetries = 25;
-        let delay = 300;
-        const delayStep = 300;
-        const maxDelay = 5000;
+    async invokeDotNetWhenReady(assembly, method, args, maxRetries = 20, initialDelay = 300, maxDelay = 2000) {
+        let delay = initialDelay;
 
-        for (let i = 0; i < maxRetries; i++) {
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
             if (window.DotNet?.invokeMethodAsync) {
                 try {
-                    await window.DotNet.invokeMethodAsync(
-                        assembly,
-                        method,
-                        args
-                    );
+                    await window.DotNet.invokeMethodAsync(assembly, method, args);
                     return;
                 } catch {
-                    //ignores
+                    //ignores -> No call dispatcher has been set.
                 }
             }
             await new Promise((resolve) => setTimeout(resolve, delay));
-            delay = Math.min(delay + delayStep, maxDelay);
+            delay = Math.min(delay * 1.5, maxDelay);
         }
-        console.error(
-            `DotNet not ready after multiple retries. method: ${method}`
-        );
+
+        throw new Error(`Blazor runtime never ready to receive JSInvokable ${method} from assembly ${assembly}`);
     },
 };
 
