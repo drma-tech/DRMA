@@ -1,1 +1,4 @@
-﻿Sitemap: https://www.drma-tech.com/sitemap.xml
+﻿User-agent: *
+Disallow: /_framework/
+
+Sitemap: https://www.drma-tech.com/sitemap.xml

@@ -109,8 +109,12 @@ window.addEventListener("unhandledrejection", function (event) {
     if (message.includes("Failed to fetch")) {
         if (!isDev) {
             notification.showError(
-                "Connection problem detected. Check your internet connection and try reloading."
+                "Unable to load required components. This may be a connection issue or a browser restriction. Try reopening the app."
             );
+            //todo: study if this makes sense
+            //setTimeout(() => {
+            //    resetPwaAndReload();
+            //}, 2000);
             return;
         }
     }
@@ -123,6 +127,24 @@ window.addEventListener("unhandledrejection", function (event) {
 
     notification.showError(`unhandledrejection: ${message}`);
 });
+
+//async function resetPwaAndReload() {
+//    try {
+//        if ('caches' in window) {
+//            const keys = await caches.keys();
+//            await Promise.all(keys.map(key => caches.delete(key)));
+//        }
+
+//        if ('serviceWorker' in navigator) {
+//            const registrations = await navigator.serviceWorker.getRegistrations();
+//            await Promise.all(registrations.map(r => r.unregister()));
+//        }
+//    } catch (e) {
+//        console.error("Reset failed", e);
+//    }
+
+//    location.reload(true);
+//}
 
 window.addEventListener("securitypolicyviolation", (event) => {
     const obj = {

@@ -1,0 +1,37 @@
+﻿<HeadContent>
+
+    <link rel="image_src" href="@ImageUrl">
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@CanonicalUrl" />
+    <meta property="og:site_name" content="@LongProjectName" />
+    <meta property="og:title" content="@TitleFull" />
+    <meta property="og:description" content="@DescriptionNormalized" />
+    <meta property="og:image" content="@ImageUrl" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@TitleFull" />
+    <meta name="twitter:description" content="@DescriptionNormalized" />
+    <meta name="twitter:image" content="@ImageUrl" />
+    <meta name="twitter:site" content="@LongProjectName" />
+
+</HeadContent>
+
+@code {
+
+    private const string LongProjectName = "Streaming Discovery";
+    private const string ProjectUrl = "https://www.streamingdiscovery.com";
+
+    [Parameter, EditorRequired] public string? Title { get; set; }
+    [Parameter, EditorRequired] public string? Description { get; set; }
+    [Parameter, EditorRequired] public string? Url { get; set; }
+    [Parameter, EditorRequired] public string? Image { get; set; }
+
+    private string? TitleFull => $"{Title} - {LongProjectName}";
+
+    private string? DescriptionNormalized => Description?.TrimEnd('.') + ".";
+
+    private string? CanonicalUrl => ProjectUrl + Url;
+
+    private string? ImageUrl => Image ?? $"{ProjectUrl}/icon/icon-192.png";
+}

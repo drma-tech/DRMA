@@ -1,0 +1,32 @@
+﻿<PageTitle>@TitleFull</PageTitle>
+
+<HeadContent>
+
+    @if (!Index)
+    {
+        <meta name="robots" content="noindex, nofollow" />
+    }
+
+    <meta name="description" content="@DescriptionNormalized" />
+
+    <link rel="canonical" href="@CanonicalUrl" />
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+
+</HeadContent>
+
+@code {
+
+    private const string LongProjectName = "Streaming Discovery";
+    private const string ProjectUrl = "https://www.streamingdiscovery.com";
+
+    [Parameter, EditorRequired] public string? Title { get; set; }
+    [Parameter, EditorRequired] public string? Description { get; set; }
+    [Parameter, EditorRequired] public string? Url { get; set; }
+    [Parameter, EditorRequired] public bool Index { get; set; }
+
+    private string? TitleFull => $"{Title} - {LongProjectName}";
+
+    private string? DescriptionNormalized => Description?.TrimEnd('.') + ".";
+
+    private string? CanonicalUrl => ProjectUrl + Url;
+}

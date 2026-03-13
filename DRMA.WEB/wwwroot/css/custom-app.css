@@ -387,6 +387,14 @@ body .pwa-updater[b-pwa-updater] {
     inset: auto auto calc(100% - 12px) calc(100% - 24px) !important;
 }
 
+.vertical-button .mud-button-label {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4px;
+    font-size: x-small;
+}
+
 /* FONT AWESOME */
 
 .fa-sm {
