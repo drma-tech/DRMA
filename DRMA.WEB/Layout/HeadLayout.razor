@@ -84,6 +84,7 @@
 
     private async Task OpenConfigurations()
     {
+        _open = false;
         await DialogService.SettingsPopup();
     }
 

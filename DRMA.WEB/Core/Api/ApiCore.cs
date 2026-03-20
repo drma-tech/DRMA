@@ -63,6 +63,25 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, ApiType t
         }
     }
 
+    protected async Task<byte[]> GetBytesAsync(string uri, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            AppStateStatic.ProcessingStarted?.Invoke();
+
+            var http = GetHttp(type);
+
+            if (key.NotEmpty())
+                uri = uri.ConfigureParameters(GetVersion());
+
+            return await http.GetByteArrayAsync(uri, cancellationToken);
+        }
+        finally
+        {
+            AppStateStatic.ProcessingFinished?.Invoke();
+        }
+    }
+
     protected async Task<T?> GetAsync<T>(string uri, bool setNewVersion = false, CancellationToken cancellationToken = default)
     {
         try
