@@ -1,6 +1,6 @@
 "use strict";
 
-import { isBot, isOldBrowser, isBotBrowser } from "./main.js";
+import { isBot, hideBlazorIndex } from "./main.js";
 import { simd } from "./wasm-feature-detect.js";
 import { appVersion } from "./app-version.js";
 
@@ -197,18 +197,11 @@ export const environment = {
 
         storage.setLocalStorage("platform", platform);
     },
-    isScraping() {
-        const platform = localStorage.getItem("platform");
-
-        // Scrapers run browsers with older versions
-        return platform === "webapp" && isBotBrowser;
-    },
     async validateBrowserAndPlatform() {
         const wasmSupported = typeof WebAssembly === "object";
-        const scraping = this.isScraping();
 
-        //The browser does not support WASM, SIMD, or it's probably a scraping action.
-        if (!wasmSupported || isOldBrowser || scraping) {
+        //The browser does not support WASM or SIMD.
+        if (!wasmSupported || hideBlazorIndex) {
             notification.showBrowserWarning();
             return;
         }
@@ -222,13 +215,13 @@ export const environment = {
         }
     },
     getBrowserName() {
-        return window.browser.getBrowserName();
+        return window.browser?.getBrowserName() ?? "no bowser loaded";
     },
     getBrowserVersion() {
-        return window.browser.getBrowserVersion();
+        return window.browser?.getBrowserVersion() ?? "no bowser loaded";
     },
     getOperatingSystem() {
-        return window.browser.getOSName();
+        return window.browser?.getOSName() ?? "no bowser loaded";
     },
     getAppVersion() {
         return appVersion;

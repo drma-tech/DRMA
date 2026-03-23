@@ -1,8 +1,8 @@
-﻿import { isBot, isOldBrowser } from "./main.js";
+﻿import { isBot, disableServiceWorker } from "./main.js";
 import { notification } from "./utils.js";
 
-//avoid google (and others) search console execute this
-if (!isBot && !isOldBrowser) {
+//avoid google (and others) search console or possible bots
+if (!isBot && !disableServiceWorker) {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register("service-worker.js", { updateViaCache: 'none' }).catch((err) => {
             notification.showError(

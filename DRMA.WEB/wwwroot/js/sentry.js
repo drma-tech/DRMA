@@ -10,14 +10,14 @@ const env = (() => {
 
 const ignoredErrors = [
     /failed to fetch/i,
-    /failed to register/i,
-    /failed to start/i,
     /wasm simd/i
 ];
 
+const version = appVersion?.trim() ? appVersion : "error";
+
 Sentry.init({
     dsn: servicesConfig.SentryDsn,
-    release: `drma-web@${appVersion}`,
+    release: `drma-js@${version}`,
     environment: env,
     beforeSend(event) {
         const exception = event.exception?.values?.[0];
@@ -28,13 +28,13 @@ Sentry.init({
         }
 
         event.tags = {
-            "custom.version": appVersion,
-            "custom.platform": storage.getLocalStorage("platform"),
+            "custom.version": version,
+            "custom.platform": storage.getLocalStorage("platform") ?? "error",
         };
         event.extra = {
-            browser_name: environment.getBrowserName(),
-            browser_version: environment.getBrowserVersion(),
-            operation_system: environment.getOperatingSystem(),
+            browser_name: environment.getBrowserName() ?? "error",
+            browser_version: environment.getBrowserVersion() ?? "error",
+            operation_system: environment.getOperatingSystem() ?? "error",
         };
 
         return event;

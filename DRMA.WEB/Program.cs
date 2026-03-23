@@ -17,14 +17,14 @@ builder.UseSentry(options =>
 
     options.SetBeforeSend(evt =>
     {
-        evt.Release = $"drma-web@{AppStateStatic.Version}";
+        evt.Release = $"drma-blazor@{AppStateStatic.Version ?? "error"}";
 
         evt.SetTag("custom.version", AppStateStatic.Version ?? "error");
         evt.SetTag("custom.platform", AppStateStatic.GetSavedPlatform()?.ToString() ?? "error");
 
-        evt.SetExtra("browser_name", AppStateStatic.BrowserName);
-        evt.SetExtra("browser_version", AppStateStatic.BrowserVersion);
-        evt.SetExtra("operation_system", AppStateStatic.OperatingSystem);
+        evt.SetExtra("browser_name", AppStateStatic.BrowserName ?? "error");
+        evt.SetExtra("browser_version", AppStateStatic.BrowserVersion ?? "error");
+        evt.SetExtra("operation_system", AppStateStatic.OperatingSystem ?? "error");
 
         return evt;
     });
@@ -85,5 +85,5 @@ static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
 {
     return HttpPolicyExtensions
         .HandleTransientHttpError() // 408,5xx
-        .WaitAndRetryAsync([TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(4)]);
+        .WaitAndRetryAsync([TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2)]);
 }

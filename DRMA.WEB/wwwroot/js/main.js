@@ -1,23 +1,44 @@
-﻿window.browser = window.bowser.getParser(window.navigator.userAgent);
+﻿const ua = navigator.userAgent;
 
-export const isBot =
-    /google|baidu|bingbot|duckduckbot|teoma|slurp|yandex|toutiao|bytespider|applebot/i.test(
-        navigator.userAgent
-    );
+window.browser = window?.bowser?.getParser
+    ? window.bowser.getParser(ua)
+    : null;
 
-// supports WebAssembly SIMD
-export const isOldBrowser = window.browser.satisfies({
-    chrome: "<91",
-    edge: "<91",
-    safari: "<16.4",
-});
-// validate only if it's a webapp
-export const isBotBrowser = window.browser.satisfies({
-    chrome: "<134", //feb 2025
-});
+export const isBot = /google|baidu|bingbot|duckduckbot|teoma|slurp|yandex|toutiao|bytespider|applebot/i.test(ua);
+
+function testBrowserVersion(rules, ignore = false, fallback = false) {
+    if (ignore) return false;
+
+    if (!window.browser) return fallback;
+
+    return window.browser.satisfies(rules);
+}
+
+//browser versions not compatible with SIMD (Some versions above for stability)
+export const hideBlazorIndex = testBrowserVersion(
+    {
+        chrome: "<96", //nov 21
+        edge: "<96", //nov 21
+        firefox: "<96", //jan 22
+        safari: "<16.6", //jul 23
+        opera: "<82", //dec 21
+    },
+    /Mediapartners-Google/i.test(ua),
+    false // uncertain environment → allow
+);
+
+//probably a bot, so doesnt support sw
+export const disableServiceWorker = testBrowserVersion(
+    {
+        chrome: "<134",
+    },
+    false,
+    true // uncertain environment → disable
+);
+
 export const isLocalhost = location.host.includes("localhost");
 export const isDev = location.hostname.includes("dev.");
-export const isWebview = /webtonative/i.test(navigator.userAgent);
+export const isWebview = /webtonative/i.test(ua);
 export const isPrintScreen = location.href.includes("printscreen");
 
 export const servicesConfig = {
