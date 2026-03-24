@@ -4,14 +4,20 @@ window.browser = window?.bowser?.getParser
     ? window.bowser.getParser(ua)
     : null;
 
-export const isBot = /google|baidu|bingbot|duckduckbot|teoma|slurp|yandex|toutiao|bytespider|applebot/i.test(ua);
+const botUAs = ["google", "baidu", "bingbot", "duckduckbot", "teoma", "slurp", "yandex", "toutiao", "bytespider", "applebot"];
+
+export const isBot = botUAs.some(bot => ua.toLowerCase().includes(bot)) || navigator.webdriver;
 
 function testBrowserVersion(rules, ignore = false, fallback = false) {
     if (ignore) return false;
 
     if (!window.browser) return fallback;
 
-    return window.browser.satisfies(rules);
+    try {
+        return window.browser.satisfies(rules);
+    } catch {
+        return fallback;
+    }
 }
 
 //browser versions not compatible with SIMD (Some versions above for stability)

@@ -72,6 +72,6 @@ async function onFetch(event) {
 
         return cachedResponse || fetch(event.request);
     } catch (e) {
-        console.error(`Service worker: Fetch failed (${event.request})`, e);
+        console.error(`Service worker: Fetch failed (${event.request.url})`, e);
     }
 }

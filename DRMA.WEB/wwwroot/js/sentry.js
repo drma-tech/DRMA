@@ -20,8 +20,7 @@ Sentry.init({
     release: `drma-js@${version}`,
     environment: env,
     beforeSend(event) {
-        const exception = event.exception?.values?.[0];
-        const message = exception?.value;
+        const message = event.exception?.values?.[0]?.value || event.message || "";
 
         if (message && ignoredErrors.some(err => err.test(message))) {
             return null;
