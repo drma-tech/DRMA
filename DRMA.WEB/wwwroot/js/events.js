@@ -1,6 +1,5 @@
 "use strict";
 
-import { isDev } from "./main.js";
 import { notification } from "./utils.js";
 
 window.addEventListener("load", function () {
@@ -107,16 +106,14 @@ window.addEventListener("unhandledrejection", function (event) {
     const { message } = normalizeReason(event.reason);
 
     if (message.includes("Failed to fetch")) {
-        if (!isDev) {
-            notification.showError(
-                "Unable to load required components. This may be a connection issue or a browser restriction. Try reopening the app."
-            );
-            //todo: study if this makes sense
-            //setTimeout(() => {
-            //    resetPwaAndReload();
-            //}, 2000);
-            return;
-        }
+        notification.showError(
+            "Unable to load required components. This may be a connection issue or a browser restriction. Try reopening the app."
+        );
+        //todo: study if this makes sense
+        //setTimeout(() => {
+        //    resetPwaAndReload();
+        //}, 2000);
+        return;
     }
 
     if (message.includes("Assert failed: .NET runtime")) {

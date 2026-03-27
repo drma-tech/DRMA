@@ -36,14 +36,18 @@ export const hideBlazorIndex = testBrowserVersion(
 //probably a bot, so doesnt support sw
 export const disableServiceWorker = testBrowserVersion(
     {
-        chrome: "<134",
+        chrome: "<134", //special case (usually bots)
+        edge: "<96", //nov 21
+        firefox: "<96", //jan 22
+        safari: "<16.6", //jul 23
+        opera: "<82", //dec 21
     },
     false,
     true // uncertain environment → disable
 );
 
 export const isLocalhost = location.host.includes("localhost");
-export const isDev = location.hostname.includes("dev.");
+export const isDev = location.hostname.includes("develop");
 export const isWebview = /webtonative/i.test(ua);
 export const isPrintScreen = location.href.includes("printscreen");
 
@@ -55,11 +59,3 @@ export const servicesConfig = {
 };
 
 export const baseApiUrl = isLocalhost ? "http://localhost:7164" : "";
-
-// Disable robots for dev environment
-if (isDev) {
-    const meta = document.createElement("meta");
-    meta.name = "robots";
-    meta.content = "noindex, nofollow";
-    document.head.appendChild(meta);
-}

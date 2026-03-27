@@ -3,8 +3,8 @@ import { storage, environment } from "./utils.js";
 import { appVersion } from "./app-version.js";
 
 const env = (() => {
-    if (window.location.hostname === "localhost") return "development";
-    if (window.location.hostname.startsWith("dev.")) return "staging";
+    if (location.hostname === "localhost") return "development";
+    if (location.hostname.includes("develop")) return "staging";
     return "production";
 })();
 
