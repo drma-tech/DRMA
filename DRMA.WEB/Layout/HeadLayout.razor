@@ -74,11 +74,7 @@
             Interlocked.Decrement(ref _processingCount);
 
             await Task.Delay(200);
-
-            if (_processingCount == 0)
-            {
-                await InvokeAsync(StateHasChanged);
-            }
+            await InvokeAsync(StateHasChanged);
         };
     }
 

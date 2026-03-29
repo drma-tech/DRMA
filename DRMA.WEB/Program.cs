@@ -12,6 +12,7 @@ builder.UseSentry(options =>
 {
     options.Dsn = "https://9d67a029559a76d507d4437b586e778f@o4510938040041472.ingest.us.sentry.io/4510942795005952";
     options.DiagnosticLevel = SentryLevel.Warning;
+    options.Environment = builder.HostEnvironment.Environment;
 
     options.TracePropagationTargets = []; //Disable tracing because it breaks communication with external APIs.
 

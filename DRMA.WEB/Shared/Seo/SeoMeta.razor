@@ -20,7 +20,7 @@
     private const string ProjectUrl = "https://www.drma-tech.com";
 
     [Parameter, EditorRequired] public string? Title { get; set; }
-    [Parameter, EditorRequired] public string? Description { get; set; }
+    [Parameter] public string? Description { get; set; }
     [Parameter, EditorRequired] public string? Url { get; set; }
     [Parameter, EditorRequired] public bool Index { get; set; }
     [Parameter] public bool ForceTitle { get; set; }

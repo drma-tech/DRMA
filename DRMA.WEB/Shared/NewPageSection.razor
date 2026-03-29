@@ -119,7 +119,7 @@
             }
             @if (HasBody)
             {
-                <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 0px 0px 4px 4px;" : "")}")" Outlined="true" Elevation="0">
+                <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 0px 0px 4px 4px;" : "")} overflow: auto;")" Outlined="true" Elevation="0">
                     @BodyFragment
                 </MudPaper>
             }
