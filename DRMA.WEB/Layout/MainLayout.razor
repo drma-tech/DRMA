@@ -25,9 +25,9 @@
             @Body
         </MudContainer>
         <FooterComponent></FooterComponent>
-        <MudDivider Class="@Css.Build().Small("my").Large("mt")"></MudDivider>
+        <MudDivider Class="@Css.Build().Small("my").Medium("mt")"></MudDivider>
         <MudText Align="Align.Center" Class="@Css.Build().Small("mb")">
-            © 2025-@DateTime.Now.Year - DRMA Tech.
+            © @AppInfo.Year-@DateTime.Now.Year - DRMA Tech.
         </MudText>
     </MudMainContent>
 </MudLayout>

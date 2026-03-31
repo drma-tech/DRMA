@@ -1,0 +1,36 @@
+﻿@page "/support/help"
+@inherits PageCore<HelpCenter>
+
+@using DRMA.WEB.Layout
+
+<SeoMeta Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")" Url="/support/help" Index="true"></SeoMeta>
+<NewPageSection IsPageHeader="true" Icon="@IconsFA.Solid.Icon("headset").Font" Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")"></NewPageSection>
+
+<NewPageSection Title="Company">
+    <BodyFragment>
+        <MudGrid Spacing="@Css.SpaceSmall">
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" Href="/support/about-us">
+                    <MudIcon Class="me-2" Icon="@IconsFA.Solid.Icon("building").Font"></MudIcon>
+                    About us
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </BodyFragment>
+</NewPageSection>
+
+<NewPageSection Title="More from DRMA Tech">
+    <BodyFragment>
+        <MudGrid Spacing="@Css.SpaceSmall">
+            @foreach (var product in AppInfo.Products)
+            {
+                <MudItem xs="12" sm="6" md="4" lg="3">
+                    <MudButton Variant="Variant.Filled" FullWidth="true" Href="@product.Url" Target="_blank">
+                        <MudImage Src="@product.Logo" Class="me-2" Style="width: 20px; vertical-align: top;" />
+                        @product.Title
+                    </MudButton>
+                </MudItem>
+            }
+        </MudGrid>
+    </BodyFragment>
+</NewPageSection>

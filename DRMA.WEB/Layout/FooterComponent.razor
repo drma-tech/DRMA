@@ -1,21 +1,13 @@
 ﻿@inject NavigationManager Navigation
 
-@if ((Support && AppStateStatic.Breakpoint <= Breakpoint.Sm) || (!Support && AppStateStatic.Breakpoint > Breakpoint.Sm))
+@if (AppStateStatic.Breakpoint == Breakpoint.Sm) //mobile
 {
-    <MudDivider Class="@Css.Build().Small("mb").Large("mt")"></MudDivider>
+    //todo: smaller footer
+}
+else if (AppStateStatic.Breakpoint > Breakpoint.Sm) //other devices
+{
+    <MudDivider Class="@Css.Build().Small("mb").Raw("mt-20")"></MudDivider>
     <MudGrid Justify="Justify.Center" Style="overflow: auto;" Spacing="@Css.SpaceSmall">
-        <MudItem xs="12" sm="12" md="3">
-            <MudList T="string" Color="Color.Surface" Dense="true" Gutters="false">
-                <MudListSubheader Gutters="false">
-                    <MudText Color="Color.Primary" Typo="Typo.subtitle1">
-                        DRMA Tech
-                    </MudText>
-                </MudListSubheader>
-                <MudListItem Style="text-align: justify" Class="py-0">
-                    DRMA Tech builds smart digital tools that help people find what fits them best and make decisions easier, more aligned, and centered on individual needs.
-                </MudListItem>
-            </MudList>
-        </MudItem>
         <MudItem xs="12" sm="3" md="2">
             <MudList T="string" Dense="true" Gutters="false">
                 <MudListSubheader Gutters="false">
@@ -30,33 +22,26 @@
             <MudList T="string" Dense="true" Gutters="false">
                 <MudListSubheader Gutters="false">
                     <MudText Color="Color.Secondary">
-                        Product
-                    </MudText>
-                </MudListSubheader>
-                <MudListItem Text="Streaming Discovery" Href="https://www.streamingdiscovery.com/" Dense="true" Target="_blank" />
-                <MudListItem Text="Modern Matchmaker" Href="https://www.modern-matchmaker.com/" Dense="true" Target="_blank" />
-            </MudList>
-        </MudItem>
-        <MudItem xs="12" sm="3" md="2">
-            <MudList T="string" Dense="true" Gutters="false">
-                <MudListSubheader Gutters="false">
-                    <MudText Color="Color.Secondary">
                         Support
                     </MudText>
                 </MudListSubheader>
+                <MudListItem Text="Help Center" Href="/support/help" Class="py-0" />
                 <MudListItem Text="Contact" Href="mailto:contact@drma-tech.com" Class="py-0" />
             </MudList>
         </MudItem>
     </MudGrid>
 }
 
+<style>
+    .mud-list-item-avatar {
+        min-width: 40px;
+    }
+</style>
+
 @code {
-    [Parameter] public bool Support { get; set; }
- 
+
     protected override void OnInitialized()
     {
-        base.OnInitialized();
-
         AppStateStatic.BreakpointChanged += breakpoint => StateHasChanged();
         AppStateStatic.BrowserWindowSizeChanged += size => StateHasChanged();
     }

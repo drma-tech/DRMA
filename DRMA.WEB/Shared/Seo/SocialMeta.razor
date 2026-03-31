@@ -4,7 +4,7 @@
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="@CanonicalUrl" />
-    <meta property="og:site_name" content="@LongProjectName" />
+    <meta property="og:site_name" content="@AppInfo.CompanyName" />
     <meta property="og:title" content="@TitleFull" />
     <meta property="og:description" content="@DescriptionNormalized" />
     <meta property="og:image" content="@ImageUrl" />
@@ -13,25 +13,21 @@
     <meta name="twitter:title" content="@TitleFull" />
     <meta name="twitter:description" content="@DescriptionNormalized" />
     <meta name="twitter:image" content="@ImageUrl" />
-    <meta name="twitter:site" content="@LongProjectName" />
+    <meta name="twitter:site" content="@AppInfo.CompanyName" />
 
 </HeadContent>
 
 @code {
-
-    private const string LongProjectName = "Streaming Discovery";
-    private const string ProjectUrl = "https://www.streamingdiscovery.com";
-
     [Parameter, EditorRequired] public string? Title { get; set; }
     [Parameter, EditorRequired] public string? Description { get; set; }
     [Parameter, EditorRequired] public string? Url { get; set; }
     [Parameter, EditorRequired] public string? Image { get; set; }
 
-    private string? TitleFull => $"{Title} - {LongProjectName}";
+    private string? TitleFull => $"{Title} - {AppInfo.CompanyName}";
 
     private string? DescriptionNormalized => Description?.TrimEnd('.') + ".";
 
-    private string? CanonicalUrl => ProjectUrl + Url;
+    private string? CanonicalUrl => AppInfo.CompanyWebSite + Url;
 
-    private string? ImageUrl => Image ?? $"{ProjectUrl}/icon/icon-192.png";
+    private string? ImageUrl => Image ?? $"{AppInfo.CompanyWebSite}/icon/icon-192.png";
 }

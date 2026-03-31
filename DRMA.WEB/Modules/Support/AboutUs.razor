@@ -1,17 +1,17 @@
 ﻿@page "/support/about-us"
 @inherits PageCore<AboutUs>
 
-<SeoMeta Title="About Us" Description="DRMA Tech builds smart digital tools that help people find what fits them best and make decisions easier, more aligned, and centered on individual needs." Url=@($"/support/about-us") Index="true"></SeoMeta>
+<SeoMeta Title="About Us" Description="@($"{AppInfo.CompanyName} builds smart digital tools that help people find what fits them best and make decisions easier, more aligned, and centered on individual needs.")" Url=@($"/support/about-us") Index="true"></SeoMeta>
 
 <div class="support-container">
-    <h1 class="support-title">About DRMA Tech</h1>
+    <h1 class="support-title">About @AppInfo.CompanyName</h1>
     <div class="support-subtitle">
-        Welcome to <b>DRMA Tech</b> (<a href="https://www.drma-tech.com" target="_blank">www.drma-tech.com</a>)!<br />
-        DRMA Tech builds smart digital tools that help people find what fits them best and make decisions easier, more aligned, and centered on individual needs.
+        Welcome to <b>@AppInfo.CompanyName</b> (<a href="@AppInfo.CompanyWebSite" target="_blank">@AppInfo.CompanyWebSite</a>)!<br />
+        @AppInfo.CompanyName builds smart digital tools that help people find what fits them best and make decisions easier, more aligned, and centered on individual needs.
     </div>
     <div class="support-section">
         <h2>1. Our Mission</h2>
-        <p>At DRMA Tech, we focus on building tools that simplify decision-making by connecting users with what truly fits their needs and values. We want technology to feel intuitive, helpful, and aligned with the way people actually live.</p>
+        <p>At @AppInfo.CompanyName, we focus on building tools that simplify decision-making by connecting users with what truly fits their needs and values. We want technology to feel intuitive, helpful, and aligned with the way people actually live.</p>
     </div>
     <div class="support-section">
         <h2>2. Who We Are</h2>
@@ -20,8 +20,10 @@
     <div class="support-section">
         <h2>3. Our Products</h2>
         <ul>
-            <li><b>Streaming Discovery:</b> Manage all your streaming content in one place, track what you’ve watched, organize platforms, and explore curated lists of award-winning films, critic favorites, and hidden gems.</li>
-            <li><b>Modern Matchmaker:</b> Our compatibility system helps you find people aligned with your values more quickly and effectively than traditional matchmaking.</li>
+            <li><b style="color: var(--mud-palette-secondary);">Streaming Discovery:</b> Track your streaming platforms, manage your watch progress, and discover what to watch next with curated lists, award winners, and critic picks.</li>
+            <li><b style="color: var(--mud-palette-secondary);">Modern Matchmaker:</b> The future of finding a life partner is here. Smarter and more affordable than traditional matchmaking, with precise compatibility and no endless swiping.</li>
+            <li><b style="color: var(--mud-palette-secondary);">My Next Spot:</b> Explore countries and cities, learn interesting facts, and create your profile to find destinations that match your lifestyle, whether for a trip or a new home.</li>
+            <li><b style="color: var(--mud-palette-secondary);">WebStandards:</b> A toolkit that helps developers set up essential web standards like sitemaps, manifests, icons, SEO tags, and security files for modern websites and PWAs.</li>
         </ul>
         <p>We are constantly working on new projects and improvements, and we’re excited about what’s ahead, but for now, these are our core offerings.</p>
     </div>
@@ -35,14 +37,9 @@
     </div>
     <div class="support-section">
         <h2>6. Contact</h2>
-        <p>If you have questions, feedback, or just want to say hi, you can visit our <a href="/support">support page</a> or use the contact tools on the platform.</p>
+        <p>If you have questions, feedback, or just want to say hi, you can visit our <a href="/support/help">support page</a> or use the contact tools on the platform.</p>
     </div>
     <div class="support-footer">
-        <p>Last updated: September 13, 2025</p>
+        <p>Last updated: March 31, 2026</p>
     </div>
 </div>
-
-@code {
-    public string? ProjectTitle => "DRMA Tech";
-    public string? ProjectDomain => "www.drma-tech.com";
-}
