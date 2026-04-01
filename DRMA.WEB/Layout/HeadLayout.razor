@@ -28,7 +28,7 @@
         <MudSpacer />
 
         <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@IconsFA.Solid.Icon("cog").Font" Class="me-2" OnClick="@OpenConfigurations" />
-        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@IconsFA.Solid.Icon("headset").Font" Class="me-2" OnClick="@(() => Navigation.NavigateTo("/support/help"))" />
+        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@IconsFA.Solid.Icon("headset").Font" Class="me-2" OnClick="@(() => Navigation.NavigateTo("/help"))" />
     }
     else //desktop view
     {
@@ -39,7 +39,7 @@
         <MudSpacer />
 
         <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@IconsFA.Solid.Icon("cog").Font" Class="me-2" OnClick="@OpenConfigurations" />
-        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@IconsFA.Solid.Icon("headset").Font" Class="me-2" OnClick="@(() => Navigation.NavigateTo("/support/help"))" />
+        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@IconsFA.Solid.Icon("headset").Font" Class="me-2" OnClick="@(() => Navigation.NavigateTo("/help"))" />
     }
 </MudAppBar>
 
@@ -53,7 +53,7 @@
             <MudNavLink Icon="@IconsFA.Solid.Icon("cog").Font" OnClick="@OpenConfigurations">
                 Settings
             </MudNavLink>
-            <MudNavLink Icon="@IconsFA.Solid.Icon("headset").Font" Href="/support/help">
+            <MudNavLink Icon="@IconsFA.Solid.Icon("headset").Font" Href="/help">
                 Help Center
             </MudNavLink>
         </MudNavMenu>
