@@ -40,13 +40,15 @@
             return this;
         }
 
-        public string Font => IconHelper.GetFont(this);
+        public string? Font => IconHelper.GetFont(this);
     }
 
     public static class IconHelper
     {
-        public static string GetFont(Icon icon)
+        public static string? GetFont(Icon icon)
         {
+            if (icon.Name.Empty()) return null;
+
             var sizeClass = icon.Size switch
             {
                 IconSize.sm => "fa-sm",
