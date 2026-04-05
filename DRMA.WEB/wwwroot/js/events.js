@@ -2,46 +2,6 @@
 
 import { notification } from "./utils.js";
 
-window.addEventListener("load", function () {
-    const startTime = performance.now();
-    const app = document.getElementById("app");
-    const messageEl = document.querySelector(".loading-message");
-
-    if (app) {
-        const checkConnection = setInterval(() => {
-            const elapsed = (performance.now() - startTime) / 1000;
-            const progress = Number.parseFloat(
-                getComputedStyle(document.documentElement).getPropertyValue(
-                    "--blazor-load-percentage"
-                ) || "0"
-            );
-
-            // Clear previous classes
-            app.classList.remove(
-                "slow-connection",
-                "very-slow-connection",
-                "extremely-slow-connection"
-            );
-
-            if (elapsed > 80 && progress < 100) {
-                app.classList.add("extremely-slow-connection");
-                messageEl.textContent =
-                    "Still loading. Something may be holding things up.";
-            } else if (elapsed > 50 && progress < 100) {
-                app.classList.add("very-slow-connection");
-                messageEl.textContent =
-                    "Still loading. This may take a little longer.";
-            } else if (elapsed > 20 && progress < 100) {
-                app.classList.add("slow-connection");
-                messageEl.textContent =
-                    "This is taking a bit longer than expected.";
-            }
-
-            if (progress >= 100) clearInterval(checkConnection);
-        }, 1000);
-    }
-});
-
 //setTimeout(() => { throw new Error('error test call'); }, 100);
 
 window.addEventListener("error", function (event) {

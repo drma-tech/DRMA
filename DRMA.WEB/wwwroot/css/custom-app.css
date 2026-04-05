@@ -196,46 +196,22 @@ body .pwa-updater[b-pwa-updater] {
 
 .loading-message {
     text-align: center;
-    font-size: 0.85rem;
-    color: transparent;
-    margin-top: 0.5rem;
-    min-height: 1.4rem;
-    transition: all 0.4s ease;
-    opacity: 0;
-}
-
-/* Phase 1 (30-60s) */
-.slow-connection .loading-message {
-    color: #FF8C00; /* Dark orange */
-    opacity: 1;
-}
-
-/* Phase 2 (60-90s) */
-.very-slow-connection .loading-message {
-    color: #E53935; /* Deep red */
-    opacity: 1;
-}
-
-/* Phase 3 (90s+) */
-.extremely-slow-connection .loading-message {
-    color: #B71C1C; /* Darkest red */
+    font-size: 0.95rem;
     font-weight: 500;
-    opacity: 1;
-    animation: pulse-opacity 1.5s infinite;
+    color: var(--mud-palette-primary, #5A4BE2);
+    margin-top: 0.5rem;
 }
 
-@keyframes pulse-opacity {
-    0% {
-        opacity: 0.9;
-    }
-
-    50% {
-        opacity: 0.7;
-    }
-
-    100% {
-        opacity: 0.9;
-    }
+.loading-secondary {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 2rem;
+    max-width: 320px;
+    line-height: 1.4;
+    opacity: 0.8;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /*JAVASCRIPT TOAST*/
