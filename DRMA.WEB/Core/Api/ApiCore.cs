@@ -47,15 +47,15 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, ApiType t
         return new Dictionary<string, string> { { "v", CacheVersion[key!].ToString() } };
     }
 
-    protected async Task<string?> GetValueAsync(string uri, CancellationToken cancellationToken = default)
+    protected async Task<string?> GetStringAsync(string uri, CancellationToken cancellationToken = default)
     {
         try
         {
             AppStateStatic.ProcessingStarted?.Invoke();
 
             if (key.NotEmpty())
-                return await GetHttp(type).GetValueAsync(uri.ConfigureParameters(GetVersion()), cancellationToken);
-            return await GetHttp(type).GetValueAsync(uri, cancellationToken);
+                return await GetHttp(type).GetStringAsync(uri.ConfigureParameters(GetVersion()), cancellationToken);
+            return await GetHttp(type).GetStringAsync(uri, cancellationToken);
         }
         finally
         {

@@ -6,7 +6,7 @@ namespace DRMA.WEB.Modules.Subscription.Core
         {
             try
             {
-                return await GetValueAsync("https://ipinfo.io/country");
+                return await GetStringAsync("https://ipinfo.io/country");
             }
             catch (Exception)
             {
