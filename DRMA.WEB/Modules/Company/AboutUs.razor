@@ -1,7 +1,7 @@
 ﻿@page "/{culture}/company/about-us"
 @inherits PageCore<AboutUs>
 
-<SeoMeta Title="About Us" Description="@($"{AppInfo.CompanyName} builds smart digital tools that help people find what fits them best and make decisions easier, more aligned, and centered on individual needs.")" Url=@($"/company/about-us") Index="true"></SeoMeta>
+<SeoMeta Title="About Us" Description="@($"{AppInfo.CompanyName} builds smart digital tools that help people find what fits them best and make decisions easier, more aligned, and centered on individual needs.")" Url=@($"/{Culture}/company/about-us") Index="true"></SeoMeta>
 
 <div class="support-container">
     <h1 class="support-title">About @AppInfo.CompanyName</h1>
