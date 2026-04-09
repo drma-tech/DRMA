@@ -11,7 +11,7 @@
 <MudAppBar Fixed="true" Elevation="1" Color="Color.Dark">
     @if (AppStateStatic.Breakpoint <= Breakpoint.Xs) //mobile view
     {
-        <MudButton StartIcon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor("/")" Href="/" Variant="@GetVariant("/")" Class="icon-text-button">
+        <MudButton StartIcon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor("/")" Href=@($"/{Culture}/") Variant="@GetVariant("/")" Class="icon-text-button">
             Home
         </MudButton>
 
@@ -21,25 +21,25 @@
     }
     else if (AppStateStatic.Breakpoint == Breakpoint.Sm) //tablet view
     {
-        <MudButton StartIcon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor("/")" Href="/" Variant="@GetVariant("/")" Class="icon-text-button">
+        <MudButton StartIcon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor("/")" Href=@($"/{Culture}/") Variant="@GetVariant("/")" Class="icon-text-button">
             Home
         </MudButton>
 
         <MudSpacer />
 
         <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@IconsFA.Solid.Icon("cog").Font" Class="me-2" OnClick="@OpenConfigurations" />
-        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@IconsFA.Solid.Icon("headset").Font" Class="me-2" OnClick="@(() => Navigation.NavigateTo("/help"))" />
+        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@IconsFA.Solid.Icon("headset").Font" Class="me-2" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/help"))" />
     }
     else //desktop view
     {
-        <MudButton StartIcon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor("/")" Href="/" Variant="@GetVariant("/")" Class="px-3">
+        <MudButton StartIcon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor("/")" Href=@($"/{Culture}/") Variant="@GetVariant("/")" Class="px-3">
             Home
         </MudButton>
 
         <MudSpacer />
 
         <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@IconsFA.Solid.Icon("cog").Font" Class="me-2" OnClick="@OpenConfigurations" />
-        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@IconsFA.Solid.Icon("headset").Font" Class="me-2" OnClick="@(() => Navigation.NavigateTo("/help"))" />
+        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@IconsFA.Solid.Icon("headset").Font" Class="me-2" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/help"))" />
     }
 </MudAppBar>
 
@@ -53,7 +53,7 @@
             <MudNavLink Icon="@IconsFA.Solid.Icon("cog").Font" OnClick="@OpenConfigurations">
                 Settings
             </MudNavLink>
-            <MudNavLink Icon="@IconsFA.Solid.Icon("headset").Font" Href="/help">
+            <MudNavLink Icon="@IconsFA.Solid.Icon("headset").Font" Href=@($"/{Culture}/help")>
                 Help Center
             </MudNavLink>
         </MudNavMenu>
@@ -61,6 +61,8 @@
 }
 
 @code {
+    private string Culture => Navigation.GetCulture();
+
     private bool _open = false;
 
     private int _processingCount = 0;

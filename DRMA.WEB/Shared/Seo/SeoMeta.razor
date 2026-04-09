@@ -1,4 +1,8 @@
-﻿<PageTitle>@TitleFull</PageTitle>
+﻿@using Microsoft.JSInterop
+@inject NavigationManager Navigation
+@inject IJSRuntime Js
+
+<PageTitle>@TitleFull</PageTitle>
 
 <HeadContent>
 
@@ -12,18 +16,53 @@
     <link rel="canonical" href="@CanonicalUrl" />
     <link rel="icon" type="image/png" href="/favicon.ico" />
 
+    @foreach (var lang in SupportedLanguages)
+    {
+        <link rel="alternate" href="@GetUrlForLanguage(lang)" hreflang="@lang" />
+    }
+
 </HeadContent>
+
+<script>
+    window.setHtmlLang = function (lang) {
+        document.documentElement.lang = lang;
+    };
+</script>
 
 @code {
     [Parameter, EditorRequired] public string? Title { get; set; }
-    [Parameter] public string? Description { get; set; }
-    [Parameter, EditorRequired] public string? Url { get; set; }
+    [Parameter, EditorRequired] public string Url { get; set; }
     [Parameter, EditorRequired] public bool Index { get; set; }
+
+    [Parameter] public string? Description { get; set; }
     [Parameter] public bool ForceTitle { get; set; }
+
+    public string? Culture => AppStateStatic.GetCulture(Navigation);
 
     private string? TitleFull => ForceTitle ? Title : $"{Title} - {AppInfo.CompanyName}";
 
     private string? DescriptionNormalized => Description?.TrimEnd('.') + ".";
 
     private string? CanonicalUrl => AppInfo.CompanyWebSite + Url;
+
+    private string[] SupportedLanguages = new[] { "en", "pt", "es" };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !string.IsNullOrEmpty(Culture))
+        {
+            await Js.InvokeVoidAsync("setHtmlLang", Culture);
+        }
+    }
+
+    private string GetUrlForLanguage(string lang)
+    {
+        var segments = Url.TrimStart('/').Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+        var path = segments.Length > 1
+            ? string.Join("/", segments.Skip(1))
+            : string.Empty;
+
+        return $"{AppInfo.CompanyWebSite}/{lang}/{path}";
+    }
 }

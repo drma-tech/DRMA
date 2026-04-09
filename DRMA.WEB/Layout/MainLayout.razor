@@ -35,6 +35,7 @@
 @code {
     private MudThemeProvider? _mudThemeProvider;
     private bool _darkMode = false;
+    private string Culture => Navigation.GetCulture();
 
     protected override void OnInitialized()
     {

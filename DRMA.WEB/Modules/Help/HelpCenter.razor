@@ -1,9 +1,9 @@
-﻿@page "/help"
+﻿@page "/{culture}/help"
 @inherits PageCore<HelpCenter>
 
 @using DRMA.WEB.Layout
 
-<SeoMeta Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")" Url="/help" Index="true"></SeoMeta>
+<SeoMeta Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")" Url=@($"/{Culture}/help") Index="true"></SeoMeta>
 <NewPageSection IsPageHeader="true" Icon="@IconsFA.Solid.Icon("headset").Font" Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")"></NewPageSection>
 
 <NewPageSection Title="Troubleshooting">
@@ -29,7 +29,7 @@
     <BodyFragment>
         <MudGrid Spacing="@Css.SpaceSmall">
             <MudItem xs="12" sm="6" md="4" lg="3">
-                <MudButton Variant="Variant.Filled" FullWidth="true" Href="/company/about-us">
+                <MudButton Variant="Variant.Filled" FullWidth="true" Href=@($"/{Culture}/company/about-us")>
                     <MudIcon Class="me-2" Icon="@IconsFA.Solid.Icon("building").Font"></MudIcon>
                     About us
                 </MudButton>

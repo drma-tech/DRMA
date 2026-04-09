@@ -137,6 +137,8 @@ public abstract class PageCore<T> : ComponentCore<T>, IBrowserViewportObserver, 
 {
     [Inject] private IBrowserViewportService BrowserViewportService { get; set; } = null!;
 
+    [Parameter] public string? Culture { get; set; }
+
     /// <summary>
     /// NOTE: This method cannot depend on previously loaded variables, as events can be executed in parallel.
     /// </summary>

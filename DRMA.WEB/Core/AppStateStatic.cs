@@ -1,5 +1,4 @@
-﻿using DRMA.Shared.Core.Helper;
-using DRMA.WEB.Modules.Subscription.Core;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
 using MudBlazor.Services;
@@ -76,6 +75,17 @@ public static class AppStateStatic
     }
 
     #endregion Platform
+
+    #region AppLanguage
+
+    public static string GetCulture(this NavigationManager navigation)
+    {
+        var segments = new Uri(navigation.Uri).AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        if (segments.Length > 0) return segments[0];
+        else return "en";
+    }
+
+    #endregion AppLanguage
 
     #region DarkMode
 

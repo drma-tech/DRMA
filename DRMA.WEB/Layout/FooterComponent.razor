@@ -15,7 +15,7 @@ else if (AppStateStatic.Breakpoint > Breakpoint.Sm) //other devices
                         Company
                     </MudText>
                 </MudListSubheader>
-                <MudListItem Text="About us" Href="/company/about-us" Class="py-0" />
+                <MudListItem Text="About us" Href=@($"/{Culture}/company/about-us") Class="py-0" />
             </MudList>
         </MudItem>
         <MudItem xs="12" sm="3" md="2">
@@ -25,7 +25,7 @@ else if (AppStateStatic.Breakpoint > Breakpoint.Sm) //other devices
                         Support
                     </MudText>
                 </MudListSubheader>
-                <MudListItem Text="Help Center" Href="/help" Class="py-0" />
+                <MudListItem Text="Help Center" Href=@($"/{Culture}/help") Class="py-0" />
                 <MudListItem Text="Contact" Href="mailto:contact@drma-tech.com" Class="py-0" />
             </MudList>
         </MudItem>
@@ -39,6 +39,7 @@ else if (AppStateStatic.Breakpoint > Breakpoint.Sm) //other devices
 </style>
 
 @code {
+    private string Culture => Navigation.GetCulture();
 
     protected override void OnInitialized()
     {

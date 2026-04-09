@@ -38,18 +38,38 @@ public static class ExtensionMethods
             : value;
     }
 
-    public static string SimpleEncrypt(this string? url)
+    public static string SimpleEncrypt(this string? value)
     {
-        return Convert.ToBase64String(Encoding.UTF8.GetBytes(url ?? ""));
+        var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(value ?? string.Empty));
+
+        return base64
+            .Replace("+", "-")
+            .Replace("/", "_")
+            .TrimEnd('=');
     }
 
-    public static string SimpleDecrypt(this string? obfuscatedUrl)
+    public static string SimpleDecrypt(this string? encoded)
     {
-        return Encoding.UTF8.GetString(Convert.FromBase64String(obfuscatedUrl ?? ""));
+        if (string.IsNullOrEmpty(encoded))
+            return string.Empty;
+
+        string padded = encoded
+            .Replace("-", "+")
+            .Replace("_", "/");
+
+        switch (padded.Length % 4)
+        {
+            case 2: padded += "=="; break;
+            case 3: padded += "="; break;
+        }
+
+        var bytes = Convert.FromBase64String(padded);
+        return Encoding.UTF8.GetString(bytes);
     }
 
-    public static T DeepClone<T>(this T instance) where T : class
+    public static T? DeepClone<T>(this T? instance) where T : class
     {
+        if (instance == null) return null;
         var json = JsonSerializer.Serialize(instance);
         return JsonSerializer.Deserialize<T>(json) ?? throw new InvalidOperationException("Clone failed");
     }

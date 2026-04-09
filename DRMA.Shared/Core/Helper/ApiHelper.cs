@@ -6,7 +6,9 @@ namespace DRMA.Shared.Core.Helper;
 
 public static class ApiHelper
 {
-    public static async Task<string?> GetValueAsync(this HttpClient httpClient, string uri, CancellationToken cancellationToken)
+    public static JsonSerializerOptions Options { get; set; } = new JsonSerializerOptions();
+
+    public static async Task<string?> GetStringFromApi(this HttpClient httpClient, string uri, CancellationToken cancellationToken)
     {
         var response = await httpClient.GetAsync(uri, cancellationToken);
 
@@ -32,7 +34,7 @@ public static class ApiHelper
             {
                 if (response.StatusCode == HttpStatusCode.NoContent) return default;
 
-                return await response.Content.ReadFromJsonAsync<T>(new JsonSerializerOptions(), cancellationToken);
+                return await response.Content.ReadFromJsonAsync<T>(Options, cancellationToken);
             }
             catch (NotSupportedException ex) // When content type is not valid
             {
