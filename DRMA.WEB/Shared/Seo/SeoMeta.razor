@@ -13,13 +13,20 @@
 
     <meta name="description" content="@DescriptionNormalized" />
 
+    <!-- Bing -->
+    <meta http-equiv="content-language" content="@Culture?.ToLower()" />
+
     <link rel="canonical" href="@CanonicalUrl" />
     <link rel="icon" type="image/png" href="/favicon.ico" />
 
+    <!-- hreflang -->
     @foreach (var lang in SupportedLanguages)
     {
         <link rel="alternate" href="@GetUrlForLanguage(lang)" hreflang="@lang" />
     }
+
+    <!-- x-default -->
+    <link rel="alternate" href="@GetUrlForLanguage("en")" hreflang="x-default" />
 
 </HeadContent>
 
@@ -59,9 +66,7 @@
     {
         var segments = Url.TrimStart('/').Split('/', StringSplitOptions.RemoveEmptyEntries);
 
-        var path = segments.Length > 1
-            ? string.Join("/", segments.Skip(1))
-            : string.Empty;
+        var path = segments.Length > 1 ? string.Join("/", segments.Skip(1)) : string.Empty;
 
         return $"{AppInfo.CompanyWebSite}/{lang}/{path}";
     }

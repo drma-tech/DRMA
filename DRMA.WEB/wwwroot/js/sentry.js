@@ -17,6 +17,7 @@ const version = appVersion?.trim() ? appVersion : "error";
 
 Sentry.init({
     dsn: servicesConfig.SentryDsn,
+    SendDefaultPii: true, // enable ip
     release: `drma-js@${version}`,
     environment: env,
     beforeSend(event) {
