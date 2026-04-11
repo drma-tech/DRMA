@@ -61,6 +61,22 @@
     bool _isUpdateAvailable = false;
     System.Threading.Timer? _updateCheckTimer;
 
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = new Uri(Navigation.Uri);
+
+        var segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        var first = segments.FirstOrDefault()?.ToLowerInvariant();
+
+        if (!first.IsValidLanguage())
+        {
+            var lang = await ExtensionMethodsWeb.GetRouteLanguage(uri);
+            var path = uri.AbsolutePath.TrimStart('/');
+
+            Navigation.NavigateTo($"/{lang}/{path}", replace: true);
+        }
+    }
+
     protected override void OnParametersSet()
     {
         _boundary?.Recover();

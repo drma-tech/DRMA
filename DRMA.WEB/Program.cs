@@ -46,8 +46,6 @@ var app = builder.Build();
 
 var js = app.Services.GetRequiredService<IJSRuntime>();
 
-await ConfigureCulture(app);
-
 AppStateStatic.Version = await AppStateStatic.GetAppVersion(js);
 AppStateStatic.BrowserName = await js.Utils().GetBrowserName();
 AppStateStatic.BrowserVersion = await js.Utils().GetBrowserVersion();
@@ -89,32 +87,6 @@ static void ConfigureServices(IServiceCollection collection, string baseAddress,
         .AddPolicyHandler(request => request.Method == HttpMethod.Get ? GetRetryPolicy() : Policy.NoOpAsync().AsAsyncPolicy<HttpResponseMessage>());
 
     collection.AddAuthorizationCore();
-}
-
-static async Task ConfigureCulture(WebAssemblyHost? app)
-{
-    if (app == null) return;
-
-    //app language
-
-    var nav = app.Services.GetService<NavigationManager>();
-    var uri = new Uri(nav!.Uri);
-    var segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
-    string? appLanguage = segments.Length > 0 ? segments[0].ToLowerInvariant() : null;
-
-    appLanguage = appLanguage switch
-    {
-        "en" => appLanguage,
-        _ => null
-    };
-
-    if (appLanguage.Empty())
-    {
-        appLanguage = "en";
-
-        nav.NavigateTo($"/{appLanguage}/", forceLoad: true);
-        return;
-    }
 }
 
 //https://github.com/App-vNext/Polly/wiki/Polly-and-HttpClientFactory
