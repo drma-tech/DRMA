@@ -78,6 +78,58 @@ public static class AppStateStatic
 
     #region AppLanguage
 
+    private static AppLanguage? _appLanguage;
+    private static readonly SemaphoreSlim _appLanguageSemaphore = new(1, 1);
+
+    public static async Task<AppLanguage> GetAppLanguage(IJSRuntime js)
+    {
+        await _appLanguageSemaphore.WaitAsync();
+        try
+        {
+            if (_appLanguage.HasValue)
+            {
+                return _appLanguage.Value;
+            }
+
+            var cache = await js.Utils().GetStorage<AppLanguage?>("app-language");
+
+            if (cache.HasValue)
+            {
+                _appLanguage = cache.Value;
+            }
+            else
+            {
+                var code = await js.Window().InvokeAsync<string>("eval", "navigator.language");
+                code = code[..2].ToLowerInvariant();
+
+                _appLanguage = ConvertAppLanguage(code, AppLanguage.en);
+                await js.Utils().SetStorage("app-language", _appLanguage);
+            }
+
+            return _appLanguage.Value;
+        }
+        catch
+        {
+            return AppLanguage.en;
+        }
+        finally
+        {
+            _appLanguageSemaphore.Release();
+        }
+    }
+
+    public static AppLanguage ConvertAppLanguage(string? code, AppLanguage fallback)
+    {
+        if (code.Empty()) return AppLanguage.en;
+
+        if (System.Enum.TryParse<AppLanguage>(code, true, out var language) && System.Enum.IsDefined(language))
+        {
+            return language;
+        }
+        else
+            return fallback;
+    }
+
     public static string GetCulture(this NavigationManager navigation)
     {
         var segments = new Uri(navigation.Uri).AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);

@@ -65,15 +65,28 @@
     {
         var uri = new Uri(Navigation.Uri);
 
-        var segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        var path = uri.AbsolutePath;
+        var query = uri.Query;
+
+        var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
         var first = segments.FirstOrDefault()?.ToLowerInvariant();
 
-        if (!first.IsValidLanguage())
-        {
-            var lang = await ExtensionMethodsWeb.GetRouteLanguage(uri);
-            var path = uri.AbsolutePath.TrimStart('/');
+        var hasLang = first.IsValidLanguage();
+        var lang = hasLang ? first : await ExtensionMethodsWeb.GetRouteLanguage(JsRuntime, uri);
 
-            Navigation.NavigateTo($"/{lang}/{path}", replace: true);
+        var cleanSegments = hasLang ? segments.Skip(1) : segments;
+
+        var currentPath = path.TrimEnd('/');
+        var finalPath = $"/{lang}/" + string.Join("/", cleanSegments);
+        finalPath = finalPath.TrimEnd('/');
+
+        var needsRedirect = !string.Equals(currentPath, finalPath, StringComparison.OrdinalIgnoreCase) || path.EndsWith('/');
+
+        if (needsRedirect)
+        {
+            var finalUrl = query.Empty() ? finalPath : $"{finalPath}{query}";
+
+            Navigation.NavigateTo(finalUrl, replace: true);
         }
     }
 

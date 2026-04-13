@@ -11,7 +11,7 @@
 <MudAppBar Fixed="true" Elevation="1" Color="Color.Dark">
     @if (AppStateStatic.Breakpoint <= Breakpoint.Xs) //mobile view
     {
-        <MudButton StartIcon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor("/")" Href=@($"/{Culture}/") Variant="@GetVariant("/")" Class="icon-text-button">
+        <MudButton StartIcon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor($"/{Culture}")" Href=@($"/{Culture}") Variant="@GetVariant($"/{Culture}")" Class="icon-text-button">
             Home
         </MudButton>
 
@@ -21,7 +21,7 @@
     }
     else if (AppStateStatic.Breakpoint == Breakpoint.Sm) //tablet view
     {
-        <MudButton StartIcon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor("/")" Href=@($"/{Culture}/") Variant="@GetVariant("/")" Class="icon-text-button">
+        <MudButton StartIcon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor($"/{Culture}")" Href=@($"/{Culture}") Variant="@GetVariant($"/{Culture}")" Class="icon-text-button">
             Home
         </MudButton>
 
@@ -32,7 +32,7 @@
     }
     else //desktop view
     {
-        <MudButton StartIcon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor("/")" Href=@($"/{Culture}/") Variant="@GetVariant("/")" Class="px-3">
+        <MudButton StartIcon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor($"/{Culture}")" Href=@($"/{Culture}") Variant="@GetVariant($"/{Culture}")" Class="px-3">
             Home
         </MudButton>
 

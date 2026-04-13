@@ -19,14 +19,16 @@ builder.UseSentry(options =>
 
     options.SetBeforeSend(evt =>
     {
-        evt.Release = $"drma-blazor@{AppStateStatic.Version ?? "error"}";
+        const string error = "error";
 
-        evt.SetTag("custom.version", AppStateStatic.Version ?? "error");
-        evt.SetTag("custom.platform", AppStateStatic.GetSavedPlatform()?.ToString() ?? "error");
+        evt.Release = $"drma-blazor@{AppStateStatic.Version ?? error}";
 
-        evt.SetExtra("browser_name", AppStateStatic.BrowserName ?? "error");
-        evt.SetExtra("browser_version", AppStateStatic.BrowserVersion ?? "error");
-        evt.SetExtra("operation_system", AppStateStatic.OperatingSystem ?? "error");
+        evt.SetTag("custom.version", AppStateStatic.Version ?? error);
+        evt.SetTag("custom.platform", AppStateStatic.GetSavedPlatform()?.ToString() ?? error);
+
+        evt.SetExtra("browser_name", AppStateStatic.BrowserName ?? error);
+        evt.SetExtra("browser_version", AppStateStatic.BrowserVersion ?? error);
+        evt.SetExtra("operation_system", AppStateStatic.OperatingSystem ?? error);
 
         return evt;
     });
@@ -52,19 +54,14 @@ AppStateStatic.BrowserVersion = await js.Utils().GetBrowserVersion();
 AppStateStatic.OperatingSystem = await js.Utils().GetOperatingSystem();
 
 await js.Utils().SetStorage("app-version", AppStateStatic.Version);
-await AppStateStatic.GetPlatform(js);
+_ = await AppStateStatic.GetPlatform(js);
 await js.Services().InitGoogleAnalytics(AppStateStatic.Version);
 
 await app.RunAsync();
 
 static void ConfigureServices(IServiceCollection collection, string baseAddress, IConfiguration configuration)
 {
-    //required by prerendering
-    const string loading = "loading";
-    AppStateStatic.Version = loading;
-    AppStateStatic.BrowserName = loading;
-    AppStateStatic.BrowserVersion = loading;
-    AppStateStatic.OperatingSystem = loading;
+    ConfigurePrerendering();
 
     collection.AddMudServices(config =>
     {
@@ -87,6 +84,16 @@ static void ConfigureServices(IServiceCollection collection, string baseAddress,
         .AddPolicyHandler(request => request.Method == HttpMethod.Get ? GetRetryPolicy() : Policy.NoOpAsync().AsAsyncPolicy<HttpResponseMessage>());
 
     collection.AddAuthorizationCore();
+}
+
+static void ConfigurePrerendering()
+{
+    const string loading = "loading";
+
+    AppStateStatic.Version = loading;
+    AppStateStatic.BrowserName = loading;
+    AppStateStatic.BrowserVersion = loading;
+    AppStateStatic.OperatingSystem = loading;
 }
 
 //https://github.com/App-vNext/Polly/wiki/Polly-and-HttpClientFactory

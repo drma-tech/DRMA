@@ -68,6 +68,6 @@
 
         var path = segments.Length > 1 ? string.Join("/", segments.Skip(1)) : string.Empty;
 
-        return $"{AppInfo.CompanyWebSite}/{lang}/{path}";
+        return $"{AppInfo.CompanyWebSite}/{lang}/{path}".TrimEnd('/');
     }
 }

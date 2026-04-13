@@ -43,3 +43,7 @@
         <p>Last updated: March 31, 2026</p>
     </div>
 </div>
+
+@code {
+    public AppLanguage Language => AppStateStatic.ConvertAppLanguage(Culture, AppLanguage.en);
+}
