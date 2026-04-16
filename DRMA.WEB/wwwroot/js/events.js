@@ -36,9 +36,8 @@ function normalizeReason(reason) {
             .join(", ");
 
         return {
-            message:
-                reason?.message || reason?.name + (extra ? ` (${extra})` : ""),
-            stack: reason.stack || "No stack trace",
+            message: reason?.message || reason?.name + (extra ? ` (${extra})` : ""),
+            stack: reason?.stack || "No stack trace",
         };
     }
 
@@ -58,7 +57,7 @@ function normalizeReason(reason) {
 
     return {
         message: serialized || "Unknown error",
-        stack: reason.stack || "No stack trace",
+        stack: reason?.stack || "No stack trace",
     };
 }
 

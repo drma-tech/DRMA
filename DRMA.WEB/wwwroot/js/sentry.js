@@ -10,6 +10,7 @@ const env = (() => {
 
 const ignoredErrors = [
     /failed to fetch/i,
+    /failed to register/i,
     /wasm simd/i
 ];
 

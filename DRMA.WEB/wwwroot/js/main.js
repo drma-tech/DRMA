@@ -4,7 +4,7 @@ window.browser = window?.bowser?.getParser
     ? window.bowser.getParser(ua)
     : null;
 
-const botUAs = ["google", "baidu", "bingbot", "duckduckbot", "teoma", "slurp", "yandex", "toutiao", "bytespider", "applebot"];
+const botUAs = ["google", "baidu", "bingbot", "duckduckbot", "teoma", "slurp", "yandex", "toutiao", "bytespider", "applebot", "crawler"];
 
 export const isBot = botUAs.some(bot => ua.toLowerCase().includes(bot)) || navigator.webdriver;
 

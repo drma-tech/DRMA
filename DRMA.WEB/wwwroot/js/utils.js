@@ -264,6 +264,18 @@ export const interop = {
 
         throw new Error(`Blazor runtime never ready to receive JSInvokable ${method} from assembly ${assembly}`);
     },
+    async share(title, text, url) {
+        if (navigator.share) {
+            await navigator.share({
+                title: title,
+                text: text,
+                url: url
+            });
+            return true;
+        }
+
+        return false;
+    }
 };
 
 if (!isBot) {

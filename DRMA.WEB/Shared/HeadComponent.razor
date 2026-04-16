@@ -11,7 +11,7 @@
         <meta name="robots" content="noindex, nofollow" />
     }
 
-    <meta name="description" content="@DescriptionNormalized" />
+    <meta name="description" content="@Description" />
 
     <!-- Bing -->
     <meta http-equiv="content-language" content="@Culture?.ToLower()" />
@@ -28,6 +28,24 @@
     <!-- x-default -->
     <link rel="alternate" href="@GetUrlForLanguage("en")" hreflang="x-default" />
 
+    @if (Shared)
+    {
+        <link rel="image_src" href="@ImageUrl">
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="@CanonicalUrl" />
+        <meta property="og:site_name" content="@AppInfo.CompanyName" />
+        <meta property="og:title" content="@TitleFull" />
+        <meta property="og:description" content="@Description" />
+        <meta property="og:image" content="@ImageUrl" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="@TitleFull" />
+        <meta name="twitter:description" content="@Description" />
+        <meta name="twitter:image" content="@ImageUrl" />
+        <meta name="twitter:site" content="@AppInfo.CompanyName" />
+    }
+
 </HeadContent>
 
 <script>
@@ -42,17 +60,20 @@
     [Parameter, EditorRequired] public bool Index { get; set; }
 
     [Parameter] public string? Description { get; set; }
+    /// <summary>
+    /// optional, but absolute url is necessary if provided
+    /// </summary>
+    [Parameter] public string? Image { get; set; }
+
     [Parameter] public bool ForceTitle { get; set; }
+    [Parameter] public bool Shared { get; set; }
 
     public string? Culture => AppStateStatic.GetCulture(Navigation);
-
     private string? TitleFull => ForceTitle ? Title : $"{Title} - {AppInfo.CompanyName}";
+    private string? CanonicalUrl => $"{AppInfo.CompanyWebSite.TrimEnd('/')}/{Url.TrimStart('/')}";
+    private string? ImageUrl => Image ?? $"{AppInfo.CompanyWebSite}/icon/icon-192.png";
 
-    private string? DescriptionNormalized => Description?.TrimEnd('.') + ".";
-
-    private string? CanonicalUrl => AppInfo.CompanyWebSite + Url;
-
-    private string[] SupportedLanguages = new[] { "en" };
+    private string[] SupportedLanguages = new[] { "en", "pt", "es" };
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
