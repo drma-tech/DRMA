@@ -50,11 +50,18 @@
                     @ExtraFragment
                 </MudPaper>
             }
-            @if (ShowActions && HasActions)
+            @if (ShowActions && (HasActions || UrlShare.NotEmpty()))
             {
                 <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 0px 0px 4px 4px;" : "")}")" Outlined="true" Elevation="0">
                     <MudToolBar WrapContent="true" Dense="true" Gutters="false" Style="min-height: auto;">
                         @ActionsFragment
+                        @if (UrlShare.NotEmpty())
+                        {
+                            <MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@IconsFA.Solid.Icon("share").Font"
+                                       OnClick="@(() => JsRuntime.Utils().Share(Title, Description, AbsolutelUrl))">
+                                @Button.Share
+                            </MudButton>
+                        }
                     </MudToolBar>
                 </MudPaper>
             }
@@ -137,6 +144,7 @@
     [Parameter] public string? Link { get; set; }
     [Parameter] public bool ShowHeader { get; set; } = true;
     [Parameter] public bool ShowActions { get; set; } = true;
+    [Parameter] public string? UrlShare { get; set; }
 
     //Layout
     [Parameter] public Color Color { get; set; } = MudBlazor.Color.Primary;
@@ -154,6 +162,7 @@
     public string? BodyClass { get; set; }
 
     private bool IsMobile => AppStateStatic.Breakpoint <= Breakpoint.Xs;
+    private string? AbsolutelUrl => $"{AppInfo.WebSite.TrimEnd('/')}/{UrlShare?.TrimStart('/')}";
 
     private string headerImageSize => IsMobile ? "40px" : "48px";
     private string sectionImageSize => IsMobile ? "20px" : "24px";
