@@ -1,6 +1,7 @@
 ﻿@using DRMA.WEB.Layout
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.JSInterop
+@using System.Globalization
 @using Toolbelt.Blazor.PWA.Updater.Service
 @using WS.WEB.Core
 
@@ -10,7 +11,7 @@
 
 <CustomErrorBoundary @ref="_boundary" OnErrorCallback="OnAppError">
     <ChildContent>
-        <Router AppAssembly="@typeof(App).Assembly">
+        <Router AppAssembly="@typeof(App).Assembly" OnNavigateAsync="OnNavigateAsync">
             <Found Context="routeData">
                 <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
                 <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -61,18 +62,34 @@
     bool _isUpdateAvailable = false;
     System.Threading.Timer? _updateCheckTimer;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         var uri = new Uri(Navigation.Uri);
 
+        if (uri.Host == "127.0.0.1") //only for static pages
+        {
+            var path = uri.AbsolutePath;
+
+            var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            var first = segments.FirstOrDefault()?.ToLowerInvariant();
+
+            var hasLang = first.IsValidLanguage();
+            var lang = hasLang ? first : ExtensionMethodsWeb.GetRouteLanguage(path);
+
+            ConfigureCulture(lang);
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = new Uri(Navigation.Uri);
         var path = uri.AbsolutePath;
-        var query = uri.Query;
 
         var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
         var first = segments.FirstOrDefault()?.ToLowerInvariant();
 
         var hasLang = first.IsValidLanguage();
-        var lang = hasLang ? first : await ExtensionMethodsWeb.GetRouteLanguage(JsRuntime, uri);
+        var lang = hasLang ? first : await ExtensionMethodsWeb.GetRouteLanguage(JsRuntime, path);
 
         var cleanSegments = hasLang ? segments.Skip(1) : segments;
 
@@ -84,10 +101,29 @@
 
         if (needsRedirect)
         {
+            var query = uri.Query;
             var finalUrl = query.Empty() ? finalPath : $"{finalPath}{query}";
 
             Navigation.NavigateTo(finalUrl, replace: true);
         }
+    }
+
+    private Task OnNavigateAsync(Microsoft.AspNetCore.Components.Routing.NavigationContext args)
+    {
+        var uri = new Uri(Navigation.Uri);
+
+        if (uri.Host == "127.0.0.1") //only for static pages
+        {
+            var segments = args.Path.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            var first = segments.FirstOrDefault()?.ToLowerInvariant();
+
+            var hasLang = first.IsValidLanguage();
+            var lang = hasLang ? first : ExtensionMethodsWeb.GetRouteLanguage(args.Path);
+
+            ConfigureCulture(lang);
+        }
+        
+        return Task.CompletedTask;
     }
 
     protected override void OnParametersSet()
@@ -139,6 +175,30 @@
     {
         await JsRuntime.Utils().ClearAllStorage();
         await this.PWAUpdaterService.SkipWaitingAsync();
+    }
+
+    private void ConfigureCulture(string? lang)
+    {
+        if (lang.Empty()) return;
+
+        //app language
+
+        CultureInfo cultureInfo;
+
+        try
+        {
+            cultureInfo = new CultureInfo(lang);
+        }
+        catch (Exception)
+        {
+            cultureInfo = CultureInfo.CurrentCulture;
+        }
+
+        CultureInfo.CurrentCulture = cultureInfo;
+        CultureInfo.CurrentUICulture = cultureInfo;
+
+        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
     }
 
 }

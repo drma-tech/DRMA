@@ -5,6 +5,7 @@ using Microsoft.JSInterop;
 using MudBlazor.Services;
 using Polly;
 using Polly.Extensions.Http;
+using System.Globalization;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -46,7 +47,10 @@ ConfigureServices(builder.Services, builder.HostEnvironment.BaseAddress, builder
 
 var app = builder.Build();
 
+var nav = app.Services.GetService<NavigationManager>();
 var js = app.Services.GetRequiredService<IJSRuntime>();
+
+await ConfigureCulture(nav, js);
 
 AppStateStatic.Version = await AppStateStatic.GetAppVersion(js);
 AppStateStatic.BrowserName = await js.Utils().GetBrowserName();
@@ -94,6 +98,32 @@ static void ConfigurePrerendering()
     AppStateStatic.BrowserName = loading;
     AppStateStatic.BrowserVersion = loading;
     AppStateStatic.OperatingSystem = loading;
+}
+
+static async Task ConfigureCulture(NavigationManager? nav, IJSRuntime js)
+{
+    //app language
+
+    var uri = new Uri(nav!.Uri);
+
+    var appLanguage = await ExtensionMethodsWeb.GetRouteLanguage(js, uri.AbsolutePath);
+
+    if (appLanguage.NotEmpty())
+    {
+        CultureInfo cultureInfo;
+
+        try
+        {
+            cultureInfo = new CultureInfo(appLanguage);
+        }
+        catch (Exception)
+        {
+            cultureInfo = CultureInfo.CurrentCulture;
+        }
+
+        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+    }
 }
 
 //https://github.com/App-vNext/Polly/wiki/Polly-and-HttpClientFactory

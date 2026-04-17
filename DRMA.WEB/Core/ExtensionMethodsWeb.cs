@@ -23,14 +23,14 @@ public static class ExtensionMethodsWeb
         return [item.Value];
     }
 
-    public static string? GetRouteLanguage(Uri uri)
+    public static string? GetRouteLanguage(string absolutePath)
     {
-        var segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        var segments = absolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
         var lang = segments.FirstOrDefault()?.ToLowerInvariant();
 
         if (lang.IsValidLanguage())
         {
-            return lang!;
+            return lang;
         }
         else
         {
@@ -38,9 +38,9 @@ public static class ExtensionMethodsWeb
         }
     }
 
-    public static async Task<string> GetRouteLanguage(IJSRuntime js, Uri uri)
+    public static async Task<string> GetRouteLanguage(IJSRuntime js, string absolutePath)
     {
-        var lang = GetRouteLanguage(uri);
+        var lang = GetRouteLanguage(absolutePath);
 
         if (lang.NotEmpty())
         {
