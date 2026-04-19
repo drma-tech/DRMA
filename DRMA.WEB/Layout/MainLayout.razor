@@ -45,8 +45,9 @@
             // attention: avoid using asynchronous calls here, as it may affect static html generation (especially for anonymous users)
             // *************************************
 
-            AppStateStatic.DarkModeChanged += dark => { _darkMode = dark; StateHasChanged(); };
             BufferedEvent.Register(nameof(ShowError), (string msg) => { Snackbar.Add(msg, Severity.Error); return Task.CompletedTask; });
+
+            AppStateStatic.DarkModeChanged += dark => { _darkMode = dark; StateHasChanged(); };
             AppStateStatic.BreakpointChanged += breakpoint => StateHasChanged();
             AppStateStatic.BrowserWindowSizeChanged += size => StateHasChanged();
         }

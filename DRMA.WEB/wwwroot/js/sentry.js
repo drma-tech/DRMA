@@ -11,7 +11,10 @@ const env = (() => {
 const ignoredErrors = [
     /failed to fetch/i,
     /failed to register/i,
-    /wasm simd/i
+    /failed to start/i,
+    /wasm simd/i,
+    /unexpected token/i,
+    /token has expired/i,
 ];
 
 const version = appVersion?.trim() ? appVersion : "error";
