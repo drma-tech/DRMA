@@ -1,5 +1,4 @@
-﻿@page "/{culture}/not-found"
-@inherits PageCore<NotFoundPage>
+﻿@inherits ComponentCore<NotFoundComponent>
 
 <PageTitle>404 - Not found</PageTitle>
 <HeadContent>
@@ -43,3 +42,7 @@
         <a href=@($"/{Culture}")>Return to homepage</a>
     </div>
 </div>
+
+@code {
+    private string Culture => Navigation.GetCulture();
+}

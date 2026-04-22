@@ -104,7 +104,8 @@ public static partial class StringHelper
         return input.Normalize(NormalizationForm.FormC);
     }
 
-    private static readonly Regex ObfuscatedLinkRegex = new(@"\b(https?://|hxxp://|hxxps://|www\.)\S+|" + @"\b\w+\s*(\.|\[\.]|\(dot\))\s*\w+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex UrlRegex = new(@"\b[a-z0-9-]{2,}\.(com|net|org|io|co|dev|app|me)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex ObfuscatedRegex = new(@"\b/([a-z0-9- ]{2,}\s*)((?:\.|\[\.]|\(.\))|\[\s*dot\s*\]|\(\s*dot\s*\)|\s*dot\s*)\s*(com|net|org|io|co|dev|app|me)/gm\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex ShortLinkRegex = new(@"(bit\.ly|tinyurl|goo\.gl|t\.co)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex MentionRegex = new(@"@\w+", RegexOptions.Compiled);
     private static readonly Regex RepeatedCharSeqRegex = new(@"(.)\1{10,}", RegexOptions.Compiled);
@@ -117,7 +118,8 @@ public static partial class StringHelper
 
         if (string.IsNullOrWhiteSpace(text)) return false;
 
-        if (ObfuscatedLinkRegex.IsMatch(text)) return true;
+        if (UrlRegex.IsMatch(text)) return true;
+        if (ObfuscatedRegex.IsMatch(text)) return true;
         if (ShortLinkRegex.IsMatch(text)) return true;
         if (MentionRegex.IsMatch(text)) return true;
 
