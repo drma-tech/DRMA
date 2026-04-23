@@ -107,15 +107,15 @@ export const notification = {
                 </p>
                 <div style="text-align:left; font-size:1rem; color:#444;">
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
-                        <img src="logo/google-play.png" width="22" style="margin-right:8px;" />
+                        <img src="logo/google-play.png" width="22" style="margin-right:8px;" alt="Google Play" />
                         <span><strong>Android:</strong> update <strong>Google Chrome</strong> in the Play Store</span>
                     </div>
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
-                          <img src="logo/app-store.png" width="22" style="margin-right:8px;" />
+                          <img src="logo/app-store.png" width="22" style="margin-right:8px;" alt="App Store" />
                         <span><strong>iOS / macOS:</strong> update your system (Safari is included)</span>
                     </div>
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
-                        <img src="logo/microsoft-store.png" width="22" style="margin-right:8px;" />
+                        <img src="logo/microsoft-store.png" width="22" style="margin-right:8px;" alt="Microsoft Store" />
                         <span><strong>Windows:</strong> run Windows Update (Edge is included)</span>
                     </div>
                 </div>
@@ -133,8 +133,7 @@ export const notification = {
     },
     playBeep(frequency, duration, type) {
         try {
-            const audioCtx = new (window.AudioContext ||
-                window.webkitAudioContext)();
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             const oscillator = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
 
