@@ -111,7 +111,7 @@ export const notification = {
                         <span><strong>Android:</strong> update <strong>Google Chrome</strong> in the Play Store</span>
                     </div>
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
-                          <img src="logo/app-store.png" width="22" style="margin-right:8px;" alt="App Store" />
+                        <img src="logo/app-store.png" width="22" style="margin-right:8px;" alt="App Store" />
                         <span><strong>iOS / macOS:</strong> update your system (Safari is included)</span>
                     </div>
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
