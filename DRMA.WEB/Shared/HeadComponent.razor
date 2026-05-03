@@ -8,7 +8,7 @@
 
     @if (!Index)
     {
-        <meta name="robots" content="noindex, nofollow" />
+        <meta name="robots" content="noindex" />
     }
 
     <meta name="description" content="@Description" />
@@ -34,16 +34,10 @@
 
         <meta property="og:type" content="website" />
         <meta property="og:url" content="@CanonicalUrl" />
-        <meta property="og:site_name" content="@AppInfo.CompanyName" />
+        <meta property="og:site_name" content="@AppInfo.Title" />
         <meta property="og:title" content="@TitleFull" />
         <meta property="og:description" content="@Description" />
         <meta property="og:image" content="@ImageUrl" />
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="@TitleFull" />
-        <meta name="twitter:description" content="@Description" />
-        <meta name="twitter:image" content="@ImageUrl" />
-        <meta name="twitter:site" content="@AppInfo.CompanyName" />
     }
 
 </HeadContent>
@@ -69,9 +63,9 @@
     [Parameter] public bool Shared { get; set; }
 
     public string? Culture => AppStateStatic.GetCulture(Navigation);
-    private string? TitleFull => ForceTitle ? Title : $"{Title} - {AppInfo.CompanyName}";
-    private string? CanonicalUrl => $"{AppInfo.CompanyWebSite.TrimEnd('/')}/{Url.TrimStart('/')}";
-    private string? ImageUrl => Image ?? $"{AppInfo.CompanyWebSite}/icon/icon-192.png";
+    private string? TitleFull => ForceTitle ? Title : $"{Title} | {AppInfo.Title}";
+    private string? CanonicalUrl => $"{AppInfo.WebSite.TrimEnd('/')}/{Url.TrimStart('/')}";
+    private string? ImageUrl => Image ?? $"{AppInfo.WebSite}/icon/icon-192.png";
 
     private string[] SupportedLanguages = new[] { "en" };
 
@@ -89,6 +83,6 @@
 
         var path = segments.Length > 1 ? string.Join("/", segments.Skip(1)) : string.Empty;
 
-        return $"{AppInfo.CompanyWebSite}/{lang}/{path}".TrimEnd('/');
+        return $"{AppInfo.WebSite}/{lang}/{path}".TrimEnd('/');
     }
 }

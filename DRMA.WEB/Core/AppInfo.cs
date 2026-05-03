@@ -7,6 +7,10 @@ namespace DRMA.WEB.Core
         public static string CompanyName { get; set; } = "DRMA Tech";
         public static string CompanyWebSite { get; set; } = $"https://www.drma-tech.com";
 
+        public static string Title { get; set; } = "DRMA Tech";
+        public static string Subtitle { get; set; } = "Delivering Reliable Modern Apps";
+        public static string Domain { get; set; } = "drma-tech";
+        public static string WebSite { get; set; } = $"https://www.{Domain}.com";
         public static int Year { get; set; } = 2025;
 
         public static readonly ProductLink[] Products =
