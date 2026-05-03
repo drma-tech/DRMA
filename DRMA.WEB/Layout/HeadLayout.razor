@@ -47,7 +47,7 @@
 {
     <MudDrawer @bind-Open="@_open" Anchor="Anchor.Right" Elevation="1" OverlayAutoClose="true">
         <MudDrawerHeader>
-            <MudText Typo="Typo.h6">@AppInfo.CompanyName</MudText>
+            <MudText Typo="Typo.h6">@AppInfo.Title</MudText>
         </MudDrawerHeader>
         <MudNavMenu>
             <MudNavLink Icon="@IconsFA.Solid.Icon("cog").Font" OnClick="@OpenConfigurations">
