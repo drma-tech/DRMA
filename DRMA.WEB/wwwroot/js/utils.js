@@ -225,6 +225,104 @@ export const environment = {
     getAppVersion() {
         return appVersion;
     },
+    inspectAdElement(el) {
+        if (!el) return { rendered: false, hasSize: false };
+
+        const iframe = el.querySelector('iframe');
+        const rect = el.getBoundingClientRect();
+
+        const rendered = !!iframe;
+        const hasSize = rect.width > 0 && rect.height > 0;
+
+        return { rendered, hasSize };
+    },
+    async waitForAds(els, timeout = 10000) {
+        const start = Date.now();
+
+        return new Promise((resolve) => {
+            const interval = setInterval(() => {
+                for (const el of els) {
+                    const { rendered, hasSize } = environment.inspectAdElement(el);
+
+                    if (rendered && hasSize) {
+                        clearInterval(interval);
+                        return resolve('filled');
+                    }
+                }
+
+                if (Date.now() - start > timeout) {
+                    clearInterval(interval);
+                    resolve('suspected_blocked');
+                }
+            }, 200);
+        });
+    },
+    testUrl(url) {
+        return new Promise((resolve) => {
+            let done = false;
+
+            const script = document.createElement('script');
+
+            const finish = (result) => {
+                if (done) return;
+                done = true;
+                script.remove();
+                resolve(result);
+            };
+
+            script.src = url;
+            script.onload = () => finish(true);
+            script.onerror = () => finish(false);
+
+            document.head.appendChild(script);
+
+            setTimeout(() => finish(false), 3000);
+        });
+    },
+    async isAdBlocked() {
+        if (window.location.hostname === 'localhost') { return false; }
+        if (isBot) return false;
+        if (hideBlazorIndex) return false;
+
+        //detect if adsense exists
+        const els = document.querySelectorAll('.adsbygoogle');
+        if (!els.length) {
+            Sentry.captureMessage("ad blocked - no .adsbygoogle elements found", "error");
+            return false;
+        }
+
+        const state = await environment.waitForAds(els);
+
+        if (state === 'filled') {
+            return false;
+        }
+
+        //if not filled, test if adsbygoogle can be loaded
+        const googlesyndication = await environment.testUrl(
+            'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
+        );
+
+        if (!googlesyndication) {
+            return true;
+        }
+
+        //test browser brave as adsbygoogle works normally
+        const isBrave = navigator.brave && typeof navigator.brave.isBrave === 'function' && await navigator.brave.isBrave();
+
+        if (isBrave) {
+            const fundingchoicesmessages =
+                await environment.testUrl(
+                    'https://fundingchoicesmessages.google.com/i/pub-5145928155833172?ers=1'
+                );
+
+            if (!fundingchoicesmessages) {
+                return true;
+            }
+        }
+
+        Sentry.captureMessage("ad blocked - Ads failed but no blocker detected", "error");
+        return false;
+    }
 };
 
 export const interop = {

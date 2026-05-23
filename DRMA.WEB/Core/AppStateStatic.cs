@@ -17,8 +17,27 @@ public static class AppStateStatic
     public static string? Version { get; set; }
     public static string? BrowserName { get; set; }
     public static string? BrowserVersion { get; set; }
-
     public static string? OperatingSystem { get; set; }
+
+    public static string? _lastSnackbarMessage;
+    public static DateTime _lastSnackbarAt = DateTime.MinValue;
+    public static readonly TimeSpan _snackbarDelay = TimeSpan.FromSeconds(5);
+
+    public static bool CanShowSnackbar(this string message)
+    {
+        var now = DateTime.UtcNow;
+
+        if (_lastSnackbarMessage == message &&
+            now - _lastSnackbarAt < _snackbarDelay)
+        {
+            return false;
+        }
+
+        _lastSnackbarMessage = message;
+        _lastSnackbarAt = now;
+
+        return true;
+    }
 
     public static async Task<string> GetAppVersion(IJSRuntime js)
     {

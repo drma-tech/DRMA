@@ -26,8 +26,11 @@
     }
 
     <!-- x-default -->
-    <link rel="alternate" href="@GetUrlForLanguage("en")" hreflang="x-default" />
-
+    @if (SupportedLanguages.NotEmpty())
+    {
+        <link rel="alternate" href="@GetUrlForLanguage("en")" hreflang="x-default" />
+    }
+    
     @if (Shared)
     {
         <link rel="image_src" href="@ImageUrl">
@@ -59,11 +62,10 @@
     /// </summary>
     [Parameter] public string? Image { get; set; }
 
-    [Parameter] public bool ForceTitle { get; set; }
     [Parameter] public bool Shared { get; set; }
 
     public string? Culture => AppStateStatic.GetCulture(Navigation);
-    private string? TitleFull => ForceTitle ? Title : $"{Title} | {AppInfo.Title}";
+    private string? TitleFull => $"{Title} | {AppInfo.Title}";
     private string? CanonicalUrl => $"{AppInfo.WebSite.TrimEnd('/')}/{Url.TrimStart('/')}";
     private string? ImageUrl => Image ?? $"{AppInfo.WebSite}/icon/icon-192.png";
 
