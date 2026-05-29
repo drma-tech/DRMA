@@ -2,11 +2,11 @@ namespace DRMA.WEB.Modules.Subscription.Core
 {
     public class IpInfoApi(IHttpClientFactory factory) : ApiExternal(factory)
     {
-        public async Task<string?> GetCountry()
+        public async Task<string?> GetCountry(CancellationToken cancellationToken)
         {
             try
             {
-                return await GetStringAsync("public/country");
+                return await GetStringAsync("public/country", cancellationToken);
             }
             catch (Exception)
             {

@@ -48,7 +48,7 @@ public static class ExtensionMethodsWeb
         }
         else
         {
-            return (await AppStateStatic.GetAppLanguage(js)).ToString();
+            return (await AppStateStatic.GetAppLanguage(js, CancellationToken.None)).ToString();
         }
     }
 }

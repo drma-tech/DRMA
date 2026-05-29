@@ -236,7 +236,7 @@ export const environment = {
 
         return { rendered, hasSize };
     },
-    async waitForAds(els, timeout = 10000) {
+    async waitForAds(els, timeout = 15000) {
         const start = Date.now();
 
         return new Promise((resolve) => {

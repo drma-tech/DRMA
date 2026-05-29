@@ -1,12 +1,14 @@
-﻿@using System.Security.Claims
-@using Microsoft.JSInterop
+﻿@using Microsoft.JSInterop
 @using Toolbelt.Blazor.PWA.Updater
 @inherits LayoutComponentBase
+
+@implements IDisposable
 
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
 @inject ILogger<MainLayout> Logger
 @inject IJSRuntime JsRuntime
+@inject IBrowserViewportService BrowserViewportService
 
 @inject NavigationManager Navigation
 
@@ -36,6 +38,7 @@
     private MudThemeProvider? _mudThemeProvider;
     private bool _darkMode = false;
     private string Culture => Navigation.GetCulture();
+    protected readonly CancellationTokenSource cts = new();
 
     protected override void OnInitialized()
     {
@@ -45,11 +48,10 @@
             // attention: avoid using asynchronous calls here, as it may affect static html generation (especially for anonymous users)
             // *************************************
 
-            BufferedEvent.Register(nameof(ShowError), (string msg) => { Snackbar.Add(msg, Severity.Error); return Task.CompletedTask; });
+            BufferedEvent.Register(nameof(ShowError), async (string msg) => { await ShowNotificationError(msg); });
 
             AppStateStatic.DarkModeChanged += dark => { _darkMode = dark; StateHasChanged(); };
-            AppStateStatic.BreakpointChanged += breakpoint => StateHasChanged();
-            AppStateStatic.BrowserWindowSizeChanged += size => StateHasChanged();
+            AppStateStatic.BreakpointChanged.Subscribe(breakpoint => StateHasChanged(), cts.Token);
         }
         catch (Exception ex)
         {
@@ -68,9 +70,14 @@
 
         if (firstRender)
         {
+            //Get the value at the beginning (NotifyBrowserViewportChangeAsync is too slow)
+            AppStateStatic.Breakpoint = await BrowserViewportService.GetCurrentBreakpointAsync();
+            AppStateStatic.Size = AppStateStatic.Breakpoint == Breakpoint.Xs ? Size.Small : Size.Medium;
+            AppStateStatic.BreakpointChanged.Publish(AppStateStatic.Breakpoint);
+
             try
             {
-                await ApplyDarkMode();
+                await ApplyDarkMode(cts.Token);
             }
             catch (Exception ex)
             {
@@ -79,19 +86,29 @@
         }
     }
 
-    private async Task ApplyDarkMode()
+    private async Task ApplyDarkMode(CancellationToken cancellationToken)
     {
-        var darkMode = await AppStateStatic.GetDarkMode(JsRuntime);
+        var darkMode = await AppStateStatic.GetDarkMode(JsRuntime, cts.Token);
 
         if (darkMode == null && _mudThemeProvider != null)
         {
             var system = await _mudThemeProvider.GetSystemDarkModeAsync();
             darkMode = system;
 
-            await JsRuntime.Utils().SetStorage("dark-mode", darkMode ?? false);
+            await JsRuntime.Utils().SetStorage("dark-mode", darkMode ?? false, JavascriptContext.Default.Boolean, cancellationToken);
         }
 
         AppStateStatic.ChangeDarkMode(darkMode ?? false);
+    }
+
+    protected async Task ShowNotificationError(string message)
+    {
+        if (!message.CanShowSnackbar()) return;
+
+        Snackbar.Add(message, Severity.Error);
+
+        await JsRuntime.Utils().PlayBeep(220, 400, "square", CancellationToken.None);
+        await JsRuntime.Utils().Vibrate([200, 100, 200], CancellationToken.None);
     }
 
     [JSInvokable]
@@ -100,4 +117,10 @@
         BufferedEvent.Invoke(nameof(ShowError), error);
     }
 
+    void IDisposable.Dispose()
+    {
+        cts.Cancel();
+        cts.Dispose();
+        GC.SuppressFinalize(this);
+    }
 }

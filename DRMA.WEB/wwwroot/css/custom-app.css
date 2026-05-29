@@ -407,13 +407,7 @@ body .pwa-updater[b-pwa-updater] {
 .adsbygoogle.custom-ad {
     display: block;
     min-width: 300px;
-    border: 1px solid var(--mud-palette-lines-default);
-}
-
-.adsbygoogle.custom-ad-mobile {
-    display: block;
-    min-width: 300px;
-    max-height: 250px !important;
+    max-height: 200px !important;
     border: 1px solid var(--mud-palette-lines-default);
 }
 

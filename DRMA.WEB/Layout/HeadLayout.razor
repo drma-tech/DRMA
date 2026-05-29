@@ -1,5 +1,7 @@
 @using Microsoft.JSInterop
 
+@implements IDisposable
+
 @inject NavigationManager Navigation
 @inject IDialogService DialogService
 @inject IJSRuntime JsRuntime
@@ -9,7 +11,7 @@
     <MudProgressLinear Color="Color.Secondary" Indeterminate="true" Style="position: fixed; z-index: 1400;" />
 }
 <MudAppBar Fixed="true" Elevation="1" Color="Color.Dark">
-    @if (AppStateStatic.Breakpoint <= Breakpoint.Xs) //mobile view
+    @if (AppStateStatic.Breakpoint == Breakpoint.Xs) //mobile view
     {
         <MudButton StartIcon="@IconsFA.Solid.Icon("house").Font" Color="@GetColor($"/{Culture}")" Href=@($"/{Culture}") Variant="@GetVariant($"/{Culture}")" Class="icon-text-button">
             Home
@@ -68,26 +70,26 @@
     private int _processingCount = 0;
     private bool _processing => _processingCount > 0;
 
+    protected readonly CancellationTokenSource cts = new();
+
     protected override void OnInitialized()
     {
         Navigation.LocationChanged += delegate { StateHasChanged(); };
 
-        AppStateStatic.BreakpointChanged += breakpoint => StateHasChanged();
-        AppStateStatic.BrowserWindowSizeChanged += size => StateHasChanged();
+        AppStateStatic.BreakpointChanged.Subscribe(breakpoint => StateHasChanged(), cts.Token);
 
-        AppStateStatic.ProcessingStarted += () =>
+        AppStateStatic.ProcessingStarted.Subscribe(async () =>
         {
-            Interlocked.Increment(ref _processingCount);
-            InvokeAsync(StateHasChanged);
-        };
-
-        AppStateStatic.ProcessingFinished += async () =>
-        {
-            Interlocked.Decrement(ref _processingCount);
-
-            await Task.Delay(200);
+            Interlocked.Increment(ref _processingCount); 
             await InvokeAsync(StateHasChanged);
-        };
+        }, cts.Token);
+
+        AppStateStatic.ProcessingFinished.Subscribe(async () =>
+        {
+            Interlocked.Decrement(ref _processingCount); 
+            await Task.Delay(200); 
+            await InvokeAsync(StateHasChanged);
+        }, cts.Token);
     }
 
     private async Task OpenConfigurations()
@@ -113,4 +115,10 @@
         return string.Equals(uri.AbsolutePath, endpoint, StringComparison.OrdinalIgnoreCase);
     }
 
+    void IDisposable.Dispose()
+    {
+        cts.Cancel();
+        cts.Dispose();
+        GC.SuppressFinalize(this);
+    }
 }

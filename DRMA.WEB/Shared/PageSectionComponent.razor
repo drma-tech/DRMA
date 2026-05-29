@@ -17,7 +17,7 @@
                     }
                     @if (IsMobile)
                     {
-                        <MudText Typo="Typo.h1" Color="Color.Primary" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")">
+                        <MudText Typo="Typo.h1" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")" id="@Title.ToSlug()">
                             @Title
                         </MudText>
                         @if (Subtitle.NotEmpty())
@@ -30,7 +30,7 @@
                     else
                     {
                         <div>
-                            <MudText Typo="Typo.h1" Color="Color.Primary" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")">
+                            <MudText Typo="Typo.h1" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")" id="@Title.ToSlug()">
                                 @Title
                             </MudText>
                             @if (Subtitle.NotEmpty())
@@ -73,7 +73,7 @@
                         @if (UrlShare.NotEmpty())
                         {
                             <MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@IconsFA.Solid.Icon("share").Font"
-                                       OnClick="@(() => JsRuntime.Utils().Share(Title, Description, AbsolutelUrl))">
+                                       OnClick="@(() => JsRuntime.Utils().Share(Title, Description, AbsolutelUrl, cts.Token))">
                                 Share
                             </MudButton>
                         }
@@ -97,7 +97,7 @@
                         }
                         @if (IsMobile)
                         {
-                            <MudText Typo="Typo.h2" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")">
+                            <MudText Typo="Typo.h2" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")" id="@Title.ToSlug()">
                                 @Title
                             </MudText>
                             @if (Subtitle.NotEmpty())
@@ -110,7 +110,7 @@
                         else
                         {
                             <div>
-                                <MudText Typo="Typo.h2" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")">
+                                <MudText Typo="Typo.h2" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")" id="@Title.ToSlug()">
                                     @Title
                                 </MudText>
                                 @if (Subtitle.NotEmpty())
@@ -156,9 +156,16 @@
             }
             @if (HasBody)
             {
-                <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 0px 0px 4px 4px;" : "")}")" Outlined="true" Elevation="0">
+                @if (HasBodyBox)
+                {
+                    <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 0px 0px 4px 4px;" : "")}")" Outlined="true" Elevation="0">
+                        @BodyFragment
+                    </MudPaper>
+                }
+                else
+                {
                     @BodyFragment
-                </MudPaper>
+                }
             }
         }
 
@@ -183,6 +190,7 @@
     [Parameter] public string? ImageStyle { get; set; }
     [Parameter] public bool Visible { get; set; } = true;
     [Parameter] public string? CustomBodyClass { get; set; }
+    [Parameter] public bool HasBodyBox { get; set; } = true;
 
     //Fragments
     [Parameter] public RenderFragment? ExtraFragment { get; set; }
@@ -191,7 +199,7 @@
 
     public string? BodyClass { get; set; }
 
-    private bool IsMobile => AppStateStatic.Breakpoint <= Breakpoint.Xs;
+    private bool IsMobile => AppStateStatic.Breakpoint == Breakpoint.Xs;
     private string? AbsolutelUrl => $"{AppInfo.WebSite.TrimEnd('/')}/{UrlShare?.TrimStart('/')}";
 
     private string headerImageSize => IsMobile ? "40px" : "48px";
@@ -207,7 +215,7 @@
         if (CustomBodyClass.Empty())
         {
             BodyClass = Css.Build().Large("mb");
-            AppStateStatic.BreakpointChanged += client => BodyClass = Css.Build().Large("mb");
+            AppStateStatic.BreakpointChanged.Subscribe(breakpoint => BodyClass = Css.Build().Large("mb"), cts.Token);
         }
         else
         {

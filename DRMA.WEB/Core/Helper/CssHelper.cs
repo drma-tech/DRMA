@@ -34,8 +34,8 @@ namespace DRMA.WEB.Core.Helper
 
         public static Css Build() => new();
 
-        public static int SpaceSmall => AppStateStatic.Breakpoint <= Breakpoint.Xs ? 2 : 3;
-        public static int SpaceMedium => AppStateStatic.Breakpoint <= Breakpoint.Xs ? 4 : 6;
-        public static int SpaceLarge => AppStateStatic.Breakpoint <= Breakpoint.Xs ? 6 : 9;
+        public static int SpaceSmall => AppStateStatic.Breakpoint == Breakpoint.Xs ? 2 : 3;
+        public static int SpaceMedium => AppStateStatic.Breakpoint == Breakpoint.Xs ? 4 : 6;
+        public static int SpaceLarge => AppStateStatic.Breakpoint == Breakpoint.Xs ? 6 : 9;
     }
 }

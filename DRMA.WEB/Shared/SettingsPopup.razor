@@ -29,14 +29,14 @@
 
     protected override async Task ProcessInitialData()
     {
-        DarkMode = await AppStateStatic.GetDarkMode(JsRuntime) ?? false;
+        DarkMode = await AppStateStatic.GetDarkMode(JsRuntime, cts.Token) ?? false;
     }
 
     protected async Task DarkModeChanged(bool value)
     {
         DarkMode = value;
 
-        await JsRuntime.Utils().SetStorage("dark-mode", value);
+        await JsRuntime.Utils().SetStorage("dark-mode", value, JavascriptContext.Default.Boolean, cts.Token);
 
         AppStateStatic.ChangeDarkMode(value);
     }

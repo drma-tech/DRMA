@@ -10,7 +10,7 @@
     <BodyFragment>
         <MudGrid Spacing="@Css.SpaceSmall">
             <MudItem xs="12" sm="6" md="4" lg="3">
-                <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@(async () => { await JsRuntime.Utils().ShowCache(); })">
+                <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@(async () => { await JsRuntime.Utils().ShowCache(cts.Token); })">
                     <MudIcon Class="me-2" Icon="@IconsFA.Solid.Icon("database").Font"></MudIcon>
                     Show Cache
                 </MudButton>
