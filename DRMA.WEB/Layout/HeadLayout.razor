@@ -80,15 +80,30 @@
 
         AppStateStatic.ProcessingStarted.Subscribe(async () =>
         {
-            Interlocked.Increment(ref _processingCount); 
-            await InvokeAsync(StateHasChanged);
+            try
+            {
+                Interlocked.Increment(ref _processingCount);
+                await InvokeAsync(StateHasChanged);
+            }
+            catch (Exception)
+            {
+                //ignored (error on project publish) - Object reference not set to an instance of an object.
+                //commit: breakpoint refactorer / ActionDispatcher and TaskDispatcher (2026-05-25)
+            }
         }, cts.Token);
 
         AppStateStatic.ProcessingFinished.Subscribe(async () =>
         {
-            Interlocked.Decrement(ref _processingCount); 
-            await Task.Delay(200); 
-            await InvokeAsync(StateHasChanged);
+            try
+            {
+                Interlocked.Decrement(ref _processingCount);
+                await Task.Delay(200);
+                await InvokeAsync(StateHasChanged);
+            }
+            catch (Exception)
+            {
+                //ignored (error on project publish) - Object reference not set to an instance of an object.
+            }
         }, cts.Token);
     }
 
