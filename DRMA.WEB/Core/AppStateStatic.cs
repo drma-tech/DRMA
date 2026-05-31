@@ -20,6 +20,16 @@ public static class AppStateStatic
     private static DateTime LastSnackbarAt { get; set; } = DateTime.MinValue;
     private static readonly TimeSpan SnackbarDelay = TimeSpan.FromSeconds(5);
 
+    public static bool IsLocalhost(this NavigationManager navigation)
+    {
+        return navigation.BaseUri.Contains("localhost") || navigation.BaseUri.Contains("develop");
+    }
+
+    public static bool IsPrerendering(this NavigationManager navigation)
+    {
+        return navigation.BaseUri.Contains("127.0.0.1");
+    }
+
     public static bool CanShowSnackbar(this string message)
     {
         var now = DateTime.UtcNow;

@@ -30,7 +30,7 @@
     {
         <link rel="alternate" href="@GetUrlForLanguage("en")" hreflang="x-default" />
     }
-    
+
     @if (Shared)
     {
         <link rel="image_src" href="@ImageUrl">
@@ -69,7 +69,7 @@
     private string? CanonicalUrl => $"{AppInfo.WebSite.TrimEnd('/')}/{Url.TrimStart('/')}";
     private string? ImageUrl => Image ?? $"{AppInfo.WebSite}/icon/icon-192.png";
 
-    private string[] SupportedLanguages = [];
+    private string[] SupportedLanguages = ["en"];
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
