@@ -104,8 +104,15 @@ public static class AppStateStatic
 
     #region AppLanguage
 
+    public static string[] SupportedLanguages => ["en"];
+
     private static AppLanguage? _appLanguage;
     private static readonly SemaphoreSlim _appLanguageSemaphore = new(1, 1);
+
+    public static bool IsValidLanguage(this string? lang)
+    {
+        return SupportedLanguages.Contains(lang);
+    }
 
     public static async Task<AppLanguage> GetAppLanguage(IJSRuntime js, CancellationToken cancellationToken)
     {
@@ -159,13 +166,10 @@ public static class AppStateStatic
     public static string GetCulture(this NavigationManager navigation)
     {
         var segments = new Uri(navigation.Uri).AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
-        if (segments.Length > 0) return segments[0];
-        else return "en";
-    }
 
-    public static bool IsValidLanguage(this string? lang)
-    {
-        return lang is "en";
+        var first = segments.FirstOrDefault()?.ToLowerInvariant();
+
+        return first.IsValidLanguage() ? first! : "en";
     }
 
     #endregion AppLanguage

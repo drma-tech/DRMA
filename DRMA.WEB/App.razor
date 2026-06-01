@@ -11,15 +11,22 @@
 
 <CustomErrorBoundary @ref="_boundary" OnErrorCallback="OnAppError">
     <ChildContent>
-        <Router AppAssembly="@typeof(App).Assembly" OnNavigateAsync="OnNavigateAsync">
-            <Found Context="routeData">
-                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-                <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-            </Found>
-            <NotFound>
-                <NotFoundComponent></NotFoundComponent>
-            </NotFound>
-        </Router>
+        @if (_showNotFound)
+        {
+            <NotFoundComponent></NotFoundComponent>
+        }
+        else
+        {
+            <Router AppAssembly="@typeof(App).Assembly">
+                <Found Context="routeData">
+                    <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+                    <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+                </Found>
+                <NotFound>
+                    <NotFoundComponent></NotFoundComponent>
+                </NotFound>
+            </Router>
+        }        
     </ChildContent>
     <ErrorContent Context="ex">
         <div style="border: 1px solid #dc3545; background-color: #f8d7da; color: #721c24; padding: 16px; border-radius: 8px; max-width: 800px; margin: 40px auto;">
@@ -60,70 +67,57 @@
 @code {
     ErrorBoundary? _boundary;
     bool _isUpdateAvailable = false;
+    bool _showNotFound = false;
     System.Threading.Timer? _updateCheckTimer;
 
-    protected override void OnInitialized()
-    {
-        var uri = new Uri(Navigation.Uri);
+    #region Utils
 
-        if (uri.Host == "127.0.0.1") //only for static pages
-        {
-            var path = uri.AbsolutePath;
-
-            var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
-            var first = segments.FirstOrDefault()?.ToLowerInvariant();
-
-            var hasLang = first.IsValidLanguage();
-            var lang = hasLang ? first : ExtensionMethodsWeb.GetRouteLanguage(path);
-
-            ConfigureCulture(lang);
-        }
-    }
-
-    protected override async Task OnInitializedAsync()
+    private string? GetFirstSegment()
     {
         var uri = new Uri(Navigation.Uri);
         var path = uri.AbsolutePath;
 
         var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
-        var first = segments.FirstOrDefault()?.ToLowerInvariant();
-
-        var hasLang = first.IsValidLanguage();
-        var lang = hasLang ? first : await ExtensionMethodsWeb.GetRouteLanguage(JsRuntime, path);
-
-        var cleanSegments = hasLang ? segments.Skip(1) : segments;
-
-        var currentPath = path.TrimEnd('/');
-        var finalPath = $"/{lang}/" + string.Join("/", cleanSegments);
-        finalPath = finalPath.TrimEnd('/');
-
-        var needsRedirect = !string.Equals(currentPath, finalPath, StringComparison.OrdinalIgnoreCase) || path.EndsWith('/');
-
-        if (needsRedirect)
-        {
-            var query = uri.Query;
-            var finalUrl = query.Empty() ? finalPath : $"{finalPath}{query}";
-
-            Navigation.NavigateTo(finalUrl, replace: true);
-        }
+        return segments.FirstOrDefault()?.ToLowerInvariant();
     }
 
-    private Task OnNavigateAsync(Microsoft.AspNetCore.Components.Routing.NavigationContext args)
+    private string BuildUrl(string path, string? query) => query.NotEmpty() ? $"{path}{query}" : path;
+
+    #endregion Utils
+
+    protected override async Task OnInitializedAsync() //prerendering doesnt trigger OnInitializedAsync
     {
         var uri = new Uri(Navigation.Uri);
+        var path = uri.AbsolutePath;
+        var query = uri.Query;
 
-        if (uri.Host == "127.0.0.1") //only for static pages
+        var first = GetFirstSegment();
+        var allowedFirstSegments = new[] { "legal", "help", "company" };
+
+        if (first.IsValidLanguage()) //language specified
         {
-            var segments = args.Path.Split('/', StringSplitOptions.RemoveEmptyEntries);
-            var first = segments.FirstOrDefault()?.ToLowerInvariant();
+            if (path.Length > 1 && path.EndsWith('/'))
+            {
+                var newPath = path.TrimEnd('/');
 
-            var hasLang = first.IsValidLanguage();
-            var lang = hasLang ? first : ExtensionMethodsWeb.GetRouteLanguage(args.Path);
-
-            ConfigureCulture(lang);
+                Navigation.NavigateTo(BuildUrl(newPath, query), replace: true);
+                return;
+            }
         }
-        
-        return Task.CompletedTask;
+        else if (first.Empty() || allowedFirstSegments.Contains(first)) //language not specified (try detect language and redirect)
+        {
+            var lang = await AppStateStatic.GetAppLanguage(JsRuntime, CancellationToken.None);
+            var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+            var newPath = segments.Any() ? $"/{lang}/{string.Join("/", segments)}" : $"/{lang}";
+
+            Navigation.NavigateTo(BuildUrl(newPath, query), replace: true);
+            return;
+        }
+        else //anything else -> render not found
+        {
+            _showNotFound = true;
+        }
     }
 
     protected override void OnParametersSet()
