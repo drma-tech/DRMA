@@ -38,6 +38,10 @@ public static class NotificationCore
             logger.LogWarning(exc.Message);
             snackbar.Add(exc.Message, Severity.Warning);
         }
+        else if (ex is OperationCanceledException or TaskCanceledException or ObjectDisposedException)
+        {
+            //ignored
+        }
         else
         {
             logger.LogError(ex, ex.Message);
