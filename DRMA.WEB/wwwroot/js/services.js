@@ -45,4 +45,6 @@ export const services = {
     },
 };
 
-services.initMicrosoftClarity(servicesConfig.ClarityKey);
+setTimeout(function () {
+    services.initMicrosoftClarity(servicesConfig.ClarityKey);
+}, 1000);
