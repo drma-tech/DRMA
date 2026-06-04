@@ -72,7 +72,7 @@
                         @ActionsFragment
                         @if (UrlShare.NotEmpty())
                         {
-                            <MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@IconsFA.Solid.Icon("share").Font"
+                            <MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Share"
                                        OnClick="@(() => JsRuntime.Utils().Share(Title, Description, AbsolutelUrl, cts.Token))">
                                 Share
                             </MudButton>

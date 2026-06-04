@@ -1,23 +1,21 @@
 ﻿@page "/{culture}/help"
 @inherits PageCore<HelpCenter>
 
-@using DRMA.WEB.Layout
-
 <HeadComponent Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")" Url=@($"/{Culture}/help") Index="false" />
-<PageSectionComponent IsPageHeader="true" Icon="@IconsFA.Solid.Icon("headset").Font" Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")"></PageSectionComponent>
+<PageSectionComponent IsPageHeader="true" Icon="@Icons.Material.Filled.HelpCenter" Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")"></PageSectionComponent>
 
 <PageSectionComponent Title="Troubleshooting">
     <BodyFragment>
         <MudGrid Spacing="@Css.SpaceSmall">
             <MudItem xs="12" sm="6" md="4" lg="3">
                 <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@(async () => { await JsRuntime.Utils().ShowCache(cts.Token); })">
-                    <MudIcon Class="me-2" Icon="@IconsFA.Solid.Icon("database").Font"></MudIcon>
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Cached"></MudIcon>
                     Show Cache
                 </MudButton>
             </MudItem>
             <MudItem xs="12" sm="6" md="4" lg="3">
                 <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@(async () => { await JsRuntime.Utils().ClearAllStorage(); })">
-                    <MudIcon Class="me-2" Icon="@IconsFA.Solid.Icon("trash-alt").Font"></MudIcon>
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Clear"></MudIcon>
                     Clear App Data
                 </MudButton>
             </MudItem>
@@ -30,13 +28,13 @@
         <MudGrid Spacing="@Css.SpaceSmall">
             <MudItem xs="12" sm="6" md="4" lg="3">
                 <MudButton Variant="Variant.Filled" FullWidth="true" Href=@($"/{Culture}/company/about-us")>
-                    <MudIcon Class="me-2" Icon="@IconsFA.Solid.Icon("building").Font"></MudIcon>
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Business"></MudIcon>
                     About us
                 </MudButton>
             </MudItem>
             <MudItem xs="12" sm="6" md="4" lg="3">
                 <MudButton Variant="Variant.Filled" FullWidth="true" Href="mailto:contact@drma-tech.com">
-                    <MudIcon Class="me-2" Icon="@IconsFA.Solid.Icon("at").Font"></MudIcon>
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Email"></MudIcon>
                     Contact us
                 </MudButton>
             </MudItem>

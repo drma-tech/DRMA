@@ -15,10 +15,10 @@ namespace DRMA.WEB.Core
 
         public static readonly ProductLink[] Products =
         [
-            new("Streaming Discovery", "Discover Movies and Series on Streaming Platforms", "https://www.streamingdiscovery.com", "/logo/streamingdiscovery.png", true ),
-            new("Modern Matchmaker", "Find a Compatible Partner Through Smart Matching", "https://www.modern-matchmaker.com", "/logo/modern-matchmaker.png", true ),
-            new("My Next Spot", "Find the Best Cities and Countries to Live or Travel", "https://www.my-next-spot.com", "/logo/next-spot.png", false ),
-            new("WebStandards", "Web Standards Generator for Websites and PWAs", "https://www.web-standards.com", "/logo/webstandards.png", false ),
+            new("Streaming Discovery", "Discover Movies and Series on Streaming Platforms", "https://www.streamingdiscovery.com", "/logo/streamingdiscovery.webp", true ),
+            new("Modern Matchmaker", "Find a Compatible Partner Through Smart Matching", "https://www.modern-matchmaker.com", "/logo/modern-matchmaker.webp", true ),
+            new("My Next Spot", "Find the Best Cities and Countries to Live or Travel", "https://www.my-next-spot.com", "/logo/next-spot.webp", false ),
+            new("WebStandards", "Web Standards Generator for Websites and PWAs", "https://www.web-standards.com", "/logo/webstandards.webp", false ),
        ];
     }
 }

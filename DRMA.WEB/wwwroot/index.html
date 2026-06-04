@@ -13,26 +13,23 @@
     <link rel="stylesheet" href="css/app.min.css" />
     <link rel="stylesheet" href="css/custom-app.min.css" />
     <link rel="stylesheet" href="DRMA.WEB.styles.css" />
-    <link rel="apple-touch-icon" sizes="512x512" href="/icon/icon-512.png" />
-    <link rel="apple-touch-icon" sizes="192x192" href="/icon/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/icon/icon-512.webp" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/icon/icon-192.webp" />
 
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
-    <link href="/fa/css/fontawesome.min.css" rel="stylesheet" />
-    <link href="/fa/css/brands.min.css" rel="stylesheet" />
-    <link href="/fa/css/solid.min.css" rel="stylesheet" />
 
     <script type="importmap"></script>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41Q6D56912"></script>
 
-    <script src="https://js.sentry-cdn.com/9d67a029559a76d507d4437b586e778f.min.js" crossorigin="anonymous"></script>
-    <script src="package/bowser/es5.min.js"></script> <!--https://www.jsdelivr.com/package/npm/bowser - 2.14.1-->
+    <script defer src="https://js.sentry-cdn.com/9d67a029559a76d507d4437b586e778f.min.js" crossorigin="anonymous"></script>
+    <script defer src="package/bowser/es5.min.js"></script> <!--https://www.jsdelivr.com/package/npm/bowser - 2.14.1-->
 
-    <script type="module" src="js/main.js"></script>
-    <script type="module" src="js/utils.js"></script>
-    <script type="module" src="js/sentry.js"></script>
-    <script type="module" src="js/events.js"></script>
-    <script type="module" src="js/services.js"></script>
+    <script defer type="module" src="js/main.js"></script>
+    <script defer type="module" src="js/utils.js"></script>
+    <script defer type="module" src="js/sentry.js"></script>
+    <script defer type="module" src="js/events.js"></script>
+    <script defer type="module" src="js/services.js"></script>
 </head>
 
 <body>
@@ -65,7 +62,7 @@
 
     <div id="toast-stack"></div>
 
-    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+    <script defer src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script>
         if (typeof Promise.withResolvers !== "function") {
             Promise.withResolvers = function () {
@@ -78,7 +75,7 @@
             };
         }
     </script>
-    <script src="_content/Toolbelt.Blazor.PWA.Updater.Service/script.min.js"></script>
+    <script async src="_content/Toolbelt.Blazor.PWA.Updater.Service/script.min.js"></script>
 
     <script src="_framework/blazor.webassembly#[.{fingerprint}].js" autostart="false"></script>
     <script>
