@@ -41,10 +41,10 @@ export const services = {
                 window.clarity("consent");
                 clearInterval(clarityCheckInterval);
             }
-        }, 5000);
+        }, 3000);
     },
 };
 
 setTimeout(function () {
     services.initMicrosoftClarity(servicesConfig.ClarityKey);
-}, 1000);
+}, 3000);
