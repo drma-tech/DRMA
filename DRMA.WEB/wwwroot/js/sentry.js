@@ -1,6 +1,5 @@
 ﻿import { servicesConfig } from "./main.js";
 import { storage, environment } from "./utils.js";
-import { appVersion } from "./app-version.js";
 
 const env = (() => {
     if (location.hostname === "localhost") return "development";
@@ -17,13 +16,11 @@ const ignoredErrors = [
     /token has expired/i,
 ];
 
-const version = appVersion?.trim() ? appVersion : "error";
-
 window.sentryOnLoad = function () {
     Sentry.init({
         dsn: servicesConfig.SentryDsn,
         SendDefaultPii: true, // enable ip
-        release: `drma-js@${version}`,
+        release: `drma-js@${window.appVersion}`,
         environment: env,
         beforeSend(event) {
             const message = event.exception?.values?.[0]?.value || event.message || "";
@@ -33,7 +30,7 @@ window.sentryOnLoad = function () {
             }
 
             event.tags = {
-                "custom.version": version,
+                "custom.version": window.appVersion,
                 "custom.platform": storage.getLocalStorage("platform") ?? "error",
             };
             event.extra = {

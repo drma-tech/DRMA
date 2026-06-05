@@ -144,8 +144,6 @@ namespace DRMA.WEB.Core.Helper
 
         #region ENVIRONMENT
 
-        public Task<string?> GetAppVersion(CancellationToken cancellationToken) => Invoke<string?>("environment.getAppVersion", cancellationToken);
-
         public Task<string?> GetBrowserName(CancellationToken cancellationToken) => Invoke<string?>("environment.getBrowserName", cancellationToken);
 
         public Task<string?> GetBrowserVersion(CancellationToken cancellationToken) => Invoke<string?>("environment.getBrowserVersion", cancellationToken);

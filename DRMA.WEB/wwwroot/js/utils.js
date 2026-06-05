@@ -1,7 +1,6 @@
 "use strict";
 
 import { isBot, hideBlazorIndex } from "./main.js";
-import { appVersion } from "./app-version.js";
 
 export const storage = {
     clearAllStorage() {
@@ -211,9 +210,6 @@ export const environment = {
     },
     getOperatingSystem() {
         return window.browser?.getOSName() ?? "no bowser loaded";
-    },
-    getAppVersion() {
-        return appVersion;
     },
     inspectAdElement(el) {
         if (!el) return { rendered: false, hasSize: false };

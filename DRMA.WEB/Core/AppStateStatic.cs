@@ -33,8 +33,7 @@ public static class AppStateStatic
     {
         var now = DateTime.UtcNow;
 
-        if (LastSnackbarMessage == message &&
-            now - LastSnackbarAt < SnackbarDelay)
+        if (LastSnackbarMessage == message && now - LastSnackbarAt < SnackbarDelay)
         {
             return false;
         }
@@ -49,9 +48,7 @@ public static class AppStateStatic
     {
         try
         {
-            var vs = await js.Utils().GetAppVersion(cancellationToken);
-
-            return vs?.ReplaceLineEndings("").Trim() ?? "version-error";
+            return await js.InvokeAsync<string>("eval", "window.appVersion", cancellationToken);
         }
         catch (Exception)
         {
