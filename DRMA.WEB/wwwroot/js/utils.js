@@ -1,7 +1,6 @@
 "use strict";
 
 import { isBot, hideBlazorIndex } from "./main.js";
-import { simd } from "./wasm-feature-detect.js";
 import { appVersion } from "./app-version.js";
 
 export const storage = {
@@ -202,15 +201,6 @@ export const environment = {
         //The browser does not support WASM or SIMD.
         if (!wasmSupported || hideBlazorIndex) {
             notification.showBrowserWarning();
-            return;
-        }
-
-        const simdSupported = await simd();
-
-        if (!simdSupported) {
-            notification.showError(
-                "Your browser is out of date or some security mechanism is blocking something essential for the platform to function properly, such as Edge's Enhanced Security Mode."
-            );
         }
     },
     getBrowserName() {
