@@ -2,14 +2,14 @@
 @inherits PageCore<HelpCenter>
 
 <HeadComponent Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")" Url=@($"/{Culture}/help") Index="false" />
-<PageSectionComponent IsPageHeader="true" Icon="@Icons.Material.Filled.HelpCenter" Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")"></PageSectionComponent>
+<PageSectionComponent IsPageHeader="true" Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")"></PageSectionComponent>
 
 <PageSectionComponent Title="Troubleshooting">
     <BodyFragment>
         <MudGrid Spacing="@Css.SpaceSmall">
             <MudItem xs="12" sm="6" md="4" lg="3">
                 <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@(async () => { await JsRuntime.Utils().ShowCache(cts.Token); })">
-                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Cached"></MudIcon>
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Memory"></MudIcon>
                     Show Cache
                 </MudButton>
             </MudItem>

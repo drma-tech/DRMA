@@ -218,7 +218,7 @@ export const environment = {
         const rect = el.getBoundingClientRect();
 
         const rendered = !!iframe;
-        const hasSize = rect.width > 0 && rect.height > 0;
+        const hasSize = rect.width > 5 && rect.height > 5;
 
         return { rendered, hasSize };
     },

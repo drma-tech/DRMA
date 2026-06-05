@@ -20,13 +20,13 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
     <!-- hreflang -->
-    @foreach (var lang in SupportedLanguages)
+    @foreach (var lang in AppStateStatic.SitemapTranslations)
     {
         <link rel="alternate" href="@GetUrlForLanguage(lang)" hreflang="@lang" />
     }
 
     <!-- x-default -->
-    @if (SupportedLanguages.NotEmpty())
+    @if (AppStateStatic.SitemapTranslations.Length > 0)
     {
         <link rel="alternate" href="@GetUrlForLanguage("en")" hreflang="x-default" />
     }
@@ -68,8 +68,6 @@
     private string? TitleFull => $"{Title} | {AppInfo.Title}";
     private string? CanonicalUrl => $"{AppInfo.WebSite.TrimEnd('/')}/{Url.TrimStart('/')}";
     private string? ImageUrl => Image ?? $"{AppInfo.WebSite}/icon/icon-192.webp";
-
-    private string[] SupportedLanguages = ["en"];
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

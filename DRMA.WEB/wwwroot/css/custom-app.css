@@ -382,26 +382,6 @@ body .pwa-updater[b-pwa-updater] {
             margin: 0;
         }
 
-/* FONT AWESOME */
-
-.fa-sm {
-    font-size: 18px !important;
-    align-content: space-evenly;
-    margin: 1px;
-}
-
-.fa-md {
-    font-size: 20px !important;
-    align-content: space-evenly;
-    margin: 2px;
-}
-
-.fa-lg {
-    font-size: 22px !important;
-    align-content: space-evenly;
-    margin: 4px;
-}
-
 /* ADSENSE */
 
 .adsbygoogle.custom-ad {

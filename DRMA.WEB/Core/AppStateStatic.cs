@@ -17,7 +17,7 @@ public static class AppStateStatic
 
     private static string? LastSnackbarMessage { get; set; }
     private static DateTime LastSnackbarAt { get; set; } = DateTime.MinValue;
-    private static readonly TimeSpan SnackbarDelay = TimeSpan.FromSeconds(5);
+    private static readonly TimeSpan SnackbarDelay = TimeSpan.FromSeconds(10);
 
     public static bool IsLocalhost(this NavigationManager navigation)
     {
@@ -48,7 +48,7 @@ public static class AppStateStatic
     {
         try
         {
-            return await js.InvokeAsync<string>("eval", "window.appVersion", cancellationToken);
+            return await js.InvokeAsync<string>("eval", cancellationToken, "window.appVersion");
         }
         catch (Exception)
         {
@@ -101,6 +101,7 @@ public static class AppStateStatic
     #region AppLanguage
 
     public static string[] SupportedLanguages => ["en"];
+    public static string[] SitemapTranslations => ["en"];
 
     private static AppLanguage? _appLanguage;
     private static readonly SemaphoreSlim _appLanguageSemaphore = new(1, 1);
