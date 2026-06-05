@@ -41,7 +41,7 @@ export const services = {
                 window.clarity("consent");
                 clearInterval(clarityCheckInterval);
             }
-        }, 3000);
+        }, 5000);
     },
 };
 
