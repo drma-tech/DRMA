@@ -1,4 +1,5 @@
-﻿@inherits ComponentCore<PageSectionComponent>
+﻿@using Microsoft.JSInterop
+@inject IJSRuntime JsRuntime
 
 @if (Visible)
 {
@@ -52,8 +53,7 @@
                 @if (Description.NotEmpty())
                 {
                     <div style="text-align: justify;" class="@Css.Build().Small("mt")">
-                        <MudText Typo="@(AppStateStatic.Size == Size.Small ? Typo.caption : Typo.body1)" Align="Align.Justify"
-                                 Style="@($"line-height: {(IsMobile ?  "1.0" : "1.2" )}; letter-spacing: {(IsMobile ? "normal" : "inherit")};")">
+                        <MudText Style="@($"line-height: {(IsMobile ? "1.0" : "1.2")}; letter-spacing: {(IsMobile ? "normal" : "inherit")}; font-size: 0.9rem;")">
                             @Description
                         </MudText>
                     </div>
@@ -73,7 +73,7 @@
                         @if (UrlShare.NotEmpty())
                         {
                             <MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Share"
-                                       OnClick="@(() => JsRuntime.Utils().Share(Title, Description, AbsolutelUrl, cts.Token))">
+                                       OnClick="@(() => JsRuntime.Utils().Share(Title, Description, AbsolutelUrl, CancellationToken.None))">
                                 Share
                             </MudButton>
                         }
@@ -132,8 +132,8 @@
                     @if (Description.NotEmpty())
                     {
                         <div style="text-align: justify;" class="@Css.Build().Small("mt")">
-                            <MudText Typo="@(AppStateStatic.Size == Size.Small ? Typo.caption : Typo.body1)" Align="Align.Justify"
-                                     Style="@($"line-height: {(IsMobile ? "1.0" : "1.2")}; letter-spacing: {(IsMobile ? "normal" : "inherit")};")">
+                            @* LCP breakdown -> variant font-size *@
+                            <MudText Style="@($"line-height: {(IsMobile ? "1.0" : "1.2")}; letter-spacing: {(IsMobile ? "normal" : "inherit")}; font-size: 0.9rem;")">
                                 @Description
                             </MudText>
                         </div>
@@ -215,7 +215,7 @@
         if (CustomBodyClass.Empty())
         {
             BodyClass = Css.Build().Large("mb");
-            AppStateStatic.BreakpointChanged.Subscribe(breakpoint => BodyClass = Css.Build().Large("mb"), cts.Token);
+            AppStateStatic.BreakpointChanged.Subscribe(breakpoint => BodyClass = Css.Build().Large("mb"), CancellationToken.None);
         }
         else
         {

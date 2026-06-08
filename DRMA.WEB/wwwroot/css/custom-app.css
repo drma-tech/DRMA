@@ -60,87 +60,7 @@ body .pwa-updater[b-pwa-updater] {
         font-size: 16px !important;
     }
 
-/*SWIPER*/
-
-.swiper {
-    width: 100%;
-    /*height: 100%;*/
-}
-
-:root {
-    --swiper-navigation-color: white;
-}
-
-@media (max-width: 599.95px), (max-height: 599.95px) {
-    :root {
-        --swiper-navigation-size: 36px !important;
-    }
-}
-
-.swiper-button-next,
-.swiper-button-prev {
-    background-color: rgba(90, 75, 226, 0.6);
-    border-radius: 50%;
-}
-
-    .swiper-button-next > svg,
-    .swiper-button-prev > svg {
-        height: 75% !important;
-    }
-
-    .swiper-button-next:hover,
-    .swiper-button-prev:hover {
-        background-color: rgba(90, 75, 226, 0.8);
-    }
-
-.swiper-slide {
-    text-align: center;
-    font-size: medium;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.swiper-button-disabled {
-    pointer-events: auto !important;
-}
-
-.autoplay-progress {
-    position: absolute;
-    right: 8px;
-    bottom: 8px;
-    z-index: 10;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: var(--mud-palette-secondary);
-}
-
-    .autoplay-progress svg {
-        --progress: 0;
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 10;
-        width: 100%;
-        height: 100%;
-        stroke-width: 4px;
-        stroke: var(--mud-palette-secondary);
-        fill: none;
-        stroke-dashoffset: calc(125.6px * (1 - var(--progress)));
-        stroke-dasharray: 125.6;
-        transform: rotate(-90deg);
-    }
-
-@media (max-width: 599.95px), (max-height: 599.95px) {
-    .autoplay-progress {
-        width: 36px;
-        height: 36px;
-    }
-}
+/* SLIDER */
 
 .grid-relative-container-platform {
     display: grid;
@@ -157,13 +77,13 @@ body .pwa-updater[b-pwa-updater] {
 
 .grid-relative-container-poster {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 8px;
 }
 
 @media (max-width: 599.95px), (max-height: 599.95px) {
     .grid-relative-container-poster {
-        grid-template-columns: repeat(auto-fill, minmax(98px, 1fr)) !important;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)) !important;
         gap: 4px;
     }
 }
