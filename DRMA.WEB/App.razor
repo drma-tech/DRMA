@@ -85,6 +85,19 @@
 
     #endregion Utils
 
+    protected override void OnInitialized()
+    {
+        if (AppStateStatic.IsPrerendering(Navigation))
+        {
+            var first = GetFirstSegment();
+
+            if (first.IsValidLanguage())
+            {
+                ConfigureCulture(first);
+            }
+        }
+    }
+
     protected override async Task OnInitializedAsync() //prerendering doesnt trigger OnInitializedAsync
     {
         var uri = new Uri(Navigation.Uri);
