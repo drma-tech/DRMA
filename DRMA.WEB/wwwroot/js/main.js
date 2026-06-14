@@ -20,14 +20,14 @@ function testBrowserVersion(rules, ignore = false, fallback = false) {
     }
 }
 
-//browser versions not compatible with SIMD (Some versions above for stability)
+//browser versions not compatible with SIMD
 export const hideBlazorIndex = testBrowserVersion(
     {
-        chrome: "<96", //nov 21
-        edge: "<96", //nov 21
-        firefox: "<96", //jan 22
-        safari: "<16.6", //jul 23
-        opera: "<82", //dec 21
+        chrome: "<91", //may 21
+        edge: "<91", //may 21
+        firefox: "<89", //may 21
+        safari: "<16.4", //mar 23
+        opera: "<77", //jun 21
     },
     /Mediapartners-Google/i.test(ua),
     false // uncertain environment → allow
@@ -37,10 +37,10 @@ export const hideBlazorIndex = testBrowserVersion(
 export const disableServiceWorker = testBrowserVersion(
     {
         chrome: "<134", //special case (usually bots)
-        edge: "<96", //nov 21
-        firefox: "<96", //jan 22
-        safari: "<16.6", //jul 23
-        opera: "<82", //dec 21
+        edge: "<91", //may 21
+        firefox: "<89", //may 21
+        safari: "<16.4", //mar 23
+        opera: "<77", //jun 21
     },
     false,
     true // uncertain environment → disable

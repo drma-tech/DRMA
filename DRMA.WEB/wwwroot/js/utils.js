@@ -12,10 +12,18 @@ export const storage = {
         }
     },
     getLocalStorage(key) {
-        return localStorage.getItem(key);
+        try {
+            return localStorage.getItem(key);
+        } catch (e) {
+            notification.showError(e.message);
+        }
     },
     getSessionStorage(key) {
-        return sessionStorage.getItem(key);
+        try {
+            return sessionStorage.getItem(key);
+        } catch (e) {
+            notification.showError(e.message);
+        }
     },
     setLocalStorage(key, value) {
         if (typeof key !== "string" || typeof value !== "string") {
@@ -262,7 +270,7 @@ export const environment = {
 
             document.head.appendChild(script);
 
-            setTimeout(() => finish(false), 3000);
+            setTimeout(() => finish(false), 10000);
         });
     },
     async isAdBlocked() {
@@ -304,6 +312,23 @@ export const environment = {
             if (!fundingchoicesmessages) {
                 return true;
             }
+        }
+
+        //other blockers block other urls
+        const sentry = await environment.testUrl(
+            'https://js.sentry-cdn.com/94ae67eb3fb0bc82327607ddd9d6aebb.min.js'
+        );
+
+        if (!sentry) {
+            return true;
+        }
+
+        const clarity = await environment.testUrl(
+            'https://www.clarity.ms/tag/r2iwqdpwtv'
+        );
+
+        if (!clarity) {
+            return true;
         }
 
         Sentry.captureMessage("ad blocked - Ads failed but no blocker detected", "error");
