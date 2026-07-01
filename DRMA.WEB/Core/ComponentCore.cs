@@ -8,7 +8,7 @@ namespace DRMA.WEB.Core;
 /// There is a memory cost when implementing this class. Use it when necessary.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public abstract class ComponentCore<T> : ComponentBase, IDisposable where T : class
+public abstract class BaseComponentCore<T> : ComponentBase, IDisposable where T : class
 {
     [Inject] private ILogger<T> Logger { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
@@ -17,61 +17,7 @@ public abstract class ComponentCore<T> : ComponentBase, IDisposable where T : cl
     [Inject] protected NavigationManager Navigation { get; set; } = null!;
 
     protected readonly CancellationTokenSource cts = new();
-    protected readonly TaskHelper _taskHelper = new();
     protected virtual bool ShowExceptions => false;
-
-    /// <summary>
-    /// Mandatory data to fill out the page/component without delay (essential for bots, SEO, etc.)
-    /// </summary>
-    /// <returns></returns>
-    protected virtual Task ProcessInitialData()
-    {
-        return Task.CompletedTask;
-    }
-
-    protected virtual Task ProcessComponentData()
-    {
-        return Task.CompletedTask;
-    }
-
-    protected virtual Task ProcessPopupData()
-    {
-        return Task.CompletedTask;
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            AppStateStatic.BreakpointChanged.Subscribe(breakpoint => _ = InvokeAsync(StateHasChanged), cts.Token);
-
-            await ProcessInitialData();
-        }
-        catch (Exception ex)
-        {
-            await ProcessException(ex, false);
-        }
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        try
-        {
-            if (firstRender)
-            {
-                await ProcessComponentData();
-                await ProcessPopupData();
-
-                StateHasChanged();
-            }
-
-            await base.OnAfterRenderAsync(firstRender);
-        }
-        catch (Exception ex)
-        {
-            await ProcessException(ex, ShowExceptions);
-        }
-    }
 
     #region notification module
 
@@ -169,6 +115,81 @@ public abstract class ComponentCore<T> : ComponentBase, IDisposable where T : cl
     #endregion Dispose
 }
 
+/// <summary>
+/// There is a memory cost when implementing this class. Use it when necessary.
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public abstract class ComponentCore<T> : BaseComponentCore<T> where T : class
+{
+    protected readonly TaskHelper _taskHelper = new();
+    protected override bool ShowExceptions => false;
+
+    /// <summary>
+    /// Mandatory data to fill out the page/component without delay (essential for bots, SEO, etc.)
+    /// </summary>
+    /// <returns></returns>
+    protected virtual Task ProcessInitialData()
+    {
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Exclusive for data associated with authenticated users (will be called every time the state changes)
+    ///
+    /// NOTE: All APIs should check if the user is logged in or not.
+    /// </summary>
+    /// <returns></returns>
+    protected virtual Task LoadAuthDataAsync(CancellationToken token)
+    {
+        return Task.CompletedTask;
+    }
+
+    protected virtual Task ProcessComponentData()
+    {
+        return Task.CompletedTask;
+    }
+
+    protected virtual Task ProcessPopupData()
+    {
+        return Task.CompletedTask;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            AppStateStatic.BreakpointChanged.Subscribe(breakpoint => _ = InvokeAsync(StateHasChanged), cts.Token);
+
+            await ProcessInitialData();
+        }
+        catch (Exception ex)
+        {
+            await ProcessException(ex, false);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            await base.OnAfterRenderAsync(firstRender);
+
+            if (firstRender)
+            {
+                await ProcessComponentData();
+                await ProcessPopupData();
+                await _taskHelper.RunSingleAsync("LoadAuthDataAsync", false, LoadAuthDataAsync, cts.Token); //start or route changes
+
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            await ProcessException(ex, ShowExceptions);
+        }
+    }  
+}
+
 public abstract class PageCore<T> : ComponentCore<T>, IBrowserViewportObserver, IAsyncDisposable where T : class
 {
     [Inject] private IBrowserViewportService BrowserViewportService { get; set; } = null!;
@@ -190,6 +211,8 @@ public abstract class PageCore<T> : ComponentCore<T>, IBrowserViewportObserver, 
     {
         try
         {
+            await base.OnAfterRenderAsync(firstRender);
+
             if (firstRender)
             {
                 await BrowserViewportService.SubscribeAsync(this, fireImmediately: true);
@@ -198,8 +221,6 @@ public abstract class PageCore<T> : ComponentCore<T>, IBrowserViewportObserver, 
 
                 StateHasChanged();
             }
-
-            await base.OnAfterRenderAsync(firstRender);
         }
         catch (Exception ex)
         {

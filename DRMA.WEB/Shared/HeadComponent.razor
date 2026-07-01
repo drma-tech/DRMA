@@ -67,7 +67,7 @@
     public string? Culture => AppStateStatic.GetCulture(Navigation);
     private string? TitleFull => $"{Title} | {AppInfo.Title}";
     private string? CanonicalUrl => $"{AppInfo.WebSite.TrimEnd('/')}/{Url.TrimStart('/')}";
-    private string? ImageUrl => Image ?? $"{AppInfo.WebSite}/icon/icon-192.webp";
+    private string? ImageUrl => Image ?? $"{AppInfo.WebSite}/icon/icon-192.png";
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

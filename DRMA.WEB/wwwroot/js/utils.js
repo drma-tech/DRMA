@@ -113,15 +113,15 @@ export const notification = {
                 </p>
                 <div style="text-align:left; font-size:1rem; color:#444;">
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
-                        <img src="logo/google-play.webp" width="22" style="margin-right:8px;" alt="Google Play" />
+                        <img src="logo/google-play.png" width="22" style="margin-right:8px;" alt="Google Play" />
                         <span><strong>Android:</strong> update <strong>Google Chrome</strong> in the Play Store</span>
                     </div>
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
-                        <img src="logo/app-store.webp" width="22" style="margin-right:8px;" alt="App Store" />
+                        <img src="logo/app-store.png" width="22" style="margin-right:8px;" alt="App Store" />
                         <span><strong>iOS / macOS:</strong> update your system (Safari is included)</span>
                     </div>
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
-                        <img src="logo/microsoft-store.webp" width="22" style="margin-right:8px;" alt="Microsoft Store" />
+                        <img src="logo/microsoft-store.png" width="22" style="margin-right:8px;" alt="Microsoft Store" />
                         <span><strong>Windows:</strong> run Windows Update (Edge is included)</span>
                     </div>
                 </div>
@@ -220,12 +220,16 @@ export const environment = {
         return window.browser?.getOSName() ?? "no bowser loaded";
     },
     inspectAdElement(el) {
+        // If the div is completely hidden, it's AdBlock.
+        // If two broken divs (csp error) appear, it's uBlock.
+        // If one broken div (csp error) appears, it's Brave.
         if (!el) return { rendered: false, hasSize: false };
 
         const iframe = el.querySelector('iframe');
         const rect = el.getBoundingClientRect();
+        const src = iframe?.getAttribute('src');
 
-        const rendered = !!iframe;
+        const rendered = !!iframe && !!src && src !== '' && src !== 'about:blank';
         const hasSize = rect.width > 5 && rect.height > 5;
 
         return { rendered, hasSize };
@@ -275,19 +279,22 @@ export const environment = {
     },
     async isAdBlocked() {
         if (window.location.hostname === 'localhost') { return false; }
-        if (isBot) return false;
-        if (hideBlazorIndex) return false;
+        if (isBot) { return false; }
+        if (hideBlazorIndex) { return false; }
+        if (window.isAdBlocked === false) { return false; }
 
         //detect if adsense exists
         const els = document.querySelectorAll('.adsbygoogle');
         if (!els.length) {
             Sentry.captureMessage("ad blocked - no .adsbygoogle elements found", "error");
+            window.isAdBlocked = false;
             return false;
         }
 
         const state = await environment.waitForAds(els);
 
         if (state === 'filled') {
+            window.isAdBlocked = false;
             return false;
         }
 
@@ -332,6 +339,8 @@ export const environment = {
         }
 
         Sentry.captureMessage("ad blocked - Ads failed but no blocker detected", "error");
+
+        window.isAdBlocked = false;
         return false;
     }
 };

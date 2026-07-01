@@ -2,28 +2,69 @@
 
 namespace DRMA.WEB.Core.Helper
 {
-    public class TaskHelper
+    /// <summary>
+    /// Lightweight TaskHelper that ensures a single running task per key/context.
+    /// If a new call arrives with a different context, the previous run is cancelled (cooperatively) and replaced.
+    /// </summary>
+    public sealed class TaskHelper
     {
-        private readonly ConcurrentDictionary<string, Lazy<Task>> _running = new();
-
-        public Task RunSingleAsync(string key, Func<Task> factory)
+        private sealed class State
         {
-            var lazy = _running.GetOrAdd(key, k =>
-                new Lazy<Task>(() => Wrap(k, factory), LazyThreadSafetyMode.ExecutionAndPublication)
-            );
-
-            return lazy.Value;
+            public object Context = default!;
+            public CancellationTokenSource InternalCts = default!;
+            public Task Task = Task.CompletedTask;
         }
 
-        private async Task Wrap(string key, Func<Task> factory)
+        private readonly ConcurrentDictionary<string, State> _states = new();
+
+        public Task RunSingleAsync<TContext>(string key, TContext context, Func<CancellationToken, Task> factory, CancellationToken externalToken)
         {
-            try
+            var state = _states.AddOrUpdate(
+                key,
+                _ => CreateNewState(),
+                (_, existing) =>
+                {
+                    if (Equals(existing.Context, context))
+                        return existing;
+
+                    existing.InternalCts.Cancel();
+                    return CreateNewState();
+                });
+
+            return state.Task;
+
+            State CreateNewState()
             {
-                await factory();
+                var internalCts = new CancellationTokenSource();
+                var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(externalToken, internalCts.Token);
+
+                var newState = new State
+                {
+                    Context = context!,
+                    InternalCts = internalCts
+                };
+
+                newState.Task = ExecuteAsync(newState, linkedCts);
+
+                return newState;
             }
-            finally
+
+            async Task ExecuteAsync(State localState, CancellationTokenSource linkedCts)
             {
-                _running.TryRemove(key, out _);
+                try
+                {
+                    await factory(linkedCts.Token);
+                }
+                finally
+                {
+                    linkedCts.Dispose();
+                    localState.InternalCts.Dispose();
+
+                    if (_states.TryGetValue(key, out var current) && ReferenceEquals(current, localState))
+                    {
+                        _states.TryRemove(key, out _);
+                    }
+                }
             }
         }
     }

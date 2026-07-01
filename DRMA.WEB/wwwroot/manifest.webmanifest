@@ -24,18 +24,18 @@
   ],
   "icons": [
     {
-      "src": "icon/icon-71.webp",
-      "type": "image/webp",
+      "src": "icon/icon-71.png",
+      "type": "image/png",
       "sizes": "71x71"
     },
     {
-      "src": "icon/icon-192.webp",
-      "type": "image/webp",
+      "src": "icon/icon-192.png",
+      "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "icon/icon-512.webp",
-      "type": "image/webp",
+      "src": "icon/icon-512.png",
+      "type": "image/png",
       "sizes": "512x512"
     }
   ],

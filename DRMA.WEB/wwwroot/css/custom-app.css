@@ -63,14 +63,17 @@ body .pwa-updater[b-pwa-updater] {
 /*BLAZOR INITIAL LOADING*/
 
 .loading-message {
+    position: absolute;
+    inset: 35vh 0 auto 0;
     text-align: center;
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--mud-palette-primary, #5A4BE2);
-    margin-top: 0.5rem;
 }
 
 .loading-secondary {
+    position: absolute;
+    inset: 35vh 0 auto 0;
     text-align: center;
     font-size: 0.8rem;
     color: #666;

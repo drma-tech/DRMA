@@ -117,12 +117,12 @@
                 return;
             }
         }
-        else if (first.Empty() || allowedFirstSegments.Contains(first)) //language not specified (try detect language and redirect)
+        else if (first.Empty() || first == "default" || allowedFirstSegments.Contains(first)) //language not specified (try detect language and redirect)
         {
             var lang = await AppStateStatic.GetAppLanguage(JsRuntime, CancellationToken.None);
             var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
-            var newPath = segments.Any() ? $"/{lang}/{string.Join("/", segments)}" : $"/{lang}";
+            var newPath = segments.Any() ? $"/{lang}/{string.Join("/", segments.Except(new[] { "default" }))}".TrimEnd('/') : $"/{lang}";
 
             Navigation.NavigateTo(BuildUrl(newPath, query), replace: true);
             return;
