@@ -64,7 +64,7 @@ body .pwa-updater[b-pwa-updater] {
 
 .loading-message {
     position: absolute;
-    inset: 35vh 0 auto 0;
+    inset: calc(20vh + 9rem) 0 auto 0;
     text-align: center;
     font-size: 0.95rem;
     font-weight: 500;
@@ -73,11 +73,10 @@ body .pwa-updater[b-pwa-updater] {
 
 .loading-secondary {
     position: absolute;
-    inset: 35vh 0 auto 0;
+    inset: calc(20vh + 11rem) 0 auto 0;
     text-align: center;
     font-size: 0.8rem;
     color: #666;
-    margin-top: 2rem;
     max-width: 320px;
     line-height: 1.4;
     opacity: 0.8;
