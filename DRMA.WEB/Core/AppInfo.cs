@@ -1,4 +1,4 @@
-﻿using DRMA.WEB.Modules.Support.Core;
+﻿using DRMA.WEB.Modules.Help.Core;
 
 namespace DRMA.WEB.Core
 {

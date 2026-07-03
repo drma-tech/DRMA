@@ -30,7 +30,6 @@
     <script type="module" src="js/services.js"></script>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41Q6D56912"></script>
-    <script defer src="https://js.sentry-cdn.com/9d67a029559a76d507d4437b586e778f.min.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -79,6 +78,7 @@
     <script src="_content/Toolbelt.Blazor.PWA.Updater.Service/script.min.js"></script>
 
     <script src="_framework/blazor.webassembly#[.{fingerprint}].js" autostart="false"></script>
+    <script src="https://js.sentry-cdn.com/9d67a029559a76d507d4437b586e778f.min.js" crossorigin="anonymous"></script>
     <script>
         try {
             Blazor.start({
@@ -86,7 +86,7 @@
                     loadAllSatelliteResources: window.location.hostname === "127.0.0.1"
                 })
             })
-        } catch {
+        } catch (error) {
             const toast = document.createElement("div");
             toast.className = "toast";
             toast.textContent = "An error occurred while loading the platform. Please try reloading the page or opening the app again.";
@@ -97,6 +97,8 @@
             setTimeout(() => {
                 toast.remove();
             }, 10000);
+
+            Sentry.captureException(error);
         }
     </script>
 
