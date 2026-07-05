@@ -1,7 +1,5 @@
 "use strict";
 
-import { isBot, hideBlazorIndex } from "./main.js";
-
 export const storage = {
     clearAllStorage() {
         localStorage.clear();
@@ -105,11 +103,12 @@ export const notification = {
 
         document.body.innerHTML = `
         <div style="display:flex; align-items:center; justify-content:center; min-height:100vh; background:#f0f2f5; font-family:'Segoe UI', Roboto, sans-serif; padding:1rem;">
-            <div style="background:#fff; padding:1.2rem; border-radius:16px; box-shadow:0 4px 12px rgba(0,0,0,0.1); width:100%; max-width:450px; text-align:center; color:#333;">
+            <div style="background:#fff; padding:1rem; border-radius:16px; box-shadow:0 4px 12px rgba(0,0,0,0.1); width:100%; max-width:450px; text-align:center; color:#333;">
                 <div style="font-size:2.2rem; margin-bottom:0.5rem;">⚠️</div>
-                <h2 style="font-size:1.3rem; margin-bottom:0.75rem;">Your browser is too old</h2>
+                <h2 style="font-size:1.3rem; margin-bottom:0.75rem;">This device cannot run this app</h2>
                 <p style="font-size:1rem; line-height:1.5; margin-bottom:1rem;">
-                    This app cannot run in your current browser because it is out of date. Update your device by following the instructions below:
+                    Your current environment does not support the required WebAssembly features needed to run this application.
+                    Please update your browser, operating system, or try a different device.
                 </p>
                 <div style="text-align:left; font-size:1rem; color:#444;">
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
@@ -131,7 +130,7 @@ export const notification = {
                     ${browser} ${version}
                 </div>
                 <p style="font-size:0.9rem; color:#777; margin-top:1.2rem; text-align:center;">
-                    If you cannot update, try opening this app on a newer device.
+                    If the issue persists, try opening this app on a different device or browser.
                 </p>
             </div>
         </div>
@@ -203,10 +202,7 @@ export const environment = {
         storage.setLocalStorage("platform", platform);
     },
     async validateBrowserAndPlatform() {
-        const wasmSupported = typeof WebAssembly === "object";
-
-        //The browser does not support WASM or SIMD.
-        if (!wasmSupported || hideBlazorIndex) {
+        if (!window.appConfig.blazorSupported) {
             notification.showBrowserWarning();
         }
     },
@@ -278,9 +274,9 @@ export const environment = {
         });
     },
     async isAdBlocked() {
-        if (window.location.hostname === 'localhost') { return false; }
-        if (isBot) { return false; }
-        if (hideBlazorIndex) { return false; }
+        if (window.appConfig.isLocalhost) { return false; }
+        if (window.appConfig.isBot) { return false; }
+        if (!window.appConfig.blazorSupported) { return false; }
         if (window.isAdBlocked === false) { return false; }
 
         //detect if adsense exists
@@ -395,7 +391,7 @@ export const interop = {
     }
 };
 
-if (!isBot) {
+if (!window.appConfig.isBot) {
     environment.detectPlatform();
     environment.validateBrowserAndPlatform();
 }

@@ -1,13 +1,11 @@
 "use strict";
 
-import { isBot, isLocalhost, isDev, servicesConfig } from "./main.js";
 import { storage } from "./utils.js";
 
 export const services = {
     initGoogleAnalytics(version) {
-        if (isBot) return;
-        if (isLocalhost) return;
-        if (isDev) return;
+        if (window.appConfig.isLocalhost) return;
+        if (window.appConfig.isDev) return;
 
         const PLATFORM = storage.getLocalStorage("platform");
 
@@ -22,12 +20,11 @@ export const services = {
             platform: PLATFORM,
         };
 
-        gtag("config", servicesConfig.AnalyticsCode, config);
+        gtag("config", window.appConfig.servicesConfig.AnalyticsCode, config);
     },
     initMicrosoftClarity(code) {
-        if (isBot) return;
-        if (isLocalhost) return;
-        if (isDev) return;
+        if (window.appConfig.isLocalhost) return;
+        if (window.appConfig.isDev) return;
 
         (function (c, l, a, r, i, t, y) {
             c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
@@ -45,4 +42,4 @@ export const services = {
     },
 };
 
-services.initMicrosoftClarity(servicesConfig.ClarityKey);
+services.initMicrosoftClarity(window.appConfig.servicesConfig.ClarityKey);

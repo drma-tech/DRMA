@@ -1,9 +1,8 @@
-﻿import { servicesConfig } from "./main.js";
-import { storage, environment } from "./utils.js";
+﻿import { storage, environment } from "./utils.js";
 
 const env = (() => {
-    if (location.hostname === "localhost") return "development";
-    if (location.hostname.includes("develop")) return "staging";
+    if (window.appConfig.isLocalhost) return "development";
+    if (window.appConfig.isDev) return "staging";
     return "production";
 })();
 
@@ -11,14 +10,12 @@ const ignoredErrors = [
     /failed to fetch/i,
     /failed to register/i,
     /failed to start/i,
-    /wasm simd/i,
-    /unexpected token/i,
     /token has expired/i,
 ];
 
 window.sentryOnLoad = function () {
     Sentry.init({
-        dsn: servicesConfig.SentryDsn,
+        dsn: window.appConfig.servicesConfig.SentryDsn,
         SendDefaultPii: true, // enable ip
         release: `drma-js@${window.appVersion}`,
         environment: env,

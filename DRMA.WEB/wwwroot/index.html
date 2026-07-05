@@ -23,7 +23,7 @@
     <script src="package/bowser/es5.min.js"></script> <!--https://www.jsdelivr.com/package/npm/bowser - 2.14.1-->
 
     <script src="js/app-version.js"></script>
-    <script type="module" src="js/main.js"></script>
+    <script src="js/main.js"></script>
     <script type="module" src="js/utils.js"></script>
     <script type="module" src="js/sentry.js"></script>
     <script type="module" src="js/events.js"></script>
@@ -81,23 +81,26 @@
     <script src="https://js.sentry-cdn.com/9d67a029559a76d507d4437b586e778f.min.js" crossorigin="anonymous"></script>
     <script>
         try {
-            Blazor.start({
-                configureRuntime: runtime => runtime.withConfig({
-                    loadAllSatelliteResources: window.location.hostname === "127.0.0.1"
+            if (window.Blazor) {
+                Blazor.start({
+                    configureRuntime: runtime => runtime.withConfig({
+                        loadAllSatelliteResources: window.appConfig.isPrerendering
+                    })
                 })
-            })
+            }
+            else {
+                const toast = document.createElement("div");
+                toast.className = "toast";
+                toast.textContent = "The app could not be started due to an unexpected failure. Try refreshing the page, reopening the app, disabling strict content blockers, or using the latest version of a modern browser.";
+
+                const stack = document.getElementById("toast-stack");
+                stack.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.remove();
+                }, 10000);
+            }
         } catch (error) {
-            const toast = document.createElement("div");
-            toast.className = "toast";
-            toast.textContent = "An error occurred while loading the platform. Please try reloading the page or opening the app again.";
-
-            const stack = document.getElementById("toast-stack");
-            stack.appendChild(toast);
-
-            setTimeout(() => {
-                toast.remove();
-            }, 10000);
-
             Sentry.captureException(error);
         }
     </script>
