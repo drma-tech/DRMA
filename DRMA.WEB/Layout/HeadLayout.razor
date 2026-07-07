@@ -30,7 +30,7 @@
         <MudSpacer />
 
         <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@Icons.Material.Filled.Settings" Class="me-2" OnClick="@OpenConfigurations" />
-        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@Icons.Material.Filled.HelpCenter" Class="me-2" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/help"))" />
+        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@Icons.Material.Filled.HelpCenter" Class="me-2" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/help"))" rel="nofollow" />
     }
     else //desktop view
     {
@@ -41,7 +41,7 @@
         <MudSpacer />
 
         <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@Icons.Material.Filled.Settings" Class="me-2" OnClick="@OpenConfigurations" />
-        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@Icons.Material.Filled.HelpCenter" Class="me-2" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/help"))" />
+        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Icon="@Icons.Material.Filled.HelpCenter" Class="me-2" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/help"))" rel="nofollow" />
     }
 </MudAppBar>
 
@@ -55,7 +55,7 @@
             <MudNavLink Icon="@Icons.Material.Filled.Settings" OnClick="@OpenConfigurations">
                 Settings
             </MudNavLink>
-            <MudNavLink Icon="@Icons.Material.Filled.HelpCenter" Href=@($"/{Culture}/help")>
+            <MudNavLink Icon="@Icons.Material.Filled.HelpCenter" Href=@($"/{Culture}/help") rel="nofollow">
                 Help Center
             </MudNavLink>
         </MudNavMenu>

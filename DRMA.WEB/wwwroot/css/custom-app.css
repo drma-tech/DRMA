@@ -263,6 +263,14 @@ body .pwa-updater[b-pwa-updater] {
 
 /* SUPPORT */
 
+p a {
+    color: var(--mud-palette-tertiary);
+}
+
+.support-subtitle a {
+    color: var(--mud-palette-tertiary);
+}
+
 .support-container {
     max-width: 900px;
     margin: 32px auto;
@@ -285,10 +293,6 @@ body .pwa-updater[b-pwa-updater] {
     font-size: 1.1rem;
     margin-bottom: 2.2rem;
 }
-
-    .support-subtitle a {
-        color: var(--mud-palette-primary);
-    }
 
 .support-section {
     margin-bottom: 2.2rem;
@@ -324,7 +328,3 @@ body .pwa-updater[b-pwa-updater] {
     color: #888;
     font-size: 0.9rem;
 }
-
-    .support-footer p a {
-        color: var(--mud-palette-primary);
-    }

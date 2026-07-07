@@ -24,6 +24,7 @@ const isDev = location.hostname.includes("develop");
 const isWebview = /webtonative/i.test(ua);
 const isPrintScreen = location.href.includes("printscreen");
 
+//SIMD can be disabled by the browser if the hardware doesn't support it, so you have to test it in practice rather than just checking the browser version.
 function supportsWasmSimd() {
     if (typeof WebAssembly === "undefined") return false;
     const bytes = new Uint8Array([

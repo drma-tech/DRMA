@@ -20,17 +20,23 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
     <!-- hreflang -->
-    @foreach (var lang in AppStateStatic.SitemapTranslations)
+    @if (Index)
     {
-        <link rel="alternate" href="@GetUrlForLanguage(lang)" hreflang="@lang" />
+        foreach (var lang in AppStateStatic.SitemapTranslations)
+        {
+            <link rel="alternate" href="@GetUrlForLanguage(lang)" hreflang="@lang" />
+        }
     }
 
     <!-- x-default -->
-    @if (AppStateStatic.SitemapTranslations.Length > 0)
+    @if (Index)
     {
-        <link rel="alternate" href="@GetUrlForLanguage("en")" hreflang="x-default" />
+        if (AppStateStatic.SitemapTranslations.Length > 0)
+        {
+            <link rel="alternate" href="@GetUrlForLanguage("en")" hreflang="x-default" />
+        }
     }
-
+   
     @if (Shared)
     {
         <link rel="image_src" href="@ImageUrl">
@@ -52,10 +58,16 @@
 </script>
 
 @code {
+    /// <summary>
+    /// less than 70 characters
+    /// </summary>
     [Parameter, EditorRequired] public string? Title { get; set; }
     [Parameter, EditorRequired] public string Url { get; set; }
     [Parameter, EditorRequired] public bool Index { get; set; }
 
+    /// <summary>
+    /// between 25 and 160 characters in length
+    /// </summary>
     [Parameter] public string? Description { get; set; }
     /// <summary>
     /// optional, but absolute url is necessary if provided

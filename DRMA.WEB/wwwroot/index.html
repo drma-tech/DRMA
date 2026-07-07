@@ -80,28 +80,39 @@
     <script src="_framework/blazor.webassembly#[.{fingerprint}].js" autostart="false"></script>
     <script src="https://js.sentry-cdn.com/9d67a029559a76d507d4437b586e778f.min.js" crossorigin="anonymous"></script>
     <script>
+        function showToast2(content) {
+            const toast = document.createElement("div");
+            toast.className = "toast";
+            toast.textContent = content;
+
+            const stack = document.getElementById("toast-stack");
+            stack.appendChild(toast);
+        }
+
         try {
             if (window.Blazor) {
-                Blazor.start({
-                    configureRuntime: runtime => runtime.withConfig({
-                        loadAllSatelliteResources: window.appConfig.isPrerendering
+                if (window.appConfig.blazorSupported) {
+                    Blazor.start({
+                        configureRuntime: runtime => runtime.withConfig({
+                            loadAllSatelliteResources: window.appConfig.isPrerendering
+                        })
                     })
-                })
+                }
+                else {
+                    //todo: replace with showBrowserWarning
+                    showToast2(
+                        "Your current environment does not support the required WebAssembly features needed to run this application. Please update your browser, operating system, or try a different device."
+                    );
+                }
             }
             else {
-                const toast = document.createElement("div");
-                toast.className = "toast";
-                toast.textContent = "The app could not be started due to an unexpected failure. Try refreshing the page, reopening the app, disabling strict content blockers, or using the latest version of a modern browser.";
-
-                const stack = document.getElementById("toast-stack");
-                stack.appendChild(toast);
-
-                setTimeout(() => {
-                    toast.remove();
-                }, 10000);
+                showToast2(
+                    "The app could not be started due to an unexpected failure. Try refreshing the page, reopening the app, disabling strict content blockers, or using the latest version of a modern browser."
+                );
             }
         } catch (error) {
             Sentry.captureException(error);
+            showToast2(error.message);
         }
     </script>
 

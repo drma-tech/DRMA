@@ -187,7 +187,7 @@ public abstract class ComponentCore<T> : BaseComponentCore<T> where T : class
         {
             await ProcessException(ex, ShowExceptions);
         }
-    }  
+    }
 }
 
 public abstract class PageCore<T> : ComponentCore<T>, IBrowserViewportObserver, IAsyncDisposable where T : class
