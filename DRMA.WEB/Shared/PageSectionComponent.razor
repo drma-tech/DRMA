@@ -16,7 +16,7 @@
                     {
                         <MudImage Src="@Image" Class="me-2" Style="@GetImageStyle(true)" Alt="@Image"></MudImage>
                     }
-                    @if (IsMobile)
+                    @if (AppStateStatic.IsMobile)
                     {
                         <MudText Typo="Typo.h1" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")" id="@Title.ToSlug()">
                             @Title
@@ -53,7 +53,7 @@
                 @if (Description.NotEmpty())
                 {
                     <div style="text-align: justify;" class="@Css.Build().Small("mt")">
-                        <MudText Style="@($"line-height: {(IsMobile ? "1.0" : "1.2")}; letter-spacing: {(IsMobile ? "normal" : "inherit")}; font-size: 0.9rem;")">
+                        <MudText Style="@($"line-height: {(AppStateStatic.IsMobile ? "1.0" : "1.2")}; letter-spacing: {(AppStateStatic.IsMobile ? "normal" : "inherit")}; font-size: 0.9rem;")">
                             @Description
                         </MudText>
                     </div>
@@ -95,7 +95,7 @@
                         {
                             <MudImage Src="@Image" Class="me-2" Style="@GetImageStyle(false)" Alt="@Image"></MudImage>
                         }
-                        @if (IsMobile)
+                        @if (AppStateStatic.IsMobile)
                         {
                             <MudText Typo="Typo.h2" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")" id="@Title.ToSlug()">
                                 @Title
@@ -133,7 +133,7 @@
                     {
                         <div style="text-align: justify;" class="@Css.Build().Small("mt")">
                             @* LCP breakdown -> variant font-size *@
-                            <MudText Style="@($"line-height: {(IsMobile ? "1.0" : "1.2")}; letter-spacing: {(IsMobile ? "normal" : "inherit")}; font-size: 0.9rem;")">
+                            <MudText Style="@($"line-height: {(AppStateStatic.IsMobile ? "1.0" : "1.2")}; letter-spacing: {(AppStateStatic.IsMobile ? "normal" : "inherit")}; font-size: 0.9rem;")">
                                 @Description
                             </MudText>
                         </div>
@@ -198,13 +198,12 @@
 
     public string? BodyClass { get; set; }
 
-    private bool IsMobile => AppStateStatic.Breakpoint == Breakpoint.Xs;
     private string? AbsolutelUrl => $"{AppInfo.WebSite.TrimEnd('/')}/{UrlShare?.TrimStart('/')}";
 
-    private string headerImageSize => IsMobile ? "40px" : "48px";
-    private string sectionImageSize => IsMobile ? "20px" : "24px";
-    private string titleFontSize => IsMobile ? "20px" : "24px";
-    private string subtitleFontSize => IsMobile ? "13.5px" : "16px";
+    private string headerImageSize => AppStateStatic.IsMobile ? "40px" : "48px";
+    private string sectionImageSize => AppStateStatic.IsMobile ? "20px" : "24px";
+    private string titleFontSize => AppStateStatic.IsMobile ? "20px" : "24px";
+    private string subtitleFontSize => AppStateStatic.IsMobile ? "13.5px" : "16px";
 
     private bool HasActions => ActionsFragment != null;
     private bool HasBody => BodyFragment != null;

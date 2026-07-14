@@ -2,7 +2,7 @@
 {
     public enum AppLanguage
     {
-        [Custom(Name = "English")]
+        [FieldSettings("English")]
         en = 1
     }
 }

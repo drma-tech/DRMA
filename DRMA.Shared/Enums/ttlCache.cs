@@ -2,6 +2,7 @@
 
 public enum TtlCache
 {
+    OneMinute = 60 * 1, // 60 seconds
     OneHour = 60 * 60 * 1, // 3600 seconds
     SixHours = 60 * 60 * 6, // 21600 seconds
     HalfDay = 60 * 60 * 12, // 43200 seconds

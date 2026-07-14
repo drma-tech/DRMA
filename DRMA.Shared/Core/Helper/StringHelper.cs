@@ -16,6 +16,18 @@ public static partial class StringHelper
         return RemoveSpecialCharacters(str.AsSpan(), customExceptions, replace).ToString();
     }
 
+    /// <summary>
+    /// Removes characters that are not letters, digits, whitespace, or allowed exceptions. Optionally replaces removed characters with a specified replacement character.
+    /// Useful for sanitizing input before storage or processing.
+    /// </summary>
+    /// <param name="str"></param>
+    /// <param name="customExceptions"></param>
+    /// <param name="replace"></param>
+    /// <returns></returns>
+    /// <example>
+    /// Input: "João@123!"
+    /// Output: "Joao123"
+    /// </example>
     public static ReadOnlySpan<char> RemoveSpecialCharacters(this ReadOnlySpan<char> str, char[]? customExceptions = null, char? replace = null)
     {
         Span<char> buffer = new char[str.Length];
@@ -42,11 +54,26 @@ public static partial class StringHelper
     [GeneratedRegex(@"\p{Mn}", RegexOptions.Compiled)]
     private static partial Regex DiacriticsRegex();
 
+    /// <summary>
+    /// Removes diacritical marks (accents) from characters, converting them to their base ASCII equivalents.
+    /// Useful for standardizing user input for comparison and identity matching.
+    /// </summary>
+    /// <param name="Text"></param>
+    /// <returns></returns>
+    /// <example>
+    /// Input: "José"
+    /// Output: "Jose"
+    /// </example>
     public static string RemoveDiacritics(this string Text)
     {
         return DiacriticsRegex().Replace(Text.Normalize(NormalizationForm.FormD), string.Empty);
     }
 
+    /// <summary>
+    /// Converts a string into a URL-friendly slug by removing diacritics, invalid characters, and replacing whitespace with hyphens.
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
     public static string? ToSlug(this string? str)
     {
         if (str == null) return null;
@@ -62,21 +89,31 @@ public static partial class StringHelper
         return str;
     }
 
+    /// <summary>
+    /// Generates a deterministic SHA-256 based hash from a string input. The hash is used for identity matching, deduplication, and secure fingerprinting of normalized data.
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
     public static string? ToHash(this string? text)
     {
         if (text.Empty()) return null;
 
         var bytes = Encoding.UTF8.GetBytes(text);
-        var hash = MD5.HashData(bytes);
+        var hash = SHA256.HashData(bytes);
 
-        return Convert.ToHexString(hash, 0, 8);
+        return Convert.ToHexString(hash);
     }
 
     /// <summary>
-    /// Removes invisible control characters that can break logs, JSON or storage.
+    /// Removes non-printable control characters that may break logs, JSON serialization, or storage systems.
+    /// Keeps newline, carriage return, and tab characters.
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    /// <example>
+    /// Input: "Hello\u0000World"
+    /// Output: "HelloWorld"
+    /// </example>
     public static string? RemoveUnsafeControlChars(this string? input)
     {
         if (input.Empty()) return null;
@@ -93,10 +130,15 @@ public static partial class StringHelper
     }
 
     /// <summary>
-    /// Normalizes text so visually identical characters are stored the same way.
+    /// Normalizes a string to Unicode NFC (Normalization Form C), ensuring that visually identical characters are stored in a consistent binary representation.
+    /// This is important for deterministic comparisons and hashing.
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    /// /// <example>
+    /// Input: "e\u0301" (é decomposed)
+    /// Output: "é" (composed)
+    /// </example>
     public static string? NormalizeToNfc(this string? input)
     {
         if (input.Empty()) return null;
@@ -112,6 +154,11 @@ public static partial class StringHelper
     private static readonly Regex SymbolSeqRegex = new(@"[^\p{L}\p{N}\s]{10,}", RegexOptions.Compiled);
     private static readonly Regex EmojiRegex = new(@"\p{So}", RegexOptions.Compiled);
 
+    /// <summary>
+    /// Heuristically determines whether a text is likely to be spam based on patterns such as URLs, repeated characters, excessive symbols, mentions, or emoji spam.
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
     public static bool IsLikelySpam(string? text)
     {
         text = text.NormalizeToNfc();
@@ -135,6 +182,17 @@ public static partial class StringHelper
         return false;
     }
 
+    /// <summary>
+    /// Computes the Levenshtein distance between two strings. This measures how many single-character edits (insertions, deletions, substitutions) are required to transform one string into another.
+    /// Useful for fuzzy matching and similarity detection, not for cryptographic or deterministic identity.
+    /// </summary>
+    /// <param name="s"></param>
+    /// <param name="t"></param>
+    /// <returns></returns>
+    /// <example>
+    /// Input: "JOSE" vs "JOSÉ"
+    /// Output: 1
+    /// </example>
     public static int Levenshtein(string s, string t)
     {
         var dp = new int[s.Length + 1, t.Length + 1];
@@ -159,5 +217,41 @@ public static partial class StringHelper
         }
 
         return dp[s.Length, t.Length];
+    }
+
+    /// <summary>
+    /// Parses human-readable relative date expressions into an absolute UTC DateTime. Supports expressions like "yesterday" or "2 days ago".
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public static DateTime? ParseRelativeDate(this string? text)
+    {
+        if (text.Empty()) return null;
+
+        text = text.ToLowerInvariant().Trim();
+
+        if (text == "yesterday")
+            return DateTime.UtcNow.AddDays(-1);
+
+        var match = Regex.Match(text, @"(\d+)\s+(second|minute|hour|day|week|month|year)s?\s+ago");
+
+        if (!match.Success)
+            return null;
+
+        int value = int.Parse(match.Groups[1].Value);
+        string unit = match.Groups[2].Value;
+
+        return unit switch
+        {
+            "second" => DateTime.UtcNow.AddSeconds(-value),
+            "minute" => DateTime.UtcNow.AddMinutes(-value),
+            "hour" => DateTime.UtcNow.AddHours(-value),
+            "day" => DateTime.UtcNow.AddDays(-value),
+            "week" => DateTime.UtcNow.AddDays(-(value * 7)),
+            "month" => DateTime.UtcNow.AddMonths(-value),
+            "year" => DateTime.UtcNow.AddYears(-value),
+            _ => throw new InvalidOperationException("Invalid unit")
+        };
     }
 }

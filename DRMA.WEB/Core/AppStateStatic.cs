@@ -9,6 +9,7 @@ public static class AppStateStatic
     public static Size Size { get; set; } = Size.Small;
     public static Breakpoint Breakpoint { get; set; } = Breakpoint.Xs;
     public static ActionDispatcher<Breakpoint> BreakpointChanged { get; } = new();
+    public static bool IsMobile => Breakpoint == Breakpoint.Xs;
 
     public static string? Version { get; set; }
     public static string? BrowserName { get; set; }

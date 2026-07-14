@@ -27,9 +27,11 @@
 
     public bool DarkMode { get; set; } = false;
 
-    protected override async Task ProcessInitialData()
+    protected override async Task<bool> LoadInteropDataAsync(Microsoft.JSInterop.IJSRuntime JsRuntime)
     {
         DarkMode = await AppStateStatic.GetDarkMode(JsRuntime, cts.Token) ?? false;
+
+        return true;
     }
 
     protected async Task DarkModeChanged(bool value)

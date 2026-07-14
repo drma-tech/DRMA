@@ -25,6 +25,7 @@ public abstract class CosmosDocument
     [JsonProperty(PropertyName = "_tsCreated")]
     public long? TimestampCreated { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
+    [System.Text.Json.Serialization.JsonPropertyName("_ts")]
     [JsonProperty(PropertyName = "_ts")]
     public long TimestampUpdated { get; set; }
 

@@ -12,6 +12,7 @@ public abstract class BaseComponentCore<T> : ComponentBase, IDisposable where T 
 {
     [Inject] private ILogger<T> Logger { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
+
     [Inject] protected IDialogService DialogService { get; set; } = null!;
     [Inject] protected IJSRuntime JsRuntime { get; set; } = null!;
     [Inject] protected NavigationManager Navigation { get; set; } = null!;
@@ -125,46 +126,38 @@ public abstract class ComponentCore<T> : BaseComponentCore<T> where T : class
     protected override bool ShowExceptions => false;
 
     /// <summary>
-    /// Mandatory data to fill out the page/component without delay (essential for bots, SEO, etc.)
+    /// To load static data that does not change and does not depend on parameters.
     /// </summary>
     /// <returns></returns>
-    protected virtual Task ProcessInitialData()
+    protected virtual Task LoadStaticDataAsync()
     {
         return Task.CompletedTask;
     }
 
     /// <summary>
-    /// Exclusive for data associated with authenticated users (will be called every time the state changes)
+    /// To process data that depends on the DOM, JavaScript, or element references.
     ///
-    /// NOTE: All APIs should check if the user is logged in or not.
+    /// Note: Returns true when the component state changed and a re-render is required.
     /// </summary>
     /// <returns></returns>
-    protected virtual Task LoadAuthDataAsync(CancellationToken token)
+    protected virtual Task<bool> LoadInteropDataAsync(Microsoft.JSInterop.IJSRuntime JsRuntime)
     {
-        return Task.CompletedTask;
-    }
-
-    protected virtual Task ProcessComponentData()
-    {
-        return Task.CompletedTask;
-    }
-
-    protected virtual Task ProcessPopupData()
-    {
-        return Task.CompletedTask;
+        return Task.FromResult(false);
     }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            AppStateStatic.BreakpointChanged.Subscribe(breakpoint => _ = InvokeAsync(StateHasChanged), cts.Token);
+            await base.OnInitializedAsync();
 
-            await ProcessInitialData();
+            AppStateStatic.BreakpointChanged.Subscribe((bp) => _ = InvokeAsync(StateHasChanged), cts.Token);
+
+            await LoadStaticDataAsync();
         }
         catch (Exception ex)
         {
-            await ProcessException(ex, false);
+            await ProcessException(ex, ShowExceptions);
         }
     }
 
@@ -174,13 +167,43 @@ public abstract class ComponentCore<T> : BaseComponentCore<T> where T : class
         {
             await base.OnAfterRenderAsync(firstRender);
 
-            if (firstRender)
+            if (firstRender && await LoadInteropDataAsync(JsRuntime))
             {
-                await ProcessComponentData();
-                await ProcessPopupData();
-                await _taskHelper.RunSingleAsync("LoadAuthDataAsync", false, LoadAuthDataAsync, cts.Token); //start or route changes
-
                 StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            await ProcessException(ex, ShowExceptions);
+        }
+    }
+}
+
+public abstract class ComponentParameterCore<T> : ComponentCore<T> where T : class
+{
+    /// <summary>
+    /// To load temporary data that may change and depends on parameters.
+    /// </summary>
+    /// <returns></returns>
+    protected abstract Task LoadParameterDataAsync();
+
+    private object? _lastParameterKey;
+
+    protected abstract object? GetParameterKey();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            await base.OnParametersSetAsync();
+
+            var parameterKey = GetParameterKey();
+
+            if (!Equals(_lastParameterKey, parameterKey))
+            {
+                _lastParameterKey = parameterKey;
+
+                await LoadParameterDataAsync();
             }
         }
         catch (Exception ex)
@@ -198,33 +221,57 @@ public abstract class PageCore<T> : ComponentCore<T>, IBrowserViewportObserver, 
 
     protected override bool ShowExceptions => true;
 
-    /// <summary>
-    /// NOTE: This method cannot depend on previously loaded variables, as events can be executed in parallel.
-    /// </summary>
-    /// <returns></returns>
-    protected virtual Task ProcessPageData()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        return Task.CompletedTask;
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            await BrowserViewportService.SubscribeAsync(this, fireImmediately: true);
+        }
     }
+
+    #region BrowserViewportObserver
+
+    Guid IBrowserViewportObserver.Id { get; } = Guid.NewGuid();
+
+    Task IBrowserViewportObserver.NotifyBrowserViewportChangeAsync(BrowserViewportEventArgs browserViewportEventArgs)
+    {
+        if (AppStateStatic.Breakpoint != browserViewportEventArgs.Breakpoint)
+        {
+            AppStateStatic.Size = browserViewportEventArgs.Breakpoint == Breakpoint.Xs ? Size.Small : Size.Medium;
+            AppStateStatic.Breakpoint = browserViewportEventArgs.Breakpoint;
+            AppStateStatic.BreakpointChanged.Publish(browserViewportEventArgs.Breakpoint);
+        }
+
+        return InvokeAsync(StateHasChanged);
+    }
+
+    public virtual async ValueTask DisposeAsync()
+    {
+        Dispose();
+        await BrowserViewportService.UnsubscribeAsync(this);
+        GC.SuppressFinalize(this);
+    }
+
+    #endregion BrowserViewportObserver
+}
+
+public abstract class PageParameterCore<T> : ComponentParameterCore<T>, IBrowserViewportObserver, IAsyncDisposable where T : class
+{
+    [Inject] private IBrowserViewportService BrowserViewportService { get; set; } = null!;
+
+    [Parameter] public string? Culture { get; set; }
+
+    protected override bool ShowExceptions => true;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        try
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
         {
-            await base.OnAfterRenderAsync(firstRender);
-
-            if (firstRender)
-            {
-                await BrowserViewportService.SubscribeAsync(this, fireImmediately: true);
-
-                await ProcessPageData();
-
-                StateHasChanged();
-            }
-        }
-        catch (Exception ex)
-        {
-            await ProcessException(ex);
+            await BrowserViewportService.SubscribeAsync(this, fireImmediately: true);
         }
     }
 
