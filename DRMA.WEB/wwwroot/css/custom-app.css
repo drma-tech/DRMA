@@ -171,11 +171,11 @@ body .pwa-updater[b-pwa-updater] {
     opacity: 0.75;
     color: black;
     text-align: center;
-    bottom: 1.25rem;
-    left: 12%;
-    right: 12%;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    right: 0.5rem;
     font-size: 0.9rem !important;
-    line-height: 1.2 !important;
+    line-height: 1 !important;
 }
 
 @media (max-width: 599.95px), (max-height: 599.95px) {
@@ -207,6 +207,11 @@ body .pwa-updater[b-pwa-updater] {
 
 .mud-stepper .mud-stepper-nav .mud-step .mud-step-label .mud-step-label-content-title {
     color: var(--mud-palette-primary);
+}
+
+.mud-chip-content {
+    width: 100%;
+    justify-content: space-between;
 }
 
 .icon-text-button {

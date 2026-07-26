@@ -1,6 +1,6 @@
 ﻿namespace DRMA.Shared.Core.Helper;
 
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+[AttributeUsage(AttributeTargets.Field)]
 public class FieldSettingsAttribute(string name) : Attribute
 {
     public string Name { get; set; } = name;

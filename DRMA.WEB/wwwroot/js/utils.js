@@ -270,7 +270,7 @@ export const environment = {
 
             document.head.appendChild(script);
 
-            setTimeout(() => finish(false), 10000);
+            setTimeout(() => finish(false), 15000);
         });
     },
     async isAdBlocked() {
