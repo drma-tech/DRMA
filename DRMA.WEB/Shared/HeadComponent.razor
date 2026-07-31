@@ -22,9 +22,16 @@
     <!-- hreflang -->
     @if (Index)
     {
-        foreach (var lang in AppStateStatic.SitemapTranslations)
+        if (FixedAlternateLanguage.Empty())
         {
-            <link rel="alternate" href="@GetUrlForLanguage(lang)" hreflang="@lang" />
+            foreach (var lang in AppStateStatic.SitemapTranslations)
+            {
+                <link rel="alternate" href="@GetUrlForLanguage(lang)" hreflang="@lang" />
+            }
+        }
+        else
+        {
+            <link rel="alternate" href="@GetUrlForLanguage(FixedAlternateLanguage)" hreflang="@FixedAlternateLanguage" />
         }
     }
 
@@ -33,10 +40,10 @@
     {
         if (AppStateStatic.SitemapTranslations.Length > 0)
         {
-            <link rel="alternate" href="@GetUrlForLanguage("en")" hreflang="x-default" />
+            <link rel="alternate" href="@GetUrlForLanguage(FixedAlternateLanguage ?? "en")" hreflang="x-default" />
         }
     }
-   
+
     @if (Shared)
     {
         <link rel="image_src" href="@ImageUrl">
@@ -52,7 +59,7 @@
 </HeadContent>
 
 <script>
-    window.setHtmlLang = function (lang) {
+    window.setHtmlLang = function(lang) {
         document.documentElement.lang = lang;
     };
 </script>
@@ -75,6 +82,8 @@
     [Parameter] public string? Image { get; set; }
 
     [Parameter] public bool Shared { get; set; }
+
+    [Parameter] public string? FixedAlternateLanguage { get; set; }
 
     public string? Culture => AppStateStatic.GetCulture(Navigation);
     private string? TitleFull => $"{Title} | {AppInfo.Title}";
