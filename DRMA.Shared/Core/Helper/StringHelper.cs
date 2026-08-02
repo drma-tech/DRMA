@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Globalization;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -8,7 +9,7 @@ public static partial class StringHelper
 {
     public static string Format(this string format, object? arg0, object? arg1 = null)
     {
-        return string.Format(format, arg0, arg1);
+        return string.Format(CultureInfo.InvariantCulture, format, arg0, arg1);
     }
 
     public static string RemoveSpecialCharacters(this string str, char[]? customExceptions = null, char? replace = null)
@@ -175,7 +176,7 @@ public static partial class StringHelper
 
         if (RepeatedCharSeqRegex.IsMatch(text)) return true;
         if (SymbolSeqRegex.IsMatch(text)) return true;
-        if (EmojiRegex.Matches(text).Count > 5) return true;
+        if (EmojiRegex.Count(text) > 5) return true;
 
         if (text.Count(c => c == '\n') > 10) return true;
 
@@ -234,12 +235,12 @@ public static partial class StringHelper
         if (text == "yesterday")
             return DateTime.UtcNow.AddDays(-1);
 
-        var match = Regex.Match(text, @"(\d+)\s+(second|minute|hour|day|week|month|year)s?\s+ago");
+        var match = TimePassed().Match(text);
 
         if (!match.Success)
             return null;
 
-        int value = int.Parse(match.Groups[1].Value);
+        int value = int.Parse(match.Groups[1].Value, NumberStyles.Integer, CultureInfo.DefaultThreadCurrentCulture);
         string unit = match.Groups[2].Value;
 
         return unit switch
@@ -254,4 +255,7 @@ public static partial class StringHelper
             _ => throw new InvalidOperationException("Invalid unit")
         };
     }
+
+    [GeneratedRegex(@"(\d+)\s+(second|minute|hour|day|week|month|year)s?\s+ago")]
+    private static partial Regex TimePassed();
 }

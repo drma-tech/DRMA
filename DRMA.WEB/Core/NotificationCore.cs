@@ -35,7 +35,7 @@ public static class NotificationCore
     {
         if (ex is NotificationException exc)
         {
-            logger.LogWarning(exc.Message);
+            logger.Warning(exc.Message);
             snackbar.Add(exc.Message, Severity.Warning);
         }
         else if (ex is OperationCanceledException or TaskCanceledException or ObjectDisposedException)
@@ -44,7 +44,7 @@ public static class NotificationCore
         }
         else
         {
-            logger.LogError(ex, ex.Message);
+            logger.Error(ex, ex.Message);
             snackbar.Add(ex.Message, Severity.Error);
         }
     }

@@ -29,7 +29,7 @@
 
     protected override async Task<bool> LoadInteropDataAsync(Microsoft.JSInterop.IJSRuntime JsRuntime)
     {
-        DarkMode = await AppStateStatic.GetDarkMode(JsRuntime, cts.Token) ?? false;
+        DarkMode = await AppStateStatic.GetDarkMode(JsRuntime, Cts.Token) ?? false;
 
         return true;
     }
@@ -38,7 +38,7 @@
     {
         DarkMode = value;
 
-        await JsRuntime.Utils().SetStorage("dark-mode", value, JavascriptContext.Default.Boolean, cts.Token);
+        await JsRuntime.Utils().SetStorage("dark-mode", value, JavascriptContext.Default.Boolean, Cts.Token);
 
         AppStateStatic.ChangeDarkMode(value);
     }

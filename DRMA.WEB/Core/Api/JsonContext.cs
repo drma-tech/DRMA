@@ -7,7 +7,7 @@ namespace DRMA.WEB.Core.Api
     [JsonSerializable(typeof(string))]
     [JsonSerializable(typeof(Platform?))]
     [JsonSerializable(typeof(AppLanguage?))]
-    internal partial class JavascriptContext : JsonSerializerContext
+    internal sealed partial class JavascriptContext : JsonSerializerContext
     {
     }
 }

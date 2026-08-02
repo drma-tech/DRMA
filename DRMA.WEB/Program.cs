@@ -43,7 +43,7 @@ if (builder.RootComponents.Empty())
     builder.RootComponents.Add<HeadOutlet>("head::after");
 }
 
-ConfigureServices(builder.Services, builder.HostEnvironment.BaseAddress, builder.Configuration);
+ConfigureServices(builder.Services);
 
 var app = builder.Build();
 
@@ -63,7 +63,7 @@ await js.Services().InitGoogleAnalytics(AppStateStatic.Version, CancellationToke
 
 await app.RunAsync();
 
-static void ConfigureServices(IServiceCollection collection, string baseAddress, IConfiguration configuration)
+static void ConfigureServices(IServiceCollection collection)
 {
     ConfigurePrerendering();
 
@@ -110,12 +110,4 @@ static async Task ConfigureCulture(NavigationManager? nav, IJSRuntime js)
         CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
         CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
     }
-}
-
-//https://github.com/App-vNext/Polly/wiki/Polly-and-HttpClientFactory
-static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
-{
-    return HttpPolicyExtensions
-        .HandleTransientHttpError() // 408,5xx
-        .WaitAndRetryAsync([TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2)]);
 }

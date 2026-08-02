@@ -17,7 +17,7 @@ public abstract class BaseComponentCore<T> : ComponentBase, IDisposable where T 
     [Inject] protected IJSRuntime JsRuntime { get; set; } = null!;
     [Inject] protected NavigationManager Navigation { get; set; } = null!;
 
-    protected readonly CancellationTokenSource cts = new();
+    protected CancellationTokenSource Cts { get; } = new();
     protected virtual bool ShowExceptions => false;
 
     #region notification module
@@ -74,7 +74,7 @@ public abstract class BaseComponentCore<T> : ComponentBase, IDisposable where T 
     {
         if (ex is NotificationException exc)
         {
-            Logger.LogWarning(exc.Message);
+            Logger.Warning(exc.Message);
             if (showMessage) await ShowWarning(exc.Message);
         }
         else if (ex is OperationCanceledException or TaskCanceledException or ObjectDisposedException)
@@ -83,7 +83,7 @@ public abstract class BaseComponentCore<T> : ComponentBase, IDisposable where T 
         }
         else
         {
-            Logger.LogError(ex, ex.Message);
+            Logger.Error(ex, ex.Message);
             if (showMessage) await ShowError(ex.Message);
         }
     }
@@ -106,8 +106,8 @@ public abstract class BaseComponentCore<T> : ComponentBase, IDisposable where T 
 
         if (disposing)
         {
-            cts.Cancel();
-            cts.Dispose();
+            Cts.Cancel();
+            Cts.Dispose();
         }
 
         isDisposed = true;
@@ -122,7 +122,6 @@ public abstract class BaseComponentCore<T> : ComponentBase, IDisposable where T 
 /// <typeparam name="T"></typeparam>
 public abstract class ComponentCore<T> : BaseComponentCore<T> where T : class
 {
-    protected readonly TaskHelper _taskHelper = new();
     protected override bool ShowExceptions => false;
 
     /// <summary>
@@ -151,7 +150,7 @@ public abstract class ComponentCore<T> : BaseComponentCore<T> where T : class
         {
             await base.OnInitializedAsync();
 
-            AppStateStatic.BreakpointChanged.Subscribe((bp) => _ = InvokeAsync(StateHasChanged), cts.Token);
+            AppStateStatic.BreakpointChanged.Subscribe((bp) => _ = InvokeAsync(StateHasChanged), Cts.Token);
 
             await LoadStaticDataAsync();
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Reflection;
 using System.Resources;
 
@@ -59,7 +60,7 @@ namespace DRMA.Shared.Core.Helper
 
         private static string GetResourceString(this ResourceManager rm, string resourceKey)
         {
-            return rm.GetString(resourceKey) ?? resourceKey + IncompleteTranslationSuffix;
+            return rm.GetString(resourceKey, CultureInfo.DefaultThreadCurrentCulture) ?? resourceKey + IncompleteTranslationSuffix;
         }
     }
 }
