@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using DRMA.WEB.Core.Helper.Javascript;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
 
@@ -22,19 +23,19 @@ public static class AppStateStatic
 
     public static bool IsLocalhost(this NavigationManager navigation)
     {
-        return navigation.BaseUri.Contains("localhost") || navigation.BaseUri.Contains("develop");
+        return navigation.BaseUri.Contains("localhost", StringComparison.OrdinalIgnoreCase) || navigation.BaseUri.Contains("develop", StringComparison.OrdinalIgnoreCase);
     }
 
     public static bool IsPrerendering(this NavigationManager navigation)
     {
-        return navigation.BaseUri.Contains("127.0.0.1");
+        return navigation.BaseUri.Contains("127.0.0.1", StringComparison.OrdinalIgnoreCase);
     }
 
     public static bool CanShowSnackbar(this string message)
     {
         var now = DateTime.UtcNow;
 
-        if (LastSnackbarMessage == message && now - LastSnackbarAt < SnackbarDelay)
+        if (string.Equals(LastSnackbarMessage, message, StringComparison.OrdinalIgnoreCase) && now - LastSnackbarAt < SnackbarDelay)
         {
             return false;
         }

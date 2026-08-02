@@ -7,8 +7,8 @@ namespace DRMA.WEB.Core
     /// </summary>
     public static class BufferedEvent
     {
-        private static readonly ConcurrentDictionary<string, Func<object?[], Task>> Handlers = new();
-        private static readonly ConcurrentDictionary<string, object?[]> PendingEvents = new();
+        private static readonly ConcurrentDictionary<string, Func<object?[], Task>> Handlers = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly ConcurrentDictionary<string, object?[]> PendingEvents = new(StringComparer.OrdinalIgnoreCase);
 
         public static void Register(string name, Func<object?[], Task> handler)
         {

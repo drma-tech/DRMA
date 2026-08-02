@@ -17,12 +17,6 @@ public static class ExtensionMethodsWeb
         return navigationManager.QueryString()[key];
     }
 
-    public static HashSet<T> ToHashSet<T>(this T? item) where T : struct
-    {
-        if (item == null) return [];
-        return [item.Value];
-    }
-
     public static string? GetRouteLanguage(string absolutePath)
     {
         var segments = absolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);

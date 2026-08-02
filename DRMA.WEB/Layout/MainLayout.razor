@@ -23,12 +23,12 @@
 <MudLayout>
     <HeadLayout></HeadLayout>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="@Css.Build().Medium("my")">
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="@CssHelper.Build().Medium("my")">
             @Body
         </MudContainer>
         <FooterComponent></FooterComponent>
-        <MudDivider Class="@Css.Build().Small("my").Medium("mt")"></MudDivider>
-        <MudText Align="Align.Center" Class="@Css.Build().Small("mb")">
+        <MudDivider Class="@CssHelper.Build().Small("my").Medium("mt")"></MudDivider>
+        <MudText Align="Align.Center" Class="@CssHelper.Build().Small("mb")">
             © @AppInfo.Year-@DateTime.Now.Year - DRMA Tech.
         </MudText>
     </MudMainContent>

@@ -6,7 +6,7 @@
 
 <PageSectionComponent Title="Troubleshooting">
     <BodyFragment>
-        <MudGrid Spacing="@Css.SpaceSmall">
+        <MudGrid Spacing="@CssHelper.SpaceSmall">
             <MudItem xs="12" sm="6" md="4" lg="3">
                 <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@(async () => { await JsRuntime.Utils().ShowCache(Cts.Token); })">
                     <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Memory"></MudIcon>
@@ -25,7 +25,7 @@
 
 <PageSectionComponent Title="Company">
     <BodyFragment>
-        <MudGrid Spacing="@Css.SpaceSmall">
+        <MudGrid Spacing="@CssHelper.SpaceSmall">
             <MudItem xs="12" sm="6" md="4" lg="3">
                 <MudButton Variant="Variant.Filled" FullWidth="true" Href=@($"/{Culture}/company/about-us") rel="nofollow">
                     <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Business"></MudIcon>
@@ -44,7 +44,7 @@
 
 <PageSectionComponent Title="More from DRMA Tech">
     <BodyFragment>
-        <MudGrid Spacing="@Css.SpaceSmall">
+        <MudGrid Spacing="@CssHelper.SpaceSmall">
             @foreach (var product in AppInfo.Products)
             {
                 <MudItem xs="12" sm="6" md="4" lg="3">

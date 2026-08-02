@@ -1,61 +1,9 @@
 ﻿using Microsoft.JSInterop;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 
-namespace DRMA.WEB.Core.Helper
+namespace DRMA.WEB.Core.Helper.Javascript
 {
-    public static class JsModuleLoader
-    {
-        private static readonly Dictionary<string, IJSObjectReference> cache = [];
-
-        public static async Task<IJSObjectReference> Load(IJSRuntime js, string path, CancellationToken cancellationToken)
-        {
-            if (!cache.TryGetValue(path, out var module))
-            {
-                module = await js.InvokeAsync<IJSObjectReference>("import", cancellationToken, path);
-                cache[path] = module;
-            }
-
-            return module;
-        }
-    }
-
-    public abstract class JsModuleBase(IJSRuntime js, string path)
-    {
-        protected async Task InvokeVoid(string identifier, CancellationToken cancellationToken, params object?[] args)
-        {
-            var module = await JsModuleLoader.Load(js, path, cancellationToken);
-            await module.InvokeVoidAsync(identifier, cancellationToken, args);
-        }
-
-        protected async Task<T> Invoke<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)] T>
-            (string identifier, CancellationToken cancellationToken, params object?[] args)
-        {
-            var module = await JsModuleLoader.Load(js, path, cancellationToken);
-            return await module.InvokeAsync<T>(identifier, cancellationToken, args);
-        }
-    }
-
-    public static class JsModules
-    {
-        public static WindowJs Window(this IJSRuntime js) => new(js);
-
-        public static UtilsJs Utils(this IJSRuntime js) => new(js);
-
-        public static ServicesJs Services(this IJSRuntime js) => new(js);
-    }
-
-    public class WindowJs(IJSRuntime js)
-    {
-        public async Task HistoryBack() => await js.InvokeVoidAsync("history.back");
-
-        public async Task InvokeVoidAsync(string identifier, params object?[]? args) => await js.InvokeVoidAsync(identifier, args);
-
-        public async Task<T> InvokeAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)] T>
-            (string identifier, params object?[]? args) => await js.InvokeAsync<T>(identifier, args);
-    }
-
     public class UtilsJs(IJSRuntime js) : JsModuleBase(js, "./js/utils.js")
     {
         #region STORAGE
@@ -161,10 +109,5 @@ namespace DRMA.WEB.Core.Helper
         public Task Share(string? title, string? text, string? url, CancellationToken cancellationToken) => InvokeVoid("interop.share", cancellationToken, title, text, url);
 
         #endregion INTEROP
-    }
-
-    public class ServicesJs(IJSRuntime js) : JsModuleBase(js, "./js/services.js")
-    {
-        public Task InitGoogleAnalytics(string version, CancellationToken cancellationToken) => InvokeVoid("services.initGoogleAnalytics", cancellationToken, version);
     }
 }

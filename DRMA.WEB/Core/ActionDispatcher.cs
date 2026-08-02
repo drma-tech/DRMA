@@ -2,7 +2,9 @@
 {
     public sealed class ActionDispatcher<T>
     {
+#pragma warning disable MA0046 // Use EventHandler<T> to declare events
         private event Action<T>? Handlers;
+#pragma warning restore MA0046 // Use EventHandler<T> to declare events
 
         public void Subscribe(Action<T> handler, CancellationToken token)
         {
@@ -19,7 +21,9 @@
 
     public sealed class ActionDispatcher
     {
+#pragma warning disable MA0046 // Use EventHandler<T> to declare events
         private event Action? Handlers;
+#pragma warning restore MA0046 // Use EventHandler<T> to declare events
 
         public void Subscribe(Action handler, CancellationToken token)
         {
@@ -31,50 +35,6 @@
         public void Publish()
         {
             Handlers?.Invoke();
-        }
-    }
-
-    public sealed class TaskDispatcher<T>
-    {
-        private readonly List<Func<T, Task>> handlers = [];
-
-        public void Subscribe(Func<T, Task> handler, CancellationToken token)
-        {
-            handlers.Add(handler);
-
-            token.Register(() => { handlers.Remove(handler); });
-        }
-
-        public async Task PublishAsync(T value)
-        {
-            var snapshot = handlers.ToArray();
-
-            foreach (var handler in snapshot)
-            {
-                await handler(value);
-            }
-        }
-    }
-
-    public sealed class TaskDispatcher
-    {
-        private readonly List<Func<Task>> handlers = [];
-
-        public void Subscribe(Func<Task> handler, CancellationToken token)
-        {
-            handlers.Add(handler);
-
-            token.Register(() => { handlers.Remove(handler); });
-        }
-
-        public async Task PublishAsync()
-        {
-            var snapshot = handlers.ToArray();
-
-            foreach (var handler in snapshot)
-            {
-                await handler();
-            }
         }
     }
 }

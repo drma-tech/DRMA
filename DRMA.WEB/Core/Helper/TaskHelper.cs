@@ -15,7 +15,7 @@ namespace DRMA.WEB.Core.Helper
             public Task Task = Task.CompletedTask;
         }
 
-        private readonly ConcurrentDictionary<string, State> _states = new();
+        private readonly ConcurrentDictionary<string, State> _states = new(StringComparer.OrdinalIgnoreCase);
 
         public Task RunSingleAsync<TContext>(string key, TContext context, Func<CancellationToken, Task> factory, CancellationToken externalToken)
         {

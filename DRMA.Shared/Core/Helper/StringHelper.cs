@@ -52,7 +52,7 @@ public static partial class StringHelper
         return buffer[..idx];
     }
 
-    [GeneratedRegex(@"\p{Mn}", RegexOptions.Compiled)]
+    [GeneratedRegex(@"\p{Mn}", RegexOptions.Compiled, 1000)]
     private static partial Regex DiacriticsRegex();
 
     /// <summary>
@@ -147,13 +147,13 @@ public static partial class StringHelper
         return input.Normalize(NormalizationForm.FormC);
     }
 
-    private static readonly Regex UrlRegex = new(@"\b[a-z0-9-]{2,}\.(com|net|org|io|co|dev|app|me)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static readonly Regex ObfuscatedRegex = new(@"\b/([a-z0-9- ]{2,}\s*)((?:\.|\[\.]|\(.\))|\[\s*dot\s*\]|\(\s*dot\s*\)|\s*dot\s*)\s*(com|net|org|io|co|dev|app|me)/gm\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static readonly Regex ShortLinkRegex = new(@"(bit\.ly|tinyurl|goo\.gl|t\.co)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static readonly Regex MentionRegex = new(@"@\w+", RegexOptions.Compiled);
-    private static readonly Regex RepeatedCharSeqRegex = new(@"(.)\1{10,}", RegexOptions.Compiled);
-    private static readonly Regex SymbolSeqRegex = new(@"[^\p{L}\p{N}\s]{10,}", RegexOptions.Compiled);
-    private static readonly Regex EmojiRegex = new(@"\p{So}", RegexOptions.Compiled);
+    private static readonly Regex UrlRegex = new(@"\b[a-z0-9-]{2,}\.(com|net|org|io|co|dev|app|me)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture, TimeSpan.FromSeconds(1));
+    private static readonly Regex ObfuscatedRegex = new(@"\b/([a-z0-9- ]{2,}\s*)((?:\.|\[\.]|\(.\))|\[\s*dot\s*\]|\(\s*dot\s*\)|\s*dot\s*)\s*(com|net|org|io|co|dev|app|me)/gm\b", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture, TimeSpan.FromSeconds(1));
+    private static readonly Regex ShortLinkRegex = new(@"(bit\.ly|tinyurl|goo\.gl|t\.co)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture, TimeSpan.FromSeconds(1));
+    private static readonly Regex MentionRegex = new(@"@\w+", RegexOptions.Compiled | RegexOptions.ExplicitCapture, TimeSpan.FromSeconds(1));
+    private static readonly Regex RepeatedCharSeqRegex = new(@"(?<c>.)\k<c>{10,}", RegexOptions.Compiled | RegexOptions.ExplicitCapture, TimeSpan.FromSeconds(1));
+    private static readonly Regex SymbolSeqRegex = new(@"[^\p{L}\p{N}\s]{10,}", RegexOptions.Compiled | RegexOptions.ExplicitCapture, TimeSpan.FromSeconds(1));
+    private static readonly Regex EmojiRegex = new(@"\p{So}", RegexOptions.Compiled | RegexOptions.ExplicitCapture, TimeSpan.FromSeconds(1));
 
     /// <summary>
     /// Heuristically determines whether a text is likely to be spam based on patterns such as URLs, repeated characters, excessive symbols, mentions, or emoji spam.
@@ -171,7 +171,7 @@ public static partial class StringHelper
         if (ShortLinkRegex.IsMatch(text)) return true;
         if (MentionRegex.IsMatch(text)) return true;
 
-        var words = Regex.Split(text, @"\W+").Where(w => w.Length > 2).ToArray();
+        var words = Regex.Split(text, @"\W+", RegexOptions.None, TimeSpan.FromSeconds(1)).Where(w => w.Length > 2).ToArray();
         if (words.GroupBy(w => w, StringComparer.OrdinalIgnoreCase).Any(g => g.Count() > 4)) return true;
 
         if (RepeatedCharSeqRegex.IsMatch(text)) return true;
@@ -232,7 +232,7 @@ public static partial class StringHelper
 
         text = text.ToLowerInvariant().Trim();
 
-        if (text == "yesterday")
+        if (string.Equals(text, "yesterday", StringComparison.OrdinalIgnoreCase))
             return DateTime.UtcNow.AddDays(-1);
 
         var match = TimePassed().Match(text);
@@ -252,10 +252,10 @@ public static partial class StringHelper
             "week" => DateTime.UtcNow.AddDays(-(value * 7)),
             "month" => DateTime.UtcNow.AddMonths(-value),
             "year" => DateTime.UtcNow.AddYears(-value),
-            _ => throw new InvalidOperationException("Invalid unit")
+            _ => throw new InvalidOperationException("Invalid unit"),
         };
     }
 
-    [GeneratedRegex(@"(\d+)\s+(second|minute|hour|day|week|month|year)s?\s+ago")]
+    [GeneratedRegex(@"(\d+)\s+(second|minute|hour|day|week|month|year)s?\s+ago", RegexOptions.ExplicitCapture, 1000)]
     private static partial Regex TimePassed();
 }
