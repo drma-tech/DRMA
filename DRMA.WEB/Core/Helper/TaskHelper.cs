@@ -41,7 +41,7 @@ namespace DRMA.WEB.Core.Helper
                 var newState = new State
                 {
                     Context = context!,
-                    InternalCts = internalCts
+                    InternalCts = internalCts,
                 };
 
                 newState.Task = ExecuteAsync(newState, linkedCts);

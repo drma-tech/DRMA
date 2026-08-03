@@ -22,7 +22,7 @@ public static class PopupHelper
             BackdropClick = allowClose,
             NoHeader = !showHeader,
             Position = DialogPosition.Center,
-            MaxWidth = width
+            MaxWidth = width,
         };
     }
 }

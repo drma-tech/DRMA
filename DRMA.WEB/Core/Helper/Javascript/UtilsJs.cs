@@ -11,7 +11,7 @@ namespace DRMA.WEB.Core.Helper.Javascript
         public enum BrowserStorageType
         {
             Local,
-            Session
+            Session,
         }
 
         public async Task<T?> GetStorage<T>(string key, JsonTypeInfo<T> typeInfo, CancellationToken cancellationToken, BrowserStorageType storage = BrowserStorageType.Local)
