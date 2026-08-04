@@ -3,7 +3,9 @@
     public sealed class ActionDispatcher<T>
     {
 #pragma warning disable MA0046 // Use EventHandler<T> to declare events
+
         private event Action<T>? Handlers;
+
 #pragma warning restore MA0046 // Use EventHandler<T> to declare events
 
         public void Subscribe(Action<T> handler, CancellationToken token)
@@ -22,7 +24,9 @@
     public sealed class ActionDispatcher
     {
 #pragma warning disable MA0046 // Use EventHandler<T> to declare events
+
         private event Action? Handlers;
+
 #pragma warning restore MA0046 // Use EventHandler<T> to declare events
 
         public void Subscribe(Action handler, CancellationToken token)

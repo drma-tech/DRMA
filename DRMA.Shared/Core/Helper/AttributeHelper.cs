@@ -15,7 +15,7 @@ namespace DRMA.Shared.Core.Helper
 
         public static EnumFieldObject<T> GetFieldSettings<T>(this T value, bool translate = true) where T : Enum
         {
-            var fieldInfo = value.GetType().GetField(value.ToString()) ?? throw new UnhandledException($"{value} field info is null");
+            var fieldInfo = value.GetType().GetField(value.ToString()) ?? throw new UnhandledException(string.Create(CultureInfo.InvariantCulture, $"{value} field info is null"));
 
             return fieldInfo.GetFieldSettings(value, translate);
         }
@@ -44,7 +44,7 @@ namespace DRMA.Shared.Core.Helper
 
                 obj.Name = rm.GetResourceString(attr.Name) ?? throw new InvalidOperationException($"Resource not found for key: {attr.Name}");
                 if (attr.Group.NotEmpty()) obj.Group = rm.GetResourceString(attr.Group);
-                if (attr.Placeholder.NotEmpty()) obj.Placeholder = rm.GetResourceString(attr.Placeholder)?.Replace(@"\n", Environment.NewLine);
+                if (attr.Placeholder.NotEmpty()) obj.Placeholder = rm.GetResourceString(attr.Placeholder)?.Replace(@"\n", Environment.NewLine, StringComparison.Ordinal);
                 if (attr.Description.NotEmpty()) obj.Description = rm.GetResourceString(attr.Description);
             }
         }

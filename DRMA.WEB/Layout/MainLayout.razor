@@ -38,7 +38,7 @@
     private MudThemeProvider? _mudThemeProvider;
     private bool _darkMode = false;
     private string Culture => Navigation.GetCulture();
-    protected readonly CancellationTokenSource cts = new();
+    protected readonly CancellationTokenSource Cts = new();
 
     protected override void OnInitialized()
     {
@@ -51,7 +51,7 @@
             BufferedEvent.Register(nameof(ShowError), async (string msg) => { await ShowNotificationError(msg); });
 
             AppStateStatic.DarkModeChanged += dark => { _darkMode = dark; StateHasChanged(); };
-            AppStateStatic.BreakpointChanged.Subscribe(breakpoint => StateHasChanged(), cts.Token);
+            AppStateStatic.BreakpointChanged.Subscribe(breakpoint => StateHasChanged(), Cts.Token);
         }
         catch (Exception ex)
         {
@@ -77,7 +77,7 @@
 
             try
             {
-                await ApplyDarkMode(cts.Token);
+                await ApplyDarkMode(Cts.Token);
             }
             catch (Exception ex)
             {
@@ -88,7 +88,7 @@
 
     private async Task ApplyDarkMode(CancellationToken cancellationToken)
     {
-        var darkMode = await AppStateStatic.GetDarkMode(JsRuntime, cts.Token);
+        var darkMode = await AppStateStatic.GetDarkMode(JsRuntime, Cts.Token);
 
         if (darkMode == null && _mudThemeProvider != null)
         {
@@ -119,8 +119,8 @@
 
     void IDisposable.Dispose()
     {
-        cts.Cancel();
-        cts.Dispose();
+        Cts.Cancel();
+        Cts.Dispose();
         GC.SuppressFinalize(this);
     }
 }

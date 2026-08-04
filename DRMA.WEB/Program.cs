@@ -79,7 +79,7 @@ static void ConfigureServices(IServiceCollection collection)
 
 static void ConfigurePrerendering()
 {
-    const string loading = "loading";
+    const string loading = "prerendering";
 
     AppStateStatic.Version = loading;
     AppStateStatic.BrowserName = loading;

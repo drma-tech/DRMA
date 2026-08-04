@@ -4,11 +4,11 @@
 
 @implements IDisposable
 
-@if (AppStateStatic.Breakpoint == Breakpoint.Sm) //mobile or tablet
+@if (AppStateStatic.Breakpoint <= Breakpoint.Sm) //mobile or tablet
 {
     //todo: smaller footer
 }
-else if (AppStateStatic.Breakpoint > Breakpoint.Sm) //other bigger devices
+else //other bigger devices
 {
     <MudDivider Class="@CssHelper.Build().Small("mb").Raw("mt-10")"></MudDivider>
     <MudGrid Justify="Justify.Center" Style="overflow: auto;" Spacing="@CssHelper.SpaceSmall">
@@ -45,17 +45,17 @@ else if (AppStateStatic.Breakpoint > Breakpoint.Sm) //other bigger devices
 @code {
     private string Culture => Navigation.GetCulture();
 
-    protected readonly CancellationTokenSource cts = new();
+    protected readonly CancellationTokenSource Cts = new();
 
     protected override void OnInitialized()
     {
-        AppStateStatic.BreakpointChanged.Subscribe(breakpoint => StateHasChanged(), cts.Token);
+        AppStateStatic.BreakpointChanged.Subscribe(breakpoint => StateHasChanged(), Cts.Token);
     }
 
     void IDisposable.Dispose()
     {
-        cts.Cancel();
-        cts.Dispose();
+        Cts.Cancel();
+        Cts.Dispose();
         GC.SuppressFinalize(this);
     }
 }

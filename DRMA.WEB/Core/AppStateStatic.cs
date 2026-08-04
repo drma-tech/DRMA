@@ -154,7 +154,7 @@ public static class AppStateStatic
     {
         if (code.Empty()) return AppLanguage.en;
 
-        if (System.Enum.TryParse<AppLanguage>(code, true, out var language) && System.Enum.IsDefined(language))
+        if (System.Enum.TryParse<AppLanguage>(code, ignoreCase: true, out var language) && System.Enum.IsDefined(language))
         {
             return language;
         }

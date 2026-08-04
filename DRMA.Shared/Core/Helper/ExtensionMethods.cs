@@ -43,8 +43,8 @@ public static class ExtensionMethods
         var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(value ?? string.Empty));
 
         return base64
-            .Replace("+", "-")
-            .Replace("/", "_")
+            .Replace("+", "-", StringComparison.Ordinal)
+            .Replace("/", "_", StringComparison.Ordinal)
             .TrimEnd('=');
     }
 
@@ -54,8 +54,8 @@ public static class ExtensionMethods
             return string.Empty;
 
         string padded = encoded
-            .Replace("-", "+")
-            .Replace("_", "/");
+            .Replace("-", "+", StringComparison.Ordinal)
+            .Replace("_", "/", StringComparison.Ordinal);
 
         switch (padded.Length % 4)
         {
