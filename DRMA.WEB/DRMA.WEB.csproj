@@ -8,6 +8,8 @@
 		<PublishTrimmed>true</PublishTrimmed>
 		<TrimMode>full</TrimMode>
 		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<EnableNETAnalyzers>True</EnableNETAnalyzers>
+		<AnalysisLevel>latest-recommended</AnalysisLevel>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="BlazorWasmPreRendering.Build" Version="8.0.1" />
