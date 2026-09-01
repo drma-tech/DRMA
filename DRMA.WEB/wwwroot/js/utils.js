@@ -282,7 +282,7 @@ export const environment = {
         //detect if adsense exists
         const els = document.querySelectorAll('.adsbygoogle');
         if (!els.length) {
-            Sentry.captureMessage("ad blocked - no .adsbygoogle elements found", "error");
+            // Sentry.captureMessage("ad blocked - no .adsbygoogle elements found", "error");
             window.isAdBlocked = false;
             return false;
         }
@@ -334,7 +334,7 @@ export const environment = {
             return true;
         }
 
-        Sentry.captureMessage("ad blocked - Ads failed but no blocker detected", "error");
+        // Sentry.captureMessage("ad blocked - Ads failed but no blocker detected", "error");
 
         window.isAdBlocked = false;
         return false;
@@ -388,7 +388,7 @@ export const interop = {
         }
 
         return false;
-    }
+    },
 };
 
 if (!window.appConfig.isBot) {

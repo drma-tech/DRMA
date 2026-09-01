@@ -4,6 +4,8 @@
     {
         /// <summary>
         /// To load temporary data that may change and depends on parameters.
+        /// 
+        /// Note: Omitting the await (_ = task) can cause static page generation to fail.
         /// </summary>
         /// <returns></returns>
         protected abstract Task LoadParameterDataAsync();

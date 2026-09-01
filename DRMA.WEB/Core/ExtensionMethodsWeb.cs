@@ -12,11 +12,6 @@ public static class ExtensionMethodsWeb
         return HttpUtility.ParseQueryString(new Uri(navigationManager.Uri).Query);
     }
 
-    public static string? QueryString(this NavigationManager navigationManager, string key)
-    {
-        return navigationManager.QueryString()[key];
-    }
-
     public static IReadOnlyCollection<T> ToCollection<T>(this T? item) where T : struct
     {
         if (item == null) return [];
