@@ -14,8 +14,8 @@
 	<ItemGroup>
 		<PackageReference Include="BlazorWasmPreRendering.Build" Version="8.0.2" />
 		<PackageReference Include="Meziantou.Analyzer" Version="3.0.224">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.11">
 			<TreatAsUsed>true</TreatAsUsed>
@@ -44,5 +44,8 @@
 	</PropertyGroup>
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
 		<WriteLinesToFile File="$(ProjectDir)wwwroot\js\app-version.js" Lines="window.appVersion = '$(CurrentDate)';" Overwrite="true" />
+	</Target>
+	<Target Name="FixHtmlLangAttribute" AfterTargets="BlazorWasmPrerendering">
+		<Exec Condition="!$([MSBuild]::IsOSPlatform('WINDOWS'))" Command="bash &quot;$(MSBuildProjectDirectory)/FixHtmlLang.sh&quot; &quot;$(PublishDir)wwwroot&quot;" />
 	</Target>
 </Project>
