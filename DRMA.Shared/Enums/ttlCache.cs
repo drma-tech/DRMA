@@ -2,6 +2,7 @@
 
 public enum TtlCache
 {
+    NeverExpire = -1,
     OneMinute = 60 * 1, // 60 seconds
     OneHour = 60 * 60 * 1, // 3600 seconds
     SixHours = 60 * 60 * 6, // 21600 seconds

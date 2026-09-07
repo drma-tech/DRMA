@@ -1,4 +1,4 @@
-using DRMA.WEB.Core.Helper.Javascript;
+using DRMA.WEB.Core.Javascript;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;

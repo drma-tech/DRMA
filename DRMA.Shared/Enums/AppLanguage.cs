@@ -4,5 +4,8 @@
     {
         [FieldSettings("English")]
         en = 1,
+
+        [FieldSettings("Português")] //Portuguese
+        pt = 2,
     }
 }

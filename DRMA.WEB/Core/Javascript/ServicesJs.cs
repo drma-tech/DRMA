@@ -1,6 +1,6 @@
 ﻿using Microsoft.JSInterop;
 
-namespace DRMA.WEB.Core.Helper.Javascript
+namespace DRMA.WEB.Core.Javascript
 {
     public class ServicesJs(IJSRuntime js) : JsModuleBase(js, "./js/services.js")
     {

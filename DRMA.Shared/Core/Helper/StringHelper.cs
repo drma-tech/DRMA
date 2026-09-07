@@ -143,7 +143,7 @@ public static partial class StringHelper
     }
 
     private static readonly Regex UrlRegex = new(@"\b[a-z0-9-]{2,}\.(com|net|org|io|co|dev|app|me)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
-    private static readonly Regex ObfuscatedRegex = new(@"\b/([a-z0-9- ]{2,}\s*)((?:\.|\[\.]|\(.\))|\[\s*dot\s*\]|\(\s*dot\s*\)|\s*dot\s*)\s*(com|net|org|io|co|dev|app|me)/gm\b", RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
+    private static readonly Regex ObfuscatedRegex = new(@"\b([a-z0-9- ]{2,}\s*)((?:\.|\[\.]|\(.\))|\[\s*dot\s*\]|\(\s*dot\s*\)|\s*dot\s*)\s*(com|net|org|io|co|dev|app|me)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
     private static readonly Regex ShortLinkRegex = new(@"(bit\.ly|tinyurl|goo\.gl|t\.co)", RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
     private static readonly Regex MentionRegex = new(@"@\w+", RegexOptions.Compiled, TimeSpan.FromSeconds(1));
     private static readonly Regex RepeatedCharSeqRegex = new(@"(.)\1{10,}", RegexOptions.Compiled, TimeSpan.FromSeconds(1));
@@ -166,8 +166,8 @@ public static partial class StringHelper
         if (ShortLinkRegex.IsMatch(text)) return true;
         if (MentionRegex.IsMatch(text)) return true;
 
-        var words = Regex.Split(text, @"\W+", RegexOptions.None, TimeSpan.FromSeconds(1)).Where(w => w.Length > 2).ToArray();
-        if (words.GroupBy(w => w, StringComparer.OrdinalIgnoreCase).Any(g => g.Skip(4).Any())) return true;
+        //var words = Regex.Split(text, @"\W+", RegexOptions.None, TimeSpan.FromSeconds(1)).Where(w => w.Length > 2).ToArray();
+        //if (words.GroupBy(w => w, StringComparer.OrdinalIgnoreCase).Any(g => g.Skip(4).Any())) return true;
 
         if (RepeatedCharSeqRegex.IsMatch(text)) return true;
         if (SymbolSeqRegex.IsMatch(text)) return true;
@@ -249,6 +249,13 @@ public static partial class StringHelper
             "year" => DateTime.UtcNow.AddYears(-value),
             _ => throw new InvalidOperationException("Invalid unit"),
         };
+    }
+
+    public static DateTime? GetDate(this string? value)
+    {
+        if (!string.IsNullOrEmpty(value) && DateTime.TryParse(value, CultureInfo.InvariantCulture, out _))
+            return DateTime.Parse(value, CultureInfo.InvariantCulture);
+        return null;
     }
 
     [GeneratedRegex(@"(\d+)\s+(second|minute|hour|day|week|month|year)s?\s+ago", RegexOptions.None, 1000)]

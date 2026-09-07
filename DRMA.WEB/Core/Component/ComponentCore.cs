@@ -1,5 +1,4 @@
-﻿using DRMA.WEB.Core.Helper.Javascript;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
 
@@ -23,7 +22,7 @@ public abstract class ComponentCore<T> : ComponentBase, IDisposable where T : cl
 
     /// <summary>
     /// To load static data that does not change and does not depend on parameters.
-    /// 
+    ///
     /// Note: Omitting the await (_ = task) can cause static page generation to fail.
     /// </summary>
     /// <returns></returns>

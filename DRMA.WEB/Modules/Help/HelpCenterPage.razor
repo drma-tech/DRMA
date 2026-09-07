@@ -1,5 +1,5 @@
 ﻿@page "/{culture}/help"
-@inherits PageCore<HelpCenter>
+@inherits PageCore<HelpCenterPage>
 
 <HeadComponent Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")" Url=@($"/{Culture}/help") Index="true" />
 <PageSectionComponent IsPageHeader="true" Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")"></PageSectionComponent>
@@ -8,17 +8,33 @@
     <BodyFragment>
         <MudGrid Spacing="@CssHelper.SpaceSmall">
             <MudItem xs="12" sm="6" md="4" lg="3">
-                <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@(async () => { await JsRuntime.Utils().ShowCache(Cts.Token); })">
+                <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@ShowCacheClick">
                     <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Memory"></MudIcon>
                     Show Cache
                 </MudButton>
             </MudItem>
             <MudItem xs="12" sm="6" md="4" lg="3">
-                <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@(async () => { await JsRuntime.Utils().ClearAllStorage(); })">
+                <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@ClearCacheClick">
                     <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Clear"></MudIcon>
                     Clear App Data
                 </MudButton>
             </MudItem>
+        </MudGrid>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="App Language">
+    <BodyFragment>
+        <MudGrid Spacing="@CssHelper.SpaceSmall">
+            @foreach (var lang in EnumHelper.GetList<AppLanguage>().Where(p => ConfigurationsStatic.SitemapTranslations.Contains(p.Value.ToString())))
+            {
+                <MudItem xs="12" sm="6" md="4" lg="3">
+                    <MudButton Variant="Variant.Filled" FullWidth="true" Href="@($"/{lang.Value.ToString()}/help")" OnClick="@(() => AppLanguageClick(lang.Value))">
+                        <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Translate"></MudIcon>
+                        @lang.Name
+                    </MudButton>
+                </MudItem>
+            }
         </MudGrid>
     </BodyFragment>
 </PageSectionComponent>

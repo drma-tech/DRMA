@@ -1,7 +1,7 @@
 ﻿using Microsoft.JSInterop;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DRMA.WEB.Core.Helper.Javascript
+namespace DRMA.WEB.Core.Javascript
 {
     public class WindowJs(IJSRuntime js)
     {

@@ -43,8 +43,8 @@ public static class ExtensionMethods
         var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(value ?? string.Empty));
 
         return base64
-            .Replace("+", "-", StringComparison.Ordinal)
-            .Replace("/", "_", StringComparison.Ordinal)
+            .Replace('+', '-')
+            .Replace('/', '_')
             .TrimEnd('=');
     }
 
@@ -54,8 +54,8 @@ public static class ExtensionMethods
             return string.Empty;
 
         string padded = encoded
-            .Replace("-", "+", StringComparison.Ordinal)
-            .Replace("_", "/", StringComparison.Ordinal);
+            .Replace('-', '+')
+            .Replace('_', '/');
 
         switch (padded.Length % 4)
         {
@@ -72,5 +72,21 @@ public static class ExtensionMethods
         if (instance == null) return null;
         var json = JsonSerializer.Serialize(instance);
         return JsonSerializer.Deserialize<T>(json) ?? throw new InvalidOperationException("Clone failed");
+    }
+
+    public static T? ElementAtIndex<T>(this IEnumerable<T>? source, int index) where T : class
+    {
+        if (source == null || index < 0) return null;
+
+        if (source is IList<T> list) return index < list.Count ? list[index] : null;
+
+        var i = 0;
+        foreach (var item in source)
+        {
+            if (i == index) return item;
+            i++;
+        }
+
+        return null;
     }
 }

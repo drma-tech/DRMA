@@ -1,5 +1,4 @@
-﻿using DRMA.WEB.Core.Helper.Javascript;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
 
@@ -102,15 +101,12 @@ public static class AppStateStatic
 
     #region AppLanguage
 
-    public static string[] SupportedLanguages => ["en", "pt"];
-    public static string[] SitemapTranslations => ["en", "pt"];
-
     private static AppLanguage? _appLanguage;
     private static readonly SemaphoreSlim _appLanguageSemaphore = new(1, 1);
 
     public static bool IsValidLanguage(this string? lang)
     {
-        return SupportedLanguages.Contains(lang);
+        return ConfigurationsStatic.SupportedLanguages.Contains(lang);
     }
 
     public static async Task<AppLanguage> GetAppLanguage(IJSRuntime js, CancellationToken cancellationToken)
@@ -158,8 +154,8 @@ public static class AppStateStatic
         {
             return language;
         }
-        else
-            return fallback;
+
+        return fallback;
     }
 
     public static string GetCulture(this NavigationManager navigation)

@@ -1,6 +1,6 @@
 ﻿using Microsoft.JSInterop;
 
-namespace DRMA.WEB.Core.Helper.Javascript
+namespace DRMA.WEB.Core.Javascript
 {
     public static class JsModules
     {

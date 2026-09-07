@@ -5,3 +5,5 @@ global using DRMA.Shared.Enums;
 global using DRMA.WEB.Core;
 global using DRMA.WEB.Core.Api;
 global using DRMA.WEB.Core.Helper;
+global using DRMA.WEB.Core.Javascript;
+global using DRMA.WEB.Shared;
