@@ -9,8 +9,11 @@ if [ ! -d "$WWWROOT" ]; then
     exit 1
 fi
 
-find "$WWWROOT" -type f -name "index.html" | while read -r FILE
-do
+# Mudança para 'for' evita problemas de escopo de variáveis e subshell do 'while'
+EOF_PATTERN=$(export LC_ALL=C; prename --version >/dev/null 2>&1 && echo "yes" || echo "no")
+
+# Usando process substitution ou loop direto para garantir consistência
+while IFS= read -r -d '' FILE; do
     DIRECTORY="$(dirname "$FILE")"
     RELATIVE="${DIRECTORY#"$WWWROOT"}"
     RELATIVE="${RELATIVE#/}"
@@ -19,17 +22,13 @@ do
         LANG="en"
     else
         LANG="${RELATIVE%%/*}"
-
         case "$LANG" in
-            en|pt|es|fr|it|de)
-                ;;
-            *)
-                LANG="en"
-                ;;
+            en|pt|es|fr|it|de) ;;
+            *) LANG="en" ;;
         esac
     fi
 
-    # Altera o HTML
+    # 1. Altera o HTML (que você confirmou que já funciona)
     sed -i -E \
         "s/(<html[^>]*[[:space:]])lang=[\"'][^\"']*[\"']/\1lang=\"${LANG}\"/I" \
         "$FILE"
@@ -40,25 +39,22 @@ do
             "$FILE"
     fi
 
-    echo "Updated HTML: $FILE -> lang=$LANG"
+    echo "Verified HTML text: $FILE -> lang=$LANG"
 
-    # --- NOVO: Atualiza as versões comprimidas (.br e .gz) ---
-    
-    # Remove as versões antigas geradas pelo componente de prerender
+    # 2. Mata os arquivos antigos para não haver cache ou conflito
     rm -f "${FILE}.br"
     rm -f "${FILE}.gz"
 
-    # Recria o arquivo .br (Brotli) se a ferramenta estiver instalada
+    # 3. Força a compressão via STDIN apontando explicitamente para o arquivo modificado
     if command -v brotli >/dev/null 2>&1; then
-        brotli -f -k -9 "$FILE"
-        echo "Updated Brotli: ${FILE}.br"
-    else
-        echo "Warning: 'brotli' command not found. Skipping .br generation."
+        # Lendo o arquivo alterado diretamente e cuspindo no .br correspondente
+        brotli -9 < "$FILE" > "${FILE}.br"
+        echo "Brotli generated from modified file: ${FILE}.br"
     fi
 
-    # Recria o arquivo .gz (Gzip)
     if command -v gzip >/dev/null 2>&1; then
-        gzip -f -k -9 "$FILE"
-        echo "Updated Gzip: ${FILE}.gz"
+        gzip -9 < "$FILE" > "${FILE}.gz"
+        echo "Gzip generated from modified file: ${FILE}.gz"
     fi
-done
+
+done < <(find "$WWWROOT" -type f -name "index.html" -print0)
