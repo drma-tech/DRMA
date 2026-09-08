@@ -33,13 +33,13 @@ namespace DRMA.WEB.Shared
         private string? CanonicalUrl => $"{AppInfo.WebSite.TrimEnd('/')}/{Url.TrimStart('/')}";
         private string? ImageUrl => Image ?? $"{AppInfo.WebSite}/icon/icon-192.png";
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (firstRender && !string.IsNullOrEmpty(Culture))
-            {
-                await Js.InvokeVoidAsync("setHtmlLang", Culture);
-            }
-        }
+        //protected override async Task OnAfterRenderAsync(bool firstRender)
+        //{
+        //    if (firstRender && !string.IsNullOrEmpty(Culture))
+        //    {
+        //        await Js.InvokeVoidAsync("setHtmlLang", Culture);
+        //    }
+        //}
 
         private string GetUrlForLanguage(string lang)
         {

@@ -76,7 +76,7 @@
 	</ItemGroup>
 	<PropertyGroup>
 		<BlazorWasmPrerenderingMode>Static</BlazorWasmPrerenderingMode>
-		<BlazorWasmPrerenderingUrlPathToExplicitFetch>/en</BlazorWasmPrerenderingUrlPathToExplicitFetch>
+		<BlazorWasmPrerenderingLocale>en,pt</BlazorWasmPrerenderingLocale>
 		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
 		<CurrentDate>$([System.DateTime]::Now.ToString(yyyy.MM.dd))</CurrentDate>
 		<EnableNETAnalyzers>True</EnableNETAnalyzers>
