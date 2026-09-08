@@ -85,7 +85,7 @@
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
 		<WriteLinesToFile File="$(ProjectDir)wwwroot\js\app-version.js" Lines="window.appVersion = '$(CurrentDate)';" Overwrite="true" />
 	</Target>
-	<Target Name="FixHtmlLangAttribute" AfterTargets="BlazorWasmPrerendering">
+	<Target Name="FixHtmlLangAttribute" BeforeTargets="GenerateBlazorWebAssemblyPublishCompressedFiles">
 		<Exec Condition="!$([MSBuild]::IsOSPlatform('WINDOWS'))" Command="bash &quot;$(MSBuildProjectDirectory)/FixHtmlLang.sh&quot; &quot;$(PublishDir)wwwroot&quot;" />
 	</Target>
 </Project>
