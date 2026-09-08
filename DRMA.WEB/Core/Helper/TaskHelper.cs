@@ -1,55 +1,50 @@
-﻿using System.Collections.Concurrent;
-
-namespace DRMA.WEB.Core.Helper
+﻿namespace SD.WEB.Core.Helper
 {
     /// <summary>
-    /// Lightweight TaskHelper that ensures a single running task per key/context.
-    /// If a new call arrives with a different context, the previous run is cancelled (cooperatively) and replaced.
+    /// Ensures that only one task is active for each key and context.
+    /// A new context cancels the previous task and starts a new one.
     /// </summary>
     public sealed class TaskHelper
     {
         private sealed class State
         {
-            public object Context = default!;
-            public CancellationTokenSource InternalCts = default!;
-            public Task Task = Task.CompletedTask;
+            public object? Context { get; init; }
+            public CancellationTokenSource CancellationTokenSource { get; init; } = default!;
+            public Task Task { get; set; } = Task.CompletedTask;
         }
 
-        private readonly ConcurrentDictionary<string, State> _states = new(StringComparer.OrdinalIgnoreCase);
+        private readonly Lock _sync = new();
+        private readonly Dictionary<string, State> _states = new(StringComparer.OrdinalIgnoreCase);
 
         public Task RunSingleAsync<TContext>(string key, TContext context, Func<CancellationToken, Task> factory, CancellationToken externalToken)
         {
-            var state = _states.AddOrUpdate(
-                key,
-                _ => CreateNewState(),
-                (_, existing) =>
+            lock (_sync)
+            {
+                if (_states.TryGetValue(key, out var existing))
                 {
                     if (Equals(existing.Context, context))
-                        return existing;
+                        return existing.Task;
 
-                    existing.InternalCts.Cancel();
-                    return CreateNewState();
-                });
+                    existing.CancellationTokenSource.Cancel();
+                }
 
-            return state.Task;
-
-            State CreateNewState()
-            {
                 var internalCts = new CancellationTokenSource();
                 var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(externalToken, internalCts.Token);
 
-                var newState = new State
+                var state = new State
                 {
-                    Context = context!,
-                    InternalCts = internalCts,
+                    Context = context,
+                    CancellationTokenSource = internalCts,
                 };
 
-                newState.Task = ExecuteAsync(newState, linkedCts);
+                _states[key] = state;
 
-                return newState;
+                state.Task = ExecuteAsync(state, linkedCts);
+
+                return state.Task;
             }
 
-            async Task ExecuteAsync(State localState, CancellationTokenSource linkedCts)
+            async Task ExecuteAsync(State state, CancellationTokenSource linkedCts)
             {
                 try
                 {
@@ -58,11 +53,14 @@ namespace DRMA.WEB.Core.Helper
                 finally
                 {
                     linkedCts.Dispose();
-                    localState.InternalCts.Dispose();
+                    state.CancellationTokenSource.Dispose();
 
-                    if (_states.TryGetValue(key, out var current) && ReferenceEquals(current, localState))
+                    lock (_sync)
                     {
-                        _states.TryRemove(key, out _);
+                        if (_states.TryGetValue(key, out var current) && ReferenceEquals(current, state))
+                        {
+                            _states.Remove(key);
+                        }
                     }
                 }
             }

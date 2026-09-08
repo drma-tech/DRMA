@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Track your streaming platforms, manage your watch progress, and discover what to watch next with curated lists and award winners.</value>
+  </data>
+  <data name="AwardsYear" xml:space="preserve">
+    <value>Explore films and series that won the year’s top awards. Discover main categories, winners, and celebrated titles recognized by critics and audiences.</value>
+  </data>
+  <data name="Compare" xml:space="preserve">
+    <value>Compare Streaming Discovery with aggregators. Find where to watch, multi-source ratings, expert reviews, curated lists, and global availability.</value>
+  </data>
+  <data name="EditorsChoice" xml:space="preserve">
+    <value>Discover our Editor’s Choice: {0} consistently rated highly across IMDb, TMDb, Metacritic, Rotten Tomatoes, Trakt, FilmAffinity, and Letterboxd.</value>
+  </data>
+  <data name="EditorsChoiceFranchise" xml:space="preserve">
+    <value>Discover the Editor's Choice: film franchises linked to our selection of acclaimed titles from platforms such as IMDb, TMDb, Metacritic, Rotten Tomatoes, Trakt, FilmAffinity, and Letterboxd.</value>
+  </data>
+  <data name="ExpectedMovies" xml:space="preserve">
+    <value>Discover the most anticipated movies of {0}, featuring upcoming blockbusters, fan favorites, and highly awaited releases hitting theaters and streaming.</value>
+  </data>
+  <data name="FreeWatch" xml:space="preserve">
+    <value>Discover free movies and series you can watch legally. Updated daily with streaming availability across multiple platforms.</value>
+  </data>
+  <data name="FreeWatchExtended" xml:space="preserve">
+    <value>Discover free {0} you can watch legally in {1}. Updated daily with streaming availability across multiple platforms.</value>
+  </data>
+  <data name="HelpCenter" xml:space="preserve">
+    <value>Get detailed guides, troubleshooting tips, FAQs, and contact support for {0}. Solve issues and discover features easily.</value>
+  </data>
+  <data name="News" xml:space="preserve">
+    <value>Get the latest news about {0} and pop culture updates. Stay up to date with everything happening in the world of entertainment.</value>
+  </data>
+  <data name="NewsShort" xml:space="preserve">
+    <value>Get the latest movies, TV shows, celebrity news, and pop culture updates.</value>
+  </data>
+  <data name="Platforms" xml:space="preserve">
+    <value>Explore streaming services that offer movies, TV shows, and documentaries. Discover platforms available in your region ({0}).</value>
+  </data>
+  <data name="PopularIndex" xml:space="preserve">
+    <value>See last week’s most popular {0}, ranked by audience interest. Stay up-to-date on trending entertainment picks.</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Keep track of what you want to watch, what you’re following, and your favorite streaming platforms.</value>
+  </data>
+  <data name="Trailers" xml:space="preserve">
+    <value>Watch the latest movie trailers and teasers in HD. Stay updated on upcoming films, blockbusters, and must-see releases.</value>
+  </data>
+  <data name="TrailersShort" xml:space="preserve">
+    <value>Watch the latest movie trailers and teasers in HD.</value>
+  </data>
+</root>

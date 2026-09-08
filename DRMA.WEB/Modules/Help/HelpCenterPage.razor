@@ -1,8 +1,8 @@
 ﻿@page "/{culture}/help"
 @inherits PageCore<HelpCenterPage>
 
-<HeadComponent Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")" Url=@($"/{Culture}/help") Index="true" />
-<PageSectionComponent IsPageHeader="true" Title="Help Center" Description="@($"Get detailed guides, troubleshooting tips, FAQs, and contact support for {AppInfo.CompanyName}. Solve issues and discover features easily.")"></PageSectionComponent>
+<HeadComponent Title="@Translations.Title.HelpCenter" Description="@Translations.Description.HelpCenter.CustomFormat(AppInfo.Title)" Url=@($"/{Culture}/help") Index="true"></HeadComponent>
+<PageSectionComponent IsPageHeader="true" Title="@Translations.Title.HelpCenter" Description="@Translations.Description.HelpCenter.CustomFormat(AppInfo.Title)"></PageSectionComponent>
 
 <PageSectionComponent Title="Troubleshooting">
     <BodyFragment>
@@ -10,20 +10,20 @@
             <MudItem xs="12" sm="6" md="4" lg="3">
                 <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@ShowCacheClick">
                     <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Memory"></MudIcon>
-                    Show Cache
+                    @Translations.Button.ShowCache
                 </MudButton>
             </MudItem>
             <MudItem xs="12" sm="6" md="4" lg="3">
                 <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@ClearCacheClick">
                     <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Clear"></MudIcon>
-                    Clear App Data
+                    @Translations.Button.ClearCache
                 </MudButton>
             </MudItem>
         </MudGrid>
     </BodyFragment>
 </PageSectionComponent>
 
-<PageSectionComponent Title="App Language">
+<PageSectionComponent Title="@Translations.Module.Help.AppLanguage">
     <BodyFragment>
         <MudGrid Spacing="@CssHelper.SpaceSmall">
             @foreach (var lang in EnumHelper.GetList<AppLanguage>().Where(p => ConfigurationsStatic.SitemapTranslations.Contains(p.Value.ToString())))

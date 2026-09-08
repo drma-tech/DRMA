@@ -10,7 +10,7 @@ public static class PopupHelper
 
     public static async Task SettingsPopup(this IDialogService service)
     {
-        await service.ShowAsync<SettingsPopup>("Settings", Options(MaxWidth.Small));
+        await service.ShowAsync<SettingsPopup>(Translations.Module.Help.Settings, Options(MaxWidth.Small));
     }
 
     public static DialogOptions Options(MaxWidth width, bool allowClose = true, bool showHeader = true)

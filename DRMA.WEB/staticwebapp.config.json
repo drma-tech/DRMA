@@ -1,10 +1,4 @@
 {
-  "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": [
-      "*.{css,scss,js,png,webp,gif,ico,jpg,svg,ttf,woff2,webmanifest}"
-    ]
-  },
   "globalHeaders": {
     //style-src 'unsafe-inline' is required by mudblazor and userback
     //script-src 'unsafe-eval' is been using by something

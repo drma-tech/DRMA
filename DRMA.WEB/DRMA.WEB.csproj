@@ -34,6 +34,46 @@
 	<ItemGroup>
 		<ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="Translations\Button.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Button.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Translations\Description.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Description.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Translations\Module\Help.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Help.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Translations\Title.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Title.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Update="Translations\Button.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Button.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Translations\Description.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Description.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Translations\Module\Help.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Help.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Translations\Title.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Title.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
 	<PropertyGroup>
 		<BlazorWasmPrerenderingMode>Static</BlazorWasmPrerenderingMode>
 		<BlazorWasmPrerenderingUrlPathToExplicitFetch>/en</BlazorWasmPrerenderingUrlPathToExplicitFetch>
