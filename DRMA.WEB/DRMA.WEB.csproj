@@ -12,8 +12,8 @@
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="BlazorWasmPreRendering.Build" Version="8.0.2" />
-		<PackageReference Include="Meziantou.Analyzer" Version="3.0.231">
+		<PackageReference Include="BlazorWasmPreRendering.Build" Version="10.0.0" />
+		<PackageReference Include="Meziantou.Analyzer" Version="3.0.266">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -22,8 +22,8 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.12" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="10.0.12" />
-		<PackageReference Include="MudBlazor" Version="9.9.0" />
-		<PackageReference Include="Sentry.AspNetCore.Blazor.WebAssembly" Version="6.10.0" />
+		<PackageReference Include="MudBlazor" Version="9.10.0" />
+		<PackageReference Include="Sentry.AspNetCore.Blazor.WebAssembly" Version="6.11.1" />
 		<PackageReference Include="Toolbelt.Blazor.PWA.Updater" Version="3.2.0" />
 	</ItemGroup>
 	<ItemGroup>
@@ -35,53 +35,53 @@
 		<ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Compile Update="Translations\Button.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Button.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Translations\Description.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Description.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Translations\Module\Help.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Help.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Translations\Notification.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Notification.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Translations\Title.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Title.resx</DependentUpon>
-	  </Compile>
+		<Compile Update="Translations\Button.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Button.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Description.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Description.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Module\Help.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Help.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Notification.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Notification.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Title.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Title.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 	<ItemGroup>
-	  <EmbeddedResource Update="Translations\Button.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Button.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Translations\Description.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Description.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Translations\Module\Help.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Help.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Translations\Notification.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Notification.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Translations\Title.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Title.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+		<EmbeddedResource Update="Translations\Button.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Button.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Description.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Description.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Module\Help.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Help.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Notification.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Notification.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Title.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Title.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
 	<PropertyGroup>
 		<BlazorWasmPrerenderingMode>Static</BlazorWasmPrerenderingMode>
