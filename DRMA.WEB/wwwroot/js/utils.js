@@ -300,6 +300,7 @@ export const environment = {
         );
 
         if (!googlesyndication) {
+            window.isAdBlocked = true;
             return true;
         }
 
@@ -313,6 +314,7 @@ export const environment = {
                 );
 
             if (!fundingchoicesmessages) {
+                window.isAdBlocked = true;
                 return true;
             }
         }
@@ -323,6 +325,7 @@ export const environment = {
         );
 
         if (!sentry) {
+            window.isAdBlocked = true;
             return true;
         }
 
@@ -331,6 +334,7 @@ export const environment = {
         );
 
         if (!clarity) {
+            window.isAdBlocked = true;
             return true;
         }
 
