@@ -56,9 +56,10 @@ export const storage = {
 
 export const notification = {
     showError(message) {
-        if (window.DotNet) {
+        if (window.DotNet?.invokeMethodAsync) {
             try {
-                window.DotNet.invokeMethodAsync("DRMA.WEB", "ShowError", message);
+                window.DotNet.invokeMethodAsync("DRMA.WEB", "ShowError", message)
+                    .catch(() => this.showToast(message));
             } catch {
                 this.showToast(message);
             }
@@ -68,7 +69,6 @@ export const notification = {
     },
     showToast(message, attempts = 20) {
         const stack = document.getElementById("toast-stack");
-        if (!stack) return;
 
         if (!stack) {
             if (attempts > 0) {
@@ -171,10 +171,12 @@ export const environment = {
         if (document.referrer === "app-info://platform/microsoft-store" && platform === "webapp") {
             platform = "windows";
             storage.setLocalStorage("platform", platform);
+            storage.setLocalStorage("is-mobile-app", window.appConfig?.isMobileApp === true ? "true" : "false");
             return;
         }
 
-        if (platform) return; //if its already detected, exit
+        let isMobileApp = storage.getLocalStorage("is-mobile-app");
+        if (platform && isMobileApp) return; //if its already detected, exit
 
         const ua = navigator.userAgent.toLowerCase();
         platform = "webapp"; //default value
@@ -200,9 +202,10 @@ export const environment = {
         }
 
         storage.setLocalStorage("platform", platform);
+        storage.setLocalStorage("is-mobile-app", window.appConfig?.isMobileApp === true ? "true" : "false");
     },
     async validateBrowserAndPlatform() {
-        if (!window.appConfig.blazorSupported) {
+        if (window.appConfig?.blazorSupported !== true) {
             notification.showBrowserWarning();
         }
     },
@@ -274,9 +277,10 @@ export const environment = {
         });
     },
     async isAdBlocked() {
-        if (window.appConfig.isLocalhost) { return false; }
-        if (window.appConfig.isBot) { return false; }
-        if (!window.appConfig.blazorSupported) { return false; }
+        if (!window.appConfig) { return false; }
+        if (window.appConfig?.isLocalhost === true) { return false; }
+        if (window.appConfig?.isBot === true) { return false; }
+        if (window.appConfig?.blazorSupported !== true) { return false; }
         if (window.isAdBlocked === false) { return false; }
 
         //detect if adsense exists
@@ -395,7 +399,7 @@ export const interop = {
     },
 };
 
-if (!window.appConfig.isBot) {
+if (window.appConfig?.isBot !== true) {
     environment.detectPlatform();
     environment.validateBrowserAndPlatform();
 }

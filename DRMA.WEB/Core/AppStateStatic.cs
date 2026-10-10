@@ -20,7 +20,7 @@ public static class AppStateStatic
 
     private static string? LastSnackbarMessage { get; set; }
     private static DateTime LastSnackbarAt { get; set; } = DateTime.MinValue;
-    private static readonly TimeSpan SnackbarDelay = TimeSpan.FromSeconds(10);
+    private static readonly TimeSpan SnackbarDelay = TimeSpan.FromSeconds(15);
 
     public static bool IsLocalhost(this NavigationManager navigation)
     {

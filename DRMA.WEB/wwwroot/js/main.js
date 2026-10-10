@@ -3,7 +3,7 @@
 const ua = navigator.userAgent;
 window.browser = window.bowser?.getParser ? window.bowser.getParser(ua) : null;
 const botUAs = ["google", "baidu", "bingbot", "duckduckbot", "teoma", "slurp", "yandex", "toutiao", "bytespider", "applebot", "crawler"];
-const isBot = botUAs.some(bot => ua.toLowerCase().includes(bot)) || navigator.webdriver;
+const isBot = botUAs.some(bot => ua.toLowerCase().includes(bot)) || navigator.webdriver === true;
 
 function testBrowserVersion(rules, ignore = false, fallback = false) {
     if (ignore) return false;
@@ -21,7 +21,7 @@ const wasmSupported = typeof WebAssembly === "object";
 const isLocalhost = window.location.hostname === "localhost";
 const isPrerendering = window.location.hostname === "127.0.0.1"
 const isDev = location.hostname.includes("develop");
-const isWebview = /webtonative/i.test(ua);
+const isMobileApp = /webtonative/i.test(ua);
 const isPrintScreen = location.href.includes("printscreen");
 
 //SIMD can be disabled by the browser if the hardware doesn't support it, so you have to test it in practice rather than just checking the browser version.
@@ -48,7 +48,7 @@ const disableServiceWorker = testBrowserVersion(
         safari: "<16.4", //mar 23
         opera: "<77", //jun 21
     },
-    isWebview,
+    isMobileApp,
     true // uncertain environment → disable
 );
 
@@ -68,7 +68,7 @@ window.appConfig = {
     isLocalhost,
     isPrerendering,
     isDev,
-    isWebview,
+    isMobileApp,
     isPrintScreen,
     servicesConfig,
     baseApiUrl

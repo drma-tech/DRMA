@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="xx">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -91,10 +91,10 @@
 
         try {
             if (window.Blazor) {
-                if (window.appConfig.blazorSupported) {
+                if (window.appConfig?.blazorSupported === true) {
                     Blazor.start({
                         configureRuntime: runtime => runtime.withConfig({
-                            loadAllSatelliteResources: window.appConfig.isPrerendering
+                            loadAllSatelliteResources: window.appConfig?.isPrerendering === true
                         })
                     })
                 }

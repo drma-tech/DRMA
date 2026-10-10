@@ -15,6 +15,7 @@ namespace DRMA.WEB.Shared
         [Parameter] public bool ShowHeader { get; set; } = true;
         [Parameter] public bool ShowActions { get; set; } = true;
         [Parameter] public string? UrlShare { get; set; }
+        [Parameter] public Typo TypoTitle { get; set; } = Typo.h2;
 
         //Layout
         [Parameter] public Color Color { get; set; } = Color.Primary;

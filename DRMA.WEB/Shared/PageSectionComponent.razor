@@ -97,7 +97,7 @@
                         }
                         @if (AppStateStatic.IsMobile)
                         {
-                            <MudText Typo="Typo.h2" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")" id="@Title.ToSlug()">
+                            <MudText Typo="@TypoTitle" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")" id="@Title.ToSlug()">
                                 @Title
                             </MudText>
                             @if (Subtitle.NotEmpty())
@@ -110,7 +110,7 @@
                         else
                         {
                             <div>
-                                <MudText Typo="Typo.h2" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")" id="@Title.ToSlug()">
+                                <MudText Typo="@TypoTitle" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")" id="@Title.ToSlug()">
                                     @Title
                                 </MudText>
                                 @if (Subtitle.NotEmpty())
