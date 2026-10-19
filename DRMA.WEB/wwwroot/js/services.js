@@ -38,7 +38,10 @@ export const services = {
         const clarityCheckInterval = setInterval(function () {
             if (window.clarity) {
                 clearInterval(clarityCheckInterval);
-                window.clarity("consent");
+                window.clarity("consentv2", {
+                    ad_Storage: "granted",
+                    analytics_Storage: "granted"
+                });
                 return;
             }
 

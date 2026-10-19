@@ -7,15 +7,29 @@ namespace DRMA.WEB.Core.Javascript
     {
         protected async Task InvokeVoid(string identifier, CancellationToken cancellationToken, params object?[] args)
         {
-            var module = await JsModuleLoader.Load(js, path, cancellationToken);
-            await module.InvokeVoidAsync(identifier, cancellationToken, args);
+            try
+            {
+                var module = await JsModuleLoader.Load(js, path, cancellationToken);
+                await module.InvokeVoidAsync(identifier, cancellationToken, args);
+            }
+            catch (OperationCanceledException)
+            {
+                // ignore
+            }
         }
 
         protected async Task<T> Invoke<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)] T>
             (string identifier, CancellationToken cancellationToken, params object?[] args)
         {
-            var module = await JsModuleLoader.Load(js, path, cancellationToken);
-            return await module.InvokeAsync<T>(identifier, cancellationToken, args);
+            try
+            {
+                var module = await JsModuleLoader.Load(js, path, cancellationToken);
+                return await module.InvokeAsync<T>(identifier, cancellationToken, args);
+            }
+            catch (OperationCanceledException)
+            {
+                return default!;
+            }
         }
     }
 }

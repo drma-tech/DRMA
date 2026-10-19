@@ -51,7 +51,6 @@
     <div id="blazor-error-ui">
         An unhandled error has occurred.
         <button onclick="location.reload()">Reload</button>
-        <span class="dismiss">🗙</span>
     </div>
 
     <noscript>
@@ -96,7 +95,10 @@
                         configureRuntime: runtime => runtime.withConfig({
                             loadAllSatelliteResources: window.appConfig?.isPrerendering === true
                         })
-                    })
+                    }).catch(error => {
+                        showToast2(error.message);
+                        Sentry.captureException(error);
+                    });
                 }
                 else {
                     //todo: replace with showBrowserWarning
@@ -111,8 +113,8 @@
                 );
             }
         } catch (error) {
-            Sentry.captureException(error);
             showToast2(error.message);
+            Sentry.captureException(error);
         }
     </script>
 

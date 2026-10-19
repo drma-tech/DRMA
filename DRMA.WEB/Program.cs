@@ -12,16 +12,27 @@ using Toolbelt.Blazor.Extensions.DependencyInjection;
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 var userDomain = new Uri(builder.HostEnvironment.BaseAddress).Host;
 
+//var ignoredErrors = new[]
+//{
+//    "failed to fetch",
+//};
+
 builder.UseSentry(options =>
 {
     options.Dsn = "https://9d67a029559a76d507d4437b586e778f@o4510938040041472.ingest.us.sentry.io/4510942795005952";
     options.DiagnosticLevel = SentryLevel.Warning;
-    options.Environment = builder.HostEnvironment.Environment;
+    options.Environment = builder.HostEnvironment.Environment.ToLowerInvariant();
 
     options.TracePropagationTargets = []; //Disable tracing because it breaks communication with external APIs.
 
     options.SetBeforeSend(evt =>
     {
+        //var errorText = $"{evt.Message?.Formatted} {evt.Exception}";
+        //if (ignoredErrors.Any(error => errorText.Contains(error, StringComparison.OrdinalIgnoreCase)))
+        //{
+        //    return null;
+        //}
+
         const string error = "error";
 
         evt.Release = $"drma-blazor@{AppStateStatic.Version ?? error}";

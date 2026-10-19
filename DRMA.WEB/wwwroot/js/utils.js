@@ -28,14 +28,22 @@ export const storage = {
             notification.showError("Key/value must be strings");
             return null;
         }
-        localStorage.setItem(key, value);
+        try {
+            localStorage.setItem(key, value);
+        } catch (e) {
+            notification.showError(e.message);
+        }
     },
     setSessionStorage(key, value) {
         if (typeof key !== "string" || typeof value !== "string") {
             notification.showError("Key/value must be strings");
             return null;
         }
-        sessionStorage.setItem(key, value);
+        try {
+            sessionStorage.setItem(key, value);
+        } catch (e) {
+            notification.showError(e.message);
+        }
     },
     removeLocalStorage(key) {
         localStorage.removeItem(key);

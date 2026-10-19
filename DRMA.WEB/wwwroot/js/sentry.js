@@ -21,14 +21,10 @@ window.sentryOnLoad = function () {
         sendDefaultPii: true, // enable ip
         release: `drma-js@${window.appVersion}`,
         environment: env,
+        ignoreErrors: ignoredErrors,
         beforeSend(event) {
-            const message = event.exception?.values?.[0]?.value || event.message || "";
-
-            if (message && ignoredErrors.some(err => err.test(message))) {
-                return null;
-            }
-
             event.tags = {
+                ...event.tags,
                 "custom.version": window.appVersion,
                 "custom.platform": storage.getLocalStorage("platform") ?? "unknown",
                 "custom.isAdBlocked": window.isAdBlocked ?? "unknown",
@@ -38,6 +34,7 @@ window.sentryOnLoad = function () {
                 "custom.disableServiceWorker": window.appConfig?.disableServiceWorker ?? "unknown",
             };
             event.extra = {
+                ...event.extra,
                 browser_name: environment.getBrowserName() ?? "unknown",
                 browser_version: environment.getBrowserVersion() ?? "unknown",
                 operation_system: environment.getOperatingSystem() ?? "unknown",
