@@ -69,8 +69,8 @@ async function onFetch(event) {
             cachedResponse = await cache.match(request);
         }
 
-        return cachedResponse || fetch(event.request);
+        return cachedResponse || await fetch(event.request);
     } catch (e) {
-        console.error(`Service worker: Fetch failed (${event.request.url})`, e);
+        console.error(`Service worker: Fetch failed (${event.request.method} ${event.request.url})`, e);
     }
 }
