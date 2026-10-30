@@ -40,7 +40,48 @@ window.sentryOnLoad = function () {
                 operation_system: environment.getOperatingSystem() ?? "unknown",
             };
 
+            if (isOpaqueScriptError(event)) {
+                event.tags["custom.opaqueScriptError"] = "true";
+
+                event.extra = {
+                    ...event.extra,
+                    page_url: window.location.href,
+                    recent_scripts: getRecentScripts(),
+                };
+            }
+
             return event;
         },
     });
+}
+
+function getRecentScripts(limit = 20) {
+    return performance
+        .getEntriesByType("resource")
+        .filter(entry => entry.initiatorType === "script")
+        .slice(-limit)
+        .map(entry => {
+            try {
+                const url = new URL(entry.name);
+
+                return {
+                    url: `${url.origin}${url.pathname}`,
+                    duration_ms: Math.round(entry.duration),
+                };
+            } catch {
+                return {
+                    url: "unknown",
+                    duration_ms: Math.round(entry.duration),
+                };
+            }
+        });
+}
+
+function isOpaqueScriptError(event) {
+    const messages = [
+        event.message,
+        ...(event.exception?.values ?? []).map(exception => exception.value),
+    ];
+
+    return messages.some(message => message === "Script error.");
 }

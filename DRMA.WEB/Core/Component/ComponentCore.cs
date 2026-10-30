@@ -48,7 +48,7 @@ public abstract class ComponentCore<T> : ComponentBase, IDisposable where T : cl
         {
             await base.OnInitializedAsync();
 
-            AppStateStatic.BreakpointChanged.Subscribe((bp) => _ = InvokeAsync(StateHasChanged), Cts.Token);
+            AppStateStatic.BreakpointChanged.Subscribe((bp) => StateHasChanged(), Cts.Token);
 
             await LoadStaticDataAsync();
         }

@@ -9,7 +9,7 @@ public static class AppStateStatic
     public static bool IsAuthenticated { get; set; }
 
     public static Size Size { get; set; } = Size.Small;
-    public static Breakpoint Breakpoint { get; set; } = Breakpoint.Xs;
+    public static Breakpoint Breakpoint { get; set; } = Breakpoint.Md;
     public static ActionDispatcher<Breakpoint> BreakpointChanged { get; } = new();
     public static bool IsMobile => Breakpoint == Breakpoint.Xs;
 
@@ -129,7 +129,7 @@ public static class AppStateStatic
             }
             else
             {
-                var code = await js.Window().InvokeAsync<string>("eval", "navigator.language");
+                var code = await js.Window().InvokeAsync<string>("eval", cancellationToken, "navigator.language");
                 code = code[..2].ToLowerInvariant();
 
                 _appLanguage = ConvertAppLanguage(code, AppLanguage.en);

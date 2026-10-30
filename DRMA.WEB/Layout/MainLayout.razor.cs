@@ -83,7 +83,7 @@ namespace DRMA.WEB.Layout
         [JSInvokable]
         public static void ShowError(string error)
         {
-            _ = BufferedEvent.Invoke(nameof(ShowError), error);
+            BufferedEvent.Invoke(nameof(ShowError), error).FireAndForget();
         }
 
         private bool isDisposed;

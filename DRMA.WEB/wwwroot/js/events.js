@@ -16,6 +16,33 @@ window.addEventListener("error", function (event) {
         return;
     }
 
+    if (message === "Script error.") {
+        const details = {
+            script_url: filename || null,
+            line: lineno || null,
+            column: colno || null,
+            stack: error?.stack || null,
+            page_url: window.location.href,
+            referrer: document.referrer || null,
+        };
+
+        const hasDetails = details.script_url || details.stack;
+
+        if (hasDetails) {
+            Sentry.captureMessage(`Script error: ${JSON.stringify(details)}`, "error");
+        } else {
+            Sentry.captureMessage("Script error: details unavailable", {
+                level: "error",
+                tags: {
+                    error_type: "cross_origin_script_error",
+                },
+                extra: details,
+            });
+        }
+
+        return;
+    }
+
     notification.showError(`error: ${message}`);
 });
 

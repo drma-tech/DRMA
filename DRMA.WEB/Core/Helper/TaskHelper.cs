@@ -1,4 +1,4 @@
-﻿namespace SD.WEB.Core.Helper
+namespace SD.WEB.Core.Helper
 {
     /// <summary>
     /// Ensures that only one task is active for each key and context.

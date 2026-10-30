@@ -16,6 +16,10 @@ namespace DRMA.WEB.Core.Javascript
             {
                 // ignore
             }
+            catch (Exception ex) when (ex.Message.Contains("AbortError", StringComparison.OrdinalIgnoreCase))
+            {
+                // ignore
+            }
         }
 
         protected async Task<T> Invoke<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)] T>
@@ -27,6 +31,10 @@ namespace DRMA.WEB.Core.Javascript
                 return await module.InvokeAsync<T>(identifier, cancellationToken, args);
             }
             catch (OperationCanceledException)
+            {
+                return default!;
+            }
+            catch (Exception ex) when (ex.Message.Contains("AbortError", StringComparison.OrdinalIgnoreCase))
             {
                 return default!;
             }

@@ -388,7 +388,7 @@ export const interop = {
                 }
             }
             await new Promise((resolve) => setTimeout(resolve, delay));
-            delay = Math.min(delay * 1.5, maxDelay);
+            delay = Math.min(delay * 2, maxDelay);
         }
 
         throw new Error(`Blazor runtime never ready to receive JSInvokable ${method} from assembly ${assembly}`);
