@@ -16,6 +16,10 @@ window.addEventListener("error", function (event) {
         return;
     }
 
+    if (message.includes("Failed to fetch")) {
+        return;
+    }
+
     if (message === "Script error.") {
         const details = {
             script_url: filename || null,

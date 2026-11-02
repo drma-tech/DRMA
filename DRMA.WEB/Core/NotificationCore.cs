@@ -1,4 +1,5 @@
 ﻿using MudBlazor;
+using System.Runtime.CompilerServices;
 
 namespace DRMA.WEB.Core;
 
@@ -31,7 +32,7 @@ public static class NotificationCore
         }
     }
 
-    public static void ProcessException(this Exception ex, ISnackbar snackbar, ILogger logger)
+    public static void ProcessException(this Exception ex, ISnackbar snackbar, ILogger logger, [CallerMemberName] string caller = "", [CallerFilePath] string file = "", [CallerLineNumber] int line = 0)
     {
         if (ex is NotificationException exc)
         {
@@ -44,6 +45,10 @@ public static class NotificationCore
         }
         else
         {
+            ex.Data["ProcessException.caller"] = caller;
+            ex.Data["ProcessException.file"] = Path.GetFileName(file);
+            ex.Data["ProcessException.line"] = line;
+
             logger.Error(ex, ex.Message);
             snackbar.Add(ex.Message, Severity.Error);
         }

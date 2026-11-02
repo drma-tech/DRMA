@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
+using System.Runtime.CompilerServices;
 
 namespace DRMA.WEB.Core.Component;
 
@@ -22,7 +23,7 @@ public abstract class ComponentCore<T> : ComponentBase, IDisposable where T : cl
 
     /// <summary>
     /// To load static data that does not change and does not depend on parameters.
-    /// 
+    ///
     /// Note: Omitting the await (_ = task) can cause static page generation to fail.
     /// </summary>
     /// <returns></returns>
@@ -125,7 +126,7 @@ public abstract class ComponentCore<T> : ComponentBase, IDisposable where T : cl
         await JsRuntime.Utils().Vibrate([200, 100, 200], CancellationToken.None);
     }
 
-    protected async Task ProcessException(Exception ex, bool showMessage = true)
+    protected async Task ProcessException(Exception ex, bool showMessage = true, [CallerMemberName] string caller = "", [CallerFilePath] string file = "", [CallerLineNumber] int line = 0)
     {
         if (ex is NotificationException exc)
         {
@@ -138,6 +139,10 @@ public abstract class ComponentCore<T> : ComponentBase, IDisposable where T : cl
         }
         else
         {
+            ex.Data["ProcessException.caller"] = caller;
+            ex.Data["ProcessException.file"] = Path.GetFileName(file);
+            ex.Data["ProcessException.line"] = line;
+
             Logger.Error(ex, ex.Message);
             if (showMessage) await ShowError(ex.Message);
         }

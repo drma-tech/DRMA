@@ -29,7 +29,6 @@ public static class TaskExtensions
         }
         catch (Exception ex)
         {
-            ex.Data["fire_and_forget.task_id"] = task.Id;
             ex.Data["fire_and_forget.task_status"] = task.Status.ToString();
             ex.Data["fire_and_forget.caller"] = caller;
             ex.Data["fire_and_forget.file"] = Path.GetFileName(file);
