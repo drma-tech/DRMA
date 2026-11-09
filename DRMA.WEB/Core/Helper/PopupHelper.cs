@@ -1,5 +1,4 @@
-﻿using DRMA.WEB.Shared;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace DRMA.WEB.Core.Helper;

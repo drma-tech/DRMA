@@ -142,13 +142,13 @@
     <value>Confirm</value>
   </data>
   <data name="ContinueWebsite" xml:space="preserve">
-    <value>Continue to Website</value>
+    <value>Continue to website</value>
   </data>
   <data name="Follow" xml:space="preserve">
     <value>Follow</value>
   </data>
   <data name="LoadMore" xml:space="preserve">
-    <value>Load More</value>
+    <value>Load more</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
@@ -166,16 +166,13 @@
     <value>OK</value>
   </data>
   <data name="ReadMore" xml:space="preserve">
-    <value>Read More</value>
-  </data>
-  <data name="Recent" xml:space="preserve">
-    <value>Recent</value>
+    <value>Read more</value>
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
   </data>
   <data name="RemoveAdvertising" xml:space="preserve">
-    <value>Remove Advertising</value>
+    <value>Remove ads</value>
   </data>
   <data name="RemoveCollection" xml:space="preserve">
     <value>Remove Collection</value>
@@ -187,13 +184,13 @@
     <value>Share</value>
   </data>
   <data name="ShowCache" xml:space="preserve">
-    <value>Show Cache</value>
+    <value>Show cache</value>
   </data>
   <data name="Unfollow" xml:space="preserve">
     <value>Unfollow</value>
   </data>
   <data name="UnlockBenefits" xml:space="preserve">
-    <value>Unlock Benefits</value>
+    <value>Unlock benefits</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Update</value>

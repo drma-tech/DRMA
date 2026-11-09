@@ -151,7 +151,7 @@
     <value>Carregar mais</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Conecte-se</value>
+    <value>Entrar</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Sair</value>
@@ -167,9 +167,6 @@
   </data>
   <data name="ReadMore" xml:space="preserve">
     <value>Leia mais</value>
-  </data>
-  <data name="Recent" xml:space="preserve">
-    <value>Recente</value>
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Remover</value>

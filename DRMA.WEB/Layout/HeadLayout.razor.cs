@@ -40,8 +40,15 @@ namespace DRMA.WEB.Layout
 
         private async Task OpenConfigurations()
         {
-            _openMenu = false;
-            await DialogService.SettingsPopup();
+            try
+            {
+                _openMenu = false;
+                await DialogService.SettingsPopup();
+            }
+            catch (Exception ex)
+            {
+                ex.ProcessException(Snackbar, Logger);
+            }
         }
 
         private Color GetColor(string endpoint)

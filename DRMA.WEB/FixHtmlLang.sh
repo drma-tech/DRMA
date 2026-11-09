@@ -4,7 +4,7 @@ set -e
 
 WWWROOT="$1"
 
-if [ ! -d "$WWWROOT" ]; then
+if [[ ! -d "$WWWROOT" ]]; then
     echo "Directory not found: $WWWROOT"
     exit 1
 fi
@@ -14,7 +14,7 @@ while IFS= read -r -d '' FILE; do
     RELATIVE="${DIRECTORY#"$WWWROOT"}"
     RELATIVE="${RELATIVE#/}"
 
-    if [ -z "$RELATIVE" ]; then
+    if [[ -z "$RELATIVE" ]]; then
         PAGE_LANG="en"
     else
         PAGE_LANG="${RELATIVE%%/*}"
@@ -39,8 +39,6 @@ while IFS= read -r -d '' FILE; do
             "$FILE"
     fi
 
-    echo "Updated HTML: $FILE -> lang=$PAGE_LANG"
-
     # Remove the old compressed versions
     rm -f "${FILE}.br"
     rm -f "${FILE}.gz"
@@ -48,7 +46,6 @@ while IFS= read -r -d '' FILE; do
     # Generate Brotli from the modified HTML
     if command -v brotli >/dev/null 2>&1; then
         brotli -9 < "$FILE" > "${FILE}.br"
-        echo "Updated Brotli: ${FILE}.br"
     else
         echo "Warning: brotli is not installed"
     fi
@@ -56,7 +53,6 @@ while IFS= read -r -d '' FILE; do
     # Generate Gzip from the modified HTML
     if command -v gzip >/dev/null 2>&1; then
         gzip -9 < "$FILE" > "${FILE}.gz"
-        echo "Updated Gzip: ${FILE}.gz"
     else
         echo "Warning: gzip is not installed"
     fi

@@ -118,22 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppLanguage" xml:space="preserve">
-    <value>App Language</value>
+    <value>App language</value>
   </data>
   <data name="AppLanguageDesc" xml:space="preserve">
     <value>Translates the app interface. Partial translations may apply for some languages.</value>
   </data>
   <data name="AppTheme" xml:space="preserve">
-    <value>App Theme</value>
+    <value>App theme</value>
   </data>
   <data name="ContentLanguage" xml:space="preserve">
-    <value>Content Language</value>
+    <value>Content language</value>
   </data>
   <data name="ContentLanguageDesc" xml:space="preserve">
     <value>Translates titles, descriptions, posters, and other content from movies or TV shows.</value>
   </data>
   <data name="DarkMode" xml:space="preserve">
-    <value>Dark Mode</value>
+    <value>Dark mode</value>
   </data>
   <data name="GetTheApp" xml:space="preserve">
     <value>Get the App</value>
@@ -142,7 +142,7 @@
     <value>Help</value>
   </data>
   <data name="LightMode" xml:space="preserve">
-    <value>Light Mode</value>
+    <value>Light mode</value>
   </data>
   <data name="MorefromDRMATech" xml:space="preserve">
     <value>More from DRMA Tech</value>
@@ -157,7 +157,7 @@
     <value>Settings</value>
   </data>
   <data name="Step1Subtitle" xml:space="preserve">
-    <value>Explore hundreds of thousands of movies and series from over 800 streaming platforms in 140 countries, your entire streaming life in one place.</value>
+    <value>Explore hundreds of thousands of movies and series across 800+ streaming platforms in 140 countries, bringing your entire streaming experience together in one place.</value>
   </data>
   <data name="Step1Title" xml:space="preserve">
     <value>Discover a world of entertainment.</value>

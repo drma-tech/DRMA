@@ -118,37 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AdBlockerDetected" xml:space="preserve">
-    <value>AdBlocker detected. Please consider whitelisting our app to support us. Thank you!</value>
-  </data>
-  <data name="Beta" xml:space="preserve">
-    <value>This platform is still under development. Some modules may be partially functional or not yet implemented.</value>
+    <value>Ad blocker detected. Please consider adding our app to your allowlist to support us. Thank you!</value>
   </data>
   <data name="CheckOurApps" xml:space="preserve">
     <value>Explore our other amazing apps:</value>
-  </data>
-  <data name="RenderControlInvalid" xml:space="preserve">
-    <value>Invalid operation. Please try again.</value>
-  </data>
-  <data name="RenderControlLoading" xml:space="preserve">
-    <value>Loading...</value>
-  </data>
-  <data name="RenderControlNoData" xml:space="preserve">
-    <value>Data not available</value>
   </data>
   <data name="ExternalWebsiteNotice" xml:space="preserve">
     <value>External Website Notice</value>
   </data>
   <data name="FeatureUnavailableDescription" xml:space="preserve">
-    <value>Wait for news...</value>
+    <value>Stay tuned for updates.</value>
   </data>
   <data name="FeatureUnavailableMessage" xml:space="preserve">
-    <value>Under development</value>
+    <value>This feature is under development.</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
   <data name="OperationCanceled" xml:space="preserve">
-    <value>Operation cancelled!</value>
+    <value>Operation canceled!</value>
   </data>
   <data name="OperationCompleted" xml:space="preserve">
     <value>Operation completed successfully!</value>

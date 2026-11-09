@@ -144,9 +144,6 @@
   <data name="Franchises" xml:space="preserve">
     <value>Franquias</value>
   </data>
-  <data name="FreeProviders" xml:space="preserve">
-    <value>Plataformas de streaming gratuitas ({0})</value>
-  </data>
   <data name="FreeWatch" xml:space="preserve">
     <value>Grátis para assistir</value>
   </data>
@@ -157,7 +154,7 @@
     <value>Central de Ajuda</value>
   </data>
   <data name="Main" xml:space="preserve">
-    <value>Principal</value>
+    <value>Início</value>
   </data>
   <data name="News" xml:space="preserve">
     <value>Últimas Notícias</value>
@@ -175,6 +172,6 @@
     <value>Plataformas de streaming ({0})</value>
   </data>
   <data name="Trailers" xml:space="preserve">
-    <value>Últimos Trailers</value>
+    <value>Últimos trailers</value>
   </data>
 </root>

@@ -8,7 +8,6 @@ public static class AppStateStatic
 {
     public static bool IsAuthenticated { get; set; }
 
-    public static Size Size { get; set; } = Size.Small;
     public static Breakpoint Breakpoint { get; set; } = Breakpoint.Md;
     public static ActionDispatcher<Breakpoint> BreakpointChanged { get; } = new();
     public static bool IsMobile => Breakpoint == Breakpoint.Xs;

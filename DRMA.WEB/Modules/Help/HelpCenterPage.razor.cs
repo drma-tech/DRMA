@@ -4,12 +4,31 @@ namespace DRMA.WEB.Modules.Help
     {
         private async Task ShowCacheClick()
         {
-            await JsRuntime.Utils().ShowCache(Cts.Token);
+            try
+            {
+                await JsRuntime.Utils().ShowCache(Cts.Token);
+            }
+            catch (Exception ex)
+            {
+                await ProcessException(ex);
+            }
+        }
+
+        private void ShowConsole()
+        {
+            Navigation.NavigateTo("w2n://console-screen");
         }
 
         private async Task ClearCacheClick()
         {
-            await JsRuntime.Utils().ClearAllStorage();
+            try
+            {
+                await JsRuntime.Utils().ClearAllStorage();
+            }
+            catch (Exception ex)
+            {
+                await ProcessException(ex);
+            }
         }
 
         private void AppLanguageClick(AppLanguage lang)

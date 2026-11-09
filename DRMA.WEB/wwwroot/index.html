@@ -20,7 +20,7 @@
 
     <script type="importmap"></script>
 
-    <script src="package/bowser/es5.min.js"></script> <!--https://www.jsdelivr.com/package/npm/bowser - 2.14.1-->
+    <script src="package/bowser/es5.min.js"></script> <!--https://www.jsdelivr.com/package/npm/bowser - 2.15.0-->
 
     <script src="js/app-version.js"></script>
     <script src="js/main.js"></script>
@@ -97,7 +97,7 @@
                         })
                     }).catch(error => {
                         showToast2(error.message);
-                        Sentry.captureException(error);
+                        Sentry?.captureException(error);
                     });
                 }
                 else {
@@ -114,7 +114,7 @@
             }
         } catch (error) {
             showToast2(error.message);
-            Sentry.captureException(error);
+            Sentry?.captureException(error);
         }
     </script>
 

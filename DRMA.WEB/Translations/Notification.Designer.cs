@@ -61,20 +61,11 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AdBlocker detected. Please consider whitelisting our app to support us. Thank you!.
+        ///   Looks up a localized string similar to Ad blocker detected. Please consider adding our app to your allowlist to support us. Thank you!.
         /// </summary>
         public static string AdBlockerDetected {
             get {
                 return ResourceManager.GetString("AdBlockerDetected", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This platform is still under development. Some modules may be partially functional or not yet implemented..
-        /// </summary>
-        public static string Beta {
-            get {
-                return ResourceManager.GetString("Beta", resourceCulture);
             }
         }
         
@@ -97,7 +88,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wait for news....
+        ///   Looks up a localized string similar to Stay tuned for updates..
         /// </summary>
         public static string FeatureUnavailableDescription {
             get {
@@ -106,7 +97,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Under development.
+        ///   Looks up a localized string similar to This feature is under development..
         /// </summary>
         public static string FeatureUnavailableMessage {
             get {
@@ -124,7 +115,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operation cancelled!.
+        ///   Looks up a localized string similar to Operation canceled!.
         /// </summary>
         public static string OperationCanceled {
             get {
@@ -165,33 +156,6 @@ namespace DRMA.WEB.Translations {
         public static string PWAUpdaterText {
             get {
                 return ResourceManager.GetString("PWAUpdaterText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid operation. Please try again..
-        /// </summary>
-        public static string RenderControlInvalid {
-            get {
-                return ResourceManager.GetString("RenderControlInvalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Loading....
-        /// </summary>
-        public static string RenderControlLoading {
-            get {
-                return ResourceManager.GetString("RenderControlLoading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Data not available.
-        /// </summary>
-        public static string RenderControlNoData {
-            get {
-                return ResourceManager.GetString("RenderControlNoData", resourceCulture);
             }
         }
         

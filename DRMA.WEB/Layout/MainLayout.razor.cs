@@ -41,7 +41,6 @@ namespace DRMA.WEB.Layout
             {
                 //Get the value at the beginning (NotifyBrowserViewportChangeAsync is too slow)
                 AppStateStatic.Breakpoint = await BrowserViewportService.GetCurrentBreakpointAsync();
-                AppStateStatic.Size = AppStateStatic.Breakpoint == Breakpoint.Xs ? Size.Small : Size.Medium;
                 AppStateStatic.BreakpointChanged.Publish(AppStateStatic.Breakpoint);
 
                 try
@@ -64,7 +63,7 @@ namespace DRMA.WEB.Layout
                 var system = await _mudThemeProvider.GetSystemDarkModeAsync();
                 darkMode = system;
 
-                await JsRuntime.Utils().SetStorage("dark-mode", darkMode ?? false, JavascriptContext.Default.Boolean, cancellationToken);
+                await JsRuntime.Utils().SetStorage("dark-mode", system, JavascriptContext.Default.Boolean, cancellationToken);
             }
 
             AppStateStatic.ChangeDarkMode(darkMode ?? false);

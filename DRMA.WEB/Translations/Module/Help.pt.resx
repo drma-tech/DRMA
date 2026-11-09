@@ -118,22 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppLanguage" xml:space="preserve">
-    <value>Idioma do App</value>
+    <value>Idioma do aplicativo</value>
   </data>
   <data name="AppLanguageDesc" xml:space="preserve">
     <value>Traduz a interface do aplicativo. Traduções parciais podem ser aplicadas em alguns idiomas.</value>
   </data>
   <data name="AppTheme" xml:space="preserve">
-    <value>Tema do App</value>
+    <value>Tema do aplicativo</value>
   </data>
   <data name="ContentLanguage" xml:space="preserve">
-    <value>Idioma do Conteúdo</value>
+    <value>Idioma do conteúdo</value>
   </data>
   <data name="ContentLanguageDesc" xml:space="preserve">
     <value>Traduz títulos, descrições, pôsteres e outros conteúdos de filmes ou séries.</value>
   </data>
   <data name="DarkMode" xml:space="preserve">
-    <value>Modo Escuro</value>
+    <value>Modo escuro</value>
   </data>
   <data name="GetTheApp" xml:space="preserve">
     <value>Baixe o aplicativo</value>
@@ -142,7 +142,7 @@
     <value>Ajuda</value>
   </data>
   <data name="LightMode" xml:space="preserve">
-    <value>Modo Claro</value>
+    <value>Modo claro</value>
   </data>
   <data name="MorefromDRMATech" xml:space="preserve">
     <value>Mais de DRMA Tech</value>

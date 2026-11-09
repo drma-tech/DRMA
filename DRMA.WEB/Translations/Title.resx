@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppSubtitle" xml:space="preserve">
-    <value>Discover Movies and Series on Streaming Platforms</value>
+    <value>Discover Movies and TV Shows Across Streaming Platforms</value>
   </data>
   <data name="AwardsOfTheYear" xml:space="preserve">
-    <value>Best awards of the {0}</value>
+    <value>Top Awards of {0}</value>
   </data>
   <data name="Compare" xml:space="preserve">
     <value>Compare</value>
@@ -133,7 +133,7 @@
     <value>Editor’s Choice</value>
   </data>
   <data name="ExpectedMovieOfYear" xml:space="preserve">
-    <value>Most Expected Movies of {0}</value>
+    <value>Most Anticipated Movies of {0}</value>
   </data>
   <data name="FAQ" xml:space="preserve">
     <value>FAQ</value>
@@ -143,9 +143,6 @@
   </data>
   <data name="Franchises" xml:space="preserve">
     <value>Franchises</value>
-  </data>
-  <data name="FreeProviders" xml:space="preserve">
-    <value>Free Streaming Platforms ({0})</value>
   </data>
   <data name="FreeWatch" xml:space="preserve">
     <value>Free to Watch</value>
@@ -157,10 +154,10 @@
     <value>Help Center</value>
   </data>
   <data name="Main" xml:space="preserve">
-    <value>Main</value>
+    <value>Home</value>
   </data>
   <data name="News" xml:space="preserve">
-    <value>Last News</value>
+    <value>Latest News</value>
   </data>
   <data name="PlatformDetail" xml:space="preserve">
     <value>{0}: Popular, New &amp; Recommended Movies &amp; Series</value>
@@ -175,6 +172,6 @@
     <value>Streaming Platforms ({0})</value>
   </data>
   <data name="Trailers" xml:space="preserve">
-    <value>Last Trailers</value>
+    <value>Latest Trailers</value>
   </data>
 </root>

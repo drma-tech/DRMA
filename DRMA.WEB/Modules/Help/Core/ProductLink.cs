@@ -1,9 +1,10 @@
 ﻿namespace DRMA.WEB.Modules.Help.Core
 {
-    public class ProductLink(string title, string subTitle, string url, string logo, bool live)
+    public class ProductLink(string title, string subTitle, string description, string url, string logo, bool live)
     {
         public string Title { get; set; } = title;
         public string SubTitle { get; set; } = subTitle;
+        public string Description { get; set; } = description;
         public string Url { get; set; } = url;
         public string Logo { get; set; } = logo;
         public bool Live { get; set; } = live;

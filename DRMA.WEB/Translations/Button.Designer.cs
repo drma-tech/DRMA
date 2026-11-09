@@ -133,7 +133,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Continue to Website.
+        ///   Looks up a localized string similar to Continue to website.
         /// </summary>
         public static string ContinueWebsite {
             get {
@@ -151,7 +151,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Load More.
+        ///   Looks up a localized string similar to Load more.
         /// </summary>
         public static string LoadMore {
             get {
@@ -205,20 +205,11 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Read More.
+        ///   Looks up a localized string similar to Read more.
         /// </summary>
         public static string ReadMore {
             get {
                 return ResourceManager.GetString("ReadMore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Recent.
-        /// </summary>
-        public static string Recent {
-            get {
-                return ResourceManager.GetString("Recent", resourceCulture);
             }
         }
         
@@ -232,7 +223,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove Advertising.
+        ///   Looks up a localized string similar to Remove ads.
         /// </summary>
         public static string RemoveAdvertising {
             get {
@@ -268,7 +259,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Cache.
+        ///   Looks up a localized string similar to Show cache.
         /// </summary>
         public static string ShowCache {
             get {
@@ -286,7 +277,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unlock Benefits.
+        ///   Looks up a localized string similar to Unlock benefits.
         /// </summary>
         public static string UnlockBenefits {
             get {

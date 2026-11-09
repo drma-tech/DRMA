@@ -25,7 +25,14 @@ namespace SD.WEB.Core.Helper
                     if (Equals(existing.Context, context))
                         return existing.Task;
 
-                    existing.CancellationTokenSource.Cancel();
+                    try
+                    {
+                        existing.CancellationTokenSource.Cancel();
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        // The previous operation has already completed.
+                    }
                 }
 
                 var internalCts = new CancellationTokenSource();

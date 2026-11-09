@@ -61,7 +61,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Track your streaming platforms, manage your watch progress, and discover what to watch next with curated lists and award winners..
+        ///   Looks up a localized string similar to Track your streaming platforms, manage your watch progress, and discover what to watch next with your favorite platforms, curated lists, and award winners..
         /// </summary>
         public static string AppDescription {
             get {
@@ -70,7 +70,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Explore films and series that won the year’s top awards. Discover main categories, winners, and celebrated titles recognized by critics and audiences..
+        ///   Looks up a localized string similar to Explore films and series that won the year’s top awards. Discover major categories, winners, and celebrated titles recognized by critics and audiences..
         /// </summary>
         public static string AwardsYear {
             get {
@@ -79,7 +79,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Compare Streaming Discovery with aggregators. Find where to watch, multi-source ratings, expert reviews, curated lists, and global availability..
+        ///   Looks up a localized string similar to Compare Streaming Discovery with aggregators. Find where to watch, ratings from multiple sources, expert reviews, curated lists, and global availability..
         /// </summary>
         public static string Compare {
             get {
@@ -88,7 +88,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discover our Editor’s Choice: {0} consistently rated highly across IMDb, TMDb, Metacritic, Rotten Tomatoes, Trakt, FilmAffinity, and Letterboxd..
+        ///   Looks up a localized string similar to Discover our Editor’s Choice: {0}, a selection of titles consistently rated highly across IMDb, TMDb, Metacritic, Rotten Tomatoes, Trakt, FilmAffinity, and Letterboxd..
         /// </summary>
         public static string EditorsChoice {
             get {
@@ -97,7 +97,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discover the Editor&apos;s Choice: film franchises linked to our selection of acclaimed titles from platforms such as IMDb, TMDb, Metacritic, Rotten Tomatoes, Trakt, FilmAffinity, and Letterboxd..
+        ///   Looks up a localized string similar to Explore our Editor’s Choice of film franchises, featuring acclaimed titles rated highly on IMDb, TMDb, Metacritic, Rotten Tomatoes, Trakt, FilmAffinity, and Letterboxd..
         /// </summary>
         public static string EditorsChoiceFranchise {
             get {
@@ -106,7 +106,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discover the most anticipated movies of {0}, featuring upcoming blockbusters, fan favorites, and highly awaited releases hitting theaters and streaming..
+        ///   Looks up a localized string similar to Discover the most anticipated movies of {0}, featuring upcoming blockbusters, fan favorites, and highly anticipated releases hitting theaters and streaming..
         /// </summary>
         public static string ExpectedMovies {
             get {
@@ -115,7 +115,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discover free movies and series you can watch legally. Updated daily with streaming availability across multiple platforms..
+        ///   Looks up a localized string similar to Discover free movies and TV shows available to stream legally. Updated daily with availability across multiple platforms..
         /// </summary>
         public static string FreeWatch {
             get {
@@ -160,7 +160,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Explore streaming services that offer movies, TV shows, and documentaries. Discover platforms available in your region ({0})..
+        ///   Looks up a localized string similar to Explore streaming services offering movies, TV shows, and documentaries. Discover the platforms available in your region ({0})..
         /// </summary>
         public static string Platforms {
             get {
@@ -169,7 +169,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to See last week’s most popular {0}, ranked by audience interest. Stay up-to-date on trending entertainment picks..
+        ///   Looks up a localized string similar to Discover the most popular {0} last week, ranked by audience interest..
         /// </summary>
         public static string PopularIndex {
             get {

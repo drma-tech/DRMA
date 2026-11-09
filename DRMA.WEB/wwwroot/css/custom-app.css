@@ -180,7 +180,7 @@ body .pwa-updater[b-pwa-updater] {
 
 @media (max-width: 599.95px), (max-height: 599.95px) {
     .carousel-caption {
-        font-size: 0.7rem !important;
+        font-size: 0.8rem !important;
     }
 }
 

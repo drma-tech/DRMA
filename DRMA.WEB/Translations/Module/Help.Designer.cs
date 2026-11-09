@@ -61,7 +61,7 @@ namespace DRMA.WEB.Translations.Module {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to App Language.
+        ///   Looks up a localized string similar to App language.
         /// </summary>
         public static string AppLanguage {
             get {
@@ -79,7 +79,7 @@ namespace DRMA.WEB.Translations.Module {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to App Theme.
+        ///   Looks up a localized string similar to App theme.
         /// </summary>
         public static string AppTheme {
             get {
@@ -88,7 +88,7 @@ namespace DRMA.WEB.Translations.Module {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Content Language.
+        ///   Looks up a localized string similar to Content language.
         /// </summary>
         public static string ContentLanguage {
             get {
@@ -106,7 +106,7 @@ namespace DRMA.WEB.Translations.Module {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dark Mode.
+        ///   Looks up a localized string similar to Dark mode.
         /// </summary>
         public static string DarkMode {
             get {
@@ -133,7 +133,7 @@ namespace DRMA.WEB.Translations.Module {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Light Mode.
+        ///   Looks up a localized string similar to Light mode.
         /// </summary>
         public static string LightMode {
             get {
@@ -178,7 +178,7 @@ namespace DRMA.WEB.Translations.Module {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Explore hundreds of thousands of movies and series from over 800 streaming platforms in 140 countries, your entire streaming life in one place..
+        ///   Looks up a localized string similar to Explore hundreds of thousands of movies and series across 800+ streaming platforms in 140 countries, bringing your entire streaming experience together in one place..
         /// </summary>
         public static string Step1Subtitle {
             get {

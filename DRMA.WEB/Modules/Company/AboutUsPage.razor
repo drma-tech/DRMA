@@ -1,0 +1,99 @@
+﻿@page "/{culture}/company/about-us"
+@inherits PageCore<AboutUsPage>
+
+<HeadComponent Title="About Us" Description="@($"Learn about {AppInfo.CompanyName}, our mission, and the digital products we build.")" Url=@($"/{Culture}/company/about-us") Index="false"></HeadComponent>
+
+<div class="support-container">
+    @if (Language == AppLanguage.pt)
+    {
+        <h1 class="support-title">Sobre a @AppInfo.CompanyName</h1>
+        <div class="support-subtitle">
+            Bem-vindo à <b>@AppInfo.CompanyName</b> (<a href="@AppInfo.CompanyWebSite" target="_blank" rel="noopener">@AppInfo.CompanyWebSite</a>)!<br />
+            Somos uma empresa de tecnologia dedicada a criar produtos digitais que tornam o dia a dia mais prático. Desenvolvemos soluções que ajudam as pessoas a encontrar opções, informações e experiências alinhadas aos seus interesses, objetivos e necessidades.
+        </div>
+        <div class="support-section">
+            <h2>1. Nossa missão</h2>
+            <p>Queremos tornar a tecnologia uma aliada nas decisões e atividades do cotidiano. Por meio de experiências simples e intuitivas, transformamos necessidades reais em soluções úteis, que ajudam as pessoas a descobrir possibilidades e fazer escolhas com mais facilidade.</p>
+        </div>
+        <div class="support-section">
+            <h2>2. Quem somos</h2>
+            <p>A @AppInfo.CompanyName é uma empresa de tecnologia que cria e desenvolve seus próprios produtos digitais para consumidores. A empresa está registrada na Estônia como <b>Delivering Reliable Modern Apps Tech OÜ</b> e atua com uma visão global, criando soluções para pessoas de diferentes países e realidades.</p>
+        </div>
+        <div class="support-section">
+            <h2>3. Como desenvolvemos nossos produtos</h2>
+            <p>Cada produto nasce de uma necessidade ou oportunidade. Buscamos combinar tecnologia, praticidade e facilidade de uso em experiências claras, acessíveis e úteis.</p>
+            <p>A evolução é contínua: ouvimos os usuários, consideramos suas sugestões e acompanhamos como cada solução é utilizada. Também aplicamos nossa experiência e visão de produto para identificar melhorias, aperfeiçoar funcionalidades e desenvolver novas possibilidades.</p>
+        </div>
+        <div class="support-section">
+            <h2>4. Nossos produtos</h2>
+            <p>Nosso portfólio reúne soluções digitais para diferentes momentos e necessidades, desde descobrir conexões e destinos até simplificar tarefas relacionadas à web.</p>
+            <ul>
+                @foreach (var product in AppInfo.Products)
+                {
+                    <li>
+                        <b style="color: var(--mud-palette-secondary);">
+                            <a href="@product.Url" target="_blank" rel="noopener" style="color: var(--mud-palette-secondary) !important;">
+                                @product.Title
+                            </a>:
+                        </b> @product.Description
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="support-section">
+            <h2>5. Entre em contato</h2>
+            <p>Estamos sempre abertos a ouvir ideias, dúvidas e sugestões. Para falar com nossa equipe, envie um e-mail para <a href="mailto:contact@drma-tech.com">contact@drma-tech.com</a> ou visite nossa <a href=@($"/{Culture}/help")>página de suporte</a>.</p>
+        </div>
+        <div class="support-footer">
+            <p>Última atualização: 6 de novembro de 2026</p>
+        </div>
+    }    
+    else
+    {
+        <h1 class="support-title">About @AppInfo.CompanyName</h1>
+        <div class="support-subtitle">
+            Welcome to <b>@AppInfo.CompanyName</b> (<a href="@AppInfo.CompanyWebSite" target="_blank" rel="noopener">@AppInfo.CompanyWebSite</a>)!<br />
+            We are a technology company creating digital products that make everyday life more practical. Our solutions help people find options, information, and experiences that match their interests, goals, and needs.
+        </div>
+        <div class="support-section">
+            <h2>1. Our mission</h2>
+            <p>We want technology to be a helpful part of everyday decisions and activities. Through simple and intuitive experiences, we turn real needs into useful solutions that help people discover possibilities and make choices more easily.</p>
+        </div>
+        <div class="support-section">
+            <h2>2. Who we are</h2>
+            <p>@AppInfo.CompanyName is a technology company that creates and develops its own digital products for consumers. The company is registered in Estonia as <b>Delivering Reliable Modern Apps Tech OÜ</b> and takes a global approach, building solutions for people across different countries and backgrounds.</p>
+        </div>
+        <div class="support-section">
+            <h2>3. How we build our products</h2>
+            <p>Every product starts with a need or an opportunity. We bring together technology, practicality, and ease of use to create clear, accessible, and useful experiences.</p>
+            <p>Development is continuous: we listen to users, consider their suggestions, and pay attention to how each solution is used. We also draw on our experience and product vision to identify improvements, refine features, and create new possibilities.</p>
+        </div>
+        <div class="support-section">
+            <h2>4. Our products</h2>
+            <p>Our portfolio brings together digital solutions for different situations and needs, from discovering personal connections and destinations to simplifying tasks related to the web.</p>
+            <ul>
+                @foreach (var product in AppInfo.Products)
+                {
+                    <li>
+                        <b style="color: var(--mud-palette-secondary);">
+                            <a href="@product.Url" target="_blank" rel="noopener" style="color: var(--mud-palette-secondary) !important;">
+                                @product.Title
+                            </a>:
+                        </b> @product.Description
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="support-section">
+            <h2>5. Get in touch</h2>
+            <p>We are always glad to hear ideas, questions, and suggestions. To contact our team, email <a href="mailto:contact@drma-tech.com">contact@drma-tech.com</a> or visit our <a href=@($"/{Culture}/help")>support page</a>.</p>
+        </div>
+        <div class="support-footer">
+            <p>Last updated: November 6, 2026</p>
+        </div>
+    }
+</div>
+
+@code {
+    public AppLanguage Language => AppStateStatic.ConvertAppLanguage(Culture, AppLanguage.en);
+}

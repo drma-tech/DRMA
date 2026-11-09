@@ -61,7 +61,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discover Movies and Series on Streaming Platforms.
+        ///   Looks up a localized string similar to Discover Movies and TV Shows Across Streaming Platforms.
         /// </summary>
         public static string AppSubtitle {
             get {
@@ -70,7 +70,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Best awards of the {0}.
+        ///   Looks up a localized string similar to Top Awards of {0}.
         /// </summary>
         public static string AwardsOfTheYear {
             get {
@@ -106,7 +106,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Most Expected Movies of {0}.
+        ///   Looks up a localized string similar to Most Anticipated Movies of {0}.
         /// </summary>
         public static string ExpectedMovieOfYear {
             get {
@@ -142,15 +142,6 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Free Streaming Platforms ({0}).
-        /// </summary>
-        public static string FreeProviders {
-            get {
-                return ResourceManager.GetString("FreeProviders", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Free to Watch.
         /// </summary>
         public static string FreeWatch {
@@ -178,7 +169,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Main.
+        ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Main {
             get {
@@ -187,7 +178,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last News.
+        ///   Looks up a localized string similar to Latest News.
         /// </summary>
         public static string News {
             get {
@@ -232,7 +223,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last Trailers.
+        ///   Looks up a localized string similar to Latest Trailers.
         /// </summary>
         public static string Trailers {
             get {

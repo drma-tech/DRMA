@@ -127,10 +127,10 @@
     <value>Compare o Streaming Discovery com agregadores. Encontre onde assistir, classificações de diversas fontes, avaliações de especialistas, listas selecionadas e disponibilidade global.</value>
   </data>
   <data name="EditorsChoice" xml:space="preserve">
-    <value>Descubra nossa Escolha do Editor: {0} com classificação consistentemente elevada em IMDb, TMDb, Metacritic, Rotten Tomatoes, Trakt, FilmAffinity e Letterboxd.</value>
+    <value>Descubra nossa Escolha do Editor: {0}, uma seleção de títulos com avaliações consistentemente altas no IMDb, TMDb, Metacritic, Rotten Tomatoes, Trakt, FilmAffinity e Letterboxd.</value>
   </data>
   <data name="EditorsChoiceFranchise" xml:space="preserve">
-    <value>Conheça a Escolha do Editor: franquias de filmes vinculadas à nossa seleção de títulos aclamados de plataformas como IMDb, TMDb, Metacritic, Rotten Tomatoes, Trakt, FilmAffinity e Letterboxd.</value>
+    <value>Descubra nossa Escolha do Editor de franquias de filmes, com títulos aclamados e bem avaliados no IMDb, TMDb, Metacritic, Rotten Tomatoes, Trakt, FilmAffinity e Letterboxd.</value>
   </data>
   <data name="ExpectedMovies" xml:space="preserve">
     <value>Descubra os filmes mais esperados de {0}, com sucessos de bilheteria, favoritos dos fãs e lançamentos altamente aguardados que chegarão aos cinemas e streaming.</value>

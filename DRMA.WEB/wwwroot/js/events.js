@@ -5,7 +5,7 @@ import { notification } from "./utils.js";
 //setTimeout(() => { throw new Error('error test call'); }, 100);
 
 window.addEventListener("error", function (event) {
-    const { message, filename } = event;
+    const { message, filename, lineno, colno, error } = event;
 
     if (filename?.includes("blazor.webassembly")) {
         notification.showBrowserWarning();
@@ -103,10 +103,7 @@ window.addEventListener("unhandledrejection", function (event) {
         notification.showError(
             "Unable to load required components. This may be a connection issue or a browser restriction. Try reopening the app."
         );
-        //todo: study if this makes sense
-        //setTimeout(() => {
-        //    resetPwaAndReload();
-        //}, 2000);
+
         return;
     }
 
@@ -118,24 +115,6 @@ window.addEventListener("unhandledrejection", function (event) {
 
     notification.showError(`unhandledrejection: ${message}`);
 });
-
-//async function resetPwaAndReload() {
-//    try {
-//        if ('caches' in window) {
-//            const keys = await caches.keys();
-//            await Promise.all(keys.map(key => caches.delete(key)));
-//        }
-
-//        if ('serviceWorker' in navigator) {
-//            const registrations = await navigator.serviceWorker.getRegistrations();
-//            await Promise.all(registrations.map(r => r.unregister()));
-//        }
-//    } catch (e) {
-//        console.error("Reset failed", e);
-//    }
-
-//    location.reload(true);
-//}
 
 window.addEventListener("securitypolicyviolation", (event) => {
     const obj = {

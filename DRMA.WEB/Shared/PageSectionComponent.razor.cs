@@ -58,6 +58,18 @@ namespace DRMA.WEB.Shared
             }
         }
 
+        private async Task Share()
+        {
+            try
+            {
+                await JsRuntime.Utils().Share(Title, Description, AbsolutelUrl, CancellationToken.None);
+            }
+            catch (Exception ex)
+            {
+                ex.ProcessException(Snackbar, Logger);
+            }
+        }
+
         private string GetImageStyle(bool header)
         {
             return ImageStyle ?? $"max-height: {(header ? headerImageSize : sectionImageSize)}; max-width: {(header ? headerImageSize : sectionImageSize)}; width: 100%; vertical-align: top;";

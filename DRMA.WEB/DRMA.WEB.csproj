@@ -55,6 +55,11 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Notification.resx</DependentUpon>
 		</Compile>
+		<Compile Update="Translations\Product.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Product.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Translations\Title.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -77,6 +82,10 @@
 		<EmbeddedResource Update="Translations\Notification.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>Notification.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Product.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Product.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Translations\Title.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>

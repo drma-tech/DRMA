@@ -29,7 +29,6 @@ namespace DRMA.WEB.Core.Component
         {
             if (AppStateStatic.Breakpoint != browserViewportEventArgs.Breakpoint)
             {
-                AppStateStatic.Size = browserViewportEventArgs.Breakpoint == Breakpoint.Xs ? Size.Small : Size.Medium;
                 AppStateStatic.Breakpoint = browserViewportEventArgs.Breakpoint;
                 AppStateStatic.BreakpointChanged.Publish(browserViewportEventArgs.Breakpoint);
             }
