@@ -120,9 +120,6 @@
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
-  <data name="AddWishlist" xml:space="preserve">
-    <value>Add to wishlist</value>
-  </data>
   <data name="All" xml:space="preserve">
     <value>All</value>
   </data>
@@ -151,13 +148,10 @@
     <value>Load more</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Login</value>
+    <value>Log in</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
-  </data>
-  <data name="MySubscription" xml:space="preserve">
-    <value>My Subscription</value>
   </data>
   <data name="Next" xml:space="preserve">
     <value>Next</value>
@@ -171,26 +165,11 @@
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
   </data>
-  <data name="RemoveAdvertising" xml:space="preserve">
-    <value>Remove ads</value>
-  </data>
-  <data name="RemoveCollection" xml:space="preserve">
-    <value>Remove Collection</value>
-  </data>
-  <data name="RemoveWishlist" xml:space="preserve">
-    <value>Remove from wishlist</value>
-  </data>
   <data name="Share" xml:space="preserve">
     <value>Share</value>
   </data>
   <data name="ShowCache" xml:space="preserve">
     <value>Show cache</value>
-  </data>
-  <data name="Unfollow" xml:space="preserve">
-    <value>Unfollow</value>
-  </data>
-  <data name="UnlockBenefits" xml:space="preserve">
-    <value>Unlock benefits</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Update</value>

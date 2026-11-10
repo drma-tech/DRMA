@@ -120,49 +120,7 @@
   <data name="AppDescription" xml:space="preserve">
     <value>Acompanhe suas plataformas de streaming, gerencie seu progresso de visualização e descubra o que assistir a seguir com listas selecionadas e títulos premiados.</value>
   </data>
-  <data name="AwardsYear" xml:space="preserve">
-    <value>Explore filmes e séries que ganharam os principais prêmios do ano. Conheça as principais categorias, vencedores e títulos célebres reconhecidos pela crítica e pelo público.</value>
-  </data>
-  <data name="Compare" xml:space="preserve">
-    <value>Compare o Streaming Discovery com agregadores. Encontre onde assistir, classificações de diversas fontes, avaliações de especialistas, listas selecionadas e disponibilidade global.</value>
-  </data>
-  <data name="EditorsChoice" xml:space="preserve">
-    <value>Descubra nossa Escolha do Editor: {0}, uma seleção de títulos com avaliações consistentemente altas no IMDb, TMDb, Metacritic, Rotten Tomatoes, Trakt, FilmAffinity e Letterboxd.</value>
-  </data>
-  <data name="EditorsChoiceFranchise" xml:space="preserve">
-    <value>Descubra nossa Escolha do Editor de franquias de filmes, com títulos aclamados e bem avaliados no IMDb, TMDb, Metacritic, Rotten Tomatoes, Trakt, FilmAffinity e Letterboxd.</value>
-  </data>
-  <data name="ExpectedMovies" xml:space="preserve">
-    <value>Descubra os filmes mais esperados de {0}, com sucessos de bilheteria, favoritos dos fãs e lançamentos altamente aguardados que chegarão aos cinemas e streaming.</value>
-  </data>
-  <data name="FreeWatch" xml:space="preserve">
-    <value>Descubra filmes e séries gratuitas que você pode assistir legalmente. Atualizado diariamente com disponibilidade de streaming em múltiplas plataformas.</value>
-  </data>
-  <data name="FreeWatchExtended" xml:space="preserve">
-    <value>Descubra {0} grátis que você pode assistir legalmente em {1}. Atualizado diariamente com disponibilidade de streaming em múltiplas plataformas.</value>
-  </data>
   <data name="HelpCenter" xml:space="preserve">
     <value>Obtenha guias detalhados, dicas para solução de problemas, perguntas frequentes e entre em contato com o suporte de {0}. Resolva problemas e descubra recursos facilmente.</value>
-  </data>
-  <data name="News" xml:space="preserve">
-    <value>Receba as últimas notícias sobre {0} e atualizações da cultura pop. Fique por dentro de tudo que acontece no mundo do entretenimento.</value>
-  </data>
-  <data name="NewsShort" xml:space="preserve">
-    <value>Receba os últimos filmes, programas de TV, notícias de celebridades e atualizações da cultura pop.</value>
-  </data>
-  <data name="Platforms" xml:space="preserve">
-    <value>Explore serviços de streaming que oferecem filmes, programas de TV e documentários. Conheça as plataformas disponíveis na sua região ({0}).</value>
-  </data>
-  <data name="PopularIndex" xml:space="preserve">
-    <value>Veja os {0} mais populares da semana passada, classificados por interesse do público. Mantenha-se atualizado sobre as tendências de entretenimento.</value>
-  </data>
-  <data name="Profile" xml:space="preserve">
-    <value>Acompanhe o que você quer assistir, o que está acompanhando e suas plataformas de streaming favoritas.</value>
-  </data>
-  <data name="Trailers" xml:space="preserve">
-    <value>Assista aos trailers e teasers de filmes mais recentes em HD. Fique atualizado sobre os próximos filmes, sucessos de bilheteria e lançamentos imperdíveis.</value>
-  </data>
-  <data name="TrailersShort" xml:space="preserve">
-    <value>Assista aos trailers e teasers de filmes mais recentes em HD.</value>
   </data>
 </root>

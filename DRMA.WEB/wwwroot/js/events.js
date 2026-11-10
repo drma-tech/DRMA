@@ -33,9 +33,9 @@ window.addEventListener("error", function (event) {
         const hasDetails = details.script_url || details.stack;
 
         if (hasDetails) {
-            Sentry.captureMessage(`Script error: ${JSON.stringify(details)}`, "error");
+            Sentry?.captureMessage(`Script error: ${JSON.stringify(details)}`, "error");
         } else {
-            Sentry.captureMessage("Script error: details unavailable", {
+            Sentry?.captureMessage("Script error: details unavailable", {
                 level: "error",
                 tags: {
                     error_type: "cross_origin_script_error",
@@ -101,14 +101,14 @@ window.addEventListener("unhandledrejection", function (event) {
 
     if (message.includes("Failed to fetch")) {
         notification.showError(
-            "Unable to load required components. This may be a connection issue or a browser restriction. Try reopening the app."
+            "The app couldn't load the required components. This may be caused by your connection or browser settings. Try reopening the app."
         );
 
         return;
     }
 
     if (message.includes("Assert failed: .NET runtime")) {
-        notification.showError("A fatal error occurred. Reloading the app...");
+        notification.showError("A critical error occurred. The app will reload shortly...");
         setTimeout(() => location.reload(), 3000);
         return;
     }
@@ -131,7 +131,7 @@ window.addEventListener("securitypolicyviolation", (event) => {
         url: location.href,
     };
 
-    Sentry.captureMessage(`securitypolicyviolation: ${JSON.stringify(obj)}`, "error");
+    Sentry?.captureMessage(`securitypolicyviolation: ${JSON.stringify(obj)}`, "error");
 });
 
 let resizeTimeout;

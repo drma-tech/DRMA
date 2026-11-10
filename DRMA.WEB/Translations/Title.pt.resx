@@ -120,58 +120,13 @@
   <data name="AppSubtitle" xml:space="preserve">
     <value>Descubra filmes e séries em plataformas de streaming</value>
   </data>
-  <data name="AwardsOfTheYear" xml:space="preserve">
-    <value>Melhores prêmios de {0}</value>
-  </data>
-  <data name="Compare" xml:space="preserve">
-    <value>Comparar</value>
-  </data>
-  <data name="Compare2" xml:space="preserve">
-    <value>Streaming Discovery vs agregadores | A melhor maneira de assistir</value>
-  </data>
-  <data name="EditorsChoice" xml:space="preserve">
-    <value>Escolha do Editor</value>
-  </data>
-  <data name="ExpectedMovieOfYear" xml:space="preserve">
-    <value>Filmes mais esperados de {0}</value>
-  </data>
   <data name="FAQ" xml:space="preserve">
     <value>Perguntas frequentes</value>
-  </data>
-  <data name="FilmFranchises" xml:space="preserve">
-    <value>Franquias de filmes</value>
-  </data>
-  <data name="Franchises" xml:space="preserve">
-    <value>Franquias</value>
-  </data>
-  <data name="FreeWatch" xml:space="preserve">
-    <value>Grátis para assistir</value>
-  </data>
-  <data name="FreeWatchExtended" xml:space="preserve">
-    <value>{0} grátis para assistir em {1}</value>
   </data>
   <data name="HelpCenter" xml:space="preserve">
     <value>Central de Ajuda</value>
   </data>
   <data name="Main" xml:space="preserve">
     <value>Início</value>
-  </data>
-  <data name="News" xml:space="preserve">
-    <value>Últimas Notícias</value>
-  </data>
-  <data name="PlatformDetail" xml:space="preserve">
-    <value>{0}: filmes e séries populares, novos e recomendados</value>
-  </data>
-  <data name="Platforms" xml:space="preserve">
-    <value>Plataformas</value>
-  </data>
-  <data name="Profile" xml:space="preserve">
-    <value>Perfil</value>
-  </data>
-  <data name="Providers" xml:space="preserve">
-    <value>Plataformas de streaming ({0})</value>
-  </data>
-  <data name="Trailers" xml:space="preserve">
-    <value>Últimos trailers</value>
   </data>
 </root>

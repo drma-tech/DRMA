@@ -121,16 +121,10 @@
     <value>App language</value>
   </data>
   <data name="AppLanguageDesc" xml:space="preserve">
-    <value>Translates the app interface. Partial translations may apply for some languages.</value>
+    <value>Changes the language of the app interface. Some content may not be fully translated.</value>
   </data>
   <data name="AppTheme" xml:space="preserve">
     <value>App theme</value>
-  </data>
-  <data name="ContentLanguage" xml:space="preserve">
-    <value>Content language</value>
-  </data>
-  <data name="ContentLanguageDesc" xml:space="preserve">
-    <value>Translates titles, descriptions, posters, and other content from movies or TV shows.</value>
   </data>
   <data name="DarkMode" xml:space="preserve">
     <value>Dark mode</value>
@@ -156,37 +150,7 @@
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
-  <data name="Step1Subtitle" xml:space="preserve">
-    <value>Explore hundreds of thousands of movies and series across 800+ streaming platforms in 140 countries, bringing your entire streaming experience together in one place.</value>
-  </data>
-  <data name="Step1Title" xml:space="preserve">
-    <value>Discover a world of entertainment.</value>
-  </data>
-  <data name="Step2Subtitle" xml:space="preserve">
-    <value>Search, follow, and keep up with your favorite platforms, movies, series, and artists, all in real time.</value>
-  </data>
-  <data name="Step2Title" xml:space="preserve">
-    <value>Stay in the know.</value>
-  </data>
-  <data name="Step3Subtitle" xml:space="preserve">
-    <value>Create personal lists to track what you’re watching and what’s next on your list.</value>
-  </data>
-  <data name="Step3Title" xml:space="preserve">
-    <value>Keep your universe organized.</value>
-  </data>
-  <data name="Step4Subtitle" xml:space="preserve">
-    <value>Create your account and unlock your personalized streaming experience.</value>
-  </data>
-  <data name="Step4Title" xml:space="preserve">
-    <value>Join for free.</value>
-  </data>
   <data name="WelcomeTo" xml:space="preserve">
     <value>Welcome to {0}</value>
-  </data>
-  <data name="WriteReviewSubtitle" xml:space="preserve">
-    <value>Rate the app and share it with your friends!</value>
-  </data>
-  <data name="WriteReviewTitle" xml:space="preserve">
-    <value>Help {0} grow!</value>
   </data>
 </root>

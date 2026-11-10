@@ -120,9 +120,6 @@
   <data name="Add" xml:space="preserve">
     <value>Adicionar</value>
   </data>
-  <data name="AddWishlist" xml:space="preserve">
-    <value>Adicionar à lista de desejos</value>
-  </data>
   <data name="All" xml:space="preserve">
     <value>Todos</value>
   </data>
@@ -156,9 +153,6 @@
   <data name="Logout" xml:space="preserve">
     <value>Sair</value>
   </data>
-  <data name="MySubscription" xml:space="preserve">
-    <value>Minha assinatura</value>
-  </data>
   <data name="Next" xml:space="preserve">
     <value>Próximo</value>
   </data>
@@ -171,26 +165,11 @@
   <data name="Remove" xml:space="preserve">
     <value>Remover</value>
   </data>
-  <data name="RemoveAdvertising" xml:space="preserve">
-    <value>Remover publicidade</value>
-  </data>
-  <data name="RemoveCollection" xml:space="preserve">
-    <value>Remover coleção</value>
-  </data>
-  <data name="RemoveWishlist" xml:space="preserve">
-    <value>Remover da lista de desejos</value>
-  </data>
   <data name="Share" xml:space="preserve">
     <value>Compartilhar</value>
   </data>
   <data name="ShowCache" xml:space="preserve">
     <value>Mostrar cache</value>
-  </data>
-  <data name="Unfollow" xml:space="preserve">
-    <value>Deixar de seguir</value>
-  </data>
-  <data name="UnlockBenefits" xml:space="preserve">
-    <value>Desbloquear benefícios</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Atualizar</value>

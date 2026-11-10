@@ -70,92 +70,11 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Top Awards of {0}.
-        /// </summary>
-        public static string AwardsOfTheYear {
-            get {
-                return ResourceManager.GetString("AwardsOfTheYear", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Compare.
-        /// </summary>
-        public static string Compare {
-            get {
-                return ResourceManager.GetString("Compare", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Streaming Discovery vs Aggregators | Better Way to Watch.
-        /// </summary>
-        public static string Compare2 {
-            get {
-                return ResourceManager.GetString("Compare2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Editor’s Choice.
-        /// </summary>
-        public static string EditorsChoice {
-            get {
-                return ResourceManager.GetString("EditorsChoice", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Most Anticipated Movies of {0}.
-        /// </summary>
-        public static string ExpectedMovieOfYear {
-            get {
-                return ResourceManager.GetString("ExpectedMovieOfYear", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to FAQ.
         /// </summary>
         public static string FAQ {
             get {
                 return ResourceManager.GetString("FAQ", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Film franchises.
-        /// </summary>
-        public static string FilmFranchises {
-            get {
-                return ResourceManager.GetString("FilmFranchises", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Franchises.
-        /// </summary>
-        public static string Franchises {
-            get {
-                return ResourceManager.GetString("Franchises", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Free to Watch.
-        /// </summary>
-        public static string FreeWatch {
-            get {
-                return ResourceManager.GetString("FreeWatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Free {0} to Watch in {1}.
-        /// </summary>
-        public static string FreeWatchExtended {
-            get {
-                return ResourceManager.GetString("FreeWatchExtended", resourceCulture);
             }
         }
         
@@ -174,60 +93,6 @@ namespace DRMA.WEB.Translations {
         public static string Main {
             get {
                 return ResourceManager.GetString("Main", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Latest News.
-        /// </summary>
-        public static string News {
-            get {
-                return ResourceManager.GetString("News", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}: Popular, New &amp; Recommended Movies &amp; Series.
-        /// </summary>
-        public static string PlatformDetail {
-            get {
-                return ResourceManager.GetString("PlatformDetail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Platforms.
-        /// </summary>
-        public static string Platforms {
-            get {
-                return ResourceManager.GetString("Platforms", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Profile.
-        /// </summary>
-        public static string Profile {
-            get {
-                return ResourceManager.GetString("Profile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Streaming Platforms ({0}).
-        /// </summary>
-        public static string Providers {
-            get {
-                return ResourceManager.GetString("Providers", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Latest Trailers.
-        /// </summary>
-        public static string Trailers {
-            get {
-                return ResourceManager.GetString("Trailers", resourceCulture);
             }
         }
     }

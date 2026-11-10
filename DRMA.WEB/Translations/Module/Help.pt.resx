@@ -121,16 +121,10 @@
     <value>Idioma do aplicativo</value>
   </data>
   <data name="AppLanguageDesc" xml:space="preserve">
-    <value>Traduz a interface do aplicativo. Traduções parciais podem ser aplicadas em alguns idiomas.</value>
+    <value>Altera o idioma da interface do aplicativo. Alguns conteúdos podem não estar totalmente traduzidos.</value>
   </data>
   <data name="AppTheme" xml:space="preserve">
     <value>Tema do aplicativo</value>
-  </data>
-  <data name="ContentLanguage" xml:space="preserve">
-    <value>Idioma do conteúdo</value>
-  </data>
-  <data name="ContentLanguageDesc" xml:space="preserve">
-    <value>Traduz títulos, descrições, pôsteres e outros conteúdos de filmes ou séries.</value>
   </data>
   <data name="DarkMode" xml:space="preserve">
     <value>Modo escuro</value>
@@ -156,37 +150,7 @@
   <data name="Settings" xml:space="preserve">
     <value>Configurações</value>
   </data>
-  <data name="Step1Subtitle" xml:space="preserve">
-    <value>Explore centenas de milhares de filmes e séries de mais de 800 plataformas de streaming em 140 países, toda a sua vida de streaming em um só lugar.</value>
-  </data>
-  <data name="Step1Title" xml:space="preserve">
-    <value>Descubra um mundo de entretenimento.</value>
-  </data>
-  <data name="Step2Subtitle" xml:space="preserve">
-    <value>Pesquise, siga e acompanhe suas plataformas, filmes, séries e artistas favoritos, tudo em tempo real.</value>
-  </data>
-  <data name="Step2Title" xml:space="preserve">
-    <value>Fique por dentro.</value>
-  </data>
-  <data name="Step3Subtitle" xml:space="preserve">
-    <value>Crie listas pessoais para acompanhar o que você está assistindo e o que vem a seguir na sua lista.</value>
-  </data>
-  <data name="Step3Title" xml:space="preserve">
-    <value>Mantenha seu universo organizado.</value>
-  </data>
-  <data name="Step4Subtitle" xml:space="preserve">
-    <value>Crie sua conta e desbloqueie sua experiência de streaming personalizada.</value>
-  </data>
-  <data name="Step4Title" xml:space="preserve">
-    <value>Cadastre-se gratuitamente.</value>
-  </data>
   <data name="WelcomeTo" xml:space="preserve">
     <value>Bem-vindo a {0}</value>
-  </data>
-  <data name="WriteReviewSubtitle" xml:space="preserve">
-    <value>Avalie o aplicativo e compartilhe com seus amigos!</value>
-  </data>
-  <data name="WriteReviewTitle" xml:space="preserve">
-    <value>Ajude {0} a crescer!</value>
   </data>
 </root>

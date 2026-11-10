@@ -70,15 +70,6 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add to wishlist.
-        /// </summary>
-        public static string AddWishlist {
-            get {
-                return ResourceManager.GetString("AddWishlist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
@@ -160,7 +151,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Login.
+        ///   Looks up a localized string similar to Log in.
         /// </summary>
         public static string Login {
             get {
@@ -174,15 +165,6 @@ namespace DRMA.WEB.Translations {
         public static string Logout {
             get {
                 return ResourceManager.GetString("Logout", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to My Subscription.
-        /// </summary>
-        public static string MySubscription {
-            get {
-                return ResourceManager.GetString("MySubscription", resourceCulture);
             }
         }
         
@@ -223,33 +205,6 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove ads.
-        /// </summary>
-        public static string RemoveAdvertising {
-            get {
-                return ResourceManager.GetString("RemoveAdvertising", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove Collection.
-        /// </summary>
-        public static string RemoveCollection {
-            get {
-                return ResourceManager.GetString("RemoveCollection", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove from wishlist.
-        /// </summary>
-        public static string RemoveWishlist {
-            get {
-                return ResourceManager.GetString("RemoveWishlist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Share.
         /// </summary>
         public static string Share {
@@ -264,24 +219,6 @@ namespace DRMA.WEB.Translations {
         public static string ShowCache {
             get {
                 return ResourceManager.GetString("ShowCache", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unfollow.
-        /// </summary>
-        public static string Unfollow {
-            get {
-                return ResourceManager.GetString("Unfollow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unlock benefits.
-        /// </summary>
-        public static string UnlockBenefits {
-            get {
-                return ResourceManager.GetString("UnlockBenefits", resourceCulture);
             }
         }
         

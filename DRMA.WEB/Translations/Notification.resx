@@ -120,9 +120,6 @@
   <data name="AdBlockerDetected" xml:space="preserve">
     <value>Ad blocker detected. Please consider adding our app to your allowlist to support us. Thank you!</value>
   </data>
-  <data name="CheckOurApps" xml:space="preserve">
-    <value>Explore our other amazing apps:</value>
-  </data>
   <data name="ExternalWebsiteNotice" xml:space="preserve">
     <value>External Website Notice</value>
   </data>
@@ -130,7 +127,7 @@
     <value>Stay tuned for updates.</value>
   </data>
   <data name="FeatureUnavailableMessage" xml:space="preserve">
-    <value>This feature is under development.</value>
+    <value>This feature is currently under development.</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>

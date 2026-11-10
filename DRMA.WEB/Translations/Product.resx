@@ -118,33 +118,33 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="modern-matchmaker" xml:space="preserve">
-    <value>Find a compatible partner through Smart Matchmaking</value>
+    <value>Find a compatible partner with smart matchmaking</value>
   </data>
   <data name="modern-matchmaker-desc" xml:space="preserve">
-    <value>The future of finding a life partner is here. Smarter and more affordable than traditional matchmaking, with precise compatibility and no endless swiping.</value>
+    <value>The future of finding a life partner is here. A smarter, more affordable alternative to traditional matchmaking, with compatibility-based matches and no endless swiping.</value>
   </data>
   <data name="next-spot" xml:space="preserve">
-    <value>Find the Best Cities and Countries to Live In or Visit</value>
+    <value>Find the best cities and countries to live in or visit</value>
   </data>
   <data name="next-spot-desc" xml:space="preserve">
     <value>Explore countries and cities, learn interesting facts, and create your profile to find destinations that match your lifestyle, whether for a trip or a new home.</value>
   </data>
   <data name="shared-home" xml:space="preserve">
-    <value>Room rentals, shared homes and community</value>
+    <value>Room Rentals and Shared Living</value>
   </data>
   <data name="shared-home-desc" xml:space="preserve">
-    <value>Find rooms for rent and shared apartments. Discover affordable housing and join welcoming communities to feel at home anywhere.</value>
+    <value>Find rooms for rent and shared apartments. Discover affordable housing and welcoming communities where you can feel at home.</value>
   </data>
   <data name="streamingdiscovery" xml:space="preserve">
-    <value>Discover Movies and Series on Streaming Platforms</value>
+    <value>Discover Movies and TV Shows on Streaming Platforms</value>
   </data>
   <data name="streamingdiscovery-desc" xml:space="preserve">
-    <value>Track your streaming platforms, manage your watch progress, and discover what to watch next with curated lists, award winners, and critic picks.</value>
+    <value>Track your streaming services, keep track of what you've watched, and discover what to watch next with curated lists, award winners, and critics' picks.</value>
   </data>
   <data name="webstandards" xml:space="preserve">
     <value>Web Standards Generator for Websites and PWAs</value>
   </data>
   <data name="webstandards-desc" xml:space="preserve">
-    <value>A toolkit that helps developers set up essential web standards like sitemaps, manifests, icons, SEO tags, and security files for modern websites and PWAs.</value>
+    <value>A toolkit that helps developers configure essential web standards, including sitemaps, manifests, icons, SEO tags, and security files, for modern websites and PWAs.</value>
   </data>
 </root>

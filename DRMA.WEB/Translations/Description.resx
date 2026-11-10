@@ -120,49 +120,7 @@
   <data name="AppDescription" xml:space="preserve">
     <value>Track your streaming platforms, manage your watch progress, and discover what to watch next with your favorite platforms, curated lists, and award winners.</value>
   </data>
-  <data name="AwardsYear" xml:space="preserve">
-    <value>Explore films and series that won the year’s top awards. Discover major categories, winners, and celebrated titles recognized by critics and audiences.</value>
-  </data>
-  <data name="Compare" xml:space="preserve">
-    <value>Compare Streaming Discovery with aggregators. Find where to watch, ratings from multiple sources, expert reviews, curated lists, and global availability.</value>
-  </data>
-  <data name="EditorsChoice" xml:space="preserve">
-    <value>Discover our Editor’s Choice: {0}, a selection of titles consistently rated highly across IMDb, TMDb, Metacritic, Rotten Tomatoes, Trakt, FilmAffinity, and Letterboxd.</value>
-  </data>
-  <data name="EditorsChoiceFranchise" xml:space="preserve">
-    <value>Explore our Editor’s Choice of film franchises, featuring acclaimed titles rated highly on IMDb, TMDb, Metacritic, Rotten Tomatoes, Trakt, FilmAffinity, and Letterboxd.</value>
-  </data>
-  <data name="ExpectedMovies" xml:space="preserve">
-    <value>Discover the most anticipated movies of {0}, featuring upcoming blockbusters, fan favorites, and highly anticipated releases hitting theaters and streaming.</value>
-  </data>
-  <data name="FreeWatch" xml:space="preserve">
-    <value>Discover free movies and TV shows available to stream legally. Updated daily with availability across multiple platforms.</value>
-  </data>
-  <data name="FreeWatchExtended" xml:space="preserve">
-    <value>Discover free {0} you can watch legally in {1}. Updated daily with streaming availability across multiple platforms.</value>
-  </data>
   <data name="HelpCenter" xml:space="preserve">
-    <value>Get detailed guides, troubleshooting tips, FAQs, and contact support for {0}. Solve issues and discover features easily.</value>
-  </data>
-  <data name="News" xml:space="preserve">
-    <value>Get the latest news about {0} and pop culture updates. Stay up to date with everything happening in the world of entertainment.</value>
-  </data>
-  <data name="NewsShort" xml:space="preserve">
-    <value>Get the latest movies, TV shows, celebrity news, and pop culture updates.</value>
-  </data>
-  <data name="Platforms" xml:space="preserve">
-    <value>Explore streaming services offering movies, TV shows, and documentaries. Discover the platforms available in your region ({0}).</value>
-  </data>
-  <data name="PopularIndex" xml:space="preserve">
-    <value>Discover the most popular {0} last week, ranked by audience interest.</value>
-  </data>
-  <data name="Profile" xml:space="preserve">
-    <value>Keep track of what you want to watch, what you’re following, and your favorite streaming platforms.</value>
-  </data>
-  <data name="Trailers" xml:space="preserve">
-    <value>Watch the latest movie trailers and teasers in HD. Stay updated on upcoming films, blockbusters, and must-see releases.</value>
-  </data>
-  <data name="TrailersShort" xml:space="preserve">
-    <value>Watch the latest movie trailers and teasers in HD.</value>
+    <value>Find helpful guides, troubleshooting tips, and answers to frequently asked questions, or contact {0} support. Get help resolving issues and making the most of the app.</value>
   </data>
 </root>

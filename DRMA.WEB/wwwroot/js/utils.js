@@ -25,7 +25,7 @@ export const storage = {
     },
     setLocalStorage(key, value) {
         if (typeof key !== "string" || typeof value !== "string") {
-            notification.showError("Key/value must be strings");
+            notification.showError("Both the key and value must be strings.");
             return null;
         }
         try {
@@ -36,7 +36,7 @@ export const storage = {
     },
     setSessionStorage(key, value) {
         if (typeof key !== "string" || typeof value !== "string") {
-            notification.showError("Key/value must be strings");
+            notification.showError("Both the key and value must be strings.");
             return null;
         }
         try {
@@ -113,23 +113,23 @@ export const notification = {
         <div style="display:flex; align-items:center; justify-content:center; min-height:100vh; background:#f0f2f5; font-family:'Segoe UI', Roboto, sans-serif; padding:1rem;">
             <div style="background:#fff; padding:1rem; border-radius:16px; box-shadow:0 4px 12px rgba(0,0,0,0.1); width:100%; max-width:450px; text-align:center; color:#333;">
                 <div style="font-size:2.2rem; margin-bottom:0.5rem;">⚠️</div>
-                <h2 style="font-size:1.3rem; margin-bottom:0.75rem;">This device cannot run this app</h2>
+                <h2 style="font-size:1.3rem; margin-bottom:0.75rem;">This device isn't compatible with the app</h2>
                 <p style="font-size:1rem; line-height:1.5; margin-bottom:1rem;">
-                    Your current environment does not support the required WebAssembly features needed to run this application.
-                    Please update your browser, operating system, or try a different device.
+                    Your browser or operating system does not support the WebAssembly features this app requires.
+                    Update your browser or operating system, or try another device.
                 </p>
                 <div style="text-align:left; font-size:1rem; color:#444;">
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
                         <img src="logo/google-play.png" width="22" style="margin-right:8px;" alt="Google Play" />
-                        <span><strong>Android:</strong> update <strong>Google Chrome</strong> in the Play Store</span>
+                        <span><strong>Android:</strong> update <strong>Google Chrome</strong> in the Google Play Store</span>
                     </div>
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
                         <img src="logo/app-store.png" width="22" style="margin-right:8px;" alt="App Store" />
-                        <span><strong>iOS / macOS:</strong> update your system (Safari is included)</span>
+                        <span><strong>iOS / macOS:</strong> update your operating system. Safari is updated with system updates.</span>
                     </div>
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
                         <img src="logo/microsoft-store.png" width="22" style="margin-right:8px;" alt="Microsoft Store" />
-                        <span><strong>Windows:</strong> run Windows Update (Edge is included)</span>
+                        <span><strong>Windows:</strong> run Windows Update to update Microsoft Edge</span>
                     </div>
                 </div>
                 <div style="background:#f9fafb; border-radius:12px; padding:0.8rem; font-size:0.95rem; color:#444; margin-bottom:1rem;">
@@ -138,7 +138,7 @@ export const notification = {
                     ${browser} ${version}
                 </div>
                 <p style="font-size:0.9rem; color:#777; margin-top:1.2rem; text-align:center;">
-                    If the issue persists, try opening this app on a different device or browser.
+                    If the problem persists, try opening the app on another device or browser.
                 </p>
             </div>
         </div>
@@ -218,13 +218,13 @@ export const environment = {
         }
     },
     getBrowserName() {
-        return window.browser?.getBrowserName() ?? "no bowser loaded";
+        return window.browser?.getBrowserName() ?? "No browser information available";
     },
     getBrowserVersion() {
-        return window.browser?.getBrowserVersion() ?? "no bowser loaded";
+        return window.browser?.getBrowserVersion() ?? "No browser information available";
     },
     getOperatingSystem() {
-        return window.browser?.getOSName() ?? "no bowser loaded";
+        return window.browser?.getOSName() ?? "No browser information available";
     },
     inspectAdElement(el) {
         // If the div is completely hidden, it's AdBlock.

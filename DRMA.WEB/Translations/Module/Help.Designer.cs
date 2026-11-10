@@ -70,7 +70,7 @@ namespace DRMA.WEB.Translations.Module {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Translates the app interface. Partial translations may apply for some languages..
+        ///   Looks up a localized string similar to Changes the language of the app interface. Some content may not be fully translated..
         /// </summary>
         public static string AppLanguageDesc {
             get {
@@ -84,24 +84,6 @@ namespace DRMA.WEB.Translations.Module {
         public static string AppTheme {
             get {
                 return ResourceManager.GetString("AppTheme", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Content language.
-        /// </summary>
-        public static string ContentLanguage {
-            get {
-                return ResourceManager.GetString("ContentLanguage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Translates titles, descriptions, posters, and other content from movies or TV shows..
-        /// </summary>
-        public static string ContentLanguageDesc {
-            get {
-                return ResourceManager.GetString("ContentLanguageDesc", resourceCulture);
             }
         }
         
@@ -178,101 +160,11 @@ namespace DRMA.WEB.Translations.Module {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Explore hundreds of thousands of movies and series across 800+ streaming platforms in 140 countries, bringing your entire streaming experience together in one place..
-        /// </summary>
-        public static string Step1Subtitle {
-            get {
-                return ResourceManager.GetString("Step1Subtitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Discover a world of entertainment..
-        /// </summary>
-        public static string Step1Title {
-            get {
-                return ResourceManager.GetString("Step1Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search, follow, and keep up with your favorite platforms, movies, series, and artists, all in real time..
-        /// </summary>
-        public static string Step2Subtitle {
-            get {
-                return ResourceManager.GetString("Step2Subtitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Stay in the know..
-        /// </summary>
-        public static string Step2Title {
-            get {
-                return ResourceManager.GetString("Step2Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create personal lists to track what you’re watching and what’s next on your list..
-        /// </summary>
-        public static string Step3Subtitle {
-            get {
-                return ResourceManager.GetString("Step3Subtitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Keep your universe organized..
-        /// </summary>
-        public static string Step3Title {
-            get {
-                return ResourceManager.GetString("Step3Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create your account and unlock your personalized streaming experience..
-        /// </summary>
-        public static string Step4Subtitle {
-            get {
-                return ResourceManager.GetString("Step4Subtitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Join for free..
-        /// </summary>
-        public static string Step4Title {
-            get {
-                return ResourceManager.GetString("Step4Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Welcome to {0}.
         /// </summary>
         public static string WelcomeTo {
             get {
                 return ResourceManager.GetString("WelcomeTo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Rate the app and share it with your friends!.
-        /// </summary>
-        public static string WriteReviewSubtitle {
-            get {
-                return ResourceManager.GetString("WriteReviewSubtitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Help {0} grow!.
-        /// </summary>
-        public static string WriteReviewTitle {
-            get {
-                return ResourceManager.GetString("WriteReviewTitle", resourceCulture);
             }
         }
     }

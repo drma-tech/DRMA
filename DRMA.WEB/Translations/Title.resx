@@ -120,58 +120,13 @@
   <data name="AppSubtitle" xml:space="preserve">
     <value>Discover Movies and TV Shows Across Streaming Platforms</value>
   </data>
-  <data name="AwardsOfTheYear" xml:space="preserve">
-    <value>Top Awards of {0}</value>
-  </data>
-  <data name="Compare" xml:space="preserve">
-    <value>Compare</value>
-  </data>
-  <data name="Compare2" xml:space="preserve">
-    <value>Streaming Discovery vs Aggregators | Better Way to Watch</value>
-  </data>
-  <data name="EditorsChoice" xml:space="preserve">
-    <value>Editor’s Choice</value>
-  </data>
-  <data name="ExpectedMovieOfYear" xml:space="preserve">
-    <value>Most Anticipated Movies of {0}</value>
-  </data>
   <data name="FAQ" xml:space="preserve">
     <value>FAQ</value>
-  </data>
-  <data name="FilmFranchises" xml:space="preserve">
-    <value>Film franchises</value>
-  </data>
-  <data name="Franchises" xml:space="preserve">
-    <value>Franchises</value>
-  </data>
-  <data name="FreeWatch" xml:space="preserve">
-    <value>Free to Watch</value>
-  </data>
-  <data name="FreeWatchExtended" xml:space="preserve">
-    <value>Free {0} to Watch in {1}</value>
   </data>
   <data name="HelpCenter" xml:space="preserve">
     <value>Help Center</value>
   </data>
   <data name="Main" xml:space="preserve">
     <value>Home</value>
-  </data>
-  <data name="News" xml:space="preserve">
-    <value>Latest News</value>
-  </data>
-  <data name="PlatformDetail" xml:space="preserve">
-    <value>{0}: Popular, New &amp; Recommended Movies &amp; Series</value>
-  </data>
-  <data name="Platforms" xml:space="preserve">
-    <value>Platforms</value>
-  </data>
-  <data name="Profile" xml:space="preserve">
-    <value>Profile</value>
-  </data>
-  <data name="Providers" xml:space="preserve">
-    <value>Streaming Platforms ({0})</value>
-  </data>
-  <data name="Trailers" xml:space="preserve">
-    <value>Latest Trailers</value>
   </data>
 </root>
