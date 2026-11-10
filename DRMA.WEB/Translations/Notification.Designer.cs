@@ -70,15 +70,6 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Explore our other amazing apps:.
-        /// </summary>
-        public static string CheckOurApps {
-            get {
-                return ResourceManager.GetString("CheckOurApps", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to External Website Notice.
         /// </summary>
         public static string ExternalWebsiteNotice {
@@ -97,7 +88,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This feature is under development..
+        ///   Looks up a localized string similar to This feature is currently under development..
         /// </summary>
         public static string FeatureUnavailableMessage {
             get {

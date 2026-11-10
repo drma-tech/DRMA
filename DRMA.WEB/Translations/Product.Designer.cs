@@ -61,7 +61,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Find a compatible partner through Smart Matchmaking.
+        ///   Looks up a localized string similar to Find a compatible partner with smart matchmaking.
         /// </summary>
         internal static string modern_matchmaker {
             get {
@@ -70,7 +70,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The future of finding a life partner is here. Smarter and more affordable than traditional matchmaking, with precise compatibility and no endless swiping..
+        ///   Looks up a localized string similar to The future of finding a life partner is here. A smarter, more affordable alternative to traditional matchmaking, with compatibility-based matches and no endless swiping..
         /// </summary>
         internal static string modern_matchmaker_desc {
             get {
@@ -79,7 +79,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Find the Best Cities and Countries to Live In or Visit.
+        ///   Looks up a localized string similar to Find the best cities and countries to live in or visit.
         /// </summary>
         internal static string next_spot {
             get {
@@ -97,7 +97,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Room rentals, shared homes and community.
+        ///   Looks up a localized string similar to Room Rentals and Shared Living.
         /// </summary>
         internal static string shared_home {
             get {
@@ -106,7 +106,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Find rooms for rent and shared apartments. Discover affordable housing and join welcoming communities to feel at home anywhere..
+        ///   Looks up a localized string similar to Find rooms for rent and shared apartments. Discover affordable housing and welcoming communities where you can feel at home..
         /// </summary>
         internal static string shared_home_desc {
             get {
@@ -115,7 +115,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discover Movies and Series on Streaming Platforms.
+        ///   Looks up a localized string similar to Discover Movies and TV Shows on Streaming Platforms.
         /// </summary>
         internal static string streamingdiscovery {
             get {
@@ -124,7 +124,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Track your streaming platforms, manage your watch progress, and discover what to watch next with curated lists, award winners, and critic picks..
+        ///   Looks up a localized string similar to Track your streaming services, keep track of what you&apos;ve watched, and discover what to watch next with curated lists, award winners, and critics&apos; picks..
         /// </summary>
         internal static string streamingdiscovery_desc {
             get {
@@ -142,7 +142,7 @@ namespace DRMA.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A toolkit that helps developers set up essential web standards like sitemaps, manifests, icons, SEO tags, and security files for modern websites and PWAs..
+        ///   Looks up a localized string similar to A toolkit that helps developers configure essential web standards, including sitemaps, manifests, icons, SEO tags, and security files, for modern websites and PWAs..
         /// </summary>
         internal static string webstandards_desc {
             get {
