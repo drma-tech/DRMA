@@ -33,7 +33,7 @@
             <h3 style="margin-top: 0;">⚠️ Something went wrong</h3>
 
             <p style="margin: 8px 0;">
-                Something unexpected happened and the app could not continue. We already received this error.
+                Something went wrong, and the app couldn't continue. We've been notified of the issue.
             </p>
             <p style="background:#fff; border:1px solid #ccc; padding:8px; border-radius:4px; max-height:200px; overflow:auto; font-size: 0.85rem; ">
                 @ex.Message
@@ -50,13 +50,13 @@
                 @if (_isUpdateAvailable)
                 {
                     <button style="padding:8px 16px; background:#007bff; border:none; border-radius:4px; color:#fff; cursor:pointer;" @onclick="UpdateNowAsync">
-                        ⬆️ Force Update
+                        ⬆️ Update now
                     </button>
                 }
                 else
                 {
                     <button style="padding:8px 16px; background:#6c757d; border:none; border-radius:4px; color:#fff; cursor:unset">
-                        New version not yet available.
+                        No update is available yet.
                     </button>
                 }
             </div>

@@ -1,6 +1,6 @@
 ﻿@page "/{culture}"
 
-<HeadComponent Title="@($"{AppInfo.Title} - {AppInfo.Subtitle}")" Description="DRMA Tech builds smart digital tools that help people find what fits them best and make decisions easier, more aligned, and centered on individual needs." Url=@($"/{Culture}") Index="@Culture.NotEmpty()" Shared="true" />
+<HeadComponent Title="@($"{AppInfo.Title} - {AppInfo.Subtitle}")" Description="DRMA Tech builds digital tools that help people discover options that fit their needs and make more informed decisions." Url=@($"/{Culture}") Index="@Culture.NotEmpty()" Shared="true" />
 
 @inherits PageCore<Index>
 
@@ -12,7 +12,7 @@
                     DRMA Tech
                 </MudText>
                 <MudText Typo="Typo.body1" Align="Align.Justify">
-                    DRMA Tech builds smart digital tools that help people find what fits them best and make decisions easier, more aligned, and centered on individual needs.
+                    DRMA Tech builds digital tools that help people discover options that fit their needs and make more informed decisions.
                 </MudText>
             </MudPaper>
         </MudItem>
@@ -28,10 +28,10 @@
     <MudGrid Spacing="@CssHelper.SpaceLarge" Class="mb-20">
         <MudItem xs="12" sm="4" Style="align-content: center;">
             <MudText Typo="Typo.h6" Color="Color.Secondary" Align="Align.Center" Class="mb-2">
-                Take Charge of Every Aspect of Your Life
+                Tools to Help You Find the Right Fit
             </MudText>
             <MudText Typo="Typo.body1" Align="Align.Justify" Style="line-height: 1.6;">
-                At DRMA Tech, we build apps that help you make smarter choices by matching you with what truly fits — whether it's a person, place, or job. Our tools reduce guesswork and bring clarity by aligning with your values, lifestyle, and goals.
+                Our apps help you discover options that fit your interests and needs, from movies and travel destinations to compatible partners. We also build practical tools that make working with the web easier.
             </MudText>
         </MudItem>
         <MudItem xs="12" sm="4">
@@ -48,7 +48,7 @@
                     </MudLink>
                 </div>
                 <MudText Typo="Typo.body2" Align="Align.Justify" Style="line-height: 1.6;">
-                    Manage all your streaming content in one place. Track your watch progress, organize platforms, and explore curated lists with award-winning films, critic favorites, and hidden gems.
+                    Manage your streaming services and keep track of what you've watched. Discover what to watch next with curated lists, award-winning films, critics' picks, and hidden gems.
                 </MudText>
                 <MudAlert Variant="Variant.Outlined" Severity="Severity.Info" Dense="true" Class="mt-3">
                     In operation since 2021
@@ -88,7 +88,7 @@
                     </MudLink>
                 </div>
                 <MudText Typo="Typo.body2" Align="Align.Justify" Style="line-height: 1.6;">
-                    Redefining how people connect. Our advanced compatibility system helps you find someone truly aligned with your values, faster and more affordably than traditional matchmaking.
+                    Our compatibility system helps you find a partner who shares your values, with a more affordable and focused approach than traditional matchmaking.
                 </MudText>
                 <MudAlert Variant="Variant.Outlined" Severity="Severity.Success" Dense="true" Class="mt-3">
                     App launched in September 2025
