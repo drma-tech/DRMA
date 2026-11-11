@@ -16,6 +16,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DRMA.Shared", "DRMA.Shared\DRMA.Shared.csproj", "{0F7AD65F-7005-4B16-A330-6955D7E2A621}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "screenshots", "screenshots", "{BE1C55E3-28C7-4E88-A817-333C773E2CC1}"
+	ProjectSection(SolutionItems) = preProject
+		screenshots\mm---desktop.json = screenshots\mm---desktop.json
+		screenshots\sd---desktop.json = screenshots\sd---desktop.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
