@@ -113,9 +113,9 @@ export const notification = {
         <div style="display:flex; align-items:center; justify-content:center; min-height:100vh; background:#f0f2f5; font-family:'Segoe UI', Roboto, sans-serif; padding:1rem;">
             <div style="background:#fff; padding:1rem; border-radius:16px; box-shadow:0 4px 12px rgba(0,0,0,0.1); width:100%; max-width:450px; text-align:center; color:#333;">
                 <div style="font-size:2.2rem; margin-bottom:0.5rem;">⚠️</div>
-                <h2 style="font-size:1.3rem; margin-bottom:0.75rem;">This device isn't compatible with the app</h2>
+                <h2 style="font-size:1.3rem; margin-bottom:0.75rem;">This device is not compatible with the app</h2>
                 <p style="font-size:1rem; line-height:1.5; margin-bottom:1rem;">
-                    Your browser or operating system does not support the WebAssembly features this app requires.
+                    Your browser or operating system does not support the WebAssembly features required by this app.
                     Update your browser or operating system, or try another device.
                 </p>
                 <div style="text-align:left; font-size:1rem; color:#444;">
@@ -125,7 +125,7 @@ export const notification = {
                     </div>
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
                         <img src="logo/app-store.png" width="22" style="margin-right:8px;" alt="App Store" />
-                        <span><strong>iOS / macOS:</strong> update your operating system. Safari is updated with system updates.</span>
+                        <span><strong>iOS / macOS:</strong> update your operating system. Safari is updated through system updates.</span>
                     </div>
                     <div style="margin:0.8rem 0; display:flex; align-items:center;">
                         <img src="logo/microsoft-store.png" width="22" style="margin-right:8px;" alt="Microsoft Store" />

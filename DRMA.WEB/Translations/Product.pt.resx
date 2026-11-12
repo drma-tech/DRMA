@@ -118,33 +118,33 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="modern-matchmaker" xml:space="preserve">
-    <value>Encontre um parceiro compatível com matchmaking inteligente</value>
+    <value>Encontre um parceiro compatível por meio de matchmaking moderno</value>
   </data>
   <data name="modern-matchmaker-desc" xml:space="preserve">
-    <value>O futuro de encontrar um parceiro para a vida está aqui. Uma alternativa mais inteligente e acessível ao matchmaking tradicional, com combinações baseadas em compatibilidade e sem deslizar interminavelmente.</value>
+    <value>Descubra uma plataforma moderna de matchmaking para relacionamentos sérios. Encontre solteiros compatíveis por meio de valores compartilhados, personalidade, estilo de vida e objetivos de relacionamento.</value>
   </data>
   <data name="next-spot" xml:space="preserve">
-    <value>Encontre as melhores cidades e países para morar ou visitar</value>
+    <value>Encontre os melhores países e cidades para morar ou viajar</value>
   </data>
   <data name="next-spot-desc" xml:space="preserve">
-    <value>Explore países e cidades, conheça curiosidades e crie seu perfil para encontrar destinos que combinem com seu estilo de vida, seja para uma viagem ou para uma nova casa.</value>
+    <value>Explore e compare países e cidades em todo o mundo. Descubra classificações de destinos, segurança, custo de vida, qualidade de vida, clima, mobilidade e informações sobre viagens.</value>
   </data>
   <data name="shared-home" xml:space="preserve">
-    <value>Aluguel de quartos e vida compartilhada</value>
+    <value>Aluguel de quartos e moradia compartilhada</value>
   </data>
   <data name="shared-home-desc" xml:space="preserve">
-    <value>Encontre quartos para alugar e apartamentos compartilhados. Descubra moradias acessíveis e comunidades acolhedoras onde você pode se sentir em casa.</value>
+    <value>Encontre quartos para alugar e apartamentos compartilhados. Descubra opções de moradia acessíveis e comunidades acolhedoras onde você pode se sentir em casa.</value>
   </data>
   <data name="streamingdiscovery" xml:space="preserve">
     <value>Descubra filmes e programas de TV em plataformas de streaming</value>
   </data>
   <data name="streamingdiscovery-desc" xml:space="preserve">
-    <value>Acompanhe seus serviços de streaming, acompanhe o que você assistiu e descubra o que assistir em seguida com listas selecionadas, vencedores de prêmios e escolhas da crítica.</value>
+    <value>Descubra filmes e programas de TV, explore a disponibilidade de streaming por região, compare classificações, navegue por trailers e coleções selecionadas e gerencie sua lista de observação.</value>
   </data>
   <data name="webstandards" xml:space="preserve">
     <value>Gerador de padrões da Web para sites e PWAs</value>
   </data>
   <data name="webstandards-desc" xml:space="preserve">
-    <value>Um kit de ferramentas que ajuda os desenvolvedores a configurar padrões essenciais da web, incluindo mapas de sites, manifestos, ícones, tags SEO e arquivos de segurança, para sites modernos e PWAs.</value>
+    <value>Um conjunto de ferramentas que ajuda desenvolvedores a configurar padrões essenciais da web para sites modernos e PWAs, incluindo sitemaps, manifestos, ícones, metadados de SEO e arquivos de segurança.</value>
   </data>
 </root>

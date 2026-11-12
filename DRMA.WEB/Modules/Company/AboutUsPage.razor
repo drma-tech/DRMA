@@ -28,7 +28,7 @@
             <h2>4. Nossos produtos</h2>
             <p>Nosso portfólio reúne soluções digitais para diferentes momentos e necessidades, desde descobrir conexões e destinos até simplificar tarefas relacionadas à web.</p>
             <ul>
-                @foreach (var product in AppInfo.Products)
+                @foreach (var product in AppInfo.GetProducts())
                 {
                     <li>
                         <b style="color: var(--mud-palette-secondary);">
@@ -72,7 +72,7 @@
             <h2>4. Our products</h2>
             <p>Our portfolio brings together digital solutions for different situations and needs, from discovering personal connections and destinations to simplifying tasks related to the web.</p>
             <ul>
-                @foreach (var product in AppInfo.Products)
+                @foreach (var product in AppInfo.GetProducts())
                 {
                     <li>
                         <b style="color: var(--mud-palette-secondary);">
