@@ -22,15 +22,9 @@ namespace DRMA.WEB.Core
             new("Shared Home", Translations.Product.shared_home, Translations.Product.shared_home_desc, "https://shared-home.com", "/logo/shared-home.png", live: false ),
        ];
 
-        public static ProductLink[] GetProducts(bool includeItself = false)
+        public static ProductLink[] GetProducts()
         {
-            var currentProduct = GetCurrentProduct();
-            return [.. Products.Where(p => (includeItself || !string.Equals(p.Url, currentProduct.Url, StringComparison.OrdinalIgnoreCase)) && (p.Live))];
-        }
-
-        public static ProductLink GetCurrentProduct()
-        {
-            return Products.FirstOrDefault(p => string.Equals(p.Url, WebSite, StringComparison.OrdinalIgnoreCase)) ?? Products.Single();
+            return [.. Products.Where(p => p.Live)];
         }
     }
 }
