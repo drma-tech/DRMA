@@ -1,5 +1,20 @@
 ﻿namespace DRMA.Shared.Core;
 
+public class InvestigationException : Exception
+{
+    public InvestigationException()
+    {
+    }
+
+    public InvestigationException(string? message) : base(message)
+    {
+    }
+
+    public InvestigationException(string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
+}
+
 public class NotificationException : Exception
 {
     public NotificationException()

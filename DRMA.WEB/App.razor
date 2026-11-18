@@ -33,7 +33,7 @@
             <h3 style="margin-top: 0;">⚠️ Something went wrong</h3>
 
             <p style="margin: 8px 0;">
-                An unexpected error prevented the app from continuing. The error has been reported.
+                An unexpected error occurred, and the app cannot continue. The error has been reported.
             </p>
             <p style="background:#fff; border:1px solid #ccc; padding:8px; border-radius:4px; max-height:200px; overflow:auto; font-size: 0.85rem; ">
                 @ex.Message
@@ -45,12 +45,12 @@
 
             <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
                 <button style="padding:8px 16px; background:#007bff; border:none; border-radius:4px; color:#fff; cursor:pointer;" @onclick="ReloadPage">
-                    🔄 Reload app
+                    🔄 Reload the app
                 </button>
                 @if (_isUpdateAvailable)
                 {
                     <button style="padding:8px 16px; background:#007bff; border:none; border-radius:4px; color:#fff; cursor:pointer;" @onclick="UpdateNowAsync">
-                        ⬆️ Update app
+                        ⬆️ Update the app
                     </button>
                 }
                 else

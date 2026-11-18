@@ -15,7 +15,7 @@ namespace DRMA.Shared.Core.Helper
 
         public static EnumFieldObject<T> GetFieldSettings<T>(this T value, bool translate = true) where T : Enum
         {
-            var fieldInfo = value.GetType().GetField(value.ToString()) ?? throw new UnhandledException(string.Create(CultureInfo.InvariantCulture, $"{value} field info is null"));
+            var fieldInfo = value.GetType().GetField(value.ToString()) ?? throw new InvestigationException(string.Create(CultureInfo.InvariantCulture, $"{value} field info is null"));
 
             return fieldInfo.GetFieldSettings(value, translate);
         }

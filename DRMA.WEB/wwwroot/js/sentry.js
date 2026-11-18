@@ -22,6 +22,13 @@ window.sentryOnLoad = function () {
         environment: env,
         ignoreErrors: ignoredErrors,
         beforeSend(event) {
+            const frames = event.exception?.values?.flatMap(exception => exception.stacktrace?.frames ?? []) ?? [];
+
+            // Ignore errors originating from browser extensions.
+            if (frames.some(frame => /^(chrome|moz|safari|edge)-extension:\/\//i.test(frame.filename ?? ""))) {
+                return null;
+            }
+
             event.tags = {
                 ...event.tags,
                 "custom.version": window.appVersion,

@@ -40,12 +40,25 @@ public static class ExtensionMethods
 
     public static string SimpleEncrypt(this string? value)
     {
-        var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(value ?? string.Empty));
+        return Base64UrlEncode(Encoding.UTF8.GetBytes(value ?? string.Empty));
+    }
 
-        return base64
+    public static string SimpleEncrypt<TValue>(TValue value)
+    {
+        return Base64UrlEncode(JsonSerializer.SerializeToUtf8Bytes(value));
+    }
+
+    public static string SimpleEncrypt(this byte[]? value)
+    {
+        return Base64UrlEncode(value ?? []);
+    }
+
+    private static string Base64UrlEncode(ReadOnlySpan<byte> value)
+    {
+        return Convert.ToBase64String(value)
+            .TrimEnd('=')
             .Replace('+', '-')
-            .Replace('/', '_')
-            .TrimEnd('=');
+            .Replace('/', '_');
     }
 
     public static string SimpleDecrypt(this string? encoded)

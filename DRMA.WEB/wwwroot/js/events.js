@@ -33,9 +33,9 @@ window.addEventListener("error", function (event) {
         const hasDetails = details.script_url || details.stack;
 
         if (hasDetails) {
-            Sentry?.captureMessage(`Script error: ${JSON.stringify(details)}`, "error");
+            Sentry.captureMessage(`Script error: ${JSON.stringify(details)}`, "error");
         } else {
-            Sentry?.captureMessage("Script error: details unavailable", {
+            Sentry.captureMessage("Script error: details unavailable", {
                 level: "error",
                 tags: {
                     error_type: "cross_origin_script_error",
@@ -131,7 +131,7 @@ window.addEventListener("securitypolicyviolation", (event) => {
         url: location.href,
     };
 
-    Sentry?.captureMessage(`securitypolicyviolation: ${JSON.stringify(obj)}`, "error");
+    Sentry.captureMessage(`securitypolicyviolation: ${JSON.stringify(obj)}`, "error");
 });
 
 let resizeTimeout;

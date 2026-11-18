@@ -20,11 +20,17 @@ namespace DRMA.WEB.Core
             new("My Next Spot", Translations.Product.next_spot, Translations.Product.next_spot_desc, "https://my-next-spot.com", "/logo/next-spot.png", live: true ),
             new("Web Standards", Translations.Product.webstandards, Translations.Product.webstandards_desc, "https://web-standards.com", "/logo/webstandards.png", live: true ),
             new("Shared Home", Translations.Product.shared_home, Translations.Product.shared_home_desc, "https://shared-home.com", "/logo/shared-home.png", live: false ),
-        ];
+       ];
 
-        public static ProductLink[] GetProducts()
+        public static ProductLink[] GetProducts(bool includeItself = false)
         {
-            return [.. Products.Where(p => p.Live)];
+            var currentProduct = GetCurrentProduct();
+            return [.. Products.Where(p => (includeItself || !string.Equals(p.Url, currentProduct.Url, StringComparison.OrdinalIgnoreCase)) && (p.Live))];
+        }
+
+        public static ProductLink GetCurrentProduct()
+        {
+            return Products.FirstOrDefault(p => string.Equals(p.Url, WebSite, StringComparison.OrdinalIgnoreCase)) ?? Products.Single();
         }
     }
 }

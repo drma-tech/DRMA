@@ -61,7 +61,7 @@ namespace DRMA.WEB.Core.Javascript
             }
             else if (type.IsEnum || (underlyingType != null && underlyingType.IsEnum))
             {
-                storedValue = value.ToString()?.ToLowerInvariant() ?? throw new UnhandledException("invalid enum value");
+                storedValue = value.ToString()?.ToLowerInvariant() ?? throw new InvestigationException("invalid enum value");
             }
             else
             {
