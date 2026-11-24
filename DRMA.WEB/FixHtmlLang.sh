@@ -46,8 +46,8 @@ while IFS= read -r -d '' FILE; do
     # Generate Brotli from the modified HTML
     if command -v brotli >/dev/null 2>&1; then
         brotli -9 < "$FILE" > "${FILE}.br"
-    else
-        echo "Warning: brotli is not installed"
+    #else
+       # echo "Warning: brotli is not installed"
     fi
 
     # Generate Gzip from the modified HTML

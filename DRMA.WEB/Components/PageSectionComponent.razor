@@ -16,7 +16,7 @@
                     }
                     else if (!string.IsNullOrEmpty(Image))
                     {
-                        <MudImage Src="@Image" Class="me-2" Style="@GetImageStyle(true)" Alt="@Image"></MudImage>
+                        <MudImage Src="@Image" Class="me-2" Style="@GetImageStyle(true)" Alt="@Title"></MudImage>
                     }
                     @if (AppStateStatic.IsMobile)
                     {
@@ -48,7 +48,14 @@
                     {
                         <MudSpacer />
                         <MudTooltip Text="Official Website">
-                            <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Link" Href="@Link" Target="_blank" Rel="noopener" Size="Size.Medium" />
+                            @if (LinkClick.HasDelegate)
+                            {
+                                <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Link" OnClick="@(() => LinkClick.InvokeAsync())" Size="Size.Medium" />
+                            }
+                            else
+                            {
+                                <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Link" Href="@Link" Target="_blank" Rel="noopener" Size="Size.Medium" />
+                            }
                         </MudTooltip>
                     }
                 </MudToolBar>
@@ -127,7 +134,14 @@
                         {
                             <MudSpacer />
                             <MudTooltip Text="Official Website">
-                                <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Link" Href="@Link" Target="_blank" Rel="noopener" Size="Size.Medium" />
+                                @if (LinkClick.HasDelegate)
+                                {
+                                    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Link" OnClick="@(() => LinkClick.InvokeAsync())" Size="Size.Medium" />
+                                }
+                                else
+                                {
+                                    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Link" Href="@Link" Target="_blank" Rel="noopener" Size="Size.Medium" />
+                                }
                             </MudTooltip>
                         }
                     </MudToolBar>
