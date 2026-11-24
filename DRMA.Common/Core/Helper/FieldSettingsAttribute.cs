@@ -1,4 +1,4 @@
-﻿namespace DRMA.Shared.Core.Helper;
+﻿namespace DRMA.Common.Core.Helper;
 
 [AttributeUsage(AttributeTargets.Field)]
 public class FieldSettingsAttribute(string name) : Attribute

@@ -1,4 +1,4 @@
-﻿namespace DRMA.Shared.Core;
+﻿namespace DRMA.Common.Core;
 
 public class InvestigationException : Exception
 {

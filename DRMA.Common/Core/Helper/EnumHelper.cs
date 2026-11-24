@@ -1,4 +1,4 @@
-﻿namespace DRMA.Shared.Core.Helper;
+﻿namespace DRMA.Common.Core.Helper;
 
 public static class EnumHelper
 {

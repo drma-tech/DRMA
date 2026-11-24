@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace DRMA.WEB.Shared
+namespace DRMA.WEB.Components
 {
     public partial class HeadComponent
     {

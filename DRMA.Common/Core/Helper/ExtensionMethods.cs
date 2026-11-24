@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.Json;
 
-namespace DRMA.Shared.Core.Helper;
+namespace DRMA.Common.Core.Helper;
 
 public static class ExtensionMethods
 {

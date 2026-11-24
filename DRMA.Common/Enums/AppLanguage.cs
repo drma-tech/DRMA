@@ -1,4 +1,4 @@
-﻿namespace DRMA.Shared.Enums
+﻿namespace DRMA.Common.Enums
 {
     public enum AppLanguage
     {

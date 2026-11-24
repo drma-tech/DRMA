@@ -1,4 +1,4 @@
-﻿namespace DRMA.Shared.Core.Helper
+﻿namespace DRMA.Common.Core.Helper
 {
     public sealed class EnumFieldObject<T>(string name, T value) where T : Enum
     {

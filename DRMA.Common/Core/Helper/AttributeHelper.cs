@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Resources;
 
-namespace DRMA.Shared.Core.Helper
+namespace DRMA.Common.Core.Helper
 {
     public static class AttributeHelper
     {
